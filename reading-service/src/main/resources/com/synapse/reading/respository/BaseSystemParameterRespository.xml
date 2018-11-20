@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.synapse.shilu.respository.BaseSystemParameterRespository">
+
+
+	<resultMap id="v2BaseResultMap" type="com.synapse.shilu.web.result.BaseSystemParameterResult" extends="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap" >
+	</resultMap>
+
+
+	<select id="superManagerSelect" parameterType="String" resultType="map">
+		${value}
+	</select>
+	<update id="superManagerUpdate" parameterType="String" >
+		${value}
+	</update>
+	<delete id="superManagerDelete" parameterType="String" >
+		${value}
+	</delete>
+    <select id="getTopKeyByType" parameterType="map" resultType="int">
+		SELECT MAX(PARAMETER_KEY) FROM base_system_parameter WHERE  PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+	</select>
+
+    <select id="getList" resultMap="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap" parameterType="map">
+    	select  
+    	<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List" />
+    	from base_system_parameter
+    	where 1 = 1
+    	<if test="parameterKey != null" > 
+        AND PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+        </if>
+    	<if test="parameterType != null" >
+        AND PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+        </if>
+    	<if test="parameterValue != null" >
+        AND PARAMETER_VALUE = #{parameterValue, jdbcType=VARCHAR}
+        </if>
+        <if test="parentParameterKey != null" >
+        AND PARENT_PARAMETER_KEY = #{parentParameterKey, jdbcType=VARCHAR}
+        </if>
+		<if test="parentParameterType != null" >
+		AND PARENT_PARAMETER_TYPE = #{parentParameterType, jdbcType=VARCHAR}
+		</if>
+		order by weight ASC
+		<if test="startIndex != null" >
+			<if test="pageSize != null" >
+				limit ${startIndex}, ${pageSize} 
+			</if>
+		</if>
+    </select>
+
+
+	<select id="getAll" parameterType="map" resultMap="v2BaseResultMap">
+		select
+		<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List" />
+		from base_system_parameter
+		where 1 = 1
+		<if test="parameterKey != null" >
+			AND PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterType != null" >
+			AND PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterValue != null" >
+			AND PARAMETER_VALUE = #{parameterValue, jdbcType=VARCHAR}
+		</if>
+		<if test="parentParameterKey != null" >
+			AND PARENT_PARAMETER_KEY = #{parentParameterKey, jdbcType=VARCHAR}
+		</if>
+		<if test="parentParameterType != null" >
+			AND PARENT_PARAMETER_TYPE = #{parentParameterType, jdbcType=VARCHAR}
+		</if>
+		order by weight ASC
+		<if test="startIndex != null" >
+			<if test="pageSize != null" >
+				limit ${startIndex}, ${pageSize}
+			</if>
+		</if>
+	</select>
+
+	<select id="list" resultMap="newMap" parameterType="map">
+		select *
+		from base_system_parameter
+		where 1 = 1
+		<if test="parameterType != null">
+			and PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterKey != null">
+			and PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterName != null">
+			and PARAMETER_NAME like #{parameterName, jdbcType=VARCHAR}
+		</if>
+		<if test="parentParameterKey != null" >
+			AND PARENT_PARAMETER_KEY = #{parentParameterKey, jdbcType=VARCHAR}
+		</if>
+		<if test="parentParameterType != null" >
+			AND PARENT_PARAMETER_TYPE = #{parentParameterType, jdbcType=VARCHAR}
+		</if>
+		order by weight ASC
+		limit ${startIndex}, ${pageSize}
+	</select>
+
+	<select id="validateValueAndType" resultMap="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap" parameterType="map">
+		select *
+		from base_system_parameter
+		where 1 = 1
+			and PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+		<if test="parameterKey != null">
+			and PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterValue != null" >
+			and PARAMETER_VALUE = #{parameterValue, jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		select
+		count(1)
+		from base_system_parameter
+		where 1 = 1
+        <if test="parameterType != null">
+            and PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+        </if>
+        <if test="parameterKey != null">
+            and PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+        </if>
+        <if test="parameterName != null">
+            and PARAMETER_NAME like #{parameterName, jdbcType=VARCHAR}
+        </if>
+	</select>
+
+	<select id="selectById" parameterType="Long" resultMap="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap">
+		select
+		<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List"/>
+		from base_system_parameter
+		where 1 = 1
+		<if test="recId != null">
+			and REC_ID = #{recId, jdbcType=BIGINT}
+		</if>
+	</select>
+
+	<select id="selectByParamType_Value" resultMap="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap">
+		select
+		<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List"/>
+		from base_system_parameter
+		where 1 = 1
+		<if test="parameterType != null">
+			and parameter_type = #{parameterType, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterValue != null">
+			and parameter_value = #{parameterValue, jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<resultMap id="mmp" type="com.synapse.shilu.web.result.BaseSystemParameterResult" extends="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap"></resultMap>
+
+	<select id="selectByParamType_Key" parameterType="map" resultMap="mmp">
+		select
+		<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List"/>
+		from base_system_parameter
+		where 1 = 1
+		<if test="type != null">
+			and parameter_type = #{type, jdbcType=VARCHAR}
+		</if>
+		<if test="key != null">
+			and parameter_key = #{key, jdbcType=VARCHAR}
+		</if>
+
+
+	</select>
+
+
+
+	<resultMap id="newMap" type="com.synapse.reading.model.BaseSystemParameter"  extends="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap">
+	</resultMap>
+
+
+
+    <!--查询出所有参数类型与名称-->
+	<select id="listType" parameterType="map" resultMap="newMap" >
+		select DISTINCT(PARAMETER_TYPE),PARAMETER_NAME
+		from base_system_parameter
+		where 1 = 1
+		<if test="parameterName != null">
+			and PARAMETER_NAME like #{parameterName, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterType != null">
+			and PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterKey != null">
+			and PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+		</if>
+		<if test="recId ==null">
+			<if test="lishui != null">
+				and PARAMETER_TYPE in
+				<foreach collection="lishui" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</if>
+		limit ${startIndex}, ${pageSize}
+	</select>
+
+
+
+	<!--查询出所有参数类型与名称-->
+	<select id="listTypeV2" parameterType="map" resultMap="newMap" >
+		select DISTINCT(PARAMETER_TYPE),PARAMETER_NAME
+		from base_system_parameter
+		where 1 = 1
+		<if test="parameterName != null">
+			and PARAMETER_NAME like #{parameterName, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterType != null">
+			and PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterKey != null">
+			and PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+		</if>
+		limit ${startIndex}, ${pageSize}
+	</select>
+
+
+	<select id="countType"  resultType="java.lang.Integer">
+			select
+			count(DISTINCT(PARAMETER_TYPE),PARAMETER_NAME)
+			from base_system_parameter
+		    where 1 = 1
+			<if test="parameterType != null">
+				and PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+			</if>
+			<if test="parameterKey != null">
+				and PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+			</if>
+			<if test="parameterName != null">
+				and PARAMETER_NAME like #{parameterName, jdbcType=VARCHAR}
+			</if>
+	</select>
+
+
+	<select id="countTypeV2"  resultType="java.lang.Integer">
+		select
+		count(DISTINCT(PARAMETER_TYPE),PARAMETER_NAME)
+		from base_system_parameter
+		where 1 = 1
+		<if test="parameterType != null">
+			and PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterKey != null">
+			and PARAMETER_KEY = #{parameterKey, jdbcType=VARCHAR}
+		</if>
+		<if test="parameterName != null">
+			and PARAMETER_NAME like #{parameterName, jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<select id="countTypeMapByType" resultType="int">
+		select count(1)
+		FROM base_system_parameter
+		where 1 = 1
+		<if test="parameterType != null">
+			and PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
+		</if>
+		<if test="parentParameterKey != null" >
+			AND PARENT_PARAMETER_KEY = #{parentParameterKey, jdbcType=VARCHAR}
+		</if>
+		<if test="parentParameterType != null" >
+			AND PARENT_PARAMETER_TYPE = #{parentParameterType, jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<insert id="insertAndGet"  useGeneratedKeys="true" keyProperty="recId"  parameterType="com.synapse.shilu.model.BaseSystemParameter" >
+		insert into base_system_parameter (REC_ID, PARAMETER_TYPE, PARAMETER_KEY,
+										   PARAMETER_NAME, PARAMETER_VALUE, WEIGHT,
+										   PARENT_PARAMETER_TYPE, PARENT_PARAMETER_KEY,
+										   ADD_TIME, UPDATE_TIME)
+		values (#{recId,jdbcType=BIGINT}, #{parameterType,jdbcType=VARCHAR}, #{parameterKey,jdbcType=VARCHAR},
+				#{parameterName,jdbcType=VARCHAR}, #{parameterValue,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER},
+				#{parentParameterType,jdbcType=VARCHAR}, #{parentParameterKey,jdbcType=VARCHAR},
+				#{addTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+	</insert>
+</mapper>

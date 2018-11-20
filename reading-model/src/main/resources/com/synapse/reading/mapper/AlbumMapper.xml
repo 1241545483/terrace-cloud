@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.AlbumMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Album">
+        <id column="rec_id" property="recId" />
+        <result column="name" property="name" />
+        <result column="intro" property="intro" />
+        <result column="type" property="type" />
+        <result column="cover" property="cover" />
+        <result column="publish_status" property="publishStatus" />
+        <result column="status" property="status" />
+        <result column="visit_num" property="visitNum" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`name`,`intro`,`type`,`cover`,`publish_status`,`status`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `album`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.Album">
+        insert into `album`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{name},#{intro},#{type},#{cover},#{publishStatus},#{status},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `album`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Album" >
+        insert into `album`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="name != null" >
+                    `name`,
+                </if>
+                <if test="intro != null" >
+                    `intro`,
+                </if>
+                <if test="type != null" >
+                    `type`,
+                </if>
+                <if test="cover != null" >
+                    `cover`,
+                </if>
+                <if test="publishStatus != null" >
+                    `publish_status`,
+                </if>
+                <if test="status != null" >
+                    `status`,
+                </if>
+                <if test="visitNum != null" >
+                    `visit_num`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="name != null" >
+			        #{name},
+                </if>
+                <if test="intro != null" >
+			        #{intro},
+                </if>
+                <if test="type != null" >
+			        #{type},
+                </if>
+                <if test="cover != null" >
+			        #{cover},
+                </if>
+                <if test="publishStatus != null" >
+			        #{publishStatus},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="visitNum != null" >
+			        #{visitNum},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Album" >
+        update `album`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="name != null" >
+		            `name` = #{name},
+	            </if>
+	            <if test="intro != null" >
+		            `intro` = #{intro},
+	            </if>
+	            <if test="type != null" >
+		            `type` = #{type},
+	            </if>
+	            <if test="cover != null" >
+		            `cover` = #{cover},
+	            </if>
+	            <if test="publishStatus != null" >
+		            `publish_status` = #{publishStatus},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
+	            </if>
+	            <if test="visitNum != null" >
+		            `visit_num` = #{visitNum},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Album" >
+        update  `album` SET
+		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`type`=#{type},`cover`=#{cover},`publish_status`=#{publishStatus},`status`=#{status},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `album`
+        where 1 = 1
+            <if test="recId != null" >
+                AND `rec_id` = #{recId}
+            </if>
+            <if test="name != null" >
+                AND `name` = #{name}
+            </if>
+            <if test="intro != null" >
+                AND `intro` = #{intro}
+            </if>
+            <if test="type != null" >
+                AND `type` = #{type}
+            </if>
+            <if test="cover != null" >
+                AND `cover` = #{cover}
+            </if>
+            <if test="publishStatus != null" >
+                AND `publish_status` = #{publishStatus}
+            </if>
+            <if test="status != null" >
+                AND `status` = #{status}
+            </if>
+            <if test="visitNum != null" >
+                AND `visit_num` = #{visitNum}
+            </if>
+            <if test="createId != null" >
+                AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+                AND `create_time` = #{createTime}
+            </if>
+            <if test="updateId != null" >
+                AND `update_id` = #{updateId}
+            </if>
+            <if test="updateTime != null" >
+                AND `update_time` = #{updateTime}
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `album`
+        where 1 = 1
+            <if test="recId != null" >
+			    AND `rec_id` = #{recId}
+            </if>
+            <if test="name != null" >
+			    AND `name` = #{name}
+            </if>
+            <if test="intro != null" >
+			    AND `intro` = #{intro}
+            </if>
+            <if test="type != null" >
+			    AND `type` = #{type}
+            </if>
+            <if test="cover != null" >
+			    AND `cover` = #{cover}
+            </if>
+            <if test="publishStatus != null" >
+			    AND `publish_status` = #{publishStatus}
+            </if>
+            <if test="status != null" >
+			    AND `status` = #{status}
+            </if>
+            <if test="visitNum != null" >
+			    AND `visit_num` = #{visitNum}
+            </if>
+            <if test="createId != null" >
+			    AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+			    AND `create_time` = #{createTime}
+            </if>
+            <if test="updateId != null" >
+			    AND `update_id` = #{updateId}
+            </if>
+            <if test="updateTime != null" >
+			    AND `update_time` = #{updateTime}
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

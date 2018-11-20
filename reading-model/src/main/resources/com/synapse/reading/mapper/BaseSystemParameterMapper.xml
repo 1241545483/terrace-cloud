@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.BaseSystemParameterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.BaseSystemParameter">
+        <id column="REC_ID" property="recId" />
+        <result column="PARAMETER_TYPE" property="parameterType" />
+        <result column="PARAMETER_KEY" property="parameterKey" />
+        <result column="PARAMETER_NAME" property="parameterName" />
+        <result column="PARAMETER_VALUE" property="parameterValue" />
+        <result column="WEIGHT" property="weight" />
+        <result column="PARENT_PARAMETER_TYPE" property="parentParameterType" />
+        <result column="PARENT_PARAMETER_KEY" property="parentParameterKey" />
+        <result column="ADD_TIME" property="addTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `REC_ID`,`PARAMETER_TYPE`,`PARAMETER_KEY`,`PARAMETER_NAME`,`PARAMETER_VALUE`,`WEIGHT`,`PARENT_PARAMETER_TYPE`,`PARENT_PARAMETER_KEY`,`ADD_TIME`,`UPDATE_TIME`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `base_system_parameter`
+        where
+                `REC_ID` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.BaseSystemParameter">
+        insert into `base_system_parameter`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{parameterType},#{parameterKey},#{parameterName},#{parameterValue},#{weight},#{parentParameterType},#{parentParameterKey},#{addTime},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `base_system_parameter`
+        where
+			    `REC_ID` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.BaseSystemParameter" >
+        insert into `base_system_parameter`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `REC_ID`,
+                </if>
+                <if test="parameterType != null" >
+                    `PARAMETER_TYPE`,
+                </if>
+                <if test="parameterKey != null" >
+                    `PARAMETER_KEY`,
+                </if>
+                <if test="parameterName != null" >
+                    `PARAMETER_NAME`,
+                </if>
+                <if test="parameterValue != null" >
+                    `PARAMETER_VALUE`,
+                </if>
+                <if test="weight != null" >
+                    `WEIGHT`,
+                </if>
+                <if test="parentParameterType != null" >
+                    `PARENT_PARAMETER_TYPE`,
+                </if>
+                <if test="parentParameterKey != null" >
+                    `PARENT_PARAMETER_KEY`,
+                </if>
+                <if test="addTime != null" >
+                    `ADD_TIME`,
+                </if>
+                <if test="updateTime != null" >
+                    `UPDATE_TIME`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="parameterType != null" >
+			        #{parameterType},
+                </if>
+                <if test="parameterKey != null" >
+			        #{parameterKey},
+                </if>
+                <if test="parameterName != null" >
+			        #{parameterName},
+                </if>
+                <if test="parameterValue != null" >
+			        #{parameterValue},
+                </if>
+                <if test="weight != null" >
+			        #{weight},
+                </if>
+                <if test="parentParameterType != null" >
+			        #{parentParameterType},
+                </if>
+                <if test="parentParameterKey != null" >
+			        #{parentParameterKey},
+                </if>
+                <if test="addTime != null" >
+			        #{addTime},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.BaseSystemParameter" >
+        update `base_system_parameter`
+        <set >
+	            <if test="recId != null" >
+		            `REC_ID` = #{recId},
+	            </if>
+	            <if test="parameterType != null" >
+		            `PARAMETER_TYPE` = #{parameterType},
+	            </if>
+	            <if test="parameterKey != null" >
+		            `PARAMETER_KEY` = #{parameterKey},
+	            </if>
+	            <if test="parameterName != null" >
+		            `PARAMETER_NAME` = #{parameterName},
+	            </if>
+	            <if test="parameterValue != null" >
+		            `PARAMETER_VALUE` = #{parameterValue},
+	            </if>
+	            <if test="weight != null" >
+		            `WEIGHT` = #{weight},
+	            </if>
+	            <if test="parentParameterType != null" >
+		            `PARENT_PARAMETER_TYPE` = #{parentParameterType},
+	            </if>
+	            <if test="parentParameterKey != null" >
+		            `PARENT_PARAMETER_KEY` = #{parentParameterKey},
+	            </if>
+	            <if test="addTime != null" >
+		            `ADD_TIME` = #{addTime},
+	            </if>
+	            <if test="updateTime != null" >
+		            `UPDATE_TIME` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `REC_ID` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.BaseSystemParameter" >
+        update  `base_system_parameter` SET
+		    `REC_ID`=#{recId},`PARAMETER_TYPE`=#{parameterType},`PARAMETER_KEY`=#{parameterKey},`PARAMETER_NAME`=#{parameterName},`PARAMETER_VALUE`=#{parameterValue},`WEIGHT`=#{weight},`PARENT_PARAMETER_TYPE`=#{parentParameterType},`PARENT_PARAMETER_KEY`=#{parentParameterKey},`ADD_TIME`=#{addTime},`UPDATE_TIME`=#{updateTime}
+        where
+		    `REC_ID` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `base_system_parameter`
+        where 1 = 1
+            <if test="recId != null" >
+                AND `REC_ID` = #{recId}
+            </if>
+            <if test="parameterType != null" >
+                AND `PARAMETER_TYPE` = #{parameterType}
+            </if>
+            <if test="parameterKey != null" >
+                AND `PARAMETER_KEY` = #{parameterKey}
+            </if>
+            <if test="parameterName != null" >
+                AND `PARAMETER_NAME` = #{parameterName}
+            </if>
+            <if test="parameterValue != null" >
+                AND `PARAMETER_VALUE` = #{parameterValue}
+            </if>
+            <if test="weight != null" >
+                AND `WEIGHT` = #{weight}
+            </if>
+            <if test="parentParameterType != null" >
+                AND `PARENT_PARAMETER_TYPE` = #{parentParameterType}
+            </if>
+            <if test="parentParameterKey != null" >
+                AND `PARENT_PARAMETER_KEY` = #{parentParameterKey}
+            </if>
+            <if test="addTime != null" >
+                AND `ADD_TIME` = #{addTime}
+            </if>
+            <if test="updateTime != null" >
+                AND `UPDATE_TIME` = #{updateTime}
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `base_system_parameter`
+        where 1 = 1
+            <if test="recId != null" >
+			    AND `REC_ID` = #{recId}
+            </if>
+            <if test="parameterType != null" >
+			    AND `PARAMETER_TYPE` = #{parameterType}
+            </if>
+            <if test="parameterKey != null" >
+			    AND `PARAMETER_KEY` = #{parameterKey}
+            </if>
+            <if test="parameterName != null" >
+			    AND `PARAMETER_NAME` = #{parameterName}
+            </if>
+            <if test="parameterValue != null" >
+			    AND `PARAMETER_VALUE` = #{parameterValue}
+            </if>
+            <if test="weight != null" >
+			    AND `WEIGHT` = #{weight}
+            </if>
+            <if test="parentParameterType != null" >
+			    AND `PARENT_PARAMETER_TYPE` = #{parentParameterType}
+            </if>
+            <if test="parentParameterKey != null" >
+			    AND `PARENT_PARAMETER_KEY` = #{parentParameterKey}
+            </if>
+            <if test="addTime != null" >
+			    AND `ADD_TIME` = #{addTime}
+            </if>
+            <if test="updateTime != null" >
+			    AND `UPDATE_TIME` = #{updateTime}
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>
