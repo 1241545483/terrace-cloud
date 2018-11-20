@@ -37,7 +37,7 @@ import java.util.List;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableEurekaClient
-@MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository", "com.synapse.reading.dao"})
+@MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository"})
 @ComponentScan({"com.synapse.reading", "com.synapse.common.sso", "com.synapse.common.json", "com.synapse.common.web", "com.synapse.common.api.doc"})
 @EnableFeignClients
 @EnableWebSocket

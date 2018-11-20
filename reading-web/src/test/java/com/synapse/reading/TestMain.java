@@ -9,6 +9,7 @@ import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.common.formatter.IdFormatterFactory;
 import com.synapse.common.formatter.ResultSerializerIntrospector;
+import com.synapse.reading.remote.IdService;
 import com.synapse.reading.web.formatter.ShiluDictFormatter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,7 +52,7 @@ import java.util.Map;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository", "com.synapse.reading.dao"})
+@MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository"})
 @ComponentScan({"com.synapse.reading.*", "com.synapse.common.json", "com.synapse.common.web", "com.synapse.common.api.doc"})
 @EnableAutoConfiguration(excludeName = {"org.springframework.boot.autoconfigure.session.SessionAutoConfiguration",
         "org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration"})
@@ -59,6 +60,9 @@ import java.util.Map;
 @EnableFeignClients
 @EnableWebSocket
 public class TestMain extends WebMvcConfigurerAdapter {
+
+    @MockBean
+    private IdService idService;
 
     @Value("${cors.origins}")
     private String origins;

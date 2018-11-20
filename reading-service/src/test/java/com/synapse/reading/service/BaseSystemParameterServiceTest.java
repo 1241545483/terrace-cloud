@@ -45,7 +45,7 @@ public class BaseSystemParameterServiceTest {
     @Test
     public void testFind(){
         String recId = doCreate();
-	    BaseSystemParameter result = baseSystemParameterService.view(recId);
+	    BaseSystemParameter result = baseSystemParameterService.find(recId);
         assertNotNull(result);
     }
 
@@ -58,7 +58,7 @@ public class BaseSystemParameterServiceTest {
     }
 
     private void checkField(String recId, String val){
-		BaseSystemParameter result = baseSystemParameterService.view(recId);
+		BaseSystemParameter result = baseSystemParameterService.find(recId);
         assertEquals(val,result.getRecId());
         assertEquals(val,result.getParameterType());
         assertEquals(val,result.getParameterKey());

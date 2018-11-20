@@ -309,7 +309,7 @@ public class BaseSystemParameterService {
         return parameter.getRecId();
     }
 
-    public BaseSystemParameter view(String recId) {
+    public BaseSystemParameter find(String recId) {
         return baseSystemParameterRespository.selectByPrimaryKey(recId);
     }
 

@@ -14,6 +14,7 @@ import com.synapse.reading.web.valid.group.Search;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.synapse.common.exception.BusinessException;
 import com.synapse.reading.exception.common.ValidException;
@@ -59,7 +60,7 @@ public class VideoListController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
 	@RequestMapping(value = "/v1/videoList",method = RequestMethod.GET)
-	public Result list(PageInfo pageInfo, @Validated(Search.class) VideoListParam param, BindingResult bindingResult) {
+	public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) VideoListParam param, BindingResult bindingResult) {
         try {
 	        //验证失败
 	        if (bindingResult.hasErrors()) {
@@ -72,13 +73,14 @@ public class VideoListController extends BaseController{
 	        Map<String, Object> map = new HashMap();
             map.put("videoListList", results);
             map.put("totalNum", totalNum);
-	        return Result.ok(map);
+	        return ResponseEntity.ok(map);
         } catch (BusinessException e) {
 	        logger.error("list VideoList Error!", e);
-	        return Result.error(e);
+	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
 	        logger.error("list VideoList Error!", e);
-	        return Result.error(CommonConstants.SERVER_ERROR, e.getMessage());
+	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+		.body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
 
@@ -88,16 +90,17 @@ public class VideoListController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/videoList/{recId}",method = RequestMethod.GET)
-    public Result get(@PathVariable("recId") String recId){
+    public ResponseEntity get(@PathVariable("recId") String recId){
         try {
             VideoList videoList = videoListService.find(recId);
-            return Result.ok(new VideoListResult(videoList));
+            return ResponseEntity.ok(new VideoListResult(videoList));
         } catch (BusinessException e) {
             logger.error("get VideoList Error!", e);
-            return Result.error(e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
             logger.error("get VideoList Error!", e);
-            return Result.error(CommonConstants.SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
@@ -108,7 +111,7 @@ public class VideoListController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/videoList", method = RequestMethod.POST)
-    public Result create(@RequestBody @Validated(Create.class) VideoListParam param, BindingResult bindingResult) {
+    public ResponseEntity create(@RequestBody @Validated(Create.class) VideoListParam param, BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
@@ -121,13 +124,14 @@ public class VideoListController extends BaseController{
                 model.setCreateId(user.getRecId());
                 model.setUpdateId(user.getRecId());
             String recId = videoListService.create(model);
-            return Result.ok(recId);
+            return ResponseEntity.ok(recId);
         } catch (BusinessException e) {
             logger.error("create VideoList Error!", e);
-            return Result.error(e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
             logger.error("create VideoList Error!", e);
-            return Result.error(CommonConstants.SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
@@ -137,19 +141,20 @@ public class VideoListController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
 	@RequestMapping(value = "/v1/videoList/{recId}",method = RequestMethod.DELETE)
-	public Result delete(@PathVariable("recId") String recId){
+	public ResponseEntity delete(@PathVariable("recId") String recId){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
 			Integer num = videoListService.delete(recId);
-            return Result.ok(num);
+            return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("delete VideoList Error!", e);
-            return Result.error(e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
             logger.error("delete VideoList Error!", e);
-            return Result.error(CommonConstants.SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
@@ -160,7 +165,7 @@ public class VideoListController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
 	@RequestMapping(value = "/v1/videoList/{recId}", method = RequestMethod.PUT)
-    public Result update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) VideoListParam param, BindingResult bindingResult){
+    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) VideoListParam param, BindingResult bindingResult){
         try {
 	        //验证失败
 	        if (bindingResult.hasErrors()) {
@@ -173,13 +178,14 @@ public class VideoListController extends BaseController{
 	        model.setRecId(recId);
             model.setUpdateId(user.getRecId());
 	        Integer num = videoListService.update(model);
-	        return Result.ok(num);
+	        return ResponseEntity.ok(num);
         } catch (BusinessException e) {
 	        logger.error("update VideoList Error!", e);
-	        return Result.error(e);
+	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
 	        logger.error("update VideoList Error!", e);
-	        return Result.error(CommonConstants.SERVER_ERROR, e.getMessage());
+	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
 
