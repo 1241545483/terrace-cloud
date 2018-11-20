@@ -5,9 +5,12 @@ import com.synapse.reading.model.BaseSystemParameter;
 import com.synapse.reading.respository.BaseSystemParameterRespository;
 import com.synapse.reading.dto.param.BaseSystemParameterParam;
 import com.synapse.reading.dto.result.BaseSystemParameterResult;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.synapse.reading.remote.IdService;
 
 import com.synapse.reading.TestConfig;
 import org.junit.Test;
@@ -38,6 +41,9 @@ public class BaseSystemParameterServiceTest {
 
     private final String createVal = "test";
     private final String updateVal = "test2";
+
+    @MockBean
+    private IdService idService;
 
     @Autowired
     private BaseSystemParameterService baseSystemParameterService;
@@ -71,6 +77,7 @@ public class BaseSystemParameterServiceTest {
 
     @Test
     public void create() {
+        Mockito.when(idService.gen("read")).thenReturn(System.nanoTime() + "");
 	    String recId = doCreate();
 	    assertNotNull(recId);
     }

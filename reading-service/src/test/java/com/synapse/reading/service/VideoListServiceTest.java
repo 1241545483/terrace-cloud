@@ -5,9 +5,12 @@ import com.synapse.reading.model.VideoList;
 import com.synapse.reading.respository.VideoListRespository;
 import com.synapse.reading.dto.param.VideoListParam;
 import com.synapse.reading.dto.result.VideoListResult;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.synapse.reading.remote.IdService;
 
 import com.synapse.reading.TestConfig;
 import org.junit.Test;
@@ -38,6 +41,9 @@ public class VideoListServiceTest {
 
     private final String createVal = "test";
     private final String updateVal = "test2";
+
+    @MockBean
+    private IdService idService;
 
     @Autowired
     private VideoListService videoListService;
@@ -70,6 +76,7 @@ public class VideoListServiceTest {
 
     @Test
     public void create() {
+        Mockito.when(idService.gen("read")).thenReturn(System.nanoTime() + "");
 	    String recId = doCreate();
 	    assertNotNull(recId);
     }
