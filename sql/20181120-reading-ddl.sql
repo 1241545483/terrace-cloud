@@ -75,7 +75,7 @@ create table base_system_parameter
   WEIGHT int(5) null,
   PARENT_PARAMETER_TYPE varchar(50) null,
   PARENT_PARAMETER_KEY varchar(100) null,
-  ADD_TIME varchar(100) null,
+  CREATE_TIME varchar(100) null,
   UPDATE_TIME varchar(100) null
 )
   engine=InnoDB charset=utf8;

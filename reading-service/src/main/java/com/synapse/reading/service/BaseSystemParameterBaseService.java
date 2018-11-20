@@ -41,8 +41,8 @@ public class BaseSystemParameterBaseService {
         if (baseSystemParameterParam.getParentParameterKey() != null && !baseSystemParameterParam.getParentParameterKey().trim().equals("")) {
             params.put("parentParameterKey", baseSystemParameterParam.getParentParameterKey());
         }
-        if (baseSystemParameterParam.getAddTime() != null && !baseSystemParameterParam.getAddTime().trim().equals("")) {
-            params.put("addTime", baseSystemParameterParam.getAddTime());
+        if (baseSystemParameterParam.getCreateTime() != null && !baseSystemParameterParam.getCreateTime().trim().equals("")) {
+            params.put("createTime", baseSystemParameterParam.getCreateTime());
         }
         if (baseSystemParameterParam.getUpdateTime() != null && !baseSystemParameterParam.getUpdateTime().trim().equals("")) {
             params.put("updateTime", baseSystemParameterParam.getUpdateTime());

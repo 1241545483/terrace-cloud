@@ -12,13 +12,13 @@
         <result column="WEIGHT" property="weight" />
         <result column="PARENT_PARAMETER_TYPE" property="parentParameterType" />
         <result column="PARENT_PARAMETER_KEY" property="parentParameterKey" />
-        <result column="ADD_TIME" property="addTime" />
+        <result column="CREATE_TIME" property="createTime" />
         <result column="UPDATE_TIME" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `REC_ID`,`PARAMETER_TYPE`,`PARAMETER_KEY`,`PARAMETER_NAME`,`PARAMETER_VALUE`,`WEIGHT`,`PARENT_PARAMETER_TYPE`,`PARENT_PARAMETER_KEY`,`ADD_TIME`,`UPDATE_TIME`
+      `REC_ID`,`PARAMETER_TYPE`,`PARAMETER_KEY`,`PARAMETER_NAME`,`PARAMETER_VALUE`,`WEIGHT`,`PARENT_PARAMETER_TYPE`,`PARENT_PARAMETER_KEY`,`CREATE_TIME`,`UPDATE_TIME`
     </sql>
 
 
@@ -33,7 +33,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.BaseSystemParameter">
         insert into `base_system_parameter`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{parameterType},#{parameterKey},#{parameterName},#{parameterValue},#{weight},#{parentParameterType},#{parentParameterKey},#{addTime},#{updateTime})
+        values (#{recId},#{parameterType},#{parameterKey},#{parameterName},#{parameterValue},#{weight},#{parentParameterType},#{parentParameterKey},#{createTime},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -69,8 +69,8 @@
                 <if test="parentParameterKey != null" >
                     `PARENT_PARAMETER_KEY`,
                 </if>
-                <if test="addTime != null" >
-                    `ADD_TIME`,
+                <if test="createTime != null" >
+                    `CREATE_TIME`,
                 </if>
                 <if test="updateTime != null" >
                     `UPDATE_TIME`,
@@ -101,8 +101,8 @@
                 <if test="parentParameterKey != null" >
 			        #{parentParameterKey},
                 </if>
-                <if test="addTime != null" >
-			        #{addTime},
+                <if test="createTime != null" >
+			        #{createTime},
                 </if>
                 <if test="updateTime != null" >
 			        #{updateTime},
@@ -137,8 +137,8 @@
 	            <if test="parentParameterKey != null" >
 		            `PARENT_PARAMETER_KEY` = #{parentParameterKey},
 	            </if>
-	            <if test="addTime != null" >
-		            `ADD_TIME` = #{addTime},
+	            <if test="createTime != null" >
+		            `CREATE_TIME` = #{createTime},
 	            </if>
 	            <if test="updateTime != null" >
 		            `UPDATE_TIME` = #{updateTime},
@@ -149,7 +149,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.BaseSystemParameter" >
         update  `base_system_parameter` SET
-		    `REC_ID`=#{recId},`PARAMETER_TYPE`=#{parameterType},`PARAMETER_KEY`=#{parameterKey},`PARAMETER_NAME`=#{parameterName},`PARAMETER_VALUE`=#{parameterValue},`WEIGHT`=#{weight},`PARENT_PARAMETER_TYPE`=#{parentParameterType},`PARENT_PARAMETER_KEY`=#{parentParameterKey},`ADD_TIME`=#{addTime},`UPDATE_TIME`=#{updateTime}
+		    `REC_ID`=#{recId},`PARAMETER_TYPE`=#{parameterType},`PARAMETER_KEY`=#{parameterKey},`PARAMETER_NAME`=#{parameterName},`PARAMETER_VALUE`=#{parameterValue},`WEIGHT`=#{weight},`PARENT_PARAMETER_TYPE`=#{parentParameterType},`PARENT_PARAMETER_KEY`=#{parentParameterKey},`CREATE_TIME`=#{createTime},`UPDATE_TIME`=#{updateTime}
         where
 		    `REC_ID` = #{recId}
     </update>
@@ -182,8 +182,8 @@
             <if test="parentParameterKey != null" >
                 AND `PARENT_PARAMETER_KEY` = #{parentParameterKey}
             </if>
-            <if test="addTime != null" >
-                AND `ADD_TIME` = #{addTime}
+            <if test="createTime != null" >
+                AND `CREATE_TIME` = #{createTime}
             </if>
             <if test="updateTime != null" >
                 AND `UPDATE_TIME` = #{updateTime}
@@ -219,8 +219,8 @@
             <if test="parentParameterKey != null" >
 			    AND `PARENT_PARAMETER_KEY` = #{parentParameterKey}
             </if>
-            <if test="addTime != null" >
-			    AND `ADD_TIME` = #{addTime}
+            <if test="createTime != null" >
+			    AND `CREATE_TIME` = #{createTime}
             </if>
             <if test="updateTime != null" >
 			    AND `UPDATE_TIME` = #{updateTime}

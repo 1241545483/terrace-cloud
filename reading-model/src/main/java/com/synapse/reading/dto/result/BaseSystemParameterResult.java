@@ -106,12 +106,12 @@ public String getParentParameterKey() {
 	}
 
 		@ApiModelProperty(value = "")
-public String getAddTime() {
-    return baseSystemParameter.getAddTime();
+public String getCreateTime() {
+    return baseSystemParameter.getCreateTime();
 }
 
-	public void setAddTime(String add_time) {
-		baseSystemParameter.setAddTime(add_time);
+	public void setCreateTime(String add_time) {
+		baseSystemParameter.setCreateTime(add_time);
 	}
 
 		@ApiModelProperty(value = "")

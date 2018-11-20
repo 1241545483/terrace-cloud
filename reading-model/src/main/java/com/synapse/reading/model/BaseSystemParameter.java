@@ -24,7 +24,7 @@ public class BaseSystemParameter implements Serializable {
     private Integer weight;
     private String parentParameterType;
     private String parentParameterKey;
-    private String addTime;
+    private String createTime;
     private String updateTime;
 
 
@@ -92,12 +92,12 @@ public class BaseSystemParameter implements Serializable {
         this.parentParameterKey = parentParameterKey;
     }
 
-    public String getAddTime() {
-        return addTime;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(String addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public String getUpdateTime() {

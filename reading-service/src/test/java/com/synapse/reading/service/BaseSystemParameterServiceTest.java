@@ -71,7 +71,6 @@ public class BaseSystemParameterServiceTest {
         assertEquals(val,result.getParameterValue());
         assertEquals(val,result.getParentParameterType());
         assertEquals(val,result.getParentParameterKey());
-        assertEquals(val,result.getAddTime());
     }
 
     @Test
@@ -90,7 +89,7 @@ public class BaseSystemParameterServiceTest {
             param.setWeight(-1);
             param.setParentParameterType(createVal);
             param.setParentParameterKey(createVal);
-            param.setAddTime(createVal);
+            param.setCreateTime(createVal);
             param.setUpdateTime(createVal);
 		    return baseSystemParameterService.create(param);
     }
@@ -105,7 +104,7 @@ public class BaseSystemParameterServiceTest {
 	        param.setWeight(-2);
 	        param.setParentParameterType(updateVal);
 	        param.setParentParameterKey(updateVal);
-	        param.setAddTime(updateVal);
+	        param.setCreateTime(updateVal);
 	        param.setUpdateTime(updateVal);
             baseSystemParameterService.update(param);
     }

@@ -303,7 +303,7 @@ public class BaseSystemParameterService {
     public String create(BaseSystemParameter parameter) {
         String now = DateUtils.getNowStr(CommonConstants.DEFAULT_DATE_FORMAT);
         parameter.setRecId(idService.gen("ID"));
-        parameter.setAddTime(now);
+        parameter.setCreateTime(now);
         parameter.setUpdateTime(now);
         baseSystemParameterRespository.insert(parameter);
         return parameter.getRecId();
@@ -379,7 +379,7 @@ public class BaseSystemParameterService {
 
     public void createAndRefreshMap(BaseSystemParameter parameter) {
         String now = DateUtils.getNowStr(CommonConstants.DEFAULT_DATE_FORMAT);
-        parameter.setAddTime(now);
+        parameter.setCreateTime(now);
         parameter.setUpdateTime(now);
         baseSystemParameterRespository.insert(parameter);
         String pKey = StringUtils.trimToEmpty(parameter.getParentParameterKey());
