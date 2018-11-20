@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.synapse.shilu.respository.BaseSystemParameterRespository">
+<mapper namespace="com.synapse.reading.respository.BaseSystemParameterRespository">
 
 
-	<resultMap id="v2BaseResultMap" type="com.synapse.shilu.web.result.BaseSystemParameterResult" extends="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap" >
+	<resultMap id="v2BaseResultMap" type="com.synapse.reading.dto.result.BaseSystemParameterResult" extends="com.synapse.reading.mapper.BaseSystemParameterMapper.BaseResultMap" >
 	</resultMap>
 
 
@@ -20,9 +20,9 @@
 		SELECT MAX(PARAMETER_KEY) FROM base_system_parameter WHERE  PARAMETER_TYPE = #{parameterType, jdbcType=VARCHAR}
 	</select>
 
-    <select id="getList" resultMap="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap" parameterType="map">
+    <select id="getList" resultMap="com.synapse.reading.mapper.BaseSystemParameterMapper.BaseResultMap" parameterType="map">
     	select  
-    	<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List" />
+    	<include refid="com.synapse.reading.mapper.BaseSystemParameterMapper.Base_Column_List" />
     	from base_system_parameter
     	where 1 = 1
     	<if test="parameterKey != null" > 
@@ -51,7 +51,7 @@
 
 	<select id="getAll" parameterType="map" resultMap="v2BaseResultMap">
 		select
-		<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List" />
+		<include refid="com.synapse.reading.mapper.BaseSystemParameterMapper.Base_Column_List" />
 		from base_system_parameter
 		where 1 = 1
 		<if test="parameterKey != null" >
@@ -100,7 +100,7 @@
 		limit ${startIndex}, ${pageSize}
 	</select>
 
-	<select id="validateValueAndType" resultMap="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap" parameterType="map">
+	<select id="validateValueAndType" resultMap="com.synapse.reading.mapper.BaseSystemParameterMapper.BaseResultMap" parameterType="map">
 		select *
 		from base_system_parameter
 		where 1 = 1
@@ -129,9 +129,9 @@
         </if>
 	</select>
 
-	<select id="selectById" parameterType="Long" resultMap="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap">
+	<select id="selectById" parameterType="Long" resultMap="com.synapse.reading.mapper.BaseSystemParameterMapper.BaseResultMap">
 		select
-		<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List"/>
+		<include refid="com.synapse.reading.mapper.BaseSystemParameterMapper.Base_Column_List"/>
 		from base_system_parameter
 		where 1 = 1
 		<if test="recId != null">
@@ -139,9 +139,9 @@
 		</if>
 	</select>
 
-	<select id="selectByParamType_Value" resultMap="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap">
+	<select id="selectByParamType_Value" resultMap="com.synapse.reading.mapper.BaseSystemParameterMapper.BaseResultMap">
 		select
-		<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List"/>
+		<include refid="com.synapse.reading.mapper.BaseSystemParameterMapper.Base_Column_List"/>
 		from base_system_parameter
 		where 1 = 1
 		<if test="parameterType != null">
@@ -152,11 +152,11 @@
 		</if>
 	</select>
 
-	<resultMap id="mmp" type="com.synapse.shilu.web.result.BaseSystemParameterResult" extends="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap"></resultMap>
+	<resultMap id="mmp" type="com.synapse.reading.dto.result.BaseSystemParameterResult" extends="com.synapse.reading.mapper.BaseSystemParameterMapper.BaseResultMap"></resultMap>
 
 	<select id="selectByParamType_Key" parameterType="map" resultMap="mmp">
 		select
-		<include refid="com.synapse.shilu.mapper.BaseSystemParameterMapper.Base_Column_List"/>
+		<include refid="com.synapse.reading.mapper.BaseSystemParameterMapper.Base_Column_List"/>
 		from base_system_parameter
 		where 1 = 1
 		<if test="type != null">
@@ -171,7 +171,7 @@
 
 
 
-	<resultMap id="newMap" type="com.synapse.reading.model.BaseSystemParameter"  extends="com.synapse.shilu.mapper.BaseSystemParameterMapper.BaseResultMap">
+	<resultMap id="newMap" type="com.synapse.reading.model.BaseSystemParameter"  extends="com.synapse.reading.mapper.BaseSystemParameterMapper.BaseResultMap">
 	</resultMap>
 
 
@@ -269,7 +269,7 @@
 		</if>
 	</select>
 
-	<insert id="insertAndGet"  useGeneratedKeys="true" keyProperty="recId"  parameterType="com.synapse.shilu.model.BaseSystemParameter" >
+	<insert id="insertAndGet"  useGeneratedKeys="true" keyProperty="recId"  parameterType="com.synapse.reading.model.BaseSystemParameter" >
 		insert into base_system_parameter (REC_ID, PARAMETER_TYPE, PARAMETER_KEY,
 										   PARAMETER_NAME, PARAMETER_VALUE, WEIGHT,
 										   PARENT_PARAMETER_TYPE, PARENT_PARAMETER_KEY,

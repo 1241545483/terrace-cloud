@@ -61,9 +61,6 @@ import java.util.Map;
 @EnableWebSocket
 public class TestMain extends WebMvcConfigurerAdapter {
 
-    @MockBean
-    private IdService idService;
-
     @Value("${cors.origins}")
     private String origins;
 
