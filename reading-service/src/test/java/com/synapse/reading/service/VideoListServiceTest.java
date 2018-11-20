@@ -39,8 +39,8 @@ import static org.junit.Assert.*;
 @Transactional
 public class VideoListServiceTest {
 
-    private final String createVal = "test";
-    private final String updateVal = "test2";
+    private final String createVal = "A";
+    private final String updateVal = "B";
 
     @MockBean
     private IdService idService;
@@ -65,7 +65,6 @@ public class VideoListServiceTest {
 
     private void checkField(String recId, String val){
 		VideoList result = videoListService.find(recId);
-        assertEquals(val,result.getRecId());
         assertEquals(val,result.getName());
         assertEquals(val,result.getUrl());
         assertEquals(val,result.getBelongTo());
@@ -76,12 +75,12 @@ public class VideoListServiceTest {
 
     @Test
     public void create() {
-        Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
 	    String recId = doCreate();
 	    assertNotNull(recId);
     }
 
     public String doCreate(){
+            Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
 		    VideoList param = new VideoList();
             param.setName(createVal);
             param.setUrl(createVal);

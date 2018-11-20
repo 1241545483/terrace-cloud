@@ -5,6 +5,7 @@ import com.synapse.reading.model.Album;
 import com.synapse.reading.respository.AlbumRespository;
 import com.synapse.reading.dto.param.AlbumParam;
 import com.synapse.reading.dto.result.AlbumResult;
+import com.synapse.reading.constants.AlbumConstants;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,8 +40,8 @@ import static org.junit.Assert.*;
 @Transactional
 public class AlbumServiceTest {
 
-    private final String createVal = "test";
-    private final String updateVal = "test2";
+    private final String createVal = "A";
+    private final String updateVal = "B";
 
     @MockBean
     private IdService idService;
@@ -65,25 +66,23 @@ public class AlbumServiceTest {
 
     private void checkField(String recId, String val){
 		Album result = albumService.find(recId);
-        assertEquals(val,result.getRecId());
         assertEquals(val,result.getName());
         assertEquals(val,result.getIntro());
         assertEquals(val,result.getType());
         assertEquals(val,result.getCover());
         assertEquals(val,result.getPublishStatus());
-        assertEquals(val,result.getStatus());
         assertEquals(val,result.getCreateId());
         assertEquals(val,result.getUpdateId());
     }
 
     @Test
     public void create() {
-        Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
 	    String recId = doCreate();
 	    assertNotNull(recId);
     }
 
     public String doCreate(){
+            Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
 		    Album param = new Album();
             param.setName(createVal);
             param.setIntro(createVal);
@@ -119,6 +118,7 @@ public class AlbumServiceTest {
     @Test
 	public void delete(){
 		    Album param = new Album();
+            param.setStatus(AlbumConstants.STATUS.OK.num());
             int num = albumService.count(param);
 	        String recId = doCreate();
 	        int num2 = albumService.count(param);

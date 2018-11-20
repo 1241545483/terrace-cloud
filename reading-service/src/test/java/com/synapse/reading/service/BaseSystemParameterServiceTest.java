@@ -39,8 +39,8 @@ import static org.junit.Assert.*;
 @Transactional
 public class BaseSystemParameterServiceTest {
 
-    private final String createVal = "test";
-    private final String updateVal = "test2";
+    private final String createVal = "A";
+    private final String updateVal = "B";
 
     @MockBean
     private IdService idService;
@@ -65,7 +65,6 @@ public class BaseSystemParameterServiceTest {
 
     private void checkField(String recId, String val){
 		BaseSystemParameter result = baseSystemParameterService.find(recId);
-        assertEquals(val,result.getRecId());
         assertEquals(val,result.getParameterType());
         assertEquals(val,result.getParameterKey());
         assertEquals(val,result.getParameterName());
@@ -77,12 +76,12 @@ public class BaseSystemParameterServiceTest {
 
     @Test
     public void create() {
-        Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
 	    String recId = doCreate();
 	    assertNotNull(recId);
     }
 
     public String doCreate(){
+            Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
 		    BaseSystemParameter param = new BaseSystemParameter();
             param.setParameterType(createVal);
             param.setParameterKey(createVal);
