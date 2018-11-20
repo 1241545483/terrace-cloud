@@ -78,7 +78,7 @@ public class AlbumServiceTest {
 
     @Test
     public void create() {
-        Mockito.when(idService.gen("read")).thenReturn(System.nanoTime() + "");
+        Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
 	    String recId = doCreate();
 	    assertNotNull(recId);
     }

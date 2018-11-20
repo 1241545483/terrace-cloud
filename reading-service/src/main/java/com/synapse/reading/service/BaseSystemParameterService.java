@@ -302,7 +302,7 @@ public class BaseSystemParameterService {
 
     public String create(BaseSystemParameter parameter) {
         String now = DateUtils.getNowStr(CommonConstants.DEFAULT_DATE_FORMAT);
-        parameter.setRecId(idService.gen("read"));
+        parameter.setRecId(idService.gen("ID"));
         parameter.setAddTime(now);
         parameter.setUpdateTime(now);
         baseSystemParameterRespository.insert(parameter);

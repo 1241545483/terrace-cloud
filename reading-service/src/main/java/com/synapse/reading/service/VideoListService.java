@@ -46,7 +46,7 @@ public class VideoListService extends VideoListBaseService {
 
     public String create(VideoList param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        param.setRecId(idService.gen("read"));
+        param.setRecId(idService.gen("ID"));
 		param.setCreateTime(now);
 		param.setUpdateTime(now);
         videoListRespository.insert(param);

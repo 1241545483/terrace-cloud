@@ -47,7 +47,7 @@ public class AlbumService extends AlbumBaseService {
 
     public String create(Album param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        param.setRecId(idService.gen("read"));
+        param.setRecId(idService.gen("ID"));
 		param.setCreateTime(now);
 		param.setUpdateTime(now);
 		param.setStatus(AlbumConstants.STATUS.OK.num());

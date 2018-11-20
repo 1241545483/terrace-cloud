@@ -57,7 +57,7 @@ public class MybatisGenerator {
                 map.put("testConfig", "TestConfig");
                 map.put("idGenPackage","com.synapse.reading.remote");
                 map.put("idGenEntity","IdService");
-                map.put("idGenPrefix","read");
+                map.put("idGenPrefix","ID");
                 this.setMap(map);
             }
         };
