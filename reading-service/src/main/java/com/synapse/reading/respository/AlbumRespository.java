@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Param;
  * @since 2018-11-20
  */
 public interface AlbumRespository extends AlbumMapper {
-    boolean updatePlayVisitNum(@Param("recId") String recId);
+    Integer updatePlayVisitNum(@Param("recId") String recId);
 }

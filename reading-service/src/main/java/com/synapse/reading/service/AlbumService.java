@@ -79,7 +79,7 @@ public class AlbumService extends AlbumBaseService {
     }
 
     public boolean updatePlayVisitNum(String recId) {
-        return albumRespository.updatePlayVisitNum(recId);
+        return albumRespository.updatePlayVisitNum(recId)>0;
     }
 
 

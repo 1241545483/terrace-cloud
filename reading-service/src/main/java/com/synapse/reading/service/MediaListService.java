@@ -70,7 +70,7 @@ public class MediaListService extends MediaListBaseService {
     }
 
     public boolean updatePlayMediaNum(String recId) {
-        return mediaListRespository.updatePlayMediaNum(recId);
+        return mediaListRespository.updatePlayMediaNum(recId)>0;
     }
 
 }

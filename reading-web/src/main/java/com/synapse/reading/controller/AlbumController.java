@@ -190,9 +190,9 @@ public class AlbumController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "根据主键删除Album")
+    @ApiOperation(value = "根据播放次数更新visitNum")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/album/updataNum/{recId}", method = RequestMethod.PUT)

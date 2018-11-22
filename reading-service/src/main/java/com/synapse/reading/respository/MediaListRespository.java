@@ -6,14 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
- *  Respository 接口
+ * Respository 接口
  * </p>
  *
  * @author wangyifan
  * @since 2018-11-20
  */
 public interface MediaListRespository extends MediaListMapper {
-
-    boolean updatePlayMediaNum(@Param("recId") String recId);
-
+   Integer updatePlayMediaNum(@Param("recId") String recId);
 }
