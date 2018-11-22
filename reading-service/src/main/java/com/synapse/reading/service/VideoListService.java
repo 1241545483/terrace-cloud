@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author wangyifan
@@ -28,48 +28,48 @@ import java.util.HashMap;
 @Transactional
 public class VideoListService extends VideoListBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private VideoListRespository videoListRespository;
 
-    public VideoList find(String recId){
-	    return videoListRespository.selectByPrimaryKey(recId);
+    public VideoList find(String recId) {
+        return videoListRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(VideoList param){
+    public Integer update(VideoList param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return videoListRespository.updateByPrimaryKeySelective(param);
+        return videoListRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(VideoList param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
         videoListRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId){
+    public Integer delete(String recId) {
         return videoListRespository.deleteByPrimaryKey(recId);
-	}
+    }
 
-	public List<VideoList> list(VideoList videoListParam, PageInfo pageInfo) {
-        Map<String,Object> params = prepareParams(videoListParam);
+    public List<VideoList> list(VideoList videoListParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(videoListParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return videoListRespository.list(params);
-	}
+    }
 
-	public Integer count(VideoList videoListParam) {
-        Map<String,Object> params = prepareParams(videoListParam);
+    public Integer count(VideoList videoListParam) {
+        Map<String, Object> params = prepareParams(videoListParam);
         return videoListRespository.count(params);
     }
 
-    public boolean updatePlayVideoNum(String recId){
+    public boolean updatePlayVideoNum(String recId) {
         return videoListRespository.updatePlayVideoNum(recId);
     }
 }

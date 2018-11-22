@@ -3,7 +3,7 @@
 <mapper namespace="com.synapse.reading.respository.VideoListRespository">
 
 
-    <update id="updatePlayVideoNum" parameterType="map" >
+    <update id="updatePlayVideoNum" parameterType="map">
         update  `video_list` SET
             `play_num`=play_num+1
         where

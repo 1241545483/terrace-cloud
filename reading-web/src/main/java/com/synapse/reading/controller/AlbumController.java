@@ -38,59 +38,60 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- *  Controller
+ * Controller
  * </p>
+ *
  * @author wangyifan
  * @since 2018-11-20
  */
 @Api(tags = "AlbumController")
 @RestController
 @RequestMapping("/reading")
-public class AlbumController extends BaseController{
+public class AlbumController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(AlbumController.class);
 
     @Autowired
     private AlbumService albumService;
 
-	@ApiOperation(value = "查询Album列表(分页)")
+    @ApiOperation(value = "查询Album列表(分页)")
     @ApiResponses({
             @ApiResponse(code = 200, response = AlbumResult.class, message = "Album列表"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/album",method = RequestMethod.GET)
-	public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) AlbumParam param, BindingResult bindingResult) {
+    @RequestMapping(value = "/v1/album", method = RequestMethod.GET)
+    public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) AlbumParam param, BindingResult bindingResult) {
         try {
-	        //验证失败
-	        if (bindingResult.hasErrors()) {
-	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-	        }
-	        int totalNum = albumService.count(param.getModel());
-	        preparePageInfo(pageInfo, totalNum);
-	        List<Album> models = albumService.list(param.getModel(),pageInfo);
-	        List<AlbumResult> results = models.stream().map(it -> new AlbumResult(it)).collect(Collectors.toList());
-	        Map<String, Object> map = new HashMap();
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = albumService.count(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            List<Album> models = albumService.list(param.getModel(), pageInfo);
+            List<AlbumResult> results = models.stream().map(it -> new AlbumResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
             map.put("albumList", results);
             map.put("totalNum", totalNum);
-	        return ResponseEntity.ok(map);
+            return ResponseEntity.ok(map);
         } catch (BusinessException e) {
-	        logger.error("list Album Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+            logger.error("list Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-	        logger.error("list Album Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-		.body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+            logger.error("list Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
-	}
+    }
 
-	@ApiOperation(value = "根据主键查询Album详情")
+    @ApiOperation(value = "根据主键查询Album详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = AlbumResult.class, message = "Album对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/album/{recId}",method = RequestMethod.GET)
-    public ResponseEntity get(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/album/{recId}", method = RequestMethod.GET)
+    public ResponseEntity get(@PathVariable("recId") String recId) {
         try {
             Album album = albumService.find(recId);
             return ResponseEntity.ok(new AlbumResult(album));
@@ -100,11 +101,11 @@ public class AlbumController extends BaseController{
         } catch (Exception e) {
             logger.error("get Album Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "创建Album")
+    @ApiOperation(value = "创建Album")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
@@ -120,9 +121,9 @@ public class AlbumController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-	        Album model = param.getModel();
-                model.setCreateId(user.getRecId());
-                model.setUpdateId(user.getRecId());
+            Album model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
             String recId = albumService.create(model);
             return ResponseEntity.ok(recId);
         } catch (BusinessException e) {
@@ -131,22 +132,22 @@ public class AlbumController extends BaseController{
         } catch (Exception e) {
             logger.error("create Album Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "根据主键删除Album")
+    @ApiOperation(value = "根据主键删除Album")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/album/{recId}",method = RequestMethod.DELETE)
-	public ResponseEntity delete(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/album/{recId}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable("recId") String recId) {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-			Integer num = albumService.delete(recId,user.getRecId());
+            Integer num = albumService.delete(recId, user.getRecId());
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("delete Album Error!", e);
@@ -154,39 +155,62 @@ public class AlbumController extends BaseController{
         } catch (Exception e) {
             logger.error("delete Album Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "根据主键更新Album")
+    @ApiOperation(value = "根据主键更新Album")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/album/{recId}", method = RequestMethod.PUT)
-    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) AlbumParam param, BindingResult bindingResult){
+    @RequestMapping(value = "/v1/album/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) AlbumParam param, BindingResult bindingResult) {
         try {
-	        //验证失败
-	        if (bindingResult.hasErrors()) {
-	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-	        }
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-	        Album model = param.getModel();
-	        model.setRecId(recId);
+            Album model = param.getModel();
+            model.setRecId(recId);
             model.setUpdateId(user.getRecId());
-	        Integer num = albumService.update(model);
-	        return ResponseEntity.ok(num);
+            Integer num = albumService.update(model);
+            return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-	        logger.error("update Album Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+            logger.error("update Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-	        logger.error("update Album Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+            logger.error("update Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
-	}
+    }
+
+    @ApiOperation(value = "根据主键删除Album")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/album/updataNum/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity updatePlayVisitNum(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            boolean valid = albumService.updatePlayVisitNum(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("updatePlayVisitNum Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("updatePlayVisitNum Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 }

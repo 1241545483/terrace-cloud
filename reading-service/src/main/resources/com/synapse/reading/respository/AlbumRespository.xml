@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.AlbumRespository">
 
+    <update id="updatePlayVisitNum" parameterType="map">
+        update  `album` SET
+        `visit_num`=visit_num+1
+        where
+        `rec_id` = #{recId}
+    </update>
 </mapper>

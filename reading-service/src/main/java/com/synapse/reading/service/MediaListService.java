@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author wangyifan
@@ -28,48 +28,48 @@ import java.util.HashMap;
 @Transactional
 public class MediaListService extends MediaListBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private MediaListRespository mediaListRespository;
 
-    public MediaList find(String recId){
-	    return mediaListRespository.selectByPrimaryKey(recId);
+    public MediaList find(String recId) {
+        return mediaListRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(MediaList param){
+    public Integer update(MediaList param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return mediaListRespository.updateByPrimaryKeySelective(param);
+        return mediaListRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(MediaList param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
         mediaListRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId){
+    public Integer delete(String recId) {
         return mediaListRespository.deleteByPrimaryKey(recId);
-	}
+    }
 
-	public List<MediaList> list(MediaList mediaListParam, PageInfo pageInfo) {
-        Map<String,Object> params = prepareParams(mediaListParam);
+    public List<MediaList> list(MediaList mediaListParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(mediaListParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return mediaListRespository.list(params);
-	}
+    }
 
-	public Integer count(MediaList mediaListParam) {
-        Map<String,Object> params = prepareParams(mediaListParam);
+    public Integer count(MediaList mediaListParam) {
+        Map<String, Object> params = prepareParams(mediaListParam);
         return mediaListRespository.count(params);
     }
 
-    public boolean updatePlayMediaNum(String recId){
+    public boolean updatePlayMediaNum(String recId) {
         return mediaListRespository.updatePlayMediaNum(recId);
     }
 

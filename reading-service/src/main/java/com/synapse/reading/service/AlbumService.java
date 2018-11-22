@@ -78,4 +78,9 @@ public class AlbumService extends AlbumBaseService {
         return albumRespository.count(params);
     }
 
+    public boolean updatePlayVisitNum(String recId) {
+        return albumRespository.updatePlayVisitNum(recId);
+    }
+
+
 }

@@ -38,59 +38,60 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- *  Controller
+ * Controller
  * </p>
+ *
  * @author wangyifan
  * @since 2018-11-20
  */
 @Api(tags = "MediaListController")
 @RestController
 @RequestMapping("/reading")
-public class MediaListController extends BaseController{
+public class MediaListController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(MediaListController.class);
 
     @Autowired
     private MediaListService mediaListService;
 
-	@ApiOperation(value = "查询MediaList列表(分页)")
+    @ApiOperation(value = "查询MediaList列表(分页)")
     @ApiResponses({
             @ApiResponse(code = 200, response = MediaListResult.class, message = "MediaList列表"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/mediaList",method = RequestMethod.GET)
-	public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) MediaListParam param, BindingResult bindingResult) {
+    @RequestMapping(value = "/v1/mediaList", method = RequestMethod.GET)
+    public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) MediaListParam param, BindingResult bindingResult) {
         try {
-	        //验证失败
-	        if (bindingResult.hasErrors()) {
-	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-	        }
-	        int totalNum = mediaListService.count(param.getModel());
-	        preparePageInfo(pageInfo, totalNum);
-	        List<MediaList> models = mediaListService.list(param.getModel(),pageInfo);
-	        List<MediaListResult> results = models.stream().map(it -> new MediaListResult(it)).collect(Collectors.toList());
-	        Map<String, Object> map = new HashMap();
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = mediaListService.count(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            List<MediaList> models = mediaListService.list(param.getModel(), pageInfo);
+            List<MediaListResult> results = models.stream().map(it -> new MediaListResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
             map.put("mediaListList", results);
             map.put("totalNum", totalNum);
-	        return ResponseEntity.ok(map);
+            return ResponseEntity.ok(map);
         } catch (BusinessException e) {
-	        logger.error("list MediaList Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+            logger.error("list MediaList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-	        logger.error("list MediaList Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-		.body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+            logger.error("list MediaList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
-	}
+    }
 
-	@ApiOperation(value = "根据主键查询MediaList详情")
+    @ApiOperation(value = "根据主键查询MediaList详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = MediaListResult.class, message = "MediaList对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/mediaList/{recId}",method = RequestMethod.GET)
-    public ResponseEntity get(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/mediaList/{recId}", method = RequestMethod.GET)
+    public ResponseEntity get(@PathVariable("recId") String recId) {
         try {
             MediaList mediaList = mediaListService.find(recId);
             return ResponseEntity.ok(new MediaListResult(mediaList));
@@ -100,11 +101,11 @@ public class MediaListController extends BaseController{
         } catch (Exception e) {
             logger.error("get MediaList Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "创建MediaList")
+    @ApiOperation(value = "创建MediaList")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
@@ -120,9 +121,9 @@ public class MediaListController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-	        MediaList model = param.getModel();
-                model.setCreateId(user.getRecId());
-                model.setUpdateId(user.getRecId());
+            MediaList model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
             String recId = mediaListService.create(model);
             return ResponseEntity.ok(recId);
         } catch (BusinessException e) {
@@ -131,77 +132,22 @@ public class MediaListController extends BaseController{
         } catch (Exception e) {
             logger.error("create MediaList Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "根据主键删除MediaList")
+    @ApiOperation(value = "根据主键删除MediaList")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/mediaList/{recId}",method = RequestMethod.DELETE)
-	public ResponseEntity delete(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/mediaList/{recId}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable("recId") String recId) {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-			Integer num = mediaListService.delete(recId);
-            return ResponseEntity.ok(num);
-        } catch (BusinessException e) {
-            logger.error("delete MediaList Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
-        } catch (Exception e) {
-            logger.error("delete MediaList Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
-        }
-    }
-
-	@ApiOperation(value = "根据主键更新MediaList")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
-            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-	@RequestMapping(value = "/v1/mediaList/{recId}", method = RequestMethod.PUT)
-    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) MediaListParam param, BindingResult bindingResult){
-        try {
-	        //验证失败
-	        if (bindingResult.hasErrors()) {
-	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-	        }
-            User user = UserContext.getUser();
-            //todo 根据角色判断权限
-
-	        MediaList model = param.getModel();
-	        model.setRecId(recId);
-            model.setUpdateId(user.getRecId());
-	        Integer num = mediaListService.update(model);
-	        return ResponseEntity.ok(num);
-        } catch (BusinessException e) {
-	        logger.error("update MediaList Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
-        } catch (Exception e) {
-	        logger.error("update MediaList Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
-        }
-	}
-
-
-    @ApiOperation(value = "根据播放次数更新playNum")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "播放次数加一"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-    @RequestMapping(value = "/v1/mediaList/updataNum/{recId}",method = RequestMethod.PUT)
-    public ResponseEntity updatePlayMediaNum(@PathVariable("recId") String recId){
-        try {
-            User user = UserContext.getUser();
-            //todo 根据角色判断权限
-
-            Boolean num = mediaListService.updatePlayMediaNum(recId);
+            Integer num = mediaListService.delete(recId);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("delete MediaList Error!", e);
@@ -213,6 +159,60 @@ public class MediaListController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "根据主键更新MediaList")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/mediaList/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) MediaListParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            MediaList model = param.getModel();
+            model.setRecId(recId);
+            model.setUpdateId(user.getRecId());
+            Integer num = mediaListService.update(model);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("update MediaList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update MediaList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+    @ApiOperation(value = "根据播放次数更新playNum")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/mediaList/updataNum/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity updatePlayMediaNum(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Boolean valid = mediaListService.updatePlayMediaNum(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("updatePlayMediaNum MediaList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("updatePlayMediaNum MediaList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 
 }

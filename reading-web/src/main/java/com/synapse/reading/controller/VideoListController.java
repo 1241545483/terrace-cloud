@@ -38,59 +38,60 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- *  Controller
+ * Controller
  * </p>
+ *
  * @author wangyifan
  * @since 2018-11-20
  */
 @Api(tags = "VideoListController")
 @RestController
 @RequestMapping("/reading")
-public class VideoListController extends BaseController{
+public class VideoListController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(VideoListController.class);
 
     @Autowired
     private VideoListService videoListService;
 
-	@ApiOperation(value = "查询VideoList列表(分页)")
+    @ApiOperation(value = "查询VideoList列表(分页)")
     @ApiResponses({
             @ApiResponse(code = 200, response = VideoListResult.class, message = "VideoList列表"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/videoList",method = RequestMethod.GET)
-	public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) VideoListParam param, BindingResult bindingResult) {
+    @RequestMapping(value = "/v1/videoList", method = RequestMethod.GET)
+    public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) VideoListParam param, BindingResult bindingResult) {
         try {
-	        //验证失败
-	        if (bindingResult.hasErrors()) {
-	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-	        }
-	        int totalNum = videoListService.count(param.getModel());
-	        preparePageInfo(pageInfo, totalNum);
-	        List<VideoList> models = videoListService.list(param.getModel(),pageInfo);
-	        List<VideoListResult> results = models.stream().map(it -> new VideoListResult(it)).collect(Collectors.toList());
-	        Map<String, Object> map = new HashMap();
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = videoListService.count(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            List<VideoList> models = videoListService.list(param.getModel(), pageInfo);
+            List<VideoListResult> results = models.stream().map(it -> new VideoListResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
             map.put("videoListList", results);
             map.put("totalNum", totalNum);
-	        return ResponseEntity.ok(map);
+            return ResponseEntity.ok(map);
         } catch (BusinessException e) {
-	        logger.error("list VideoList Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+            logger.error("list VideoList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-	        logger.error("list VideoList Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-		.body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+            logger.error("list VideoList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
-	}
+    }
 
-	@ApiOperation(value = "根据主键查询VideoList详情")
+    @ApiOperation(value = "根据主键查询VideoList详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = VideoListResult.class, message = "VideoList对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/videoList/{recId}",method = RequestMethod.GET)
-    public ResponseEntity get(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/videoList/{recId}", method = RequestMethod.GET)
+    public ResponseEntity get(@PathVariable("recId") String recId) {
         try {
             VideoList videoList = videoListService.find(recId);
             return ResponseEntity.ok(new VideoListResult(videoList));
@@ -100,11 +101,11 @@ public class VideoListController extends BaseController{
         } catch (Exception e) {
             logger.error("get VideoList Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "创建VideoList")
+    @ApiOperation(value = "创建VideoList")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
@@ -120,9 +121,9 @@ public class VideoListController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-	        VideoList model = param.getModel();
-                model.setCreateId(user.getRecId());
-                model.setUpdateId(user.getRecId());
+            VideoList model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
             String recId = videoListService.create(model);
             return ResponseEntity.ok(recId);
         } catch (BusinessException e) {
@@ -131,22 +132,22 @@ public class VideoListController extends BaseController{
         } catch (Exception e) {
             logger.error("create VideoList Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "根据主键删除VideoList")
+    @ApiOperation(value = "根据主键删除VideoList")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/videoList/{recId}",method = RequestMethod.DELETE)
-	public ResponseEntity delete(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/videoList/{recId}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable("recId") String recId) {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-			Integer num = videoListService.delete(recId);
+            Integer num = videoListService.delete(recId);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("delete VideoList Error!", e);
@@ -154,59 +155,59 @@ public class VideoListController extends BaseController{
         } catch (Exception e) {
             logger.error("delete VideoList Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "根据主键更新VideoList")
+    @ApiOperation(value = "根据主键更新VideoList")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/videoList/{recId}", method = RequestMethod.PUT)
-    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) VideoListParam param, BindingResult bindingResult){
+    @RequestMapping(value = "/v1/videoList/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) VideoListParam param, BindingResult bindingResult) {
         try {
-	        //验证失败
-	        if (bindingResult.hasErrors()) {
-	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-	        }
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-	        VideoList model = param.getModel();
-	        model.setRecId(recId);
+            VideoList model = param.getModel();
+            model.setRecId(recId);
             model.setUpdateId(user.getRecId());
-	        Integer num = videoListService.update(model);
-	        return ResponseEntity.ok(num);
+            Integer num = videoListService.update(model);
+            return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-	        logger.error("update VideoList Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+            logger.error("update VideoList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-	        logger.error("update VideoList Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+            logger.error("update VideoList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
-	}
+    }
 
     @ApiOperation(value = "根据播放次数更新playNum")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "播放次数加一"),
+            @ApiResponse(code = 200, response = Integer.class, message = "ture"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/videoList/updataNum/{recId}",method = RequestMethod.PUT)
-    public ResponseEntity updatePlayVideoNum(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/videoList/updataNum/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity updatePlayVideoNum(@PathVariable("recId") String recId) {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            boolean num = videoListService.updatePlayVideoNum(recId);
-            return ResponseEntity.ok(num);
+            boolean valid = videoListService.updatePlayVideoNum(recId);
+            return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
-            logger.error("delete VideoList Error!", e);
+            logger.error("updatePlayVideoNum VideoList Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("delete VideoList Error!", e);
+            logger.error("updatePlayVideoNum VideoList Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
