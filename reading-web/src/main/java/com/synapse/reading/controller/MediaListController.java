@@ -189,4 +189,30 @@ public class MediaListController extends BaseController{
         }
 	}
 
+
+    @ApiOperation(value = "根据播放次数更新playNum")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "播放次数加一"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/mediaList/updataNum/{recId}",method = RequestMethod.PUT)
+    public ResponseEntity updatePlayMediaNum(@PathVariable("recId") String recId){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Boolean num = mediaListService.updatePlayMediaNum(recId);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("delete MediaList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("delete MediaList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
 }

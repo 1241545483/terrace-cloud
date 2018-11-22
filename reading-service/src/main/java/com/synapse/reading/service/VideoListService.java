@@ -69,4 +69,7 @@ public class VideoListService extends VideoListBaseService {
         return videoListRespository.count(params);
     }
 
+    public boolean updatePlayVideoNum(String recId){
+        return videoListRespository.updatePlayVideoNum(recId);
+    }
 }

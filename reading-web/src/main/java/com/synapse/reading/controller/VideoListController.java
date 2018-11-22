@@ -189,4 +189,26 @@ public class VideoListController extends BaseController{
         }
 	}
 
+    @ApiOperation(value = "根据播放次数更新playNum")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "播放次数加一"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/videoList/updataNum/{recId}",method = RequestMethod.PUT)
+    public ResponseEntity updatePlayVideoNum(@PathVariable("recId") String recId){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            boolean num = videoListService.updatePlayVideoNum(recId);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("delete VideoList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("delete VideoList Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 }

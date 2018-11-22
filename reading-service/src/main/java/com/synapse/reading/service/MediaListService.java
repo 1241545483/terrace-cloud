@@ -69,4 +69,8 @@ public class MediaListService extends MediaListBaseService {
         return mediaListRespository.count(params);
     }
 
+    public boolean updatePlayMediaNum(String recId){
+        return mediaListRespository.updatePlayMediaNum(recId);
+    }
+
 }
