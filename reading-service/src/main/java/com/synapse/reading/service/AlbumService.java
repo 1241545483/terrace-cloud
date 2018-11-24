@@ -74,6 +74,7 @@ public class AlbumService extends AlbumBaseService {
 	}
 
 	public Integer count(Album albumParam) {
+        albumParam.setStatus(AlbumConstants.STATUS.OK.num());
         Map<String,Object> params = prepareParams(albumParam);
         return albumRespository.count(params);
     }
