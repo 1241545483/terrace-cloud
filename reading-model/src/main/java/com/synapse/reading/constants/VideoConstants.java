@@ -2,12 +2,12 @@ package com.synapse.reading.constants;
 
 /**
  * <p>
- * VideoListConstants
+ * VideoConstants
  * </p>
  *
  * @author wangyifan
- * @since 2018-11-20
+ * @since 2018-11-24
  */
-public interface  VideoListConstants  {
+public interface  VideoConstants  {
 
 }

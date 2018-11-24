@@ -1,13 +1,14 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/11/20 10:40:57                          */
-/*==============================================================*/ 
+/* Created on:     2018/11/24 9:32:45                           */
+/*==============================================================*/
+
 
 drop table if exists album;
 
-drop table if exists media_list;
+drop table if exists audio;
 
-drop table if exists video_list;
+drop table if exists video;
 
 /*==============================================================*/
 /* Table: album                                                 */
@@ -29,10 +30,12 @@ create table album
    primary key (rec_id)
 );
 
+alter table album comment '专辑';
+
 /*==============================================================*/
-/* Table: media_list                                            */
+/* Table: audio                                                 */
 /*==============================================================*/
-create table media_list
+create table audio
 (
    rec_id               varchar(30) not null,
    name                 varchar(30),
@@ -47,10 +50,12 @@ create table media_list
    primary key (rec_id)
 );
 
+alter table audio comment '音频';
+
 /*==============================================================*/
-/* Table: video_list                                            */
+/* Table: video                                                 */
 /*==============================================================*/
-create table video_list
+create table video
 (
    rec_id               varchar(30) not null,
    name                 varchar(30),
@@ -64,6 +69,8 @@ create table video_list
    update_time          varchar(30),
    primary key (rec_id)
 );
+
+alter table video comment '视频';
 
 create table base_system_parameter
 (

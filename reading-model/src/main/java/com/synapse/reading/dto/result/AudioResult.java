@@ -1,126 +1,126 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.synapse.reading.model.MediaList;
+import com.synapse.reading.model.Audio;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * MediaListResult
+ * AudioResult
  * </p>
  *
  * @author wangyifan
- * @since 2018-11-20
+ * @since 2018-11-24
  */
-@ApiModel(value = "MediaListResult对象", description = "")
-public class MediaListResult {
+@ApiModel(value = "AudioResult对象", description = "音频")
+public class AudioResult {
 
-    private MediaList  mediaList = new MediaList();
+    private Audio  audio = new Audio();
 
-    public MediaListResult(){}
+    public AudioResult(){}
 
-    public MediaListResult(MediaList  mediaList){
-        this.mediaList = mediaList;
+    public AudioResult(Audio  audio){
+        this.audio = audio;
     }
 
     @JsonIgnore
-    public MediaList getModel() {
-        return mediaList;
+    public Audio getModel() {
+        return audio;
     }
 
-    public void setModel(MediaList mediaList) {
-        this.mediaList = mediaList;
+    public void setModel(Audio audio) {
+        this.audio = audio;
     }
 
 @ApiModelProperty(value = "")
 public String getRecId() {
-    return mediaList.getRecId();
+    return audio.getRecId();
 }
 
 	public void setRecId(String rec_id) {
-		mediaList.setRecId(rec_id);
+		audio.setRecId(rec_id);
 	}
 
 		@ApiModelProperty(value = "")
 public String getName() {
-    return mediaList.getName();
+    return audio.getName();
 }
 
 	public void setName(String name) {
-		mediaList.setName(name);
+		audio.setName(name);
 	}
 
 		@ApiModelProperty(value = "")
 public String getUrl() {
-    return mediaList.getUrl();
+    return audio.getUrl();
 }
 
 	public void setUrl(String url) {
-		mediaList.setUrl(url);
+		audio.setUrl(url);
 	}
 
 		@ApiModelProperty(value = "album 专辑，book书籍")
 public String getBelongTo() {
-    return mediaList.getBelongTo();
+    return audio.getBelongTo();
 }
 
 	public void setBelongTo(String belong_to) {
-		mediaList.setBelongTo(belong_to);
+		audio.setBelongTo(belong_to);
 	}
 
 		@ApiModelProperty(value = "专辑或书籍主键")
 public String getBelongToId() {
-    return mediaList.getBelongToId();
+    return audio.getBelongToId();
 }
 
 	public void setBelongToId(String belong_to_id) {
-		mediaList.setBelongToId(belong_to_id);
+		audio.setBelongToId(belong_to_id);
 	}
 
 		@ApiModelProperty(value = "")
 public Long getPlayNum() {
-    return mediaList.getPlayNum();
+    return audio.getPlayNum();
 }
 
 	public void setPlayNum(Long play_num) {
-		mediaList.setPlayNum(play_num);
+		audio.setPlayNum(play_num);
 	}
 
 		@ApiModelProperty(value = "")
 public String getCreateId() {
-    return mediaList.getCreateId();
+    return audio.getCreateId();
 }
 
 	public void setCreateId(String create_id) {
-		mediaList.setCreateId(create_id);
+		audio.setCreateId(create_id);
 	}
 
 		@ApiModelProperty(value = "")
 public String getCreateTime() {
-    return mediaList.getCreateTime();
+    return audio.getCreateTime();
 }
 
 	public void setCreateTime(String create_time) {
-		mediaList.setCreateTime(create_time);
+		audio.setCreateTime(create_time);
 	}
 
 		@ApiModelProperty(value = "")
 public String getUpdateId() {
-    return mediaList.getUpdateId();
+    return audio.getUpdateId();
 }
 
 	public void setUpdateId(String update_id) {
-		mediaList.setUpdateId(update_id);
+		audio.setUpdateId(update_id);
 	}
 
 		@ApiModelProperty(value = "")
 public String getUpdateTime() {
-    return mediaList.getUpdateTime();
+    return audio.getUpdateTime();
 }
 
 	public void setUpdateTime(String update_time) {
-		mediaList.setUpdateTime(update_time);
+		audio.setUpdateTime(update_time);
 	}
 
 		

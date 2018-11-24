@@ -2,12 +2,12 @@ package com.synapse.reading.constants;
 
 /**
  * <p>
- * MediaListConstants
+ * AudioConstants
  * </p>
  *
  * @author wangyifan
- * @since 2018-11-20
+ * @since 2018-11-24
  */
-public interface  MediaListConstants  {
+public interface  AudioConstants  {
 
 }

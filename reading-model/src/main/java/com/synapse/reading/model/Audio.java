@@ -6,13 +6,13 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ * 音频
  * </p>
  *
  * @author wangyifan
- * @since 2018-11-20
+ * @since 2018-11-24
  */
-public class MediaList implements Serializable {
+public class Audio implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

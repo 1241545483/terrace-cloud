@@ -1,10 +1,10 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
-import com.synapse.reading.model.VideoList;
-import com.synapse.reading.respository.VideoListRespository;
-import com.synapse.reading.dto.param.VideoListParam;
-import com.synapse.reading.dto.result.VideoListResult;
+import com.synapse.reading.model.Audio;
+import com.synapse.reading.respository.AudioRespository;
+import com.synapse.reading.dto.param.AudioParam;
+import com.synapse.reading.dto.result.AudioResult;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,16 +28,16 @@ import static org.junit.Assert.*;
 
 /**
  * <p>
- *  服务测试类
+ * 音频 服务测试类
  * </p>
  *
  * @author wangyifan
- * @since 2018-11-20
+ * @since 2018-11-24
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestConfig.class)
 @Transactional
-public class VideoListServiceTest {
+public class AudioServiceTest {
 
     private final String createVal = "A";
     private final String updateVal = "B";
@@ -46,12 +46,12 @@ public class VideoListServiceTest {
     private IdService idService;
 
     @Autowired
-    private VideoListService videoListService;
+    private AudioService audioService;
 
     @Test
     public void testFind(){
         String recId = doCreate();
-	    VideoList result = videoListService.find(recId);
+	    Audio result = audioService.find(recId);
         assertNotNull(result);
     }
 
@@ -64,7 +64,7 @@ public class VideoListServiceTest {
     }
 
     private void checkField(String recId, String val){
-		VideoList result = videoListService.find(recId);
+		Audio result = audioService.find(recId);
         assertEquals(val,result.getName());
         assertEquals(val,result.getUrl());
         assertEquals(val,result.getBelongTo());
@@ -81,7 +81,7 @@ public class VideoListServiceTest {
 
     public String doCreate(){
             Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
-		    VideoList param = new VideoList();
+		    Audio param = new Audio();
             param.setName(createVal);
             param.setUrl(createVal);
             param.setBelongTo(createVal);
@@ -91,11 +91,11 @@ public class VideoListServiceTest {
             param.setCreateTime(createVal);
             param.setUpdateId(createVal);
             param.setUpdateTime(createVal);
-		    return videoListService.create(param);
+		    return audioService.create(param);
     }
 
     public void doUpdate(String recId){
-			VideoList param = new VideoList();
+			Audio param = new Audio();
 	        param.setRecId(recId);
 	        param.setName(updateVal);
 	        param.setUrl(updateVal);
@@ -106,42 +106,42 @@ public class VideoListServiceTest {
 	        param.setCreateTime(updateVal);
 	        param.setUpdateId(updateVal);
 	        param.setUpdateTime(updateVal);
-            videoListService.update(param);
+            audioService.update(param);
     }
 
     @Test
 	public void delete(){
-		    VideoList param = new VideoList();
-            int num = videoListService.count(param);
+		    Audio param = new Audio();
+            int num = audioService.count(param);
 	        String recId = doCreate();
-	        int num2 = videoListService.count(param);
+	        int num2 = audioService.count(param);
 	        assertEquals(num + 1, num2);
-		    videoListService.delete(recId);
-            int num3 = videoListService.count(param);
+		    audioService.delete(recId);
+            int num3 = audioService.count(param);
             assertEquals(num, num3);
 	}
 
     @Test
 	public void testList() {
-		VideoList param = new VideoList();
+		Audio param = new Audio();
         PageInfo pageInfo = new PageInfo();
         pageInfo.setPerPageNum(1000000);
         pageInfo.setCurrentPageIndex(1);
         pageInfo.setTotalNum(100000);
-		List<VideoList> results = videoListService.list(param,pageInfo);
+		List<Audio> results = audioService.list(param,pageInfo);
 		int num = results.size();
         String recId = doCreate();
-        List<VideoList> results2 = videoListService.list(param,pageInfo);
+        List<Audio> results2 = audioService.list(param,pageInfo);
         int num2 = results2.size();
         assertEquals(num + 1, num2);
 	}
 
     @Test
 	public void testCount() {
-		    VideoList param = new VideoList();
-            int num = videoListService.count(param);
+		    Audio param = new Audio();
+            int num = audioService.count(param);
             doCreate();
-            int num2 = videoListService.count(param);
+            int num2 = audioService.count(param);
 	        assertEquals(num + 1, num2);
     }
 

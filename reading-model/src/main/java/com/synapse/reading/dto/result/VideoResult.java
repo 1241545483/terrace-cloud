@@ -1,126 +1,126 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.synapse.reading.model.VideoList;
+import com.synapse.reading.model.Video;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * VideoListResult
+ * VideoResult
  * </p>
  *
  * @author wangyifan
- * @since 2018-11-20
+ * @since 2018-11-24
  */
-@ApiModel(value = "VideoListResult对象", description = "")
-public class VideoListResult {
+@ApiModel(value = "VideoResult对象", description = "视频")
+public class VideoResult {
 
-    private VideoList  videoList = new VideoList();
+    private Video  video = new Video();
 
-    public VideoListResult(){}
+    public VideoResult(){}
 
-    public VideoListResult(VideoList  videoList){
-        this.videoList = videoList;
+    public VideoResult(Video  video){
+        this.video = video;
     }
 
     @JsonIgnore
-    public VideoList getModel() {
-        return videoList;
+    public Video getModel() {
+        return video;
     }
 
-    public void setModel(VideoList videoList) {
-        this.videoList = videoList;
+    public void setModel(Video video) {
+        this.video = video;
     }
 
 @ApiModelProperty(value = "")
 public String getRecId() {
-    return videoList.getRecId();
+    return video.getRecId();
 }
 
 	public void setRecId(String rec_id) {
-		videoList.setRecId(rec_id);
+		video.setRecId(rec_id);
 	}
 
 		@ApiModelProperty(value = "")
 public String getName() {
-    return videoList.getName();
+    return video.getName();
 }
 
 	public void setName(String name) {
-		videoList.setName(name);
+		video.setName(name);
 	}
 
 		@ApiModelProperty(value = "")
 public String getUrl() {
-    return videoList.getUrl();
+    return video.getUrl();
 }
 
 	public void setUrl(String url) {
-		videoList.setUrl(url);
+		video.setUrl(url);
 	}
 
 		@ApiModelProperty(value = "album 专辑，book书籍")
 public String getBelongTo() {
-    return videoList.getBelongTo();
+    return video.getBelongTo();
 }
 
 	public void setBelongTo(String belong_to) {
-		videoList.setBelongTo(belong_to);
+		video.setBelongTo(belong_to);
 	}
 
 		@ApiModelProperty(value = "专辑或书籍主键")
 public String getBelongToId() {
-    return videoList.getBelongToId();
+    return video.getBelongToId();
 }
 
 	public void setBelongToId(String belong_to_id) {
-		videoList.setBelongToId(belong_to_id);
+		video.setBelongToId(belong_to_id);
 	}
 
 		@ApiModelProperty(value = "")
 public Long getPlayNum() {
-    return videoList.getPlayNum();
+    return video.getPlayNum();
 }
 
 	public void setPlayNum(Long play_num) {
-		videoList.setPlayNum(play_num);
+		video.setPlayNum(play_num);
 	}
 
 		@ApiModelProperty(value = "")
 public String getCreateId() {
-    return videoList.getCreateId();
+    return video.getCreateId();
 }
 
 	public void setCreateId(String create_id) {
-		videoList.setCreateId(create_id);
+		video.setCreateId(create_id);
 	}
 
 		@ApiModelProperty(value = "")
 public String getCreateTime() {
-    return videoList.getCreateTime();
+    return video.getCreateTime();
 }
 
 	public void setCreateTime(String create_time) {
-		videoList.setCreateTime(create_time);
+		video.setCreateTime(create_time);
 	}
 
 		@ApiModelProperty(value = "")
 public String getUpdateId() {
-    return videoList.getUpdateId();
+    return video.getUpdateId();
 }
 
 	public void setUpdateId(String update_id) {
-		videoList.setUpdateId(update_id);
+		video.setUpdateId(update_id);
 	}
 
 		@ApiModelProperty(value = "")
 public String getUpdateTime() {
-    return videoList.getUpdateTime();
+    return video.getUpdateTime();
 }
 
 	public void setUpdateTime(String update_time) {
-		videoList.setUpdateTime(update_time);
+		video.setUpdateTime(update_time);
 	}
 
 		
