@@ -44,6 +44,14 @@ public class VideoResult {
         video.setRecId(rec_id);
     }
 
+    public String getCover() {
+        return video.getCover();
+    }
+
+    public void setCover(String cover) {
+        video.setCover(cover);
+    }
+
     @ApiModelProperty(value = "")
     public String getName() {
         return video.getName();

@@ -4,93 +4,99 @@
 /*==============================================================*/
 
 
-drop table if exists album;
+DROP TABLE IF EXISTS album;
 
-drop table if exists audio;
+DROP TABLE IF EXISTS audio;
 
-drop table if exists video;
+DROP TABLE IF EXISTS video;
 
 /*==============================================================*/
 /* Table: album                                                 */
 /*==============================================================*/
-create table album
+CREATE TABLE album
 (
-   rec_id               varchar(30) not null,
-   name                 varchar(30),
-   intro                varchar(2000),
-   type                 varchar(6) comment '1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍',
-   cover                varchar(200) comment '封面图片URL',
-   publish_status       varchar(6) comment '0 未发布，1已发布',
-   status               varchar(6) comment '0 删除，1正常',
-   visit_num            bigint(11),
-   create_id            varchar(30),
-   create_time          varchar(30),
-   update_id            varchar(30),
-   update_time          varchar(30),
-   primary key (rec_id)
+  rec_id         VARCHAR(30) NOT NULL,
+  name           VARCHAR(30),
+  intro          VARCHAR(2000),
+  type           VARCHAR(6) COMMENT '1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍',
+  cover          VARCHAR(200) COMMENT '封面图片URL',
+  publish_status VARCHAR(6) COMMENT '0 未发布，1已发布',
+  status         VARCHAR(6) COMMENT '0 删除，1正常',
+  visit_num      BIGINT(11),
+  create_id      VARCHAR(30),
+  create_time    VARCHAR(30),
+  update_id      VARCHAR(30),
+  update_time    VARCHAR(30),
+  PRIMARY KEY (rec_id)
 );
 
-alter table album comment '专辑';
+ALTER TABLE album
+  COMMENT '专辑';
 
 /*==============================================================*/
 /* Table: audio                                                 */
 /*==============================================================*/
-create table audio
+CREATE TABLE audio
 (
-   rec_id               varchar(30) not null,
-   name                 varchar(30),
-   url                  varchar(500),
-  intro                varchar(2000),
-   belong_to            varchar(10) comment 'album 专辑，book书籍',
-   belong_to_id         varchar(30) comment '专辑或书籍主键',
-   play_num             bigint(11) default 0,
-   create_id            varchar(30),
-   create_time          varchar(30),
-   update_id            varchar(30),
-   update_time          varchar(30),
-   primary key (rec_id)
+  rec_id       VARCHAR(30) NOT NULL,
+  name         VARCHAR(30),
+  url          VARCHAR(500),
+  intro        VARCHAR(2000),
+  cover        VARCHAR(200) COMMENT '封面图片URL',
+  belong_to    VARCHAR(10) COMMENT 'album 专辑，book书籍',
+  belong_to_id VARCHAR(30) COMMENT '专辑或书籍主键',
+  play_num     BIGINT(11) DEFAULT 0,
+  create_id    VARCHAR(30),
+  create_time  VARCHAR(30),
+  update_id    VARCHAR(30),
+  update_time  VARCHAR(30),
+  PRIMARY KEY (rec_id)
 );
 
-alter table audio comment '音频';
+ALTER TABLE audio
+  COMMENT '音频';
 
 /*==============================================================*/
 /* Table: video                                                 */
 /*==============================================================*/
-create table video
+CREATE TABLE video
 (
-   rec_id               varchar(30) not null,
-   name                 varchar(30),
-   url                  varchar(500),
-  intro                varchar(2000),
-   belong_to            varchar(10) comment 'album 专辑，book书籍',
-   belong_to_id         varchar(30) comment '专辑或书籍主键',
-   play_num             bigint(11) default 0,
-   create_id            varchar(30),
-   create_time          varchar(30),
-   update_id            varchar(30),
-   update_time          varchar(30),
-   primary key (rec_id)
+  rec_id       VARCHAR(30) NOT NULL,
+  name         VARCHAR(30),
+  url          VARCHAR(500),
+  intro        VARCHAR(2000),
+  cover        VARCHAR(200) COMMENT '封面图片URL',
+  belong_to    VARCHAR(10) COMMENT 'album 专辑，book书籍',
+  belong_to_id VARCHAR(30) COMMENT '专辑或书籍主键',
+  play_num     BIGINT(11) DEFAULT 0,
+  create_id    VARCHAR(30),
+  create_time  VARCHAR(30),
+  update_id    VARCHAR(30),
+  update_time  VARCHAR(30),
+  PRIMARY KEY (rec_id)
 );
 
-alter table video comment '视频';
+ALTER TABLE video
+  COMMENT '视频';
 
-create table base_system_parameter
+CREATE TABLE base_system_parameter
 (
-  REC_ID varchar(30) primary key,
-  PARAMETER_TYPE varchar(50) null,
-  PARAMETER_KEY varchar(100) null,
-  PARAMETER_NAME varchar(100) null,
-  PARAMETER_VALUE varchar(200) null,
-  WEIGHT int(5) null,
-  PARENT_PARAMETER_TYPE varchar(50) null,
-  PARENT_PARAMETER_KEY varchar(100) null,
-  CREATE_TIME varchar(100) null,
-  UPDATE_TIME varchar(100) null
+  REC_ID                VARCHAR(30) PRIMARY KEY,
+  PARAMETER_TYPE        VARCHAR(50)  NULL,
+  PARAMETER_KEY         VARCHAR(100) NULL,
+  PARAMETER_NAME        VARCHAR(100) NULL,
+  PARAMETER_VALUE       VARCHAR(200) NULL,
+  WEIGHT                INT(5)       NULL,
+  PARENT_PARAMETER_TYPE VARCHAR(50)  NULL,
+  PARENT_PARAMETER_KEY  VARCHAR(100) NULL,
+  CREATE_TIME           VARCHAR(100) NULL,
+  UPDATE_TIME           VARCHAR(100) NULL
 )
-  engine=InnoDB charset=utf8;
+  ENGINE = InnoDB
+  CHARSET = utf8;
 
-create index key_v_t_pid_idx
-  on base_system_parameter (PARAMETER_KEY, PARAMETER_TYPE, PARAMETER_VALUE, PARENT_PARAMETER_KEY);
+CREATE INDEX key_v_t_pid_idx
+  ON base_system_parameter (PARAMETER_KEY, PARAMETER_TYPE, PARAMETER_VALUE, PARENT_PARAMETER_KEY);
 
-create index key_value_type_idx
-  on base_system_parameter (PARAMETER_KEY, PARAMETER_TYPE, PARAMETER_VALUE);
+CREATE INDEX key_value_type_idx
+  ON base_system_parameter (PARAMETER_KEY, PARAMETER_TYPE, PARAMETER_VALUE);

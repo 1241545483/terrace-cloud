@@ -47,6 +47,14 @@ public class VideoParam {
         this.video = video;
     }
 
+    public String getCover() {
+        return video.getCover();
+    }
+
+    public void setCover(String cover) {
+        video.setCover(cover);
+    }
+
     @ApiModelProperty(value = "")
     public String getRecId() {
         return video.getRecId();

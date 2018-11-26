@@ -21,6 +21,10 @@ public class Audio implements Serializable {
     private String url;
     private String intro;
     /**
+     * 封面图片URL
+     */
+    private String cover;
+    /**
      * album 专辑，book书籍
      */
     private String belongTo;
@@ -65,6 +69,14 @@ public class Audio implements Serializable {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getBelongTo() {

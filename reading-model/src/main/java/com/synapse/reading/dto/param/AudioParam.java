@@ -29,6 +29,14 @@ public class AudioParam {
         audio.setIntro(intro);
     }
 
+    public String getCover() {
+        return audio.getCover();
+    }
+
+    public void setCover(String cover) {
+        audio.setCover(cover);
+    }
+
     private Audio audio = new Audio();
 
     public AudioParam() {

@@ -29,6 +29,9 @@ public class VideoBaseService {
         if (videoParam.getIntro() != null && !videoParam.getIntro().trim().equals("")) {
             params.put("intro", videoParam.getIntro());
         }
+        if (videoParam.getCover() != null && !videoParam.getCover().trim().equals("")) {
+            params.put("cover", videoParam.getCover());
+        }
         if (videoParam.getBelongTo() != null && !videoParam.getBelongTo().trim().equals("")) {
             params.put("belongTo", videoParam.getBelongTo());
         }

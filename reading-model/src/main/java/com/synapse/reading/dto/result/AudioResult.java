@@ -30,6 +30,14 @@ public class AudioResult {
         audio.setIntro(intro);
     }
 
+    public String getCover() {
+        return audio.getCover();
+    }
+
+    public void setCover(String cover) {
+        audio.setCover(cover);
+    }
+
     public AudioResult(Audio audio) {
         this.audio = audio;
     }

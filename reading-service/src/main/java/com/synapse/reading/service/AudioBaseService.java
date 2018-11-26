@@ -29,6 +29,9 @@ public class AudioBaseService {
         if (audioParam.getIntro() != null && !audioParam.getIntro().trim().equals("")) {
             params.put("intro", audioParam.getIntro());
         }
+        if (audioParam.getCover() != null && !audioParam.getCover().trim().equals("")) {
+            params.put("cover", audioParam.getCover());
+        }
         if (audioParam.getBelongTo() != null && !audioParam.getBelongTo().trim().equals("")) {
             params.put("belongTo", audioParam.getBelongTo());
         }
