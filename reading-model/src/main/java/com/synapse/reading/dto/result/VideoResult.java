@@ -17,11 +17,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "VideoResult对象", description = "视频")
 public class VideoResult {
 
-    private Video  video = new Video();
+    private Video video = new Video();
 
-    public VideoResult(){}
+    public VideoResult() {
+    }
 
-    public VideoResult(Video  video){
+    public VideoResult(Video video) {
         this.video = video;
     }
 
@@ -34,96 +35,104 @@ public class VideoResult {
         this.video = video;
     }
 
-@ApiModelProperty(value = "")
-public String getRecId() {
-    return video.getRecId();
-}
+    @ApiModelProperty(value = "")
+    public String getRecId() {
+        return video.getRecId();
+    }
 
-	public void setRecId(String rec_id) {
-		video.setRecId(rec_id);
-	}
+    public void setRecId(String rec_id) {
+        video.setRecId(rec_id);
+    }
 
-		@ApiModelProperty(value = "")
-public String getName() {
-    return video.getName();
-}
+    @ApiModelProperty(value = "")
+    public String getName() {
+        return video.getName();
+    }
 
-	public void setName(String name) {
-		video.setName(name);
-	}
+    public void setName(String name) {
+        video.setName(name);
+    }
 
-		@ApiModelProperty(value = "")
-public String getUrl() {
-    return video.getUrl();
-}
+    @ApiModelProperty(value = "")
+    public String getUrl() {
+        return video.getUrl();
+    }
 
-	public void setUrl(String url) {
-		video.setUrl(url);
-	}
+    public void setUrl(String url) {
+        video.setUrl(url);
+    }
 
-		@ApiModelProperty(value = "album 专辑，book书籍")
-		@DictFormat(type = "ALBUM_TYPE",field = "typeTxt" )
-public String getBelongTo() {
-    return video.getBelongTo();
-}
+    public String getIntro() {
+        return video.getIntro();
+    }
 
-	public void setBelongTo(String belong_to) {
-		video.setBelongTo(belong_to);
-	}
+    public void setIntro(String intro) {
+        video.setIntro(intro);
+    }
 
-		@ApiModelProperty(value = "专辑或书籍主键")
-public String getBelongToId() {
-    return video.getBelongToId();
-}
+    @ApiModelProperty(value = "album 专辑，book书籍")
+    @DictFormat(type = "ALBUM_TYPE", field = "typeTxt")
+    public String getBelongTo() {
+        return video.getBelongTo();
+    }
 
-	public void setBelongToId(String belong_to_id) {
-		video.setBelongToId(belong_to_id);
-	}
+    public void setBelongTo(String belong_to) {
+        video.setBelongTo(belong_to);
+    }
 
-		@ApiModelProperty(value = "")
-public Long getPlayNum() {
-    return video.getPlayNum();
-}
+    @ApiModelProperty(value = "专辑或书籍主键")
+    public String getBelongToId() {
+        return video.getBelongToId();
+    }
 
-	public void setPlayNum(Long play_num) {
-		video.setPlayNum(play_num);
-	}
+    public void setBelongToId(String belong_to_id) {
+        video.setBelongToId(belong_to_id);
+    }
 
-		@ApiModelProperty(value = "")
-public String getCreateId() {
-    return video.getCreateId();
-}
+    @ApiModelProperty(value = "")
+    public Long getPlayNum() {
+        return video.getPlayNum();
+    }
 
-	public void setCreateId(String create_id) {
-		video.setCreateId(create_id);
-	}
+    public void setPlayNum(Long play_num) {
+        video.setPlayNum(play_num);
+    }
 
-		@ApiModelProperty(value = "")
-public String getCreateTime() {
-    return video.getCreateTime();
-}
+    @ApiModelProperty(value = "")
+    public String getCreateId() {
+        return video.getCreateId();
+    }
 
-	public void setCreateTime(String create_time) {
-		video.setCreateTime(create_time);
-	}
+    public void setCreateId(String create_id) {
+        video.setCreateId(create_id);
+    }
 
-		@ApiModelProperty(value = "")
-public String getUpdateId() {
-    return video.getUpdateId();
-}
+    @ApiModelProperty(value = "")
+    public String getCreateTime() {
+        return video.getCreateTime();
+    }
 
-	public void setUpdateId(String update_id) {
-		video.setUpdateId(update_id);
-	}
+    public void setCreateTime(String create_time) {
+        video.setCreateTime(create_time);
+    }
 
-		@ApiModelProperty(value = "")
-public String getUpdateTime() {
-    return video.getUpdateTime();
-}
+    @ApiModelProperty(value = "")
+    public String getUpdateId() {
+        return video.getUpdateId();
+    }
 
-	public void setUpdateTime(String update_time) {
-		video.setUpdateTime(update_time);
-	}
+    public void setUpdateId(String update_id) {
+        video.setUpdateId(update_id);
+    }
 
-		
+    @ApiModelProperty(value = "")
+    public String getUpdateTime() {
+        return video.getUpdateTime();
+    }
+
+    public void setUpdateTime(String update_time) {
+        video.setUpdateTime(update_time);
+    }
+
+
 }
