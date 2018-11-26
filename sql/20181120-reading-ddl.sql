@@ -79,6 +79,7 @@ CREATE TABLE video
 ALTER TABLE video
   COMMENT '视频';
 
+DROP TABLE IF EXISTS base_system_parameter;
 CREATE TABLE base_system_parameter
 (
   REC_ID                VARCHAR(30) PRIMARY KEY,
