@@ -17,11 +17,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "AlbumResult对象", description = "")
 public class AlbumResult {
 
-    private Album  album = new Album();
+    private Album album = new Album();
 
-    public AlbumResult(){}
+    public AlbumResult() {
+    }
 
-    public AlbumResult(Album  album){
+    public AlbumResult(Album album) {
         this.album = album;
     }
 
@@ -34,116 +35,115 @@ public class AlbumResult {
         this.album = album;
     }
 
-@ApiModelProperty(value = "")
-public String getRecId() {
-    return album.getRecId();
-}
+    @ApiModelProperty(value = "")
+    public String getRecId() {
+        return album.getRecId();
+    }
 
-	public void setRecId(String rec_id) {
-		album.setRecId(rec_id);
-	}
+    public void setRecId(String rec_id) {
+        album.setRecId(rec_id);
+    }
 
-		@ApiModelProperty(value = "")
-public String getName() {
-    return album.getName();
-}
+    @ApiModelProperty(value = "")
+    public String getName() {
+        return album.getName();
+    }
 
-	public void setName(String name) {
-		album.setName(name);
-	}
+    public void setName(String name) {
+        album.setName(name);
+    }
 
-		@ApiModelProperty(value = "")
-public String getIntro() {
-    return album.getIntro();
-}
+    @ApiModelProperty(value = "")
+    public String getIntro() {
+        return album.getIntro();
+    }
 
-	public void setIntro(String intro) {
-		album.setIntro(intro);
-	}
+    public void setIntro(String intro) {
+        album.setIntro(intro);
+    }
 
-		@ApiModelProperty(value = "1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍")
-		@DictFormat(type = "ALBUM_TYPE",field = "typeTxt" )
-public String getType() {
-    return album.getType();
-}
+    @ApiModelProperty(value = "1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍")
+    @DictFormat(type = "ALBUM_TYPE", field = "typeTxt")
+    public String getType() {
+        return album.getType();
+    }
 
-	public void setType(String type) {
-		album.setType(type);
-	}
+    public void setType(String type) {
+        album.setType(type);
+    }
 
-		@ApiModelProperty(value = "封面图片URL")
-public String getCover() {
-    return album.getCover();
-}
+    @ApiModelProperty(value = "封面图片URL")
+    public String getCover() {
+        return album.getCover();
+    }
 
-	public void setCover(String cover) {
-		album.setCover(cover);
-	}
+    public void setCover(String cover) {
+        album.setCover(cover);
+    }
 
-		@ApiModelProperty(value = "0 未发布，1已发布")
-		@DictFormat(type = "ALBUM_TYPE",field = "typeTxt" )
-public String getPublishStatus() {
-    return album.getPublishStatus();
-}
+    @ApiModelProperty(value = "0 未发布，1已发布")
+    @DictFormat(type = "ALBUM_TYPE", field = "typeTxt")
+    public String getPublishStatus() {
+        return album.getPublishStatus();
+    }
 
-	public void setPublishStatus(String publish_status) {
-		album.setPublishStatus(publish_status);
-	}
+    public void setPublishStatus(String publish_status) {
+        album.setPublishStatus(publish_status);
+    }
 
-		@ApiModelProperty(value = "0 删除，1正常")
-		@DictFormat(type = "ALBUM_TYPE",field = "typeTxt" )
-public String getStatus() {
-    return album.getStatus();
-}
+    @ApiModelProperty(value = "0 删除，1正常")
+    @DictFormat(type = "ALBUM_TYPE", field = "typeTxt")
+    public String getStatus() {
+        return album.getStatus();
+    }
 
-	public void setStatus(String status) {
-		album.setStatus(status);
-	}
+    public void setStatus(String status) {
+        album.setStatus(status);
+    }
 
-		@ApiModelProperty(value = "")
-public Long getVisitNum() {
-    return album.getVisitNum();
-}
+    @ApiModelProperty(value = "")
+    public Long getVisitNum() {
+        return album.getVisitNum();
+    }
 
-	public void setVisitNum(Long visit_num) {
-		album.setVisitNum(visit_num);
-	}
+    public void setVisitNum(Long visit_num) {
+        album.setVisitNum(visit_num);
+    }
 
-		@ApiModelProperty(value = "")
-public String getCreateId() {
-    return album.getCreateId();
-}
+    @ApiModelProperty(value = "")
+    public String getCreateId() {
+        return album.getCreateId();
+    }
 
-	public void setCreateId(String create_id) {
-		album.setCreateId(create_id);
-	}
+    public void setCreateId(String create_id) {
+        album.setCreateId(create_id);
+    }
 
-		@ApiModelProperty(value = "")
-public String getCreateTime() {
-    return album.getCreateTime();
-}
+    @ApiModelProperty(value = "")
+    public String getCreateTime() {
+        return album.getCreateTime();
+    }
 
-	public void setCreateTime(String create_time) {
-		album.setCreateTime(create_time);
-	}
+    public void setCreateTime(String create_time) {
+        album.setCreateTime(create_time);
+    }
 
-		@ApiModelProperty(value = "")
-public String getUpdateId() {
-    return album.getUpdateId();
-}
+    @ApiModelProperty(value = "")
+    public String getUpdateId() {
+        return album.getUpdateId();
+    }
 
-	public void setUpdateId(String update_id) {
-		album.setUpdateId(update_id);
-	}
+    public void setUpdateId(String update_id) {
+        album.setUpdateId(update_id);
+    }
 
-		@ApiModelProperty(value = "")
-public String getUpdateTime() {
-    return album.getUpdateTime();
-}
+    @ApiModelProperty(value = "")
+    public String getUpdateTime() {
+        return album.getUpdateTime();
+    }
 
-	public void setUpdateTime(String update_time) {
-		album.setUpdateTime(update_time);
-	}
+    public void setUpdateTime(String update_time) {
+        album.setUpdateTime(update_time);
+    }
 
-		
 }

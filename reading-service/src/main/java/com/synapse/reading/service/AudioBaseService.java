@@ -10,8 +10,8 @@ import java.util.HashMap;
  * 音频 服务实现类
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-24
+ * @author liuguangfu
+ * @since 2018-11-26
  */
 public class AudioBaseService {
 
@@ -25,6 +25,9 @@ public class AudioBaseService {
         }
         if (audioParam.getUrl() != null && !audioParam.getUrl().trim().equals("")) {
             params.put("url", audioParam.getUrl());
+        }
+        if (audioParam.getIntro() != null && !audioParam.getIntro().trim().equals("")) {
+            params.put("intro", audioParam.getIntro());
         }
         if (audioParam.getBelongTo() != null && !audioParam.getBelongTo().trim().equals("")) {
             params.put("belongTo", audioParam.getBelongTo());

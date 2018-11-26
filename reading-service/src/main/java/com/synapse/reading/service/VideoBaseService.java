@@ -10,8 +10,8 @@ import java.util.HashMap;
  * 视频 服务实现类
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-24
+ * @author liuguangfu
+ * @since 2018-11-26
  */
 public class VideoBaseService {
 
@@ -25,6 +25,9 @@ public class VideoBaseService {
         }
         if (videoParam.getUrl() != null && !videoParam.getUrl().trim().equals("")) {
             params.put("url", videoParam.getUrl());
+        }
+        if (videoParam.getIntro() != null && !videoParam.getIntro().trim().equals("")) {
+            params.put("intro", videoParam.getIntro());
         }
         if (videoParam.getBelongTo() != null && !videoParam.getBelongTo().trim().equals("")) {
             params.put("belongTo", videoParam.getBelongTo());

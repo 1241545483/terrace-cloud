@@ -10,8 +10,8 @@ import java.util.Map;
  * 音频 Mapper 接口
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-24
+ * @author liuguangfu
+ * @since 2018-11-26
  */
 public interface AudioMapper {
     Audio selectByPrimaryKey(String recId);

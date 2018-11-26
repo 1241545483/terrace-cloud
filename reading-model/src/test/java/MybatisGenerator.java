@@ -22,12 +22,12 @@ import java.util.Map;
 public class MybatisGenerator {
 
     private static String[] tables = new String[]{"audio","video"};
-    private static String BASE_PATH_ROOT = "/home/ivaneye/my/program/private/edu/git/reading";
-    private static String AUTHOR = "wangyifan";
+    private static String BASE_PATH_ROOT = "/D:/program/reading";
+    private static String AUTHOR = "liuguangfu";
 
     private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/reading?characterEncoding=utf8";
     private static String dbUser = "root";
-    private static String dbPSW = "rootroot";
+    private static String dbPSW = "root";
 
     private static String PKG = "com.synapse.reading";
     private static final String superControllerClass = "com.synapse.reading.controller.BaseController";

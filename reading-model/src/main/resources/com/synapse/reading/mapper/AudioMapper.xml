@@ -7,6 +7,7 @@
         <id column="rec_id" property="recId" />
         <result column="name" property="name" />
         <result column="url" property="url" />
+        <result column="intro" property="intro" />
         <result column="belong_to" property="belongTo" />
         <result column="belong_to_id" property="belongToId" />
         <result column="play_num" property="playNum" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`url`,`belong_to`,`belong_to_id`,`play_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`url`,`intro`,`belong_to`,`belong_to_id`,`play_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -33,7 +34,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Audio">
         insert into `audio`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{url},#{belongTo},#{belongToId},#{playNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{url},#{intro},#{belongTo},#{belongToId},#{playNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -53,6 +54,9 @@
                 </if>
                 <if test="url != null" >
                     `url`,
+                </if>
+                <if test="intro != null" >
+                    `intro`,
                 </if>
                 <if test="belongTo != null" >
                     `belong_to`,
@@ -85,6 +89,9 @@
                 </if>
                 <if test="url != null" >
 			        #{url},
+                </if>
+                <if test="intro != null" >
+			        #{intro},
                 </if>
                 <if test="belongTo != null" >
 			        #{belongTo},
@@ -122,6 +129,9 @@
 	            <if test="url != null" >
 		            `url` = #{url},
 	            </if>
+	            <if test="intro != null" >
+		            `intro` = #{intro},
+	            </if>
 	            <if test="belongTo != null" >
 		            `belong_to` = #{belongTo},
 	            </if>
@@ -149,7 +159,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Audio" >
         update  `audio` SET
-		    `rec_id`=#{recId},`name`=#{name},`url`=#{url},`belong_to`=#{belongTo},`belong_to_id`=#{belongToId},`play_num`=#{playNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`url`=#{url},`intro`=#{intro},`belong_to`=#{belongTo},`belong_to_id`=#{belongToId},`play_num`=#{playNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -166,6 +176,9 @@
             </if>
             <if test="url != null" >
                 AND `url` = #{url}
+            </if>
+            <if test="intro != null" >
+                AND `intro` = #{intro}
             </if>
             <if test="belongTo != null" >
                 AND `belong_to` = #{belongTo}
@@ -203,6 +216,9 @@
             </if>
             <if test="url != null" >
 			    AND `url` = #{url}
+            </if>
+            <if test="intro != null" >
+			    AND `intro` = #{intro}
             </if>
             <if test="belongTo != null" >
 			    AND `belong_to` = #{belongTo}

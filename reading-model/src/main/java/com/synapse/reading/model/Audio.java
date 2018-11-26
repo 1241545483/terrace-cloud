@@ -9,8 +9,8 @@ import java.io.Serializable;
  * 音频
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-24
+ * @author liuguangfu
+ * @since 2018-11-26
  */
 public class Audio implements Serializable {
 
@@ -19,6 +19,7 @@ public class Audio implements Serializable {
     private String recId;
     private String name;
     private String url;
+    private String intro;
     /**
      * album 专辑，book书籍
      */
@@ -56,6 +57,14 @@ public class Audio implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     public String getBelongTo() {
