@@ -1,6 +1,7 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.common.ann.DictFormat;
 import com.synapse.reading.model.Audio;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -61,6 +62,7 @@ public String getUrl() {
 	}
 
 		@ApiModelProperty(value = "album 专辑，book书籍")
+		@DictFormat(type = "ALBUM_TYPE",field = "typeTxt" )
 public String getBelongTo() {
     return audio.getBelongTo();
 }

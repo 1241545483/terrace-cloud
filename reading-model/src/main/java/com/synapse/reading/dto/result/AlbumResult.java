@@ -1,6 +1,7 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.common.ann.DictFormat;
 import com.synapse.reading.model.Album;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -61,6 +62,7 @@ public String getIntro() {
 	}
 
 		@ApiModelProperty(value = "1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍")
+		@DictFormat(type = "ALBUM_TYPE",field = "typeTxt" )
 public String getType() {
     return album.getType();
 }
@@ -79,6 +81,7 @@ public String getCover() {
 	}
 
 		@ApiModelProperty(value = "0 未发布，1已发布")
+		@DictFormat(type = "ALBUM_TYPE",field = "typeTxt" )
 public String getPublishStatus() {
     return album.getPublishStatus();
 }
@@ -88,6 +91,7 @@ public String getPublishStatus() {
 	}
 
 		@ApiModelProperty(value = "0 删除，1正常")
+		@DictFormat(type = "ALBUM_TYPE",field = "typeTxt" )
 public String getStatus() {
     return album.getStatus();
 }
