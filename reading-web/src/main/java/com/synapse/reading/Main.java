@@ -98,11 +98,9 @@ public class Main extends WebMvcConfigurerAdapter {
      * @author lance
      */
     public void addInterceptors(InterceptorRegistry registry) {
-        //todo wangyifan 基于Token的验证
-        registry.addInterceptor(new TokenUserInfoInterceptor()).addPathPatterns("/**");
+        //基于Token的验证
+        registry.addInterceptor(tokenUserInfoInterceptor()).addPathPatterns("/**");
         registry.addInterceptor(new com.synapse.common.sso.interceptor.UserInfoInterceptor()).addPathPatterns("/**");
-        //        添加shilu模块的拦截
-//        registry.addInterceptor(new AuthIntercepter()).addPathPatterns(arr);
     }
     @Bean
     public Encoder encoder() {
