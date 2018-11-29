@@ -55,6 +55,14 @@ public class VideoParam {
         video.setCover(cover);
     }
 
+    public String getQrCode() {
+        return video.getQrCode();
+    }
+
+    public void setQrCode(String qrCode) {
+        video.setQrCode(qrCode);
+    }
+
     @ApiModelProperty(value = "")
     public String getRecId() {
         return video.getRecId();

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-11-26
+ * @since 2018-11-29
  */
 public class Audio implements Serializable {
 
@@ -20,6 +20,7 @@ public class Audio implements Serializable {
     private String name;
     private String url;
     private String intro;
+    private String qrCode;
     /**
      * 封面图片URL
      */
@@ -69,6 +70,14 @@ public class Audio implements Serializable {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
     }
 
     public String getCover() {

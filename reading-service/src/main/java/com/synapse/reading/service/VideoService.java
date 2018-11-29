@@ -1,7 +1,11 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.trans.Result;
+import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.model.Video;
+import com.synapse.reading.remote.ShortLinkApiService;
+import com.synapse.reading.respository.AudioRespository;
 import com.synapse.reading.respository.VideoRespository;
 import com.synapse.reading.dto.param.VideoParam;
 import com.synapse.reading.dto.result.VideoResult;
@@ -34,6 +38,12 @@ public class VideoService extends VideoBaseService {
     @Autowired
     private VideoRespository videoRespository;
 
+    @Autowired
+    private MiniQrcodeService miniQrcodeService;
+
+    @Autowired
+    private ShortLinkApiService shortLinkApiService;
+
     public Video find(String recId) {
         return videoRespository.selectByPrimaryKey(recId);
     }
@@ -50,6 +60,30 @@ public class VideoService extends VideoBaseService {
         param.setCreateTime(now);
         param.setUpdateTime(now);
         videoRespository.insert(param);
+
+        MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
+        miniQrcodeParam.setPage("pages/video/video");
+        Result result = shortLinkApiService.getCodeByUrl(param.getRecId());
+        if (result != null && result.getCode() == 200) {
+            String body = (String) result.getBody();
+            String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
+            miniQrcodeParam.setScene(scene);
+        } else {
+            throw new RuntimeException(result.getMsg());
+        }
+        miniQrcodeParam.setWidth("430");
+        try {
+            Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
+            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
+            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
+            Map<String, Object> url = (Map<String, Object>) models.get(0);
+            param.setQrCode(String.valueOf(url.get("url")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        videoRespository.updateByPrimaryKeySelective(param);
+
+
         return param.getRecId();
     }
 

@@ -37,6 +37,14 @@ public class AudioParam {
         audio.setCover(cover);
     }
 
+    public String getQrCode() {
+        return audio.getQrCode();
+    }
+
+    public void setQrCode(String qrCode) {
+        audio.setQrCode(qrCode);
+    }
+
     private Audio audio = new Audio();
 
     public AudioParam() {

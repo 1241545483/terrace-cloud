@@ -61,6 +61,14 @@ public class VideoResult {
         video.setName(name);
     }
 
+    public String getQrCode() {
+        return video.getQrCode();
+    }
+
+    public void setQrCode(String qrCode) {
+        video.setQrCode(qrCode);
+    }
+
     @ApiModelProperty(value = "")
     public String getUrl() {
         return video.getUrl();

@@ -51,6 +51,14 @@ public class AudioResult {
         this.audio = audio;
     }
 
+    public String getQrCode() {
+        return audio.getQrCode();
+    }
+
+    public void setQrCode(String qrCode) {
+        audio.setQrCode(qrCode);
+    }
+
     @ApiModelProperty(value = "")
     public String getRecId() {
         return audio.getRecId();
