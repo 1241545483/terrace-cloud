@@ -52,8 +52,6 @@ public class MiniQrcodeService {
     @Value("${mini.app.secret}")
     private String secret;
 
-    private Logger logger = LoggerFactory.getLogger(MiniQrcodeService.class);
-
     @Autowired
     private MiniQrcodeAPiService miniQrcodeAPiService;
 
