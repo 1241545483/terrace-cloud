@@ -103,7 +103,7 @@ public class MiniQrcodeService {
         param.put("auto_color", true);
         param.put("is_hyaline", false);
         String json = JsonUtils.toJson(param);
-        logger.info("============json = " + json);
+        logger.info(getAccessToken() + "============json = " + json);
         String res = httpPostWithJson("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + getAccessToken(), json, params.getScene());
         Gson gson = new Gson();
         Type memberType = new TypeToken<Map<String, Object>>() {
