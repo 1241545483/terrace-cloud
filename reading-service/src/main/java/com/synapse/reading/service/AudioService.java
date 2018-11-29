@@ -8,10 +8,13 @@ import com.synapse.reading.model.Audio;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.AudioRespository;
 import com.synapse.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.remote.IdService;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -37,8 +40,11 @@ public class AudioService extends AudioBaseService {
 
     @Autowired
     private AudioRespository audioRespository;
+
     @Autowired
     private ShortLinkApiService shortLinkApiService;
+
+    private Logger logger = LoggerFactory.getLogger(AudioService.class);
 
     @Autowired
     private Gson gson;
@@ -62,13 +68,14 @@ public class AudioService extends AudioBaseService {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
         miniQrcodeParam.setPage("pages/audio/audio");
         Map<String, String> params = new HashMap<>();
-        params.put(param.getRecId(),param.getBelongToId());
+        params.put(param.getRecId(), param.getBelongToId());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
         if (result != null && result.getCode() == 200) {
             String body = (String) result.getBody();
             String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
             miniQrcodeParam.setScene(scene);
         } else {
+            logger.error("create short linke error!", result.getMsg());
             throw new RuntimeException(result.getMsg());
         }
         miniQrcodeParam.setWidth("430");
@@ -79,7 +86,7 @@ public class AudioService extends AudioBaseService {
             Map<String, Object> url = (Map<String, Object>) models.get(0);
             param.setQrCode(String.valueOf(url.get("url")));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("create short qrcode error!" + e.getMessage(), e);
         }
         audioRespository.updateByPrimaryKeySelective(param);
         return param.getRecId();
