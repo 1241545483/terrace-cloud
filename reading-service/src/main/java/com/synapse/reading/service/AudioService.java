@@ -81,7 +81,9 @@ public class AudioService extends AudioBaseService {
         miniQrcodeParam.setWidth("430");
         try {
             Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
+            logger.info("generate = " + generate);
             Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
+            logger.info("bizInfo = " + bizInfo);
             List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
             Map<String, Object> url = (Map<String, Object>) models.get(0);
             param.setQrCode(String.valueOf(url.get("url")));
