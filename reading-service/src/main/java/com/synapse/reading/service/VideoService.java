@@ -1,7 +1,9 @@
 package com.synapse.reading.service;
 
+import com.google.gson.Gson;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
+import com.synapse.common.utils.JsonUtils;
 import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.model.Video;
 import com.synapse.reading.remote.ShortLinkApiService;
@@ -43,6 +45,8 @@ public class VideoService extends VideoBaseService {
 
     @Autowired
     private ShortLinkApiService shortLinkApiService;
+    @Autowired
+    private Gson gson;
 
     public Video find(String recId) {
         return videoRespository.selectByPrimaryKey(recId);
@@ -63,7 +67,9 @@ public class VideoService extends VideoBaseService {
 
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
         miniQrcodeParam.setPage("pages/video/video");
-        Result result = shortLinkApiService.getCodeByUrl(param.getRecId());
+        Map<String, String> params = new HashMap<>();
+        params.put(param.getRecId(), param.getBelongToId());
+        Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
         if (result != null && result.getCode() == 200) {
             String body = (String) result.getBody();
             String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");

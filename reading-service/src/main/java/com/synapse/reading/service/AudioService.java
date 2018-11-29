@@ -1,18 +1,17 @@
 package com.synapse.reading.service;
 
+import com.google.gson.Gson;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.model.Audio;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.AudioRespository;
-
 import com.synapse.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.remote.IdService;
-
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -41,6 +40,9 @@ public class AudioService extends AudioBaseService {
     @Autowired
     private ShortLinkApiService shortLinkApiService;
 
+    @Autowired
+    private Gson gson;
+
     public Audio find(String recId) {
         return audioRespository.selectByPrimaryKey(recId);
     }
@@ -59,7 +61,9 @@ public class AudioService extends AudioBaseService {
         audioRespository.insert(param);
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
         miniQrcodeParam.setPage("pages/audio/audio");
-        Result result = shortLinkApiService.getCodeByUrl(param.getRecId());
+        Map<String, String> params = new HashMap<>();
+        params.put(param.getRecId(),param.getBelongToId());
+        Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
         if (result != null && result.getCode() == 200) {
             String body = (String) result.getBody();
             String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
