@@ -66,6 +66,7 @@ public class MiniQrcodeService {
     private static Logger logger = LoggerFactory.getLogger(MiniQrcodeService.class);
 
     public String getAccessToken() {
+        logger.info("appId = " + appId + "   secret = " + secret);
 //        redisTemplate.delete("mini_access_token");//根据key删除缓存
         String access_token = redisTemplate.boundValueOps("reading_mini_access_token").get();
         if (!StringUtils.isEmpty(access_token)) {
