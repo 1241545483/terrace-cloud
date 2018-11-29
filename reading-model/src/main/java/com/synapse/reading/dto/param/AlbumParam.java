@@ -41,6 +41,14 @@ public class AlbumParam {
         this.album = album;
     }
 
+    public String getSlogan() {
+        return album.getSlogan();
+    }
+
+    public void setSlogan(String slogan) {
+        album.setSlogan(slogan);
+    }
+
     @ApiModelProperty(value = "")
     public String getRecId() {
         return album.getRecId();

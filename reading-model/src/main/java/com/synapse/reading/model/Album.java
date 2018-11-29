@@ -6,11 +6,11 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ * 专辑
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-20
+ * @author liuguangfu
+ * @since 2018-11-29
  */
 public class Album implements Serializable {
 
@@ -19,6 +19,7 @@ public class Album implements Serializable {
     private String recId;
     private String name;
     private String intro;
+    private String slogan;
     /**
      * 1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍
      */
@@ -64,6 +65,14 @@ public class Album implements Serializable {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public String getSlogan() {
+        return slogan;
+    }
+
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
     }
 
     public String getType() {

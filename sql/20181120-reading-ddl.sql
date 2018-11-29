@@ -18,6 +18,7 @@ CREATE TABLE album
   rec_id         VARCHAR(30) NOT NULL,
   name           VARCHAR(30),
   intro          VARCHAR(2000),
+  slogan         VARCHAR(200),
   type           VARCHAR(6) COMMENT '1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍',
   cover          VARCHAR(200) COMMENT '封面图片URL',
   publish_status VARCHAR(6) COMMENT '0 未发布，1已发布',

@@ -7,6 +7,7 @@
         <id column="rec_id" property="recId" />
         <result column="name" property="name" />
         <result column="intro" property="intro" />
+        <result column="slogan" property="slogan" />
         <result column="type" property="type" />
         <result column="cover" property="cover" />
         <result column="publish_status" property="publishStatus" />
@@ -20,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`type`,`cover`,`publish_status`,`status`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`intro`,`slogan`,`type`,`cover`,`publish_status`,`status`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -35,7 +36,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Album">
         insert into `album`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{type},#{cover},#{publishStatus},#{status},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{intro},#{slogan},#{type},#{cover},#{publishStatus},#{status},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -55,6 +56,9 @@
                 </if>
                 <if test="intro != null" >
                     `intro`,
+                </if>
+                <if test="slogan != null" >
+                    `slogan`,
                 </if>
                 <if test="type != null" >
                     `type`,
@@ -93,6 +97,9 @@
                 </if>
                 <if test="intro != null" >
 			        #{intro},
+                </if>
+                <if test="slogan != null" >
+			        #{slogan},
                 </if>
                 <if test="type != null" >
 			        #{type},
@@ -136,6 +143,9 @@
 	            <if test="intro != null" >
 		            `intro` = #{intro},
 	            </if>
+	            <if test="slogan != null" >
+		            `slogan` = #{slogan},
+	            </if>
 	            <if test="type != null" >
 		            `type` = #{type},
 	            </if>
@@ -169,7 +179,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Album" >
         update  `album` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`type`=#{type},`cover`=#{cover},`publish_status`=#{publishStatus},`status`=#{status},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`publish_status`=#{publishStatus},`status`=#{status},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -186,6 +196,9 @@
             </if>
             <if test="intro != null" >
                 AND `intro` = #{intro}
+            </if>
+            <if test="slogan != null" >
+                AND `slogan` = #{slogan}
             </if>
             <if test="type != null" >
                 AND `type` = #{type}
@@ -229,6 +242,9 @@
             </if>
             <if test="intro != null" >
 			    AND `intro` = #{intro}
+            </if>
+            <if test="slogan != null" >
+			    AND `slogan` = #{slogan}
             </if>
             <if test="type != null" >
 			    AND `type` = #{type}

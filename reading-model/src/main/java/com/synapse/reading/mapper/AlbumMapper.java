@@ -7,11 +7,11 @@ import java.util.Map;
 
 /**
  * <p>
- *  Mapper 接口
+ * 专辑 Mapper 接口
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-20
+ * @author liuguangfu
+ * @since 2018-11-29
  */
 public interface AlbumMapper {
     Album selectByPrimaryKey(String recId);

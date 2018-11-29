@@ -7,11 +7,11 @@ import java.util.HashMap;
 
 /**
  * <p>
- *  服务实现类
+ * 专辑 服务实现类
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-20
+ * @author liuguangfu
+ * @since 2018-11-29
  */
 public class AlbumBaseService {
 
@@ -25,6 +25,9 @@ public class AlbumBaseService {
         }
         if (albumParam.getIntro() != null && !albumParam.getIntro().trim().equals("")) {
             params.put("intro", albumParam.getIntro());
+        }
+        if (albumParam.getSlogan() != null && !albumParam.getSlogan().trim().equals("")) {
+            params.put("slogan", albumParam.getSlogan());
         }
         if (albumParam.getType() != null && !albumParam.getType().trim().equals("")) {
             params.put("type", albumParam.getType());

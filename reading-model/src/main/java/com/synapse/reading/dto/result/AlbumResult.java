@@ -81,6 +81,14 @@ public class AlbumResult {
         album.setCover(cover);
     }
 
+    public String getSlogan() {
+        return album.getSlogan();
+    }
+
+    public void setSlogan(String slogan) {
+        album.setSlogan(slogan);
+    }
+
     @ApiModelProperty(value = "0 未发布，1已发布")
     @DictFormat(type = "ALBUM_TYPE", field = "typeTxt")
     public String getPublishStatus() {
