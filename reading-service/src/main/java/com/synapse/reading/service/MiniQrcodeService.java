@@ -67,14 +67,14 @@ public class MiniQrcodeService {
 
     public String getAccessToken() {
 //        redisTemplate.delete("mini_access_token");//根据key删除缓存
-        String access_token = redisTemplate.boundValueOps("mini_access_token").get();
+        String access_token = redisTemplate.boundValueOps("reading_mini_access_token").get();
         if (!StringUtils.isEmpty(access_token)) {
             return access_token;
         }
         Map<String, Object> result = miniQrcodeAPiService.getAccessToken("client_credential", appId, secret);
         if (!CollectionUtils.isEmpty(result) && (Integer) result.get("expires_in") == 7200) {
             access_token = (String) result.get("access_token");
-            redisTemplate.opsForValue().set("mini_access_token", access_token, 7200, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set("reading_mini_access_token", access_token, 7200, TimeUnit.SECONDS);
         }
         return access_token;
     }
