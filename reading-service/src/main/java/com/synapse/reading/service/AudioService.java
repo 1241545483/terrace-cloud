@@ -8,16 +8,14 @@ import com.synapse.reading.model.Audio;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.AudioRespository;
 import com.synapse.common.utils.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.remote.IdService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 
 /**
@@ -40,11 +38,8 @@ public class AudioService extends AudioBaseService {
 
     @Autowired
     private AudioRespository audioRespository;
-
     @Autowired
     private ShortLinkApiService shortLinkApiService;
-
-    private Logger logger = LoggerFactory.getLogger(AudioService.class);
 
     @Autowired
     private Gson gson;
@@ -56,6 +51,9 @@ public class AudioService extends AudioBaseService {
     public Integer update(Audio param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
+        if ("".equals(param.getQrCode().trim()) || param.getQrCode() == null) {
+            getAudioQrCode(param);
+        }
         return audioRespository.updateByPrimaryKeySelective(param);
     }
 
@@ -65,31 +63,7 @@ public class AudioService extends AudioBaseService {
         param.setCreateTime(now);
         param.setUpdateTime(now);
         audioRespository.insert(param);
-        MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/audio/audio");
-        Map<String, String> params = new HashMap<>();
-        params.put(param.getRecId(), param.getBelongToId());
-        Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
-        if (result != null && result.getCode() == 200) {
-            String body = (String) result.getBody();
-            String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
-            miniQrcodeParam.setScene(scene);
-        } else {
-            logger.error("create short linke error!", result.getMsg());
-            throw new RuntimeException(result.getMsg());
-        }
-        miniQrcodeParam.setWidth("110");
-        try {
-            Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
-            logger.info("generate = " + generate);
-            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
-            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
-            Map<String, Object> url = (Map<String, Object>) models.get(0);
-            param.setQrCode(String.valueOf(url.get("url")));
-        } catch (Exception e) {
-            logger.error("create qrcode error!" + e.getMessage(), e);
-        }
-        audioRespository.updateByPrimaryKeySelective(param);
+        getAudioQrCode(param);
         return param.getRecId();
     }
 
@@ -111,5 +85,32 @@ public class AudioService extends AudioBaseService {
 
     public boolean increasePlayNum(String recId) {
         return audioRespository.increasePlayNum(recId) > 0;
+    }
+
+
+    public Audio getAudioQrCode(Audio param) {
+        MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
+        miniQrcodeParam.setPage("pages/audio/audio");
+        Map<String, String> params = new HashMap<>();
+        params.put(param.getRecId(), param.getBelongToId());
+        Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
+        if (result != null && result.getCode() == 200) {
+            String body = (String) result.getBody();
+            String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
+            miniQrcodeParam.setScene(scene);
+        } else {
+            throw new RuntimeException(result.getMsg());
+        }
+        miniQrcodeParam.setWidth("430");
+        try {
+            Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
+            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
+            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
+            Map<String, Object> url = (Map<String, Object>) models.get(0);
+            param.setQrCode(String.valueOf(url.get("url")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  param;
     }
 }
