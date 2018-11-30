@@ -55,6 +55,9 @@ public class VideoService extends VideoBaseService {
     public Integer update(Video param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
+        if ("".equals(param.getQrCode().trim())||param.getQrCode()==null){
+            getQrCode(param);
+        }
         return videoRespository.updateByPrimaryKeySelective(param);
     }
 
@@ -64,32 +67,7 @@ public class VideoService extends VideoBaseService {
         param.setCreateTime(now);
         param.setUpdateTime(now);
         videoRespository.insert(param);
-
-        MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/video/video");
-        Map<String, String> params = new HashMap<>();
-        params.put(param.getRecId(), param.getBelongToId());
-        Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
-        if (result != null && result.getCode() == 200) {
-            String body = (String) result.getBody();
-            String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
-            miniQrcodeParam.setScene(scene);
-        } else {
-            throw new RuntimeException(result.getMsg());
-        }
-        miniQrcodeParam.setWidth("430");
-        try {
-            Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
-            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
-            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
-            Map<String, Object> url = (Map<String, Object>) models.get(0);
-            param.setQrCode(String.valueOf(url.get("url")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        videoRespository.updateByPrimaryKeySelective(param);
-
-
+        getQrCode(param);
         return param.getRecId();
     }
 
@@ -111,5 +89,34 @@ public class VideoService extends VideoBaseService {
 
     public boolean increasePlayNum(String recId) {
         return videoRespository.increasePlayNum(recId) > 0;
+    }
+
+    public Video getQrCode(Video param){
+        MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
+        miniQrcodeParam.setPage("pages/audio/audio");
+        Map<String, String> params = new HashMap<>();
+        params.put("albumId",param.getBelongToId());
+        params.put("audioId",param.getRecId());
+        Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
+        if (result != null && result.getCode() == 200) {
+            String body = (String) result.getBody();
+            String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
+            miniQrcodeParam.setScene(scene);
+        } else {
+            throw new RuntimeException(result.getMsg());
+        }
+        miniQrcodeParam.setWidth("430");
+        try {
+            Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
+            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
+            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
+            Map<String, Object> url = (Map<String, Object>) models.get(0);
+            param.setQrCode(String.valueOf(url.get("url")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return  param;
+
     }
 }
