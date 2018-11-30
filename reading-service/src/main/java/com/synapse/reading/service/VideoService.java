@@ -7,7 +7,6 @@ import com.synapse.common.utils.JsonUtils;
 import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.model.Video;
 import com.synapse.reading.remote.ShortLinkApiService;
-import com.synapse.reading.respository.AudioRespository;
 import com.synapse.reading.respository.VideoRespository;
 import com.synapse.reading.dto.param.VideoParam;
 import com.synapse.reading.dto.result.VideoResult;
@@ -56,7 +55,7 @@ public class VideoService extends VideoBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
         if ("".equals(param.getQrCode().trim())||param.getQrCode()==null){
-            getQrCode(param);
+            getVidaoQrCode(param);
         }
         return videoRespository.updateByPrimaryKeySelective(param);
     }
@@ -67,7 +66,7 @@ public class VideoService extends VideoBaseService {
         param.setCreateTime(now);
         param.setUpdateTime(now);
         videoRespository.insert(param);
-        getQrCode(param);
+        getVidaoQrCode(param);
         return param.getRecId();
     }
 
@@ -91,9 +90,9 @@ public class VideoService extends VideoBaseService {
         return videoRespository.increasePlayNum(recId) > 0;
     }
 
-    public Video getQrCode(Video param){
+    public Video getVidaoQrCode(Video param){
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/audio/audio");
+        miniQrcodeParam.setPage("pages/video/video");
         Map<String, String> params = new HashMap<>();
         params.put("albumId",param.getBelongToId());
         params.put("audioId",param.getRecId());
@@ -115,8 +114,6 @@ public class VideoService extends VideoBaseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return  param;
-
     }
 }
