@@ -153,6 +153,7 @@ public class MiniQrcodeService {
         CloseableHttpClient client = HttpClients.createDefault();
         //构建POST请求   请求地址请更换为自己的。
         //1)
+        logger.info("imgUploadUrl = " + imgUploadUrl);
         HttpPost post = new HttpPost(imgUploadUrl);
         try {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
