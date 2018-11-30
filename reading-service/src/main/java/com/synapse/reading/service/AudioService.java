@@ -51,8 +51,9 @@ public class AudioService extends AudioBaseService {
     public Integer update(Audio param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-        if ("".equals(param.getQrCode().trim()) || param.getQrCode() == null) {
-            getAudioQrCode(param);
+        Audio par = find(param.getRecId());
+        if (par.getQrCode() == null || "".equals(par.getQrCode().trim())) {
+            param = getAudioQrCode(param);
         }
         return audioRespository.updateByPrimaryKeySelective(param);
     }
@@ -92,7 +93,8 @@ public class AudioService extends AudioBaseService {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
         miniQrcodeParam.setPage("pages/audio/audio");
         Map<String, String> params = new HashMap<>();
-        params.put(param.getRecId(), param.getBelongToId());
+        params.put("albumId", param.getBelongToId());
+        params.put("audioId", param.getRecId());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
         if (result != null && result.getCode() == 200) {
             String body = (String) result.getBody();
@@ -101,7 +103,7 @@ public class AudioService extends AudioBaseService {
         } else {
             throw new RuntimeException(result.getMsg());
         }
-        miniQrcodeParam.setWidth("430");
+        miniQrcodeParam.setWidth("110");
         try {
             Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
             Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
@@ -111,6 +113,6 @@ public class AudioService extends AudioBaseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  param;
+        return param;
     }
 }
