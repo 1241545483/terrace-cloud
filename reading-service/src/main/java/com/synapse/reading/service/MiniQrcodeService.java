@@ -52,7 +52,6 @@ public class MiniQrcodeService {
     @Value("${mini.app.secret}")
     private String secret;
 
-
     @Autowired
     private MiniQrcodeAPiService miniQrcodeAPiService;
 
@@ -68,14 +67,14 @@ public class MiniQrcodeService {
 
     public String getAccessToken() {
 //        redisTemplate.delete("mini_access_token");//根据key删除缓存
-        String access_token = redisTemplate.boundValueOps("mini_access_token").get();
+        String access_token = redisTemplate.boundValueOps("reading_mini_access_token").get();
         if (!StringUtils.isEmpty(access_token)) {
             return access_token;
         }
         Map<String, Object> result = miniQrcodeAPiService.getAccessToken("client_credential", appId, secret);
         if (!CollectionUtils.isEmpty(result) && (Integer) result.get("expires_in") == 7200) {
             access_token = (String) result.get("access_token");
-            redisTemplate.opsForValue().set("mini_access_token", access_token, 7200, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set("reading_mini_access_token", access_token, 7200, TimeUnit.SECONDS);
         }
         return access_token;
     }
@@ -98,7 +97,7 @@ public class MiniQrcodeService {
         Map<String, Object> param = new HashMap<>();
         param.put("page", params.getPage());
         param.put("scene", params.getScene());
-        param.put("width", 430);
+        param.put("width", com.synapse.common.utils.StringUtils.trim(params.getWidth()).equals("") ? "430" : params.getWidth());
         param.put("auto_color", true);
         param.put("is_hyaline", false);
         String json = JsonUtils.toJson(param);
@@ -154,6 +153,7 @@ public class MiniQrcodeService {
         CloseableHttpClient client = HttpClients.createDefault();
         //构建POST请求   请求地址请更换为自己的。
         //1)
+        logger.info("imgUploadUrl = " + imgUploadUrl);
         HttpPost post = new HttpPost(imgUploadUrl);
         try {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
