@@ -66,7 +66,6 @@ public class MiniQrcodeService {
     private static Logger logger = LoggerFactory.getLogger(MiniQrcodeService.class);
 
     public String getAccessToken() {
-        logger.info("appId = " + appId + "   secret = " + secret);
 //        redisTemplate.delete("mini_access_token");//根据key删除缓存
         String access_token = redisTemplate.boundValueOps("reading_mini_access_token").get();
         if (!StringUtils.isEmpty(access_token)) {
@@ -98,11 +97,10 @@ public class MiniQrcodeService {
         Map<String, Object> param = new HashMap<>();
         param.put("page", params.getPage());
         param.put("scene", params.getScene());
-        param.put("width", 430);
+        param.put("width", com.synapse.common.utils.StringUtils.trim(params.getWidth()).equals("") ? "430" : params.getWidth());
         param.put("auto_color", true);
         param.put("is_hyaline", false);
         String json = JsonUtils.toJson(param);
-        logger.info(getAccessToken() + "============json = " + json);
         String res = httpPostWithJson("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + getAccessToken(), json, params.getScene());
         Gson gson = new Gson();
         Type memberType = new TypeToken<Map<String, Object>>() {

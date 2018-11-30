@@ -78,17 +78,16 @@ public class AudioService extends AudioBaseService {
             logger.error("create short linke error!", result.getMsg());
             throw new RuntimeException(result.getMsg());
         }
-        miniQrcodeParam.setWidth("430");
+        miniQrcodeParam.setWidth("110");
         try {
             Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
             logger.info("generate = " + generate);
             Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
-            logger.info("bizInfo = " + bizInfo);
             List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
             Map<String, Object> url = (Map<String, Object>) models.get(0);
             param.setQrCode(String.valueOf(url.get("url")));
         } catch (Exception e) {
-            logger.error("create short qrcode error!" + e.getMessage(), e);
+            logger.error("create qrcode error!" + e.getMessage(), e);
         }
         audioRespository.updateByPrimaryKeySelective(param);
         return param.getRecId();
