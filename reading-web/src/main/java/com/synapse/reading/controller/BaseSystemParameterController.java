@@ -11,9 +11,9 @@ import com.synapse.reading.service.BaseSystemParameterService;
 import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.synapse.common.exception.BusinessException;
@@ -21,8 +21,6 @@ import com.synapse.reading.exception.common.ValidException;
 import org.springframework.validation.BindingResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import com.synapse.reading.constants.CommonConstants;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
@@ -101,6 +99,24 @@ public class BaseSystemParameterController extends BaseController{
             logger.error("get BaseSystemParameter Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "根据类型获取字典列表")
+    @ApiParam(name = "types", required
+            = true, value = "逗号隔开的类型")
+    @RequestMapping(value = "/v1/baseSystemParameter/type/{types}", method = RequestMethod.GET)
+    public ResponseEntity listByType(@PathVariable("types") String types) {
+        try {
+            List<BaseSystemParameter> result = baseSystemParameterService.getByType(types);
+            return ResponseEntity.ok(result);
+        } catch (BusinessException e) {
+            logger.error("List BaseSystemParameter by type Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("List BaseSystemParameter by type Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
