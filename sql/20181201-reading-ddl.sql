@@ -3,18 +3,11 @@
 /* Created on:     2018/12/1 9:48:13                            */
 /*==============================================================*/
 
-
-drop index idx_discuss on discuss;
-
 drop table if exists discuss;
 
 drop table if exists information;
 
-drop index idx_collect on my_collect;
-
 drop table if exists my_collect;
-
-drop index idx_like on my_like;
 
 drop table if exists my_like;
 
