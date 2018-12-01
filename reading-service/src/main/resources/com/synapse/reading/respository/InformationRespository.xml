@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.respository.InformationRespository">
+
+
+    <update id="updateReadNum" parameterType="map">
+        update  `information` SET
+        `read_num`=`read_num`+1
+        where
+        `rec_id` = #{recId}
+    </update>
+
+
+    <update id="updateLikeAddNum" parameterType="map">
+        update  `information` SET
+        `like_num` = `like_num`+1
+        where
+            `rec_id` = #{recId}
+    </update>
+
+    <update id="updateLikeReduceNum" parameterType="map">
+        update  `information` SET
+        `like_num` = `like_num`-1
+        where
+        `rec_id` = #{recId}
+    </update>
+</mapper>

@@ -95,6 +95,14 @@ public class AlbumParam {
         album.setCover(cover);
     }
 
+    public Integer getOrderNum() {
+        return album.getOrderNum();
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        album.setOrderNum(orderNum);
+    }
+
     @ApiModelProperty(value = "0 未发布，1已发布")
 
     public String getPublishStatus() {

@@ -69,7 +69,7 @@ public class AlbumController extends BaseController {
             }
             int totalNum = albumService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
-            List<Album> models = albumService.list(param.getModel(), pageInfo);
+            List<Album> models = albumService.listSortByOrderNum(param.getModel(), pageInfo);
             List<AlbumResult> results = models.stream().map(it -> new AlbumResult(it)).collect(Collectors.toList());
             Map<String, Object> map = new HashMap();
             map.put("albumList", results);

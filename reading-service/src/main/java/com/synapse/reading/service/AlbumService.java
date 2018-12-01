@@ -84,4 +84,14 @@ public class AlbumService extends AlbumBaseService {
     }
 
 
+    public List<Album> listSortByOrderNum(Album albumParam, PageInfo pageInfo) {
+        albumParam.setStatus(AlbumConstants.STATUS.OK.num());
+        Map<String,Object> params = prepareParams(albumParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return albumRespository.listSortByOrderNum(params);
+    }
+
+
+
 }

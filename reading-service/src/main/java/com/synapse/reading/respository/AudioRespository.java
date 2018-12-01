@@ -1,7 +1,11 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.AudioMapper;
+import com.synapse.reading.model.Audio;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -20,5 +24,7 @@ public interface AudioRespository extends AudioMapper {
      * @return
      */
     Integer increasePlayNum(@Param("recId") String recId);
+
+    List<Audio> listSortByOrderNum(Map<String, Object> params);
 
 }

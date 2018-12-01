@@ -11,12 +11,12 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-11-29
+ * @since 2018-12-01
  */
 public class AudioBaseService {
 
-    protected Map<String, Object> prepareParams(Audio audioParam) {
-        Map<String, Object> params = new HashMap<>();
+	protected Map<String,Object> prepareParams(Audio audioParam) {
+        Map<String,Object> params = new HashMap<>();
         if (audioParam.getRecId() != null && !audioParam.getRecId().trim().equals("")) {
             params.put("recId", audioParam.getRecId());
         }
@@ -43,6 +43,9 @@ public class AudioBaseService {
         }
         if (audioParam.getPlayNum() != null) {
             params.put("playNum", audioParam.getPlayNum());
+        }
+        if (audioParam.getOrderNum() != null) {
+            params.put("orderNum", audioParam.getOrderNum());
         }
         if (audioParam.getCreateId() != null && !audioParam.getCreateId().trim().equals("")) {
             params.put("createId", audioParam.getCreateId());

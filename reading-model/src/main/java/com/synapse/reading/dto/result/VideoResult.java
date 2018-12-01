@@ -52,6 +52,14 @@ public class VideoResult {
         video.setCover(cover);
     }
 
+    public Integer getOrderNum() {
+        return video.getOrderNum();
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        video.setOrderNum(orderNum);
+    }
+
     @ApiModelProperty(value = "")
     public String getName() {
         return video.getName();

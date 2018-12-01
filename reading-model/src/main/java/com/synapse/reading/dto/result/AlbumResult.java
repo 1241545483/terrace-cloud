@@ -72,6 +72,14 @@ public class AlbumResult {
         album.setType(type);
     }
 
+    public Integer getOrderNum() {
+        return album.getOrderNum();
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        album.setOrderNum(orderNum);
+    }
+
     @ApiModelProperty(value = "封面图片URL")
     public String getCover() {
         return album.getCover();

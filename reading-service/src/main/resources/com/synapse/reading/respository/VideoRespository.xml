@@ -9,4 +9,59 @@
         `rec_id` = #{recId}
     </update>
 
+    <select id="listSortByOrderNum" parameterType="map" resultMap="com.synapse.reading.mapper.VideoMapper.BaseResultMap">
+        select
+        <include refid="com.synapse.reading.mapper.VideoMapper.Base_Column_List" />
+        from `video`
+        where 1 = 1
+        <if test="recId != null" >
+            AND `rec_id` = #{recId}
+        </if>
+        <if test="name != null" >
+            AND `name` = #{name}
+        </if>
+        <if test="url != null" >
+            AND `url` = #{url}
+        </if>
+        <if test="intro != null" >
+            AND `intro` = #{intro}
+        </if>
+        <if test="qrCode != null" >
+            AND `qr_code` = #{qrCode}
+        </if>
+        <if test="cover != null" >
+            AND `cover` = #{cover}
+        </if>
+        <if test="belongTo != null" >
+            AND `belong_to` = #{belongTo}
+        </if>
+        <if test="belongToId != null" >
+            AND `belong_to_id` = #{belongToId}
+        </if>
+        <if test="playNum != null" >
+            AND `play_num` = #{playNum}
+        </if>
+        <if test="orderNum != null" >
+            AND `order_num` = #{orderNum}
+        </if>
+        <if test="createId != null" >
+            AND `create_id` = #{createId}
+        </if>
+        <if test="createTime != null" >
+            AND `create_time` = #{createTime}
+        </if>
+        <if test="updateId != null" >
+            AND `update_id` = #{updateId}
+        </if>
+        <if test="updateTime != null" >
+            AND `update_time` = #{updateTime}
+        </if>
+        <if test="orderNum != null" >
+            ORDER BY `order_num`
+        </if>
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
 </mapper>

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-11-29
+ * @since 2018-12-01
  */
 public class Album implements Serializable {
 
@@ -36,6 +36,10 @@ public class Album implements Serializable {
      * 0 删除，1正常
      */
     private String status;
+    /**
+     * 排序
+     */
+    private Integer orderNum;
     private Long visitNum;
     private String createId;
     private String createTime;
@@ -105,6 +109,14 @@ public class Album implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 
     public Long getVisitNum() {

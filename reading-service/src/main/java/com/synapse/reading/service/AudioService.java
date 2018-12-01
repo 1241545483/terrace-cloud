@@ -115,4 +115,12 @@ public class AudioService extends AudioBaseService {
         }
         return param;
     }
+
+
+    public List<Audio> listSortByOrderNum(Audio audioParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(audioParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return audioRespository.listSortByOrderNum(params);
+    }
 }

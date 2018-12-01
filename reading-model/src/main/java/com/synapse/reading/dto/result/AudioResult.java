@@ -51,6 +51,14 @@ public class AudioResult {
         this.audio = audio;
     }
 
+    public Integer getOrderNum() {
+        return audio.getOrderNum();
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        audio.setOrderNum(orderNum);
+    }
+
     public String getQrCode() {
         return audio.getQrCode();
     }

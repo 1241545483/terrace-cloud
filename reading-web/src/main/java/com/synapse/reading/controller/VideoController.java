@@ -68,7 +68,7 @@ public class VideoController extends BaseController{
 	        }
 	        int totalNum = videoService.count(param.getModel());
 	        preparePageInfo(pageInfo, totalNum);
-	        List<Video> models = videoService.list(param.getModel(),pageInfo);
+	        List<Video> models = videoService.listSortByOrderNum(param.getModel(),pageInfo);
 	        List<VideoResult> results = models.stream().map(it -> new VideoResult(it)).collect(Collectors.toList());
 	        Map<String, Object> map = new HashMap();
             map.put("videoList", results);

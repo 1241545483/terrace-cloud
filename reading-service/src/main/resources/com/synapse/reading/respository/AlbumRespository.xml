@@ -3,9 +3,67 @@
 <mapper namespace="com.synapse.reading.respository.AlbumRespository">
 
     <update id="updatePlayVisitNum" parameterType="map">
-        update  `album` SET
-        `visit_num`=visit_num+1
-        where
-        `rec_id` = #{recId}
+        UPDATE `album`
+        SET
+            `visit_num` = visit_num + 1
+        WHERE
+            `rec_id` = #{recId}
     </update>
+
+    <select id="listSortByOrderNum" parameterType="map" resultMap="com.synapse.reading.mapper.AlbumMapper.BaseResultMap">
+        select
+        <include refid="com.synapse.reading.mapper.AlbumMapper.Base_Column_List"/>
+        from `album`
+        where 1 = 1
+        <if test="recId != null">
+            AND `rec_id` = #{recId}
+        </if>
+        <if test="name != null">
+            AND `name` = #{name}
+        </if>
+        <if test="intro != null">
+            AND `intro` = #{intro}
+        </if>
+        <if test="slogan != null">
+            AND `slogan` = #{slogan}
+        </if>
+        <if test="type != null">
+            AND `type` = #{type}
+        </if>
+        <if test="cover != null">
+            AND `cover` = #{cover}
+        </if>
+        <if test="publishStatus != null">
+            AND `publish_status` = #{publishStatus}
+        </if>
+        <if test="status != null">
+            AND `status` = #{status}
+        </if>
+        <if test="orderNum != null">
+            AND `order_num` = #{orderNum}
+        </if>
+        <if test="visitNum != null">
+            AND `visit_num` = #{visitNum}
+        </if>
+        <if test="createId != null">
+            AND `create_id` = #{createId}
+        </if>
+        <if test="createTime != null">
+            AND `create_time` = #{createTime}
+        </if>
+        <if test="updateId != null">
+            AND `update_id` = #{updateId}
+        </if>
+        <if test="updateTime != null">
+            AND `update_time` = #{updateTime}
+        </if>
+        <if test="orderNum != null">
+            ORDER BY `order_num`
+        </if>
+
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
 </mapper>
