@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/12/1 9:37:51                            */
+/* Created on:     2018/12/1 9:48:13                            */
 /*==============================================================*/
 
 
@@ -54,6 +54,7 @@ create table information
 (
    rec_id               varchar(30) not null comment '主键',
    title                varchar(100) comment '标题',
+   author               varchar(10) comment '作者',
    content              text comment '内容',
    cover                varchar(200) comment '封面',
    read_num             bigint(11) comment '阅读数量',
