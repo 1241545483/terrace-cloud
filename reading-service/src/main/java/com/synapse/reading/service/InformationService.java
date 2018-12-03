@@ -71,12 +71,21 @@ public class InformationService extends InformationBaseService {
         return informationRespository.updateByPrimaryKeySelective(model);
     }
 
-	public List<Information> list(Information informationParam, PageInfo pageInfo) {
-		informationParam.setStatus(InformationConstants.STATUS.OK.num());
+    public List<Information> list(Information informationParam, PageInfo pageInfo) {
+        informationParam.setStatus(InformationConstants.STATUS.OK.num());
         Map<String,Object> params = prepareParams(informationParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return informationRespository.list(params);
+    }
+
+	public List<Information> listAddIsLike(Information informationParam, PageInfo pageInfo,String userId) {
+		informationParam.setStatus(InformationConstants.STATUS.OK.num());
+        Map<String,Object> params = prepareParams(informationParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+
+        return informationRespository.listAddIsLike(params,userId);
 	}
 
 	public Integer count(Information informationParam) {
@@ -96,5 +105,7 @@ public class InformationService extends InformationBaseService {
     public boolean updateLikeReduceNum(String recId) {
         return informationRespository.updateLikeReduceNum(recId)>0;
     }
+
+
 
 }
