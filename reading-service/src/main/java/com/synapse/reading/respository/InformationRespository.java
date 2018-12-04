@@ -1,5 +1,6 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.InformationResult;
 import com.synapse.reading.mapper.InformationMapper;
 import com.synapse.reading.model.Information;
 import org.apache.ibatis.annotations.Param;
@@ -23,5 +24,5 @@ public interface InformationRespository extends InformationMapper {
 
     Integer updateLikeReduceNum(@Param("recId") String recId);
 
-    List<Information> listAddIsLike(@Param("params") Map<String, Object> params, @Param("userId")String userId );
+    List<InformationResult> listAddIsLike(@Param("params") Map<String, Object> params);
 }

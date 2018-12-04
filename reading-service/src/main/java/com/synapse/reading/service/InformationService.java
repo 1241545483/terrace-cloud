@@ -31,37 +31,36 @@ import java.util.HashMap;
 @Transactional
 public class InformationService extends InformationBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private InformationRespository informationRespository;
     @Autowired
-    private  MyLikeService myLikeService;
+    private MyLikeService myLikeService;
 
 
-
-    public Information find(String recId){
-	    return informationRespository.selectByPrimaryKey(recId);
+    public Information find(String recId) {
+        return informationRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(Information param){
+    public Integer update(Information param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return informationRespository.updateByPrimaryKeySelective(param);
+        return informationRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(Information param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
-		param.setStatus(InformationConstants.STATUS.OK.num());
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
+        param.setStatus(InformationConstants.STATUS.OK.num());
         informationRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId, String updateId) {
+    public Integer delete(String recId, String updateId) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         Information model = new Information();
         model.setRecId(recId);
@@ -73,39 +72,38 @@ public class InformationService extends InformationBaseService {
 
     public List<Information> list(Information informationParam, PageInfo pageInfo) {
         informationParam.setStatus(InformationConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(informationParam);
+        Map<String, Object> params = prepareParams(informationParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return informationRespository.list(params);
     }
 
-	public List<Information> listAddIsLike(Information informationParam, PageInfo pageInfo,String userId) {
-		informationParam.setStatus(InformationConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(informationParam);
+    public List<InformationResult> listAddIsLike(Information informationParam, PageInfo pageInfo, String userId) {
+        informationParam.setStatus(InformationConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(informationParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
+        params.put("userId", userId);
+        return informationRespository.listAddIsLike(params);
+    }
 
-        return informationRespository.listAddIsLike(params,userId);
-	}
-
-	public Integer count(Information informationParam) {
-		informationParam.setStatus(InformationConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(informationParam);
+    public Integer count(Information informationParam) {
+        informationParam.setStatus(InformationConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(informationParam);
         return informationRespository.count(params);
     }
 
     public boolean updateReadNum(String recId) {
-        return informationRespository.updateReadNum(recId)>0;
+        return informationRespository.updateReadNum(recId) > 0;
     }
 
     public boolean updateLikeAddNum(String recId) {
-        return informationRespository.updateLikeAddNum(recId)>0;
+        return informationRespository.updateLikeAddNum(recId) > 0;
     }
 
     public boolean updateLikeReduceNum(String recId) {
-        return informationRespository.updateLikeReduceNum(recId)>0;
+        return informationRespository.updateLikeReduceNum(recId) > 0;
     }
-
 
 
 }

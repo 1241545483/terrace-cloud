@@ -69,9 +69,7 @@ public class InformationController extends BaseController {
             }
             int totalNum = informationService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
-            List<Information> models = informationService.listAddIsLike(param.getModel(), pageInfo,userId);
-            List<InformationResult> results = models.stream().map(it -> new InformationResult(it)).collect(Collectors.toList());
-
+            List<InformationResult> results = informationService.listAddIsLike(param.getModel(), pageInfo,userId);
             Map<String, Object> map = new HashMap();
             map.put("informationList", results);
             map.put("totalNum", totalNum);

@@ -3,11 +3,15 @@
 <mapper namespace="com.synapse.reading.respository.InformationRespository">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="com.synapse.reading.mapper.InformationMapper.BaseResultMap" type="com.synapse.reading.model.Information">
+    <resultMap id="simpleRow" type="com.synapse.reading.model.Information" extends="com.synapse.reading.mapper.InformationMapper.BaseResultMap">
         <id column="is_liked" property="isLiked" />
     </resultMap>
 
-
+    <!-- 通用查询结果列 -->
+   <!-- <sql id="List_Column_List">
+        `rec_id`,  `title`,`author`,`content`,`cover`,`read_num`,`like_num`,`publish_status`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+-->
 
     <update id="updateReadNum" parameterType="map">
         update  `information` SET
@@ -31,10 +35,12 @@
         `rec_id` = #{recId}
     </update>
 
-    <select id="listAddIsLike" parameterType="map" resultType="com.synapse.reading.mapper.InformationMapper.BaseResultMap" >
+    <select id="listAddIsLike" parameterType="map" resultMap="simpleRow" >
         select
-        <include refid="com.synapse.reading.mapper.InformationMapper.Base_Column_List" />
-        ,if(b.rec_id,true,false) is_liked
+        a.rec_id,
+        a.title,a.author,a.content,a.cover,a.read_num,a.like_num,a.publish_status,a.status,a.create_id,a.create_time,a.update_id,a.update_time,
+        <!--<include refid="List_Column_List" />-->
+        if(b.rec_id,'true','false') is_liked
         from `information` a
         LEFT JOIN  my_like b ON a.rec_id = b.like_id
         AND b.create_id=#{userId} AND b.like_type="info"
