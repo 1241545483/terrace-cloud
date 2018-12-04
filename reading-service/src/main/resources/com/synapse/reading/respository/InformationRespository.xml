@@ -3,7 +3,7 @@
 <mapper namespace="com.synapse.reading.respository.InformationRespository">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="simpleRow" type="com.synapse.reading.model.Information"
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.InformationResult"
                extends="com.synapse.reading.mapper.InformationMapper.BaseResultMap">
         <id column="is_liked" property="isLiked"/>
     </resultMap>
@@ -47,7 +47,7 @@
         if(b.rec_id,'true','false') is_liked
         from `information` a
         LEFT JOIN my_like b ON a.rec_id = b.like_id
-        AND b.create_id=#{userId} AND b.like_type="info"
+        AND b.create_id=#{userId} AND b.like_type='info'
         where 1 = 1
         <if test="recId != null">
             AND `rec_id` = #{recId}
