@@ -71,7 +71,7 @@ public class InformationController extends BaseController {
             preparePageInfo(pageInfo, totalNum);
             User user = UserContext.getUser();
             String userId = user.getRecId();
-            List<InformationResult> results = informationService.listAddIsLike(param.getModel(), pageInfo,userId);
+            List<InformationResult> results = informationService.listAddIsLike(param.getModel(), pageInfo, userId);
             Map<String, Object> map = new HashMap();
             map.put("informationList", results);
             map.put("totalNum", totalNum);
@@ -224,7 +224,7 @@ public class InformationController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/information/updateLikeAddNum/{recId}", method = RequestMethod.PUT)
-    public ResponseEntity updateLikeAddNum (@PathVariable("recId") String recId ) {
+    public ResponseEntity updateLikeAddNum(@PathVariable("recId") String recId) {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
@@ -242,7 +242,6 @@ public class InformationController extends BaseController {
     }
 
 
-
     @ApiOperation(value = "减少点赞次数")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "true"),
@@ -250,12 +249,36 @@ public class InformationController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/information/updateLikeReduceNum/{recId}", method = RequestMethod.PUT)
-    public ResponseEntity updateLikeReduceNum (@PathVariable("recId") String recId ) {
+    public ResponseEntity updateLikeReduceNum(@PathVariable("recId") String recId) {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
             boolean valid = informationService.updateLikeReduceNum(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("update Information Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Information Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "判断是否点赞")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/information/countIsLike/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity countIsLike(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            String userId = user.getRecId();
+            boolean valid = informationService.countIsLike(recId, userId);
             return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
             logger.error("update Information Error!", e);

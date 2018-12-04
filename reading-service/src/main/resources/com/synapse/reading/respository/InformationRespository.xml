@@ -92,4 +92,13 @@
             limit ${startIndex}, ${pageSize}
         </if>
     </select>
+
+    <select id="countIsLike" parameterType="map" resultType="int">
+        select count(1)
+        from `my_like` a
+            LEFT JOIN `information` b ON b.rec_id = a.like_id
+             AND a.create_id=#{userId}
+        where b.rec_id=#{recId}
+
+    </select>
 </mapper>

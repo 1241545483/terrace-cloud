@@ -105,5 +105,7 @@ public class InformationService extends InformationBaseService {
         return informationRespository.updateLikeReduceNum(recId) > 0;
     }
 
-
+    public  boolean  countIsLike(String recId,String userId){
+        return informationRespository.countIsLike(recId,userId) > 0;
+    }
 }
