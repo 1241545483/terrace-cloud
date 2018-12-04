@@ -3,85 +3,89 @@
 <mapper namespace="com.synapse.reading.respository.InformationRespository">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="simpleRow" type="com.synapse.reading.model.Information" extends="com.synapse.reading.mapper.InformationMapper.BaseResultMap">
-        <id column="is_liked" property="isLiked" />
+    <resultMap id="simpleRow" type="com.synapse.reading.model.Information"
+               extends="com.synapse.reading.mapper.InformationMapper.BaseResultMap">
+        <id column="is_liked" property="isLiked"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
-   <!-- <sql id="List_Column_List">
-        `rec_id`,  `title`,`author`,`content`,`cover`,`read_num`,`like_num`,`publish_status`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
-    </sql>
--->
+    <!-- <sql id="List_Column_List">
+         `rec_id`,  `title`,`author`,`content`,`cover`,`read_num`,`like_num`,`publish_status`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+     </sql>
+ -->
 
     <update id="updateReadNum" parameterType="map">
-        update  `information` SET
-        `read_num`=`read_num`+1
-        where
-        `rec_id` = #{recId}
+        UPDATE `information`
+        SET
+            `read_num` = `read_num` + 1
+        WHERE
+            `rec_id` = #{recId}
     </update>
 
 
     <update id="updateLikeAddNum" parameterType="map">
-        update  `information` SET
-        `like_num` = `like_num`+1
-        where
+        UPDATE `information`
+        SET
+            `like_num` = `like_num` + 1
+        WHERE
             `rec_id` = #{recId}
     </update>
 
     <update id="updateLikeReduceNum" parameterType="map">
-        update  `information` SET
-        `like_num` = `like_num`-1
-        where
-        `rec_id` = #{recId}
+        UPDATE `information`
+        SET
+            `like_num` = `like_num` - 1
+        WHERE
+            `rec_id` = #{recId}
     </update>
 
-    <select id="listAddIsLike" parameterType="map" resultMap="simpleRow" >
+    <select id="listAddIsLike" parameterType="map" resultMap="simpleRow">
         select
         a.rec_id,
         a.title,a.author,a.content,a.cover,a.read_num,a.like_num,a.publish_status,a.status,a.create_id,a.create_time,a.update_id,a.update_time,
         <!--<include refid="List_Column_List" />-->
         if(b.rec_id,'true','false') is_liked
         from `information` a
-        LEFT JOIN  my_like b ON a.rec_id = b.like_id
+        LEFT JOIN my_like b ON a.rec_id = b.like_id
         AND b.create_id=#{userId} AND b.like_type="info"
         where 1 = 1
-        <if test="recId != null" >
+        <if test="recId != null">
             AND `rec_id` = #{recId}
         </if>
-        <if test="title != null" >
+        <if test="title != null">
             AND `title` = #{title}
         </if>
-        <if test="author != null" >
+        <if test="author != null">
             AND `author` = #{author}
         </if>
-        <if test="content != null" >
+        <if test="content != null">
             AND `content` = #{content}
         </if>
-        <if test="cover != null" >
+        <if test="cover != null">
             AND `cover` = #{cover}
         </if>
-        <if test="readNum != null" >
+        <if test="readNum != null">
             AND `read_num` = #{readNum}
         </if>
-        <if test="likeNum != null" >
+        <if test="likeNum != null">
             AND `like_num` = #{likeNum}
         </if>
-        <if test="publishStatus != null" >
+        <if test="publishStatus != null">
             AND `publish_status` = #{publishStatus}
         </if>
-        <if test="status != null" >
+        <if test="status != null">
             AND `status` = #{status}
         </if>
-        <if test="createId != null" >
+        <if test="createId != null">
             AND `create_id` = #{createId}
         </if>
-        <if test="createTime != null" >
+        <if test="createTime != null">
             AND `create_time` = #{createTime}
         </if>
-        <if test="updateId != null" >
+        <if test="updateId != null">
             AND `update_id` = #{updateId}
         </if>
-        <if test="updateTime != null" >
+        <if test="updateTime != null">
             AND `update_time` = #{updateTime}
         </if>
         <if test="startIndex != null">
