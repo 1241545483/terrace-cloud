@@ -61,7 +61,7 @@ public class InformationController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/information", method = RequestMethod.GET)
-    public ResponseEntity list(PageInfo pageInfo,String userId, @Validated(Search.class) InformationParam param, BindingResult bindingResult) {
+    public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) InformationParam param, BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
@@ -69,6 +69,8 @@ public class InformationController extends BaseController {
             }
             int totalNum = informationService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
+            User user = UserContext.getUser();
+            String userId = user.getRecId();
             List<InformationResult> results = informationService.listAddIsLike(param.getModel(), pageInfo,userId);
             Map<String, Object> map = new HashMap();
             map.put("informationList", results);
