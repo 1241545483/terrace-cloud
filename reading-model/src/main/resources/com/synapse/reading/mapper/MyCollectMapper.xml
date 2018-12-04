@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.MyCollectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.MyCollect">
+        <id column="rec_id" property="recId" />
+        <result column="collect_type" property="collectType" />
+        <result column="collect_id" property="collectId" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`collect_type`,`collect_id`,`create_id`,`create_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `my_collect`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.MyCollect">
+        insert into `my_collect`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{collectType},#{collectId},#{createId},#{createTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `my_collect`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.MyCollect" >
+        insert into `my_collect`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="collectType != null" >
+                    `collect_type`,
+                </if>
+                <if test="collectId != null" >
+                    `collect_id`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="collectType != null" >
+			        #{collectType},
+                </if>
+                <if test="collectId != null" >
+			        #{collectId},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.MyCollect" >
+        update `my_collect`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="collectType != null" >
+		            `collect_type` = #{collectType},
+	            </if>
+	            <if test="collectId != null" >
+		            `collect_id` = #{collectId},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.MyCollect" >
+        update  `my_collect` SET
+		    `rec_id`=#{recId},`collect_type`=#{collectType},`collect_id`=#{collectId},`create_id`=#{createId},`create_time`=#{createTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `my_collect`
+        where 1 = 1
+            <if test="recId != null" >
+                AND `rec_id` = #{recId}
+            </if>
+            <if test="collectType != null" >
+                AND `collect_type` = #{collectType}
+            </if>
+            <if test="collectId != null" >
+                AND `collect_id` = #{collectId}
+            </if>
+            <if test="createId != null" >
+                AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+                AND `create_time` = #{createTime}
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `my_collect`
+        where 1 = 1
+            <if test="recId != null" >
+			    AND `rec_id` = #{recId}
+            </if>
+            <if test="collectType != null" >
+			    AND `collect_type` = #{collectType}
+            </if>
+            <if test="collectId != null" >
+			    AND `collect_id` = #{collectId}
+            </if>
+            <if test="createId != null" >
+			    AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+			    AND `create_time` = #{createTime}
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

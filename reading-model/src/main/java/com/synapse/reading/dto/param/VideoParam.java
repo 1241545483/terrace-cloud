@@ -55,6 +55,14 @@ public class VideoParam {
         video.setCover(cover);
     }
 
+    public Integer getOrderNum() {
+        return video.getOrderNum();
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        video.setOrderNum(orderNum);
+    }
+
     public String getQrCode() {
         return video.getQrCode();
     }

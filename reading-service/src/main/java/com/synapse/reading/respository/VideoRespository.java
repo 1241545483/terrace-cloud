@@ -1,7 +1,11 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.VideoMapper;
+import com.synapse.reading.model.Video;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -19,4 +23,6 @@ public interface VideoRespository extends VideoMapper {
      * @return
      */
     Integer increasePlayNum(@Param("recId") String recId);
+
+    List<Video> listSortByOrderNum(Map<String, Object> params);
 }

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-11-29
+ * @since 2018-12-01
  */
 public class Audio implements Serializable {
 
@@ -34,6 +34,10 @@ public class Audio implements Serializable {
      */
     private String belongToId;
     private Long playNum;
+    /**
+     * 鎺掑簭
+     */
+    private Integer orderNum;
     private String createId;
     private String createTime;
     private String updateId;
@@ -110,6 +114,14 @@ public class Audio implements Serializable {
 
     public void setPlayNum(Long playNum) {
         this.playNum = playNum;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 
     public String getCreateId() {

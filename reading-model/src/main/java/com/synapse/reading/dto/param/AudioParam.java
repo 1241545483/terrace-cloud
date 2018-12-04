@@ -63,6 +63,14 @@ public class AudioParam {
         this.audio = audio;
     }
 
+    public Integer getOrderNum() {
+        return audio.getOrderNum();
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        audio.setOrderNum(orderNum);
+    }
+
     @ApiModelProperty(value = "")
     public String getRecId() {
         return audio.getRecId();

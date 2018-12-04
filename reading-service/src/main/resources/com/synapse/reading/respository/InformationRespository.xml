@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.respository.InformationRespository">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.InformationResult"
+               extends="com.synapse.reading.mapper.InformationMapper.BaseResultMap">
+        <id column="is_liked" property="isLiked"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <!-- <sql id="List_Column_List">
+         `rec_id`,  `title`,`author`,`content`,`cover`,`read_num`,`like_num`,`publish_status`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+     </sql>
+ -->
+
+    <update id="updateReadNum" parameterType="map">
+        UPDATE `information`
+        SET
+            `read_num` = `read_num` + 1
+        WHERE
+            `rec_id` = #{recId}
+    </update>
+
+
+    <update id="updateLikeAddNum" parameterType="map">
+        UPDATE `information`
+        SET
+            `like_num` = `like_num` + 1
+        WHERE
+            `rec_id` = #{recId}
+    </update>
+
+    <update id="updateLikeReduceNum" parameterType="map">
+        UPDATE `information`
+        SET
+            `like_num` = `like_num` - 1
+        WHERE
+            `rec_id` = #{recId}
+    </update>
+
+    <select id="listAddIsLike" parameterType="map" resultMap="simpleRow">
+        select
+        a.rec_id,
+        a.title,a.author,a.content,a.cover,a.read_num,a.like_num,a.publish_status,a.status,a.create_id,a.create_time,a.update_id,a.update_time,
+        <!--<include refid="List_Column_List" />-->
+        if(b.rec_id is null,'false','true') is_liked
+        from `information` a
+        LEFT JOIN my_like b ON a.rec_id = b.like_id
+        AND b.create_id=#{userId} AND b.like_type='info'
+        where 1 = 1
+        <if test="recId != null">
+            AND `rec_id` = #{recId}
+        </if>
+        <if test="title != null">
+            AND `title` = #{title}
+        </if>
+        <if test="author != null">
+            AND `author` = #{author}
+        </if>
+        <if test="content != null">
+            AND `content` = #{content}
+        </if>
+        <if test="cover != null">
+            AND `cover` = #{cover}
+        </if>
+        <if test="readNum != null">
+            AND `read_num` = #{readNum}
+        </if>
+        <if test="likeNum != null">
+            AND `like_num` = #{likeNum}
+        </if>
+        <if test="publishStatus != null">
+            AND `publish_status` = #{publishStatus}
+        </if>
+        <if test="status != null">
+            AND `status` = #{status}
+        </if>
+        <if test="createId != null">
+            AND `create_id` = #{createId}
+        </if>
+        <if test="createTime != null">
+            AND `create_time` = #{createTime}
+        </if>
+        <if test="updateId != null">
+            AND `update_id` = #{updateId}
+        </if>
+        <if test="updateTime != null">
+            AND `update_time` = #{updateTime}
+        </if>
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="countIsLike" parameterType="map" resultType="int">
+        select count(1)
+        from `my_like` a
+            LEFT JOIN `information` b ON b.rec_id = a.like_id
+             AND a.create_id=#{userId}
+        where b.rec_id=#{recId}
+
+    </select>
+</mapper>

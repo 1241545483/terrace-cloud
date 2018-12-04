@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.InformationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Information">
+        <id column="rec_id" property="recId" />
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="content" property="content" />
+        <result column="cover" property="cover" />
+        <result column="read_num" property="readNum" />
+        <result column="like_num" property="likeNum" />
+        <result column="publish_status" property="publishStatus" />
+        <result column="status" property="status" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`title`,`author`,`content`,`cover`,`read_num`,`like_num`,`publish_status`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `information`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.Information">
+        insert into `information`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{title},#{author},#{content},#{cover},#{readNum},#{likeNum},#{publishStatus},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `information`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Information" >
+        insert into `information`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="title != null" >
+                    `title`,
+                </if>
+                <if test="author != null" >
+                    `author`,
+                </if>
+                <if test="content != null" >
+                    `content`,
+                </if>
+                <if test="cover != null" >
+                    `cover`,
+                </if>
+                <if test="readNum != null" >
+                    `read_num`,
+                </if>
+                <if test="likeNum != null" >
+                    `like_num`,
+                </if>
+                <if test="publishStatus != null" >
+                    `publish_status`,
+                </if>
+                <if test="status != null" >
+                    `status`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="title != null" >
+			        #{title},
+                </if>
+                <if test="author != null" >
+			        #{author},
+                </if>
+                <if test="content != null" >
+			        #{content},
+                </if>
+                <if test="cover != null" >
+			        #{cover},
+                </if>
+                <if test="readNum != null" >
+			        #{readNum},
+                </if>
+                <if test="likeNum != null" >
+			        #{likeNum},
+                </if>
+                <if test="publishStatus != null" >
+			        #{publishStatus},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Information" >
+        update `information`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="title != null" >
+		            `title` = #{title},
+	            </if>
+	            <if test="author != null" >
+		            `author` = #{author},
+	            </if>
+	            <if test="content != null" >
+		            `content` = #{content},
+	            </if>
+	            <if test="cover != null" >
+		            `cover` = #{cover},
+	            </if>
+	            <if test="readNum != null" >
+		            `read_num` = #{readNum},
+	            </if>
+	            <if test="likeNum != null" >
+		            `like_num` = #{likeNum},
+	            </if>
+	            <if test="publishStatus != null" >
+		            `publish_status` = #{publishStatus},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Information" >
+        update  `information` SET
+		    `rec_id`=#{recId},`title`=#{title},`author`=#{author},`content`=#{content},`cover`=#{cover},`read_num`=#{readNum},`like_num`=#{likeNum},`publish_status`=#{publishStatus},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `information`
+        where 1 = 1
+            <if test="recId != null" >
+                AND `rec_id` = #{recId}
+            </if>
+            <if test="title != null" >
+                AND `title` = #{title}
+            </if>
+            <if test="author != null" >
+                AND `author` = #{author}
+            </if>
+            <if test="content != null" >
+                AND `content` = #{content}
+            </if>
+            <if test="cover != null" >
+                AND `cover` = #{cover}
+            </if>
+            <if test="readNum != null" >
+                AND `read_num` = #{readNum}
+            </if>
+            <if test="likeNum != null" >
+                AND `like_num` = #{likeNum}
+            </if>
+            <if test="publishStatus != null" >
+                AND `publish_status` = #{publishStatus}
+            </if>
+            <if test="status != null" >
+                AND `status` = #{status}
+            </if>
+            <if test="createId != null" >
+                AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+                AND `create_time` = #{createTime}
+            </if>
+            <if test="updateId != null" >
+                AND `update_id` = #{updateId}
+            </if>
+            <if test="updateTime != null" >
+                AND `update_time` = #{updateTime}
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `information`
+        where 1 = 1
+            <if test="recId != null" >
+			    AND `rec_id` = #{recId}
+            </if>
+            <if test="title != null" >
+			    AND `title` = #{title}
+            </if>
+            <if test="author != null" >
+			    AND `author` = #{author}
+            </if>
+            <if test="content != null" >
+			    AND `content` = #{content}
+            </if>
+            <if test="cover != null" >
+			    AND `cover` = #{cover}
+            </if>
+            <if test="readNum != null" >
+			    AND `read_num` = #{readNum}
+            </if>
+            <if test="likeNum != null" >
+			    AND `like_num` = #{likeNum}
+            </if>
+            <if test="publishStatus != null" >
+			    AND `publish_status` = #{publishStatus}
+            </if>
+            <if test="status != null" >
+			    AND `status` = #{status}
+            </if>
+            <if test="createId != null" >
+			    AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+			    AND `create_time` = #{createTime}
+            </if>
+            <if test="updateId != null" >
+			    AND `update_id` = #{updateId}
+            </if>
+            <if test="updateTime != null" >
+			    AND `update_time` = #{updateTime}
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

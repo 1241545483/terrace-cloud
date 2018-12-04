@@ -117,4 +117,11 @@ public class VideoService extends VideoBaseService {
         }
         return param;
     }
+
+    public List<Video> listSortByOrderNum(Video videoParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(videoParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return videoRespository.listSortByOrderNum(params);
+    }
 }

@@ -12,6 +12,7 @@
         <result column="cover" property="cover" />
         <result column="publish_status" property="publishStatus" />
         <result column="status" property="status" />
+        <result column="order_num" property="orderNum" />
         <result column="visit_num" property="visitNum" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
@@ -21,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`slogan`,`type`,`cover`,`publish_status`,`status`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`intro`,`slogan`,`type`,`cover`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -36,7 +37,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Album">
         insert into `album`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{slogan},#{type},#{cover},#{publishStatus},#{status},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{intro},#{slogan},#{type},#{cover},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -71,6 +72,9 @@
                 </if>
                 <if test="status != null" >
                     `status`,
+                </if>
+                <if test="orderNum != null" >
+                    `order_num`,
                 </if>
                 <if test="visitNum != null" >
                     `visit_num`,
@@ -112,6 +116,9 @@
                 </if>
                 <if test="status != null" >
 			        #{status},
+                </if>
+                <if test="orderNum != null" >
+			        #{orderNum},
                 </if>
                 <if test="visitNum != null" >
 			        #{visitNum},
@@ -158,6 +165,9 @@
 	            <if test="status != null" >
 		            `status` = #{status},
 	            </if>
+	            <if test="orderNum != null" >
+		            `order_num` = #{orderNum},
+	            </if>
 	            <if test="visitNum != null" >
 		            `visit_num` = #{visitNum},
 	            </if>
@@ -179,7 +189,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Album" >
         update  `album` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`publish_status`=#{publishStatus},`status`=#{status},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -211,6 +221,9 @@
             </if>
             <if test="status != null" >
                 AND `status` = #{status}
+            </if>
+            <if test="orderNum != null" >
+                AND `order_num` = #{orderNum}
             </if>
             <if test="visitNum != null" >
                 AND `visit_num` = #{visitNum}
@@ -257,6 +270,9 @@
             </if>
             <if test="status != null" >
 			    AND `status` = #{status}
+            </if>
+            <if test="orderNum != null" >
+			    AND `order_num` = #{orderNum}
             </if>
             <if test="visitNum != null" >
 			    AND `visit_num` = #{visitNum}

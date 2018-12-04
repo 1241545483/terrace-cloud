@@ -8,6 +8,8 @@ import com.synapse.reading.model.Audio;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.AudioRespository;
 import com.synapse.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ import java.util.Map;
 @Service
 @Transactional
 public class AudioService extends AudioBaseService {
+
+    private Logger logger = LoggerFactory.getLogger(AudioService.class);
 
     @Autowired
     private IdService idService;
@@ -53,8 +57,10 @@ public class AudioService extends AudioBaseService {
         param.setUpdateTime(now);
         Audio par = find(param.getRecId());
         if (par.getQrCode() == null || "".equals(par.getQrCode().trim())) {
+            logger.info("enter qrcode");
             param = getAudioQrCode(param);
         }
+        logger.info("param"+param);
         return audioRespository.updateByPrimaryKeySelective(param);
     }
 
@@ -114,5 +120,13 @@ public class AudioService extends AudioBaseService {
             e.printStackTrace();
         }
         return param;
+    }
+
+
+    public List<Audio> listSortByOrderNum(Audio audioParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(audioParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return audioRespository.listSortByOrderNum(params);
     }
 }

@@ -68,7 +68,7 @@ public class AudioController extends BaseController{
 	        }
 	        int totalNum = audioService.count(param.getModel());
 	        preparePageInfo(pageInfo, totalNum);
-	        List<Audio> models = audioService.list(param.getModel(),pageInfo);
+	        List<Audio> models = audioService.listSortByOrderNum(param.getModel(),pageInfo);
 	        List<AudioResult> results = models.stream().map(it -> new AudioResult(it)).collect(Collectors.toList());
 	        Map<String, Object> map = new HashMap();
             map.put("audioList", results);
