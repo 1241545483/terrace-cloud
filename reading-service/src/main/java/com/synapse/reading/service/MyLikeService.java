@@ -55,6 +55,9 @@ public class MyLikeService extends MyLikeBaseService {
         return myLikeRespository.deleteByPrimaryKey(recId);
 	}
 
+    public Integer deleteByCreateId(String recId){
+        return myLikeRespository.deleteByCreateId(recId);
+    }
 	public List<MyLike> list(MyLike myLikeParam, PageInfo pageInfo) {
         Map<String,Object> params = prepareParams(myLikeParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());

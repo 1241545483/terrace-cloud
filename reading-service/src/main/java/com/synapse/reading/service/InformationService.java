@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.reading.mapper.MyLikeMapper;
 import com.synapse.reading.model.Information;
 import com.synapse.reading.model.MyLike;
@@ -8,6 +9,7 @@ import com.synapse.reading.respository.InformationRespository;
 import com.synapse.reading.dto.param.InformationParam;
 import com.synapse.reading.dto.result.InformationResult;
 import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.respository.MyLikeRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +38,12 @@ public class InformationService extends InformationBaseService {
 
     @Autowired
     private InformationRespository informationRespository;
+
     @Autowired
     private MyLikeService myLikeService;
+
+    @Autowired
+    private MyLikeRespository myLikeRespository;
 
 
     public Information find(String recId) {
@@ -97,11 +103,21 @@ public class InformationService extends InformationBaseService {
         return informationRespository.updateReadNum(recId) > 0;
     }
 
-    public boolean updateLikeAddNum(String recId) {
+    public boolean updateLikeAddNum(String recId,User user) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        MyLike model =new MyLike();
+        model.setRecId(idService.gen("ID"));
+        model.setCreateTime(now);
+        model.setCreateId(now);
+        model.setLikeId(recId);
+        model.setCreateId(user.getRecId());
+        model.setLikeType("info");
+        myLikeRespository.insert(model);
         return informationRespository.updateLikeAddNum(recId) > 0;
     }
 
-    public boolean updateLikeReduceNum(String recId) {
+    public boolean updateLikeReduceNum(String recId,String createId) {
+        myLikeRespository.deleteByCreateId(createId);
         return informationRespository.updateLikeReduceNum(recId) > 0;
     }
 

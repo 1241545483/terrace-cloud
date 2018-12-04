@@ -4,9 +4,11 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.model.Information;
 import com.synapse.reading.dto.param.InformationParam;
 import com.synapse.reading.dto.result.InformationResult;
+import com.synapse.reading.model.MyLike;
 import com.synapse.reading.service.InformationService;
 import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
@@ -226,10 +228,12 @@ public class InformationController extends BaseController {
     @RequestMapping(value = "/v1/information/updateLikeAddNum/{recId}", method = RequestMethod.PUT)
     public ResponseEntity updateLikeAddNum(@PathVariable("recId") String recId) {
         try {
+            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            boolean valid = informationService.updateLikeAddNum(recId);
+
+            boolean valid = informationService.updateLikeAddNum(recId,user);
             return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
             logger.error("update Information Error!", e);
@@ -253,8 +257,8 @@ public class InformationController extends BaseController {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-
-            boolean valid = informationService.updateLikeReduceNum(recId);
+           String createId =user.getRecId();
+            boolean valid = informationService.updateLikeReduceNum(recId,createId);
             return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
             logger.error("update Information Error!", e);

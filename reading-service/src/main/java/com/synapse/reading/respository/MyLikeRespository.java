@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface MyLikeRespository extends MyLikeMapper {
 
-
+    Integer deleteByCreateId( String createId);
 
 }
