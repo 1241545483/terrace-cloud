@@ -104,6 +104,10 @@ public class InformationService extends InformationBaseService {
     }
 
     public boolean updateLikeAddNum(String recId,User user) {
+
+       if(informationRespository.countIsLike(recId,user.getRecId())>0) {
+           return  true;
+       }
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         MyLike model =new MyLike();
         model.setRecId(idService.gen("ID"));

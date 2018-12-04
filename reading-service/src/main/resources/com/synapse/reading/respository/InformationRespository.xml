@@ -44,7 +44,7 @@
         a.rec_id,
         a.title,a.author,a.content,a.cover,a.read_num,a.like_num,a.publish_status,a.status,a.create_id,a.create_time,a.update_id,a.update_time,
         <!--<include refid="List_Column_List" />-->
-        if(b.rec_id,'true','false') is_liked
+        if(b.rec_id is null,'false','true') is_liked
         from `information` a
         LEFT JOIN my_like b ON a.rec_id = b.like_id
         AND b.create_id=#{userId} AND b.like_type='info'

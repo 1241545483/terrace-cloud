@@ -246,7 +246,7 @@ public class DiscussController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/discuss/num",method = RequestMethod.PUT)
+    @RequestMapping(value = "/v1/discuss/num",method = RequestMethod.GET)
     public ResponseEntity count(PageInfo pageInfo, @Validated(Search.class) DiscussParam param, BindingResult bindingResult) {
         try {
             //验证失败

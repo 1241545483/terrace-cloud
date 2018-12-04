@@ -276,13 +276,15 @@ public class InformationController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/information/countIsLike/{recId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/v1/information/countIsLike/{recId}", method = RequestMethod.GET)
     public ResponseEntity countIsLike(@PathVariable("recId") String recId) {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
             String userId = user.getRecId();
+            System.err.println(userId);
             boolean valid = informationService.countIsLike(recId, userId);
+            System.err.println(valid);
             return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
             logger.error("update Information Error!", e);
