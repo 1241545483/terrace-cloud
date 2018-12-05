@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-01
+ * @since 2018-12-05
  */
 public class InformationBaseService {
 
@@ -28,6 +28,9 @@ public class InformationBaseService {
         }
         if (informationParam.getContent() != null && !informationParam.getContent().trim().equals("")) {
             params.put("content", informationParam.getContent());
+        }
+        if (informationParam.getUrl() != null && !informationParam.getUrl().trim().equals("")) {
+            params.put("url", informationParam.getUrl());
         }
         if (informationParam.getCover() != null && !informationParam.getCover().trim().equals("")) {
             params.put("cover", informationParam.getCover());

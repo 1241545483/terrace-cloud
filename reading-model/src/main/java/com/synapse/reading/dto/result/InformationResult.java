@@ -156,6 +156,14 @@ public String getUpdateTime() {
 		return isLiked;
 	}
 
+	public String getUrl() {
+		return information.getUrl();
+	}
+
+	public void setUrl(String url) {
+		information.setUrl(url);
+	}
+
 	public void setIsLiked(String isLiked) {
 		this.isLiked = isLiked;
 	}

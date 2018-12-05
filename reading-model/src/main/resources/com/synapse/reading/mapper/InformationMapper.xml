@@ -8,6 +8,7 @@
         <result column="title" property="title" />
         <result column="author" property="author" />
         <result column="content" property="content" />
+        <result column="url" property="url" />
         <result column="cover" property="cover" />
         <result column="read_num" property="readNum" />
         <result column="like_num" property="likeNum" />
@@ -21,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`title`,`author`,`content`,`cover`,`read_num`,`like_num`,`publish_status`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`title`,`author`,`content`,`url`,`cover`,`read_num`,`like_num`,`publish_status`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -36,7 +37,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Information">
         insert into `information`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{title},#{author},#{content},#{cover},#{readNum},#{likeNum},#{publishStatus},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{title},#{author},#{content},#{url},#{cover},#{readNum},#{likeNum},#{publishStatus},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -59,6 +60,9 @@
                 </if>
                 <if test="content != null" >
                     `content`,
+                </if>
+                <if test="url != null" >
+                    `url`,
                 </if>
                 <if test="cover != null" >
                     `cover`,
@@ -100,6 +104,9 @@
                 </if>
                 <if test="content != null" >
 			        #{content},
+                </if>
+                <if test="url != null" >
+			        #{url},
                 </if>
                 <if test="cover != null" >
 			        #{cover},
@@ -146,6 +153,9 @@
 	            <if test="content != null" >
 		            `content` = #{content},
 	            </if>
+	            <if test="url != null" >
+		            `url` = #{url},
+	            </if>
 	            <if test="cover != null" >
 		            `cover` = #{cover},
 	            </if>
@@ -179,7 +189,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Information" >
         update  `information` SET
-		    `rec_id`=#{recId},`title`=#{title},`author`=#{author},`content`=#{content},`cover`=#{cover},`read_num`=#{readNum},`like_num`=#{likeNum},`publish_status`=#{publishStatus},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`title`=#{title},`author`=#{author},`content`=#{content},`url`=#{url},`cover`=#{cover},`read_num`=#{readNum},`like_num`=#{likeNum},`publish_status`=#{publishStatus},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -199,6 +209,9 @@
             </if>
             <if test="content != null" >
                 AND `content` = #{content}
+            </if>
+            <if test="url != null" >
+                AND `url` = #{url}
             </if>
             <if test="cover != null" >
                 AND `cover` = #{cover}
@@ -245,6 +258,9 @@
             </if>
             <if test="content != null" >
 			    AND `content` = #{content}
+            </if>
+            <if test="url != null" >
+			    AND `url` = #{url}
             </if>
             <if test="cover != null" >
 			    AND `cover` = #{cover}

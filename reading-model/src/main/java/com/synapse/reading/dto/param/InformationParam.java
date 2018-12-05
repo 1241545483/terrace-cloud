@@ -28,6 +28,14 @@ public class InformationParam  {
         this.information = information;
     }
 
+    public String getUrl() {
+        return information.getUrl();
+    }
+
+    public void setUrl(String url) {
+        information.setUrl(url);
+    }
+
     @JsonIgnore
     public Information getModel() {
         return information;

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-01
+ * @since 2018-12-05
  */
 public class Information implements Serializable {
 
@@ -32,6 +32,10 @@ public class Information implements Serializable {
      * 内容
      */
     private String content;
+    /**
+     * 公众号文章地址
+     */
+    private String url;
     /**
      * 封面
      */
@@ -100,6 +104,14 @@ public class Information implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getCover() {
