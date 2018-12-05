@@ -29,70 +29,72 @@ import java.util.HashMap;
 @Transactional
 public class MyCollectService extends MyCollectBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private MyCollectRespository myCollectRespository;
 
-    public MyCollect find(String recId){
-	    return myCollectRespository.selectByPrimaryKey(recId);
+    public MyCollect find(String recId) {
+        return myCollectRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(MyCollect param){
+    public Integer update(MyCollect param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-		return myCollectRespository.updateByPrimaryKeySelective(param);
+        return myCollectRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(MyCollect param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
+        param.setCreateTime(now);
         myCollectRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId){
+    public Integer delete(String recId) {
         return myCollectRespository.deleteByPrimaryKey(recId);
-	}
-    public boolean deleteCollectByCreateId(String recId,User user){
-        if(myCollectRespository.countIsCollect(recId,user.getRecId())<=0) {
-            return  true;
-        }
-        return myCollectRespository.deleteCollectByCreateId(user.getRecId())>0;
     }
-	public List<MyCollect> list(MyCollect myCollectParam, PageInfo pageInfo) {
-        Map<String,Object> params = prepareParams(myCollectParam);
+
+    public boolean deleteCollectByCreateId(String recId, User user) {
+        if (myCollectRespository.countIsCollect(recId, user.getRecId()) <= 0) {
+            return true;
+        }
+        return myCollectRespository.deleteCollectByCreateId(user.getRecId()) > 0;
+    }
+
+    public List<MyCollect> list(MyCollect myCollectParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(myCollectParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return myCollectRespository.list(params);
-	}
+    }
 
-	public Integer count(MyCollect myCollectParam) {
-        Map<String,Object> params = prepareParams(myCollectParam);
+    public Integer count(MyCollect myCollectParam) {
+        Map<String, Object> params = prepareParams(myCollectParam);
         return myCollectRespository.count(params);
     }
-    public  boolean  countIsCollect(String recId,String userId){
-        return myCollectRespository.countIsCollect(recId,userId) > 0;
+
+    public boolean countIsCollect(String recId, String userId) {
+        return myCollectRespository.countIsCollect(recId, userId) > 0;
     }
 
-    public boolean addByCreateId(String recId,User user) {
-        if(myCollectRespository.countIsCollect(recId,user.getRecId())>0) {
-            return  true;
+    public boolean addByCreateId(String recId, User user) {
+        if (myCollectRespository.countIsCollect(recId, user.getRecId()) > 0) {
+            return true;
         }
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        MyCollect model =new MyCollect();
-     //   model.setRecId(idService.gen("ID"));
-        model.setRecId("66");
+        MyCollect model = new MyCollect();
+        model.setRecId(idService.gen("ID"));
         model.setCreateTime(now);
         model.setCollectId(recId);
         model.setCreateId(user.getRecId());
         model.setCollectType("info");
-        try{
+        try {
             myCollectRespository.insert(model);
             return true;
-        }catch (Exception e){
-            return  false;
+        } catch (Exception e) {
+            return false;
         }
 
 
