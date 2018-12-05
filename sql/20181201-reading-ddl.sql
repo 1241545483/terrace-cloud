@@ -49,7 +49,7 @@ create table information
    title                varchar(100) comment '标题',
    author               varchar(10) comment '作者',
    content              text comment '内容',
-   url                  varchar(10) comment '公众号文章地址',
+   url                  varchar(500) comment '公众号文章地址',
    cover                varchar(200) comment '封面',
    read_num             bigint(11)  DEFAULT 0 comment '阅读数量',
    like_num             bigint(11)  DEFAULT 0 comment '点赞数量',
