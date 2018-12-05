@@ -23,7 +23,7 @@ CREATE TABLE album
   cover          VARCHAR(200) COMMENT '封面图片URL',
   publish_status VARCHAR(6) COMMENT '0 未发布，1已发布',
   status         VARCHAR(6) COMMENT '0 删除，1正常',
-  visit_num      BIGINT(11),
+  visit_num      BIGINT(11)  DEFAULT 0,
   create_id      VARCHAR(30),
   create_time    VARCHAR(30),
   update_id      VARCHAR(30),
