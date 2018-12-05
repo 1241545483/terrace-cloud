@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.reading.model.MyCollect;
 import com.synapse.reading.respository.MyCollectRespository;
 import com.synapse.reading.dto.param.MyCollectParam;
@@ -54,7 +55,12 @@ public class MyCollectService extends MyCollectBaseService {
 	public Integer delete(String recId){
         return myCollectRespository.deleteByPrimaryKey(recId);
 	}
-
+    public boolean deleteCollectByCreateId(String recId,User user){
+        if(myCollectRespository.countIsCollect(recId,user.getRecId())<=0) {
+            return  true;
+        }
+        return myCollectRespository.deleteCollectByCreateId(user.getRecId())>0;
+    }
 	public List<MyCollect> list(MyCollect myCollectParam, PageInfo pageInfo) {
         Map<String,Object> params = prepareParams(myCollectParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
@@ -65,6 +71,31 @@ public class MyCollectService extends MyCollectBaseService {
 	public Integer count(MyCollect myCollectParam) {
         Map<String,Object> params = prepareParams(myCollectParam);
         return myCollectRespository.count(params);
+    }
+    public  boolean  countIsCollect(String recId,String userId){
+        return myCollectRespository.countIsCollect(recId,userId) > 0;
+    }
+
+    public boolean addByCreateId(String recId,User user) {
+        if(myCollectRespository.countIsCollect(recId,user.getRecId())>0) {
+            return  true;
+        }
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        MyCollect model =new MyCollect();
+     //   model.setRecId(idService.gen("ID"));
+        model.setRecId("66");
+        model.setCreateTime(now);
+        model.setCollectId(recId);
+        model.setCreateId(user.getRecId());
+        model.setCollectType("info");
+        try{
+            myCollectRespository.insert(model);
+            return true;
+        }catch (Exception e){
+            return  false;
+        }
+
+
     }
 
 }

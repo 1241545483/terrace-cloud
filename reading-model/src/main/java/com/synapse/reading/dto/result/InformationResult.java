@@ -19,7 +19,7 @@ public class InformationResult {
     private Information  information = new Information();
 
     private String isLiked;
-
+	private String isCollect;
     public InformationResult(){}
 
     public InformationResult(Information  information){
@@ -166,5 +166,13 @@ public String getUpdateTime() {
 
 	public void setIsLiked(String isLiked) {
 		this.isLiked = isLiked;
+	}
+
+	public String getIsCollect() {
+		return isCollect;
+	}
+
+	public void setIsCollect(String isCollect) {
+		this.isCollect = isCollect;
 	}
 }

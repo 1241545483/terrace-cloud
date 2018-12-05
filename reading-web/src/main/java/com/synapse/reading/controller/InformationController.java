@@ -88,6 +88,38 @@ public class InformationController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "查询Information列表(收藏分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = InformationResult.class, message = "Information列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/information/listAddIsCollect", method = RequestMethod.GET)
+    public ResponseEntity listAddIsCollect(PageInfo pageInfo, @Validated(Search.class) InformationParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = informationService.count(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            User user = UserContext.getUser();
+            String userId = user.getRecId();
+            List<InformationResult> results = informationService.listAddIsCollect(param.getModel(), pageInfo, userId);
+            Map<String, Object> map = new HashMap();
+            map.put("informationList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Information Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Information Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
     @ApiOperation(value = "根据主键查询Information详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = InformationResult.class, message = "Information对象"),
