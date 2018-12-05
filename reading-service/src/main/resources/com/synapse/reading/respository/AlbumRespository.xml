@@ -10,7 +10,7 @@
             `rec_id` = #{recId}
     </update>
 
-    <select id="listSortByOrderNum" parameterType="map" resultMap="com.synapse.reading.mapper.AlbumMapper.BaseResultMap">
+    <select id="listSortByOrderNum" parameterType="map"  resultType="map">
         select
         <include refid="com.synapse.reading.mapper.AlbumMapper.Base_Column_List"/>
         from `album`
