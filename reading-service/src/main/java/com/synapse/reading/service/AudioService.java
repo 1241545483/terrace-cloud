@@ -2,6 +2,7 @@ package com.synapse.reading.service;
 
 import com.google.gson.Gson;
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.common.trans.Result;
 import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.dto.result.AudioResult;
@@ -92,6 +93,11 @@ public class AudioService extends AudioBaseService {
         params.put("pageSize", pageInfo.getPerPageNum());
         params.put("userId", userId);
         return audioRespository.listAudioAddIsCollect(params);
+    }
+
+    public List<AudioResult> listMyCollectByAudio( User user) {
+        String userId =user.getRecId();
+        return audioRespository.listMyCollectByAudio(userId);
     }
 
     public Integer count(Audio audioParam) {
