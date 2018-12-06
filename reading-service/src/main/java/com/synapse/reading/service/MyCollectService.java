@@ -7,6 +7,8 @@ import com.synapse.reading.respository.MyCollectRespository;
 import com.synapse.reading.dto.param.MyCollectParam;
 import com.synapse.reading.dto.result.MyCollectResult;
 import com.synapse.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,7 @@ public class MyCollectService extends MyCollectBaseService {
 
     @Autowired
     private MyCollectRespository myCollectRespository;
-
+    private Logger logger = LoggerFactory.getLogger(MyCollectService.class);
     public MyCollect find(String recId) {
         return myCollectRespository.selectByPrimaryKey(recId);
     }
@@ -95,6 +97,7 @@ public class MyCollectService extends MyCollectBaseService {
             myCollectRespository.insert(model);
             return true;
         } catch (Exception e) {
+            logger.error("list  Error",e);
             return false;
         }
 
