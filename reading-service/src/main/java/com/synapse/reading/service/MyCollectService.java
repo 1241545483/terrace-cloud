@@ -83,7 +83,7 @@ public class MyCollectService extends MyCollectBaseService {
 
     public boolean addByCreateId(String recId, User user) {
         if (myCollectRespository.countIsCollect(recId, user.getRecId()) > 0) {
-            return true;
+            return false;
         }
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         MyCollect model = new MyCollect();
