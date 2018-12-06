@@ -38,3 +38,8 @@ create table my_signin
 );
 
 alter table my_signin comment '我的签到';
+
+create index idx_userid on my_signin
+(
+   create_id
+);
