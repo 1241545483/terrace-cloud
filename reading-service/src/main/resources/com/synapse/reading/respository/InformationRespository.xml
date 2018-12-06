@@ -158,4 +158,13 @@
     </select>
 
 
+    <select id="listMyCollectByInfo" parameterType="map" resultMap="simpleRow">
+    select
+    a.rec_id,
+    a.title,a.author,a.content,a.cover,a.read_num,a.like_num,a.publish_status,a.status,a.create_id,a.create_time,a.update_id,a.update_time,
+    if(b.rec_id is null,'false','true') is_collect
+    from `information` a
+    LEFT JOIN my_collect b ON a.rec_id = b.collect_id
+    where b.create_id=#{userId} AND b.collect_type='info'
+    </select>
 </mapper>

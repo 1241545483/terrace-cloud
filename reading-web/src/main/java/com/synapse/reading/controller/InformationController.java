@@ -265,7 +265,7 @@ public class InformationController extends BaseController {
             //todo 根据角色判断权限
 
 
-            boolean valid = informationService.updateLikeAddNum(recId,user);
+            boolean valid = informationService.updateLikeAddNum(recId, user);
             return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
             logger.error("update Information Error!", e);
@@ -289,8 +289,8 @@ public class InformationController extends BaseController {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-           String createId =user.getRecId();
-            boolean valid = informationService.updateLikeReduceNum(recId,createId);
+            String createId = user.getRecId();
+            boolean valid = informationService.updateLikeReduceNum(recId, createId);
             return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
             logger.error("update Information Error!", e);
@@ -318,6 +318,33 @@ public class InformationController extends BaseController {
             boolean valid = informationService.countIsLike(recId, userId);
             System.err.println(valid);
             return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("update Information Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Information Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
+
+    @ApiOperation(value = "查询为咨讯的收藏列表")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "收藏列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/information/listMyCollectByInfo", method = RequestMethod.GET)
+    public ResponseEntity listMyCollectByInfo() {
+        try {
+
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            List<InformationResult> results = informationService.listMyCollectByInfo(user);
+            return ResponseEntity.ok(results);
         } catch (BusinessException e) {
             logger.error("update Information Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

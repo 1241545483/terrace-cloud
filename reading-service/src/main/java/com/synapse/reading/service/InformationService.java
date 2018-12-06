@@ -101,6 +101,12 @@ public class InformationService extends InformationBaseService {
         params.put("userId", userId);
         return informationRespository.listAddIsCollect(params);
     }
+
+    public List<InformationResult> listMyCollectByInfo( User user) {
+        String userId =user.getRecId();
+        return informationRespository.listMyCollectByInfo(userId);
+    }
+
     public Integer count(Information informationParam) {
         informationParam.setStatus(InformationConstants.STATUS.OK.num());
         Map<String, Object> params = prepareParams(informationParam);

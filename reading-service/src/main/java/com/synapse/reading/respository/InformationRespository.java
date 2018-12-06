@@ -27,4 +27,8 @@ public interface InformationRespository extends InformationMapper {
     List<InformationResult> listAddIsLike(Map<String, Object> params);
     List<InformationResult> listAddIsCollect(Map<String, Object> params);
     Integer countIsLike(@Param("recId") String recId,@Param("userId")String userId);
+
+    List<InformationResult> listMyCollectByInfo(@Param("userId") String userId);
+
+
 }
