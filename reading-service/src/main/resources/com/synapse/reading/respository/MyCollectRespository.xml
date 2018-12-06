@@ -2,4 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.MyCollectRespository">
 
+    <select id="countIsCollect" parameterType="map" resultType="int">
+        SELECT count(1)
+        FROM `my_collect` a
+            LEFT JOIN `information` b ON b.rec_id = a.collect_id
+                                         AND a.create_id = #{userId}
+        WHERE b.rec_id = #{recId}
+
+    </select>
+
+    <delete id="deleteCollectByCreateId" parameterType="map">
+        DELETE FROM `my_collect`
+        WHERE
+            `create_id` = #{userId} AND `collect_id` = #{recId}
+    </delete>
+
+    <select id="listByMyCollect" parameterType="map"
+            resultMap="com.synapse.reading.mapper.MyCollectMapper.BaseResultMap">
+        select
+        <include refid="com.synapse.reading.mapper.MyCollectMapper.Base_Column_List"/>
+        from `my_collect`
+        where 1 = 1
+        AND `collect_type` = #{collectType}
+        AND `create_id` = #{userId}
+    </select>
+
+
 </mapper>

@@ -6,6 +6,8 @@
     <resultMap id="simpleRow" type="com.synapse.reading.dto.result.InformationResult"
                extends="com.synapse.reading.mapper.InformationMapper.BaseResultMap">
         <id column="is_liked" property="isLiked"/>
+        <id column="is_collect" property="isCollect"/>
+
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -100,5 +102,69 @@
              AND a.create_id=#{userId}
         where b.rec_id=#{recId}
 
+    </select>
+
+    <select id="listAddIsCollect" parameterType="map" resultMap="simpleRow">
+        select
+        a.rec_id,
+        a.title,a.author,a.content,a.cover,a.read_num,a.like_num,a.publish_status,a.status,a.create_id,a.create_time,a.update_id,a.update_time,
+        if(b.rec_id is null,'false','true') is_collect
+        from `information` a
+        LEFT JOIN my_collect b ON a.rec_id = b.collect_id
+        AND b.create_id=#{userId} AND b.collect_type='info'
+        where 1 = 1
+        <if test="recId != null">
+            AND `rec_id` = #{recId}
+        </if>
+        <if test="title != null">
+            AND `title` = #{title}
+        </if>
+        <if test="author != null">
+            AND `author` = #{author}
+        </if>
+        <if test="content != null">
+            AND `content` = #{content}
+        </if>
+        <if test="cover != null">
+            AND `cover` = #{cover}
+        </if>
+        <if test="readNum != null">
+            AND `read_num` = #{readNum}
+        </if>
+        <if test="likeNum != null">
+            AND `like_num` = #{likeNum}
+        </if>
+        <if test="publishStatus != null">
+            AND `publish_status` = #{publishStatus}
+        </if>
+        <if test="status != null">
+            AND `status` = #{status}
+        </if>
+        <if test="createId != null">
+            AND `create_id` = #{createId}
+        </if>
+        <if test="createTime != null">
+            AND `create_time` = #{createTime}
+        </if>
+        <if test="updateId != null">
+            AND `update_id` = #{updateId}
+        </if>
+        <if test="updateTime != null">
+            AND `update_time` = #{updateTime}
+        </if>
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+
+    <select id="listMyCollectByInfo" parameterType="map" resultMap="simpleRow">
+    select
+    a.rec_id,
+    a.title,a.author,a.content,a.cover,a.read_num,a.like_num,a.publish_status,a.status,a.create_id,a.create_time,a.update_id,a.update_time,
+    if(b.rec_id is null,'false','true') is_collect
+    from `information` a
+    LEFT JOIN my_collect b ON a.rec_id = b.collect_id
+    where b.create_id=#{userId} AND b.collect_type='info'
     </select>
 </mapper>

@@ -93,6 +93,20 @@ public class InformationService extends InformationBaseService {
         return informationRespository.listAddIsLike(params);
     }
 
+    public List<InformationResult> listAddIsCollect(Information informationParam, PageInfo pageInfo, String userId) {
+        informationParam.setStatus(InformationConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(informationParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        params.put("userId", userId);
+        return informationRespository.listAddIsCollect(params);
+    }
+
+    public List<InformationResult> listMyCollectByInfo( User user) {
+        String userId =user.getRecId();
+        return informationRespository.listMyCollectByInfo(userId);
+    }
+
     public Integer count(Information informationParam) {
         informationParam.setStatus(InformationConstants.STATUS.OK.num());
         Map<String, Object> params = prepareParams(informationParam);

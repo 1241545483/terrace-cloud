@@ -84,6 +84,30 @@ public class MyCollectController extends BaseController{
         }
 	}
 
+    @ApiOperation(value = "通过被收藏类型查询MyCollect列表")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MyCollectResult.class, message = "被收藏类型MyCollect列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/myCollect/listByMyCollect/{collectType}",method = RequestMethod.GET)
+    public ResponseEntity listByMyCollect(@PathVariable("collectType") String collectType) {
+        try {
+            User user = UserContext.getUser();
+
+            List<MyCollect> models = myCollectService.listByMyCollect(collectType,user);
+            List<MyCollectResult> results = models.stream().map(it -> new MyCollectResult(it)).collect(Collectors.toList());
+            return ResponseEntity.ok(results);
+        } catch (BusinessException e) {
+            logger.error("list MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 	@ApiOperation(value = "根据主键查询MyCollect详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = MyCollectResult.class, message = "MyCollect对象"),
@@ -186,5 +210,83 @@ public class MyCollectController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
+
+
+    @ApiOperation(value = "判斷是否收藏")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/myCollect/countIsCollect/{recId}", method = RequestMethod.GET)
+    public ResponseEntity countIsCollect(@PathVariable("recId") String recId){
+        try {
+
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            String userId = user.getRecId();
+            System.err.println(userId);
+            boolean valid = myCollectService.countIsCollect(recId, userId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("update MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "添加收藏")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/myCollect/addByCreateId/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity addByCreateId(@PathVariable("recId") String recId){
+        try {
+
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            logger.info("before insert");
+            boolean valid = myCollectService.addByCreateId(recId, user);
+            logger.info("after insert {}",valid);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("update MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "取消收藏")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/myCollect/deleteCollectByCreateId/{recId}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteCollectByCreateId(@PathVariable("recId") String recId){
+        try {
+
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            boolean valid = myCollectService.deleteCollectByCreateId(recId,user);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("update MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 }
