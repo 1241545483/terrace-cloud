@@ -87,8 +87,7 @@ public class MyCollectService extends MyCollectBaseService {
         }
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         MyCollect model = new MyCollect();
-      //  model.setRecId(idService.gen("ID"));
-        model.setRecId("5");
+        model.setRecId(idService.gen("ID"));
         model.setCreateTime(now);
         model.setCollectId(recId);
         model.setCreateId(user.getRecId());
