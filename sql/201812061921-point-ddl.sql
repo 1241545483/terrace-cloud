@@ -14,7 +14,7 @@ drop table if exists my_signin;
 create table member
 (
    user_id              varchar(30) not null comment '用户（当前登录的用户信息）',
-   point                int(8) comment '积分',
+   point                int(8) comment '积分' DEFAULT 0,
    create_id            varchar(30) comment '创建人',
    create_time          varchar(30) comment '创建时间',
    update_id            varchar(30) comment '更新人',
@@ -31,7 +31,7 @@ alter table member comment '用户信息';
 create table my_signin
 (
    rec_id               varchar(30) not null comment '主键',
-   point                int(8) comment '签到获得的积分',
+   point                int(8) comment '签到获得的积分' DEFAULT 0,
    create_id            varchar(30) comment '签到人',
    create_time          varchar(30) comment '签到时间',
    primary key (rec_id)
