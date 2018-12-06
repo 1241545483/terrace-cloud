@@ -18,6 +18,8 @@ import java.util.Map;
 public interface MyCollectRespository extends MyCollectMapper {
     Integer deleteCollectByCreateId(@Param("recId") String recId, @Param("userId")String userId);
     Integer countIsCollect(@Param("recId") String recId, @Param("userId")String userId);
+    Integer countIsCollectByAudio(@Param("recId") String recId, @Param("userId")String userId);
+
     List<MyCollect> listByMyCollect(@Param("collectType") String collectType, @Param("userId")String userId);
    // Integer addByCreateId(@Param("recId") String recId, @Param("userId")String userId);
    // Integer cancelByCreateId(@Param("recId") String recId, @Param("userId")String userId);

@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.AudioRespository">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.AudioResult"
+               extends="com.synapse.reading.mapper.AudioMapper.BaseResultMap">
+        <id column="is_liked" property="isLiked"/>
+        <id column="is_collect" property="isCollect"/>
+
+    </resultMap>
+
     <update id="increasePlayNum" parameterType="map">
         update  `audio` SET
         `play_num`=play_num + 1
@@ -58,6 +66,62 @@
         </if>
         <if test="orderNum != null" >
             ORDER BY  `order_num`
+        </if>
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+
+    <select id="listAudioAddIsCollect" parameterType="map" resultMap="simpleRow">
+        select
+        a.rec_id,a.name,a.url,a.intro,a.qr_code,a.cover,a.belong_to,a.belong_to_id,a.play_num,a.order_num,a.create_id,a.create_time,a.update_id,a.update_time,
+        if(b.rec_id is null,'false','true') is_collect
+        from `audio` a
+        LEFT JOIN my_collect b ON a.rec_id = b.collect_id
+        AND b.create_id=#{userId} AND b.collect_type='audio'
+        where 1 = 1
+        <if test="recId != null" >
+            AND `rec_id` = #{recId}
+        </if>
+        <if test="name != null" >
+            AND `name` = #{name}
+        </if>
+        <if test="url != null" >
+            AND `url` = #{url}
+        </if>
+        <if test="intro != null" >
+            AND `intro` = #{intro}
+        </if>
+        <if test="qrCode != null" >
+            AND `qr_code` = #{qrCode}
+        </if>
+        <if test="cover != null" >
+            AND `cover` = #{cover}
+        </if>
+        <if test="belongTo != null" >
+            AND `belong_to` = #{belongTo}
+        </if>
+        <if test="belongToId != null" >
+            AND `belong_to_id` = #{belongToId}
+        </if>
+        <if test="playNum != null" >
+            AND `play_num` = #{playNum}
+        </if>
+        <if test="orderNum != null" >
+            AND `order_num` = #{orderNum}
+        </if>
+        <if test="createId != null" >
+            AND `create_id` = #{createId}
+        </if>
+        <if test="createTime != null" >
+            AND `create_time` = #{createTime}
+        </if>
+        <if test="updateId != null" >
+            AND `update_id` = #{updateId}
+        </if>
+        <if test="updateTime != null" >
+            AND `update_time` = #{updateTime}
         </if>
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}

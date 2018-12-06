@@ -84,7 +84,40 @@ public class AudioController extends BaseController{
         }
 	}
 
-	@ApiOperation(value = "根据主键查询Audio详情")
+    @ApiOperation(value = "查询Audio列表(收藏分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = AudioResult.class, message = "Audio列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/audio/listAudioAddIsCollect",method = RequestMethod.GET)
+    public ResponseEntity listAudioAddIsCollect(PageInfo pageInfo, @Validated(Search.class) AudioParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = audioService.count(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            User user = UserContext.getUser();
+            String userId = user.getRecId();
+            List<AudioResult> results = audioService.listAudioAddIsCollect(param.getModel(),pageInfo,userId);
+            Map<String, Object> map = new HashMap();
+            map.put("audioList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Audio Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Audio Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+    @ApiOperation(value = "根据主键查询Audio详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = AudioResult.class, message = "Audio对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")

@@ -18,6 +18,15 @@ import io.swagger.annotations.ApiModelProperty;
 public class AudioResult {
 
     private Audio audio = new Audio();
+    private String isCollect;
+
+    public String getIsCollect() {
+        return isCollect;
+    }
+
+    public void setIsCollect(String isCollect) {
+        this.isCollect = isCollect;
+    }
 
     public AudioResult() {
     }

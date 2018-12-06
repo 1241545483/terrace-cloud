@@ -264,6 +264,33 @@ public class MyCollectController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "添加音频收藏")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/myCollect/addByCreateIdByaudio/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity addByCreateIdByaudio(@PathVariable("recId") String recId){
+        try {
+
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            logger.info("before insert");
+            boolean valid = myCollectService.addByCreateIdByaudio(recId, user);
+            logger.info("after insert {}",valid);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("update MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
     @ApiOperation(value = "取消收藏")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "true"),
@@ -288,5 +315,8 @@ public class MyCollectController extends BaseController{
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+
+
 
 }

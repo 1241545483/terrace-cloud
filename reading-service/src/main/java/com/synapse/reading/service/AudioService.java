@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.reading.dto.param.MiniQrcodeParam;
+import com.synapse.reading.dto.result.AudioResult;
 import com.synapse.reading.model.Audio;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.AudioRespository;
@@ -83,6 +84,14 @@ public class AudioService extends AudioBaseService {
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return audioRespository.list(params);
+    }
+
+    public List<AudioResult> listAudioAddIsCollect(Audio audioParam, PageInfo pageInfo, String userId) {
+        Map<String, Object> params = prepareParams(audioParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        params.put("userId", userId);
+        return audioRespository.listAudioAddIsCollect(params);
     }
 
     public Integer count(Audio audioParam) {

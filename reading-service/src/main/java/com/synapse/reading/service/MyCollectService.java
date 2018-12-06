@@ -70,9 +70,9 @@ public class MyCollectService extends MyCollectBaseService {
         return myCollectRespository.list(params);
     }
 
-    public List<MyCollect> listByMyCollect(String collectType,User user) {
+    public List<MyCollect> listByMyCollect(String collectType, User user) {
 
-        return myCollectRespository.listByMyCollect(collectType,user.getRecId());
+        return myCollectRespository.listByMyCollect(collectType, user.getRecId());
     }
 
     public Integer count(MyCollect myCollectParam) {
@@ -95,6 +95,29 @@ public class MyCollectService extends MyCollectBaseService {
             model.setCollectId(recId);
             model.setCreateId(user.getRecId());
             model.setCollectType("info");
+            try {
+                logger.info("before insert");
+                myCollectRespository.insert(model);
+                return true;
+            } catch (Exception e) {
+                logger.error("list  Error", e);
+                return false;
+            }
+        }
+
+    }
+
+    public boolean addByCreateIdByaudio(String recId, User user) {
+        if (myCollectRespository.countIsCollect(recId, user.getRecId()) > 0) {
+            return myCollectRespository.deleteCollectByCreateId(recId, user.getRecId()) <= 0;
+        } else {
+            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+            MyCollect model = new MyCollect();
+            model.setRecId(idService.gen("ID"));
+            model.setCreateTime(now);
+            model.setCollectId(recId);
+            model.setCreateId(user.getRecId());
+            model.setCollectType("audio");
             try {
                 logger.info("before insert");
                 myCollectRespository.insert(model);

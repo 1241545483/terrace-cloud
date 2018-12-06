@@ -14,7 +14,7 @@ import java.util.Map;
  * @since 2018-12-01
  */
 public interface MyCollectMapper {
-    MyCollect selectByPrimaryKey(String recId);
+        MyCollect selectByPrimaryKey(String recId);
 
     Integer deleteByPrimaryKey(String recId);
 
