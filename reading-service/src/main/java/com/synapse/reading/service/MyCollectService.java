@@ -94,6 +94,7 @@ public class MyCollectService extends MyCollectBaseService {
         model.setCreateId(user.getRecId());
         model.setCollectType("info");
         try {
+            logger.info("before insert");
             myCollectRespository.insert(model);
             return true;
         } catch (Exception e) {

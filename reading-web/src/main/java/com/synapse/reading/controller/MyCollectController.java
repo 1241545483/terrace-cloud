@@ -226,8 +226,9 @@ public class MyCollectController extends BaseController{
 
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-
+            logger.info("before insert");
             boolean valid = myCollectService.addByCreateId(recId, user);
+            logger.info("after insert {}",valid);
             return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
             logger.error("update MyCollect Error!", e);
