@@ -1,7 +1,11 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.MyCollectMapper;
+import com.synapse.reading.model.MyCollect;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,6 +18,7 @@ import org.apache.ibatis.annotations.Param;
 public interface MyCollectRespository extends MyCollectMapper {
     Integer deleteCollectByCreateId(@Param("recId") String recId, @Param("userId")String userId);
     Integer countIsCollect(@Param("recId") String recId, @Param("userId")String userId);
+    List<MyCollect> listByMyCollect(@Param("collectType") String collectType, @Param("userId")String userId);
    // Integer addByCreateId(@Param("recId") String recId, @Param("userId")String userId);
    // Integer cancelByCreateId(@Param("recId") String recId, @Param("userId")String userId);
 }

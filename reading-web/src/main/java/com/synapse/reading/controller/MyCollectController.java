@@ -84,6 +84,30 @@ public class MyCollectController extends BaseController{
         }
 	}
 
+    @ApiOperation(value = "通过被收藏类型查询MyCollect列表")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MyCollectResult.class, message = "被收藏类型MyCollect列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/myCollect/listByMyCollect/{collectType}",method = RequestMethod.GET)
+    public ResponseEntity listByMyCollect(@PathVariable("collectType") String collectType) {
+        try {
+            User user = UserContext.getUser();
+
+            List<MyCollect> models = myCollectService.listByMyCollect(collectType,user);
+            List<MyCollectResult> results = models.stream().map(it -> new MyCollectResult(it)).collect(Collectors.toList());
+            return ResponseEntity.ok(results);
+        } catch (BusinessException e) {
+            logger.error("list MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list MyCollect Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 	@ApiOperation(value = "根据主键查询MyCollect详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = MyCollectResult.class, message = "MyCollect对象"),

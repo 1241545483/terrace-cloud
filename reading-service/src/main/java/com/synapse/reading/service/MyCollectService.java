@@ -70,6 +70,11 @@ public class MyCollectService extends MyCollectBaseService {
         return myCollectRespository.list(params);
     }
 
+    public List<MyCollect> listByMyCollect(String collectType,User user) {
+
+        return myCollectRespository.listByMyCollect(collectType,user.getRecId());
+    }
+
     public Integer count(MyCollect myCollectParam) {
         Map<String, Object> params = prepareParams(myCollectParam);
         return myCollectRespository.count(params);
