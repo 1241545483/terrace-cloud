@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @since 2018-12-01
  */
 public interface MyCollectRespository extends MyCollectMapper {
-    Integer deleteCollectByCreateId( String createId);
+    Integer deleteCollectByCreateId(@Param("recId") String recId, @Param("userId")String userId);
     Integer countIsCollect(@Param("recId") String recId, @Param("userId")String userId);
    // Integer addByCreateId(@Param("recId") String recId, @Param("userId")String userId);
    // Integer cancelByCreateId(@Param("recId") String recId, @Param("userId")String userId);

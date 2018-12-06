@@ -3,18 +3,18 @@
 <mapper namespace="com.synapse.reading.respository.MyCollectRespository">
 
     <select id="countIsCollect" parameterType="map" resultType="int">
-        select count(1)
-        from `my_collect` a
-        LEFT JOIN `information` b ON b.rec_id = a.collect_id
-        AND a.create_id=#{userId}
-        where b.rec_id=#{recId}
+        SELECT count(1)
+        FROM `my_collect` a
+            LEFT JOIN `information` b ON b.rec_id = a.collect_id
+                                         AND a.create_id = #{userId}
+        WHERE b.rec_id = #{recId}
 
     </select>
 
-    <delete id="deleteCollectByCreateId" parameterType="java.lang.String" >
+    <delete id="deleteCollectByCreateId" parameterType="map">
         delete from `my_collect`
         where
-        `create_id` = #{userId}
+            `create_id` = #{userId} AND `collect_id` = #{recId}
     </delete>
 
 

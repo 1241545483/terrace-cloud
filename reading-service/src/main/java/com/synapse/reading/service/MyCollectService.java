@@ -60,7 +60,7 @@ public class MyCollectService extends MyCollectBaseService {
         if (myCollectRespository.countIsCollect(recId, user.getRecId()) <= 0) {
             return true;
         }
-        return myCollectRespository.deleteCollectByCreateId(user.getRecId()) > 0;
+        return myCollectRespository.deleteCollectByCreateId(recId,user.getRecId()) > 0;
     }
 
     public List<MyCollect> list(MyCollect myCollectParam, PageInfo pageInfo) {
@@ -85,7 +85,8 @@ public class MyCollectService extends MyCollectBaseService {
         }
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         MyCollect model = new MyCollect();
-        model.setRecId(idService.gen("ID"));
+      //  model.setRecId(idService.gen("ID"));
+        model.setRecId("5");
         model.setCreateTime(now);
         model.setCollectId(recId);
         model.setCreateId(user.getRecId());
