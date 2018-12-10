@@ -11,62 +11,62 @@
     </resultMap>
 
     <update id="increasePlayNum" parameterType="map">
-        update  `audio` SET
-        `play_num`=play_num + 1
-        where
-        `rec_id` = #{recId}
+        UPDATE `audio`
+        SET
+            `play_num` = play_num + 1
+        WHERE
+            `rec_id` = #{recId}
     </update>
 
-    <select id="listSortByOrderNum" parameterType="map" resultMap="com.synapse.reading.mapper.AudioMapper.BaseResultMap">
+    <select id="listSortByOrderNum" parameterType="map"
+            resultMap="com.synapse.reading.mapper.AudioMapper.BaseResultMap">
         select
-        <include refid="com.synapse.reading.mapper.AudioMapper.Base_Column_List" />
+        <include refid="com.synapse.reading.mapper.AudioMapper.Base_Column_List"/>
         from `audio`
         where 1 = 1
-        <if test="recId != null" >
+        <if test="recId != null">
             AND `rec_id` = #{recId}
         </if>
-        <if test="name != null" >
+        <if test="name != null">
             AND `name` = #{name}
         </if>
-        <if test="url != null" >
+        <if test="url != null">
             AND `url` = #{url}
         </if>
-        <if test="intro != null" >
+        <if test="intro != null">
             AND `intro` = #{intro}
         </if>
-        <if test="qrCode != null" >
+        <if test="qrCode != null">
             AND `qr_code` = #{qrCode}
         </if>
-        <if test="cover != null" >
+        <if test="cover != null">
             AND `cover` = #{cover}
         </if>
-        <if test="belongTo != null" >
+        <if test="belongTo != null">
             AND `belong_to` = #{belongTo}
         </if>
-        <if test="belongToId != null" >
+        <if test="belongToId != null">
             AND `belong_to_id` = #{belongToId}
         </if>
-        <if test="playNum != null" >
+        <if test="playNum != null">
             AND `play_num` = #{playNum}
         </if>
-        <if test="orderNum != null" >
+        <if test="orderNum != null">
             AND `order_num` = #{orderNum}
         </if>
-        <if test="createId != null" >
+        <if test="createId != null">
             AND `create_id` = #{createId}
         </if>
-        <if test="createTime != null" >
+        <if test="createTime != null">
             AND `create_time` = #{createTime}
         </if>
-        <if test="updateId != null" >
+        <if test="updateId != null">
             AND `update_id` = #{updateId}
         </if>
-        <if test="updateTime != null" >
+        <if test="updateTime != null">
             AND `update_time` = #{updateTime}
         </if>
-        <if test="orderNum != null" >
-            ORDER BY  `order_num`
-        </if>
+        ORDER BY `order_num`
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
@@ -81,48 +81,49 @@
         LEFT JOIN my_collect b ON a.rec_id = b.collect_id
         AND b.create_id=#{userId} AND b.collect_type='audio'
         where 1 = 1
-        <if test="recId != null" >
+        <if test="recId != null">
             AND `rec_id` = #{recId}
         </if>
-        <if test="name != null" >
+        <if test="name != null">
             AND `name` = #{name}
         </if>
-        <if test="url != null" >
+        <if test="url != null">
             AND `url` = #{url}
         </if>
-        <if test="intro != null" >
+        <if test="intro != null">
             AND `intro` = #{intro}
         </if>
-        <if test="qrCode != null" >
+        <if test="qrCode != null">
             AND `qr_code` = #{qrCode}
         </if>
-        <if test="cover != null" >
+        <if test="cover != null">
             AND `cover` = #{cover}
         </if>
-        <if test="belongTo != null" >
+        <if test="belongTo != null">
             AND `belong_to` = #{belongTo}
         </if>
-        <if test="belongToId != null" >
+        <if test="belongToId != null">
             AND `belong_to_id` = #{belongToId}
         </if>
-        <if test="playNum != null" >
+        <if test="playNum != null">
             AND `play_num` = #{playNum}
         </if>
-        <if test="orderNum != null" >
+        <if test="orderNum != null">
             AND `order_num` = #{orderNum}
         </if>
-        <if test="createId != null" >
+        <if test="createId != null">
             AND `create_id` = #{createId}
         </if>
-        <if test="createTime != null" >
+        <if test="createTime != null">
             AND `create_time` = #{createTime}
         </if>
-        <if test="updateId != null" >
+        <if test="updateId != null">
             AND `update_id` = #{updateId}
         </if>
-        <if test="updateTime != null" >
+        <if test="updateTime != null">
             AND `update_time` = #{updateTime}
         </if>
+        ORDER BY `order_num`
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
@@ -130,11 +131,24 @@
 
 
     <select id="listMyCollectByAudio" parameterType="map" resultMap="simpleRow">
-        select
-            a.rec_id,a.name,a.url,a.intro,a.qr_code,a.cover,a.belong_to,a.belong_to_id,a.play_num,a.order_num,a.create_id,a.create_time,a.update_id,a.update_time,
-            if(b.rec_id is null,'false','true') is_collect
-        from `audio` a
+        SELECT
+            a.rec_id,
+            a.name,
+            a.url,
+            a.intro,
+            a.qr_code,
+            a.cover,
+            a.belong_to,
+            a.belong_to_id,
+            a.play_num,
+            a.order_num,
+            a.create_id,
+            a.create_time,
+            a.update_id,
+            a.update_time,
+            if(b.rec_id IS NULL, 'false', 'true') is_collect
+        FROM `audio` a
             LEFT JOIN my_collect b ON a.rec_id = b.collect_id
-        where b.create_id=#{userId} AND b.collect_type='audio'
+        WHERE b.create_id = #{userId} AND b.collect_type = 'audio'
     </select>
 </mapper>
