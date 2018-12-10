@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.MemberMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Member">
+        <id column="user_id" property="userId" />
+        <result column="point" property="point" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `user_id`,`point`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `member`
+        where
+                `user_id` = #{userId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.Member">
+        insert into `member`
+        (<include refid="Base_Column_List" />)
+        values (#{userId},#{point},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `member`
+        where
+			    `user_id` = #{userId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Member" >
+        insert into `member`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="userId != null" >
+                    `user_id`,
+                </if>
+                <if test="point != null" >
+                    `point`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="userId != null" >
+			        #{userId},
+                </if>
+                <if test="point != null" >
+			        #{point},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Member" >
+        update `member`
+        <set >
+	            <if test="userId != null" >
+		            `user_id` = #{userId},
+	            </if>
+	            <if test="point != null" >
+		            `point` = #{point},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `user_id` = #{userId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Member" >
+        update  `member` SET
+		    `user_id`=#{userId},`point`=#{point},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `user_id` = #{userId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `member`
+        where 1 = 1
+            <if test="userId != null" >
+                AND `user_id` = #{userId}
+            </if>
+            <if test="point != null" >
+                AND `point` = #{point}
+            </if>
+            <if test="createId != null" >
+                AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+                AND `create_time` = #{createTime}
+            </if>
+            <if test="updateId != null" >
+                AND `update_id` = #{updateId}
+            </if>
+            <if test="updateTime != null" >
+                AND `update_time` = #{updateTime}
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `member`
+        where 1 = 1
+            <if test="userId != null" >
+			    AND `user_id` = #{userId}
+            </if>
+            <if test="point != null" >
+			    AND `point` = #{point}
+            </if>
+            <if test="createId != null" >
+			    AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+			    AND `create_time` = #{createTime}
+            </if>
+            <if test="updateId != null" >
+			    AND `update_id` = #{updateId}
+            </if>
+            <if test="updateTime != null" >
+			    AND `update_time` = #{updateTime}
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>
