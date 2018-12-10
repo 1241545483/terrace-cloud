@@ -134,7 +134,7 @@
             a.rec_id,a.name,a.url,a.intro,a.qr_code,a.cover,a.belong_to,a.belong_to_id,a.play_num,a.order_num,a.create_id,a.create_time,a.update_id,a.update_time,
             if(b.rec_id is null,'false','true') is_collect
         from `audio` a
-        LEFT JOIN my_collect b ON a.rec_id = b.collect_id
+            LEFT JOIN my_collect b ON a.rec_id = b.collect_id
         where b.create_id=#{userId} AND b.collect_type='audio'
     </select>
 </mapper>
