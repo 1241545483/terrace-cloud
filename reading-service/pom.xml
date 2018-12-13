@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.synapse.common</groupId>
             <artifactId>common-sso</artifactId>
-            <version>0.0.3-SNAPSHOT</version>
+            <version>0.0.4-SNAPSHOT</version>
         </dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
 		<dependency>
