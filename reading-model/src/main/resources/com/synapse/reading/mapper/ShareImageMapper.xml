@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.ShareImageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.ShareImage">
+        <id column="rec_id" property="recId" />
+        <result column="user_id" property="userId" />
+        <result column="share_type" property="shareType" />
+        <result column="share_id" property="shareId" />
+        <result column="url" property="url" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`user_id`,`share_type`,`share_id`,`url`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `share_image`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.ShareImage">
+        insert into `share_image`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{userId},#{shareType},#{shareId},#{url},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `share_image`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.ShareImage" >
+        insert into `share_image`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="userId != null" >
+                    `user_id`,
+                </if>
+                <if test="shareType != null" >
+                    `share_type`,
+                </if>
+                <if test="shareId != null" >
+                    `share_id`,
+                </if>
+                <if test="url != null" >
+                    `url`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="userId != null" >
+			        #{userId},
+                </if>
+                <if test="shareType != null" >
+			        #{shareType},
+                </if>
+                <if test="shareId != null" >
+			        #{shareId},
+                </if>
+                <if test="url != null" >
+			        #{url},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.ShareImage" >
+        update `share_image`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="userId != null" >
+		            `user_id` = #{userId},
+	            </if>
+	            <if test="shareType != null" >
+		            `share_type` = #{shareType},
+	            </if>
+	            <if test="shareId != null" >
+		            `share_id` = #{shareId},
+	            </if>
+	            <if test="url != null" >
+		            `url` = #{url},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.ShareImage" >
+        update  `share_image` SET
+		    `rec_id`=#{recId},`user_id`=#{userId},`share_type`=#{shareType},`share_id`=#{shareId},`url`=#{url},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `share_image`
+        where 1 = 1
+            <if test="recId != null" >
+                AND `rec_id` = #{recId}
+            </if>
+            <if test="userId != null" >
+                AND `user_id` = #{userId}
+            </if>
+            <if test="shareType != null" >
+                AND `share_type` = #{shareType}
+            </if>
+            <if test="shareId != null" >
+                AND `share_id` = #{shareId}
+            </if>
+            <if test="url != null" >
+                AND `url` = #{url}
+            </if>
+            <if test="createId != null" >
+                AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+                AND `create_time` = #{createTime}
+            </if>
+            <if test="updateId != null" >
+                AND `update_id` = #{updateId}
+            </if>
+            <if test="updateTime != null" >
+                AND `update_time` = #{updateTime}
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `share_image`
+        where 1 = 1
+            <if test="recId != null" >
+			    AND `rec_id` = #{recId}
+            </if>
+            <if test="userId != null" >
+			    AND `user_id` = #{userId}
+            </if>
+            <if test="shareType != null" >
+			    AND `share_type` = #{shareType}
+            </if>
+            <if test="shareId != null" >
+			    AND `share_id` = #{shareId}
+            </if>
+            <if test="url != null" >
+			    AND `url` = #{url}
+            </if>
+            <if test="createId != null" >
+			    AND `create_id` = #{createId}
+            </if>
+            <if test="createTime != null" >
+			    AND `create_time` = #{createTime}
+            </if>
+            <if test="updateId != null" >
+			    AND `update_id` = #{updateId}
+            </if>
+            <if test="updateTime != null" >
+			    AND `update_time` = #{updateTime}
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>
