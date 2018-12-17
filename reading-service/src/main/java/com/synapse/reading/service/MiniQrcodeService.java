@@ -67,9 +67,6 @@ public class MiniQrcodeService {
     @Value("${imgUploadUrl}")
     private String imgUploadUrl;//"https://www.jssns.cn/upload/SHILU"
 
-
-    private static Logger logger = LoggerFactory.getLogger(MiniQrcodeService.class);
-
     public String getAccessToken() {
 //        redisTemplate.delete("mini_access_token");//根据key删除缓存
         String access_token = redisTemplate.boundValueOps("reading_mini_access_token").get();
