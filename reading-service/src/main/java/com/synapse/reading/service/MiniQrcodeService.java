@@ -6,10 +6,12 @@ import com.synapse.common.utils.JsonUtils;
 
 import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.remote.MiniQrcodeAPiService;
+import org.apache.commons.io.FileUtils;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -18,9 +20,11 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +86,7 @@ public class MiniQrcodeService {
 
     public Map<String, Object> generateMiniQrcode(String itemId) throws Exception {
         Map<String, Object> param = new HashMap<>();
-        param.put("page", "pages/index/index");
+        param.put("page", "pages/audio/audio");
         param.put("scene", itemId);
         param.put("width", 430);
         param.put("auto_color", true);
@@ -102,6 +106,7 @@ public class MiniQrcodeService {
         param.put("is_hyaline", false);
         String json = JsonUtils.toJson(param);
         String res = httpPostWithJson("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + getAccessToken(), json, params.getScene());
+
         Gson gson = new Gson();
         Type memberType = new TypeToken<Map<String, Object>>() {
         }.getType();
@@ -109,11 +114,12 @@ public class MiniQrcodeService {
         return map;
     }
 
-    public String httpPostWithJson(String url, String json, String name) throws Exception {
+        public String httpPostWithJson(String url, String json, String name) throws Exception {
         String result = null;
         DefaultHttpClient httpClient = new DefaultHttpClient();
+      //  HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(url);
-        httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+       httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
         StringEntity stringEntity = new StringEntity(json);
         stringEntity.setContentType("application/json");
         stringEntity.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "UTF-8"));
@@ -122,12 +128,25 @@ public class MiniQrcodeService {
         if (response != null) {
             HttpEntity httpEntity = response.getEntity();
             if (httpClient != null) {
+
                 InputStream inputStream = httpEntity.getContent();
-//                File targetFile = new File("D:\\targetFile.png");
-//                FileUtils.copyInputStreamToFile(inputStream, targetFile);
-//                return null;
-                String filName = System.currentTimeMillis() + "_" + "mini" + ".png";
-                result = inputStreamUpload(inputStream, filName);
+                File targetFile = new File("E:/targetFile.png");
+                FileOutputStream fos = new FileOutputStream(targetFile);
+                int i = -1;
+                int num = 0;
+                while ((i = inputStream.read()) >= 0) {
+                    num++;
+                    System.out.print((char)i);
+                    fos.write(i);
+                }
+                System.out.println("num = " + num);
+                inputStream.close();
+                fos.flush();
+                fos.close();
+
+                return null;
+            //    String filName = System.currentTimeMillis() + "_" + "mini" + ".png";
+           //     result = inputStreamUpload(inputStream, filName);
             }
         }
         return result;

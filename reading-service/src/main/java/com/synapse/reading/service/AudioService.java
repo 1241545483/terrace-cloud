@@ -71,8 +71,8 @@ public class AudioService extends AudioBaseService {
         param.setRecId(idService.gen("ID"));
         param.setCreateTime(now);
         param.setUpdateTime(now);
-        audioRespository.insert(param);
         getAudioQrCode(param);
+        audioRespository.insert(param);
         return param.getRecId();
     }
 
