@@ -127,20 +127,18 @@ public class MiniQrcodeService {
         if (response != null) {
             HttpEntity httpEntity = response.getEntity();
             if (httpClient != null) {
-
                 InputStream inputStream = httpEntity.getContent();
-                int i = -1;
-                int num = 0;
-                while ((i = inputStream.read()) >= 0) {
-                    num++;
-                    logger.info((char)i + "");
-                }
-                logger.info("num = " + num);
-                inputStream.close();
-
-                return null;
-            //    String filName = System.currentTimeMillis() + "_" + "mini" + ".png";
-           //     result = inputStreamUpload(inputStream, filName);
+//                int i = -1;
+//                int num = 0;
+//                while ((i = inputStream.read()) >= 0) {
+//                    num++;
+//                    logger.info((char)i + "");
+//                }
+//                logger.info("num = " + num);
+//                inputStream.close();
+//                return null;
+                String filName = System.currentTimeMillis() + "_" + "mini" + ".png";
+                result = inputStreamUpload(inputStream, filName);
             }
         }
         return result;
