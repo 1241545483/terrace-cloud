@@ -49,6 +49,7 @@ import java.util.concurrent.TimeUnit;
 @Transactional
 public class MiniQrcodeService {
 
+    private Logger logger = LoggerFactory.getLogger(MiniQrcodeService.class);
 
     @Value("${mini.app.appid}")
     private String appId;
@@ -99,6 +100,7 @@ public class MiniQrcodeService {
 
     public Map<String, Object> generate(MiniQrcodeParam params) throws Exception {
         Map<String, Object> param = new HashMap<>();
+        logger.info("page = {}", params.getPage());
         param.put("page", params.getPage());
         param.put("scene", params.getScene());
         param.put("width", com.synapse.common.utils.StringUtils.trim(params.getWidth()).equals("") ? "430" : params.getWidth());
@@ -130,19 +132,14 @@ public class MiniQrcodeService {
             if (httpClient != null) {
 
                 InputStream inputStream = httpEntity.getContent();
-                File targetFile = new File("E:/targetFile.png");
-                FileOutputStream fos = new FileOutputStream(targetFile);
                 int i = -1;
                 int num = 0;
                 while ((i = inputStream.read()) >= 0) {
                     num++;
-                    System.out.print((char)i);
-                    fos.write(i);
+                    logger.info((char)i + "");
                 }
-                System.out.println("num = " + num);
+                logger.info("num = " + num);
                 inputStream.close();
-                fos.flush();
-                fos.close();
 
                 return null;
             //    String filName = System.currentTimeMillis() + "_" + "mini" + ".png";
