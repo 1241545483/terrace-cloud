@@ -3,6 +3,7 @@ package com.synapse.reading.service;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.model.Member;
+import com.synapse.reading.model.MySignin;
 import com.synapse.reading.respository.MemberRespository;
 import com.synapse.reading.dto.param.MemberParam;
 import com.synapse.reading.dto.result.MemberResult;
@@ -36,6 +37,9 @@ public class MemberService extends MemberBaseService {
     @Autowired
     private MemberRespository memberRespository;
 
+    @Autowired
+    private MySigninService mySigninService;
+
     public Member find(String recId) {
         return memberRespository.selectByPrimaryKey(recId);
     }
@@ -47,6 +51,10 @@ public class MemberService extends MemberBaseService {
     }
 
     public boolean addPoint(User user, Integer point) {
+        MySignin mySignin = new MySignin();
+        mySignin.setCreateId(user.getRecId());
+        mySignin.setPoint(point);
+        mySigninService.create(mySignin);
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         Member param = memberRespository.selectByPrimaryKey(user.getRecId());
         if (param == null) {
