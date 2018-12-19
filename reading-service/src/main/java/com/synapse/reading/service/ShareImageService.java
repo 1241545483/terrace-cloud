@@ -88,7 +88,8 @@ public class ShareImageService extends ShareImageBaseService {
         return shareImageRespository.count(params);
     }
 
-    public String getShareUrl(String id, User user, String shareType) throws IOException {
+    public String getShareUrl(String id, User user) throws IOException {
+        String shareType = "audio";
         ShareImage shareImageParam = new ShareImage();
         Map<String, Object> params = prepareParams(shareImageParam);
         params.put("userId", user.getRecId());
