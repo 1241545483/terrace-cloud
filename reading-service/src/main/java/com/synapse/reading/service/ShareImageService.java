@@ -101,6 +101,9 @@ public class ShareImageService extends ShareImageBaseService {
                 Audio audio = audioService.find(id);
                 String modelUrl = "http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png";
                 String url = audio.getCover();
+                if ("".equals(url)){
+                    url="http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
+                }
                 String qrcodeUrl = audio.getQrCode();
                 String wxNickName = user.getUsername();
                 String solgan = albumService.find(audio.getBelongToId()).getSlogan();
@@ -116,8 +119,8 @@ public class ShareImageService extends ShareImageBaseService {
                 String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
-                param.setRecId(idService.gen("ID"));
-                // param.setRecId("66");
+            //    param.setRecId(idService.gen("ID"));
+                 param.setRecId("66");
                 param.setCreateTime(now);
                 param.setShareId(id);
                 param.setShareType(shareType);
