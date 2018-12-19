@@ -50,7 +50,12 @@ public class ImgUtil {
 
     public static void main(String[] args) throws IOException {
 
-        DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png", "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eryLJEEaUiaChys4Vegu5FduefB349CNeIBzffGiaXHeYutOexIQWI1OLnGnk5Yg2cDIO3SD2JjXdJw/132", "http://img.jssns.cn/SHILU/1/40135292169711806.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你",  "专辑名称", "音频名称音频名称音频名称音频名称音频名");
+//        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment(); //返回本地 GraphicsEnvironment 。
+//        String [] forName = e.getAvailableFontFamilyNames(); //返回包含在此所有字体系列名称的数组， GraphicsEnvironment本地化为默认的语言环境，如返回 Locale.getDefault() 。
+//        for (int i = 0; i < forName.length; i++) //逐行输出
+//            System.out.println(forName[i]);
+
+        System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png", "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eryLJEEaUiaChys4Vegu5FduefB349CNeIBzffGiaXHeYutOexIQWI1OLnGnk5Yg2cDIO3SD2JjXdJw/132", "http://img.jssns.cn/SHILU/1/40135292169711806.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你", "专辑名称", "音频名称音频名称音频名称音频名称音频名"));
 
     }
 
@@ -104,13 +109,13 @@ public class ImgUtil {
         Color hui = new Color(171, 171, 171); // 深灰
         Color hui1 = new Color(153, 153, 153); // 蛋灰
 
-        Font font8 = new Font("Noto Sans CJK", Font.BOLD, 8);
-        Font font12 = new Font("Noto Sans CJK", Font.BOLD, 14);
-        Font font23 = new Font("Noto Sans CJK", Font.BOLD, 23);
-        Font font28 = new Font("Noto Sans CJK", Font.BOLD, 28);
-        Font font24 = new Font("Noto Sans CJK", Font.BOLD, 24);
-        Font font34 = new Font("Noto Sans CJK", Font.BOLD, 34);
-        Font font50 = new Font("Noto Sans CJK", Font.BOLD, 50);
+        Font font8 = new Font("微软雅黑", Font.BOLD, 8);
+        Font font12 = new Font("微软雅黑", Font.BOLD, 14);
+        Font font23 = new Font("微软雅黑", Font.BOLD, 23);
+        Font font28 = new Font("微软雅黑", Font.BOLD, 28);
+        Font font24 = new Font("微软雅黑", Font.BOLD, 24);
+        Font font34 = new Font("微软雅黑", Font.BOLD, 34);
+        Font font50 = new Font("微软雅黑", Font.BOLD, 50);
 
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, albumName, 30, 65, font50, black);
         String audioNameAll = "";
