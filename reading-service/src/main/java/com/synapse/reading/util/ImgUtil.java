@@ -104,13 +104,13 @@ public class ImgUtil {
         Color hui = new Color(171, 171, 171); // 深灰
         Color hui1 = new Color(153, 153, 153); // 蛋灰
 
-        Font font8 = new Font("微软雅黑", Font.BOLD, 8);
-        Font font12 = new Font("微软雅黑", Font.BOLD, 14);
-        Font font23 = new Font("微软雅黑", Font.BOLD, 23);
-        Font font28 = new Font("微软雅黑", Font.BOLD, 28);
-        Font font24 = new Font("微软雅黑", Font.BOLD, 24);
-        Font font34 = new Font("微软雅黑", Font.BOLD, 34);
-        Font font50 = new Font("微软雅黑", Font.BOLD, 50);
+        Font font8 = new Font("Noto Sans CJK", Font.BOLD, 8);
+        Font font12 = new Font("Noto Sans CJK", Font.BOLD, 14);
+        Font font23 = new Font("Noto Sans CJK", Font.BOLD, 23);
+        Font font28 = new Font("Noto Sans CJK", Font.BOLD, 28);
+        Font font24 = new Font("Noto Sans CJK", Font.BOLD, 24);
+        Font font34 = new Font("Noto Sans CJK", Font.BOLD, 34);
+        Font font50 = new Font("Noto Sans CJK", Font.BOLD, 50);
 
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, albumName, 30, 65, font50, black);
         String audioNameAll = "";

@@ -200,9 +200,9 @@ public class ShareImageController extends BaseController {
     public ResponseEntity getShareUrl(@PathVariable("recId") String recId) {
         try {
             User user = UserContext.getUser();
+            String shareType = "audio";
 
-
-            String url = shareImageService.getShareUrl(recId, user);
+            String url = shareImageService.getShareUrl(recId, user,shareType);
             return ResponseEntity.ok(url);
         } catch (BusinessException e) {
             logger.error("get ShareImage Error!", e);
