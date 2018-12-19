@@ -119,8 +119,8 @@ public class ShareImageService extends ShareImageBaseService {
                 String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
-               // param.setRecId(idService.gen("ID"));
-                    param.setRecId("66");
+               param.setRecId(idService.gen("ID"));
+                //    param.setRecId("66");
                 param.setCreateTime(now);
                 param.setShareId(id);
                 param.setShareType(shareType);
