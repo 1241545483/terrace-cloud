@@ -135,6 +135,30 @@ public class MemberController extends BaseController{
         }
     }
 
+
+    @ApiOperation(value = "返回用户id")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = String.class, message = "用户id"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/userId", method = RequestMethod.GET)
+    public ResponseEntity userId() {
+        try {
+
+            User user = UserContext.getUser();
+            return ResponseEntity.ok(user.getRecId());
+        } catch (BusinessException e) {
+            logger.error("create Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("create Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
 	@ApiOperation(value = "根据主键删除Member")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
