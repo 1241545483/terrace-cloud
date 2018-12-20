@@ -110,6 +110,7 @@ public class MemberController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+
     @RequestMapping(value = "/v1/member", method = RequestMethod.POST)
     public ResponseEntity create(@RequestBody @Validated(Create.class) MemberParam param, BindingResult bindingResult) {
         try {
@@ -134,7 +135,36 @@ public class MemberController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+    @ApiOperation(value = "创建Member")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = String.class, message = "主键"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/createByUserId", method = RequestMethod.POST)
+    public ResponseEntity createByUserId(@RequestBody @Validated(Create.class) MemberParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
 
+            Member model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
+            String recId = memberService.createByUserId(model,user);
+            return ResponseEntity.ok(recId);
+        } catch (BusinessException e) {
+            logger.error("create Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("create Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
     @ApiOperation(value = "返回用户id")
     @ApiResponses({

@@ -88,6 +88,19 @@ public class MemberService extends MemberBaseService {
         return param.getUserId();
     }
 
+    public String createByUserId(Member param,User user) {
+        if (memberRespository.selectByPrimaryKey(user.getRecId())!=null){
+            return user.getRecId();
+        }
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        param.setUserId(user.getRecId());
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
+        memberRespository.insert(param);
+        return param.getUserId();
+    }
+
+
     public Integer delete(String recId) {
         return memberRespository.deleteByPrimaryKey(recId);
     }
