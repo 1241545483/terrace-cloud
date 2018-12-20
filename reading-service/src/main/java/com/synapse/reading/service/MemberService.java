@@ -94,6 +94,7 @@ public class MemberService extends MemberBaseService {
         }
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUserId(user.getRecId());
+        param.setPoint(0);
         param.setCreateTime(now);
         param.setUpdateTime(now);
         memberRespository.insert(param);
