@@ -1,6 +1,7 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.MySigninMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,4 +13,5 @@ import com.synapse.reading.mapper.MySigninMapper;
  */
 public interface MySigninRespository extends MySigninMapper {
 
+    Integer countByCreateTime (@Param("createId") String createId,@Param("createTime") String createTime);
 }

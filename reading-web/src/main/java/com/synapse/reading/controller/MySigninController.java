@@ -104,6 +104,28 @@ public class MySigninController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "查询是否签到")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MySigninResult.class, message = "MySignin对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/countByCreateTime",method = RequestMethod.GET)
+    public ResponseEntity countByCreateTime(){
+        try {
+            User user = UserContext.getUser();
+            int num = mySigninService.countByCreateTime(user);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("get MySignin Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get MySignin Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
 	@ApiOperation(value = "创建MySignin")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),

@@ -152,9 +152,11 @@
         <if test="updateTime != null">
             AND `update_time` = #{updateTime}
         </if>
+        ORDER BY a.create_time DESC
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
+
     </select>
 
 

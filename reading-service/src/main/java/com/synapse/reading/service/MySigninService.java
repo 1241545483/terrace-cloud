@@ -1,19 +1,19 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
-import com.synapse.reading.model.MySignin;
-import com.synapse.reading.respository.MySigninRespository;
-import com.synapse.reading.dto.param.MySigninParam;
-import com.synapse.reading.dto.result.MySigninResult;
+import com.synapse.common.sso.model.User;
 import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.model.MySignin;
+import com.synapse.reading.remote.IdService;
+import com.synapse.reading.respository.MySigninRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.synapse.reading.remote.IdService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 
 /**
@@ -65,6 +65,17 @@ public class MySigninService extends MySigninBaseService {
 	public Integer count(MySignin mySigninParam) {
         Map<String,Object> params = prepareParams(mySigninParam);
         return mySigninRespository.count(params);
+    }
+
+    public  Integer countByCreateTime(User user){
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE);
+        String createTime =now+"%";
+        System.err.println(now);
+       if (mySigninRespository.countByCreateTime(user.getRecId(),createTime)>0){
+           return 0;
+       }else {
+           return 1;
+       }
     }
 
 }

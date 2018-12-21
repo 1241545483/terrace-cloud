@@ -2,4 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.MySigninRespository">
 
+
+    <select id="countByCreateTime" parameterType="map" resultType="int">
+        SELECT count(1)
+        FROM `my_signin`
+        WHERE `create_id` = #{createId}
+              AND `create_time` LIKE #{createTime}
+
+    </select>
+
 </mapper>
