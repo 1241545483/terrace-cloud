@@ -109,7 +109,7 @@ public class MyCollectService extends MyCollectBaseService {
 
     public boolean addByCreateIdByaudio(String recId, User user) {
         if (myCollectRespository.countIsCollect(recId, user.getRecId()) > 0) {
-            return myCollectRespository.deleteCollectByCreateId(recId, user.getRecId()) <= 0;
+            return true;
         } else {
             String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
             MyCollect model = new MyCollect();
