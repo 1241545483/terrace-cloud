@@ -88,7 +88,7 @@ public class ShareImageService extends ShareImageBaseService {
         return shareImageRespository.count(params);
     }
 
-    public String getShareUrl(String id, User user, String shareType) throws IOException {
+    public String getShareUrl(String id, User user, String shareType,String wxNickName) throws IOException {
         ShareImage shareImageParam = new ShareImage();
         Map<String, Object> params = prepareParams(shareImageParam);
         params.put("userId", user.getRecId());
@@ -105,7 +105,6 @@ public class ShareImageService extends ShareImageBaseService {
                     url = "http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
                 }
                 String qrcodeUrl = audio.getQrCode();
-                String wxNickName = user.getUsername();
                 String solgan = albumService.find(audio.getBelongToId()).getSlogan();
                 String albumName = albumService.find(audio.getBelongToId()).getName();
                 String audioName = audio.getName();

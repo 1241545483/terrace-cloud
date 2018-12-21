@@ -197,12 +197,12 @@ public class ShareImageController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/shareImage/getShareUrl/{recId}", method = RequestMethod.GET)
-    public ResponseEntity getShareUrl(@PathVariable("recId") String recId) {
+    public ResponseEntity getShareUrl(@PathVariable("recId") String recId,String wxNickName) {
         try {
             User user = UserContext.getUser();
             String shareType = "audio";
 
-            String url = shareImageService.getShareUrl(recId, user,shareType);
+            String url = shareImageService.getShareUrl(recId, user,shareType,wxNickName);
             return ResponseEntity.ok(url);
         } catch (BusinessException e) {
             logger.error("get ShareImage Error!", e);
