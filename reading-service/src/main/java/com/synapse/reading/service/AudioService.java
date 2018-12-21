@@ -55,7 +55,7 @@ public class AudioService extends AudioBaseService {
     }
 
 
-    public Audio selectIsCollect(String recId,User user) {
+    public AudioResult selectIsCollect(String recId,User user) {
         return audioRespository.selectIsCollect(user.getRecId(),recId);
     }
 

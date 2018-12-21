@@ -150,8 +150,8 @@ public class AudioController extends BaseController{
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
             User user = UserContext.getUser();
-            Audio audio = audioService.selectIsCollect(recId,user);
-            return ResponseEntity.ok(new AudioResult(audio));
+            AudioResult audio = audioService.selectIsCollect(recId,user);
+            return ResponseEntity.ok(audio);
         } catch (BusinessException e) {
             logger.error("get Audio Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
