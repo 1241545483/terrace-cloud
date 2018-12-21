@@ -29,7 +29,7 @@ public interface AudioRespository extends AudioMapper {
 
     List<Audio> listSortByOrderNum(Map<String, Object> params);
 
-    List<AudioResult> c(Map<String, Object> params);
+    List<AudioResult> listAudioAddIsCollect(Map<String, Object> params);
 
     List<AudioResult> listMyCollectByAudio(@Param("userId") String userId);
 
