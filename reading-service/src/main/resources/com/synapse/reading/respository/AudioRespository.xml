@@ -151,4 +151,27 @@
             LEFT JOIN my_collect b ON a.rec_id = b.collect_id
         WHERE b.create_id = #{userId} AND b.collect_type = 'audio'
     </select>
+
+    <select id="selectIsCollect" parameterType="map" resultMap="simpleRow">
+        SELECT
+        a.rec_id,
+        a.name,
+        a.url,
+        a.intro,
+        a.qr_code,
+        a.cover,
+        a.belong_to,
+        a.belong_to_id,
+        a.play_num,
+        a.order_num,
+        a.create_id,
+        a.create_time,
+        a.update_id,
+        a.update_time,
+        if(b.rec_id IS NULL, 'false', 'true') is_collect
+        FROM `audio` a
+        LEFT JOIN my_collect b ON a.rec_id = b.collect_id
+        WHERE b.create_id = #{userId} AND b.collect_type = 'audio' AND b.collect_id=#{recId}
+    </select>
+
 </mapper>

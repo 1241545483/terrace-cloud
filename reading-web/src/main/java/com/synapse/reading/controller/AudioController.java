@@ -149,7 +149,8 @@ public class AudioController extends BaseController{
     @RequestMapping(value = "/v1/audio/{recId}",method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
-            Audio audio = audioService.find(recId);
+            User user = UserContext.getUser();
+            Audio audio = audioService.selectIsCollect(recId,user);
             return ResponseEntity.ok(new AudioResult(audio));
         } catch (BusinessException e) {
             logger.error("get Audio Error!", e);
@@ -161,7 +162,8 @@ public class AudioController extends BaseController{
         }
     }
 
-	@ApiOperation(value = "创建Audio")
+
+    @ApiOperation(value = "创建Audio")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),

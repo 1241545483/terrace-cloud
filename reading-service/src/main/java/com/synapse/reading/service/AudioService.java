@@ -54,6 +54,11 @@ public class AudioService extends AudioBaseService {
         return audioRespository.selectByPrimaryKey(recId);
     }
 
+
+    public Audio selectIsCollect(String recId,User user) {
+        return audioRespository.selectIsCollect(user.getRecId(),recId);
+    }
+
     public Integer update(Audio param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
