@@ -6,7 +6,7 @@
     <select id="countByCreateId" parameterType="map" resultType="int">
         select count(1)
         from `media_counts`
-        where `media_id` = #{mediaId} AND `create_id` = #{createId} AND  `create_time` LIKE #{createTime}
+        where `media_id` = #{mediaId} AND `create_id` = #{createId} AND  `create_time`=#{createTime}
     </select>
 
 

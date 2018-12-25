@@ -69,8 +69,8 @@ public class MediaCountsService extends MediaCountsBaseService {
     }
 
     public Integer updateByCreateId(String mediaId, User user) {
-        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        String createTime = now + "%";
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE);
+        String createTime = now ;
         if (mediaCountsRespository.countByCreateId(mediaId, user.getRecId(), createTime) > 0) {
             audioService.increasePlayNum(mediaId);
             return mediaCountsRespository.updateByCreateId(mediaId, user.getRecId(), createTime);
