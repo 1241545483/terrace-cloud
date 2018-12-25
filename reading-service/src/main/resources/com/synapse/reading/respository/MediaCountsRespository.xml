@@ -16,7 +16,7 @@
         SET
         `clicked` = clicked + 1
         WHERE
-        `media_id` = #{media_id} AND `create_id` = #{create_id} AND  `create_time` LIKE #{createTime}
+        `media_id` = #{media_id} AND `create_id` = #{create_id} AND  `create_time` = #{createTime}
     </update>
 
     <update id="updateFinishedByCreateId" parameterType="map">
