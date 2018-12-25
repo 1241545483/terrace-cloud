@@ -248,6 +248,7 @@ public class AudioController extends BaseController{
         }
 	}
 
+
     @ApiOperation(value = "根据播放次数更新playNum")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "true"),
@@ -271,7 +272,28 @@ public class AudioController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "根据播放次数更新finishNum")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/audio/{recId}/finishNum", method = RequestMethod.PUT)
+    public ResponseEntity increaseFinishNum(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
 
+            Boolean valid = audioService.increaseFinishNum(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("updatefinishNum Audio Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("updatefinishNum Audio Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 
 }

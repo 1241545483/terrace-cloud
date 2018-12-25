@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.respository.MediaCountsRespository">
+
+
+    <update id="updateByCreateId" parameterType="map">
+        UPDATE `media_counts`
+        SET
+        `clicked` = clicked + 1
+        WHERE
+        `media_id` = #{media_id} AND `create_id` = #{create_id} AND  `create_time` LIKE #{createTime}
+    </update>
+
+    <select id="clickCountByTime" parameterType="map" resultType="map">
+        <![CDATA[ select
+        date_format(create_time,'%Y-%m-%d') time,sum(clicked) num
+        from `media_counts`
+        where media_id=#{mediaId} AND date_format(create_time,'%Y-%m-%d') >= #{startTime}
+        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d')
+        ]]>
+    </select>
+
+    <select id="finishCountByTime" parameterType="map" resultType="map">
+        <![CDATA[ select
+        date_format(create_time,'%Y-%m-%d') time,sum(finished) num
+        from `media_counts`
+        where media_id=#{mediaId} AND date_format(create_time,'%Y-%m-%d') >= #{startTime}
+        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d')
+        ]]>
+    </select>
+
+    <select id="finishRateByTime" parameterType="map" resultType="map">
+        <![CDATA[ select
+        date_format(create_time,'%Y-%m-%d') time,CONCAT( ROUND( sum(finished) / sum(clicked) * 100, 0 ), '', '%' ) rate
+        from `media_counts`
+        where media_id=#{mediaId} AND date_format(create_time,'%Y-%m-%d') >= #{startTime}
+        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d')
+        ]]>
+    </select>
+</mapper>

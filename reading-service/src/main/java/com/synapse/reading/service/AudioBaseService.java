@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-01
+ * @since 2018-12-25
  */
 public class AudioBaseService {
 
@@ -43,6 +43,9 @@ public class AudioBaseService {
         }
         if (audioParam.getPlayNum() != null) {
             params.put("playNum", audioParam.getPlayNum());
+        }
+        if (audioParam.getFinishNum() != null) {
+            params.put("finishNum", audioParam.getFinishNum());
         }
         if (audioParam.getOrderNum() != null) {
             params.put("orderNum", audioParam.getOrderNum());

@@ -31,6 +31,14 @@ public class AudioResult {
     public AudioResult() {
     }
 
+    public Long getFinishNum() {
+        return audio.getFinishNum();
+    }
+
+    public void setFinishNum(Long finishNum) {
+        audio.setFinishNum(finishNum);
+    }
+
     public String getIntro() {
         return audio.getIntro();
     }

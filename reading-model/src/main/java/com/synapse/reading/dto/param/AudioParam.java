@@ -50,6 +50,14 @@ public class AudioParam {
     public AudioParam() {
     }
 
+    public Long getFinishNum() {
+        return audio.getFinishNum();
+    }
+
+    public void setFinishNum(Long finishNum) {
+        audio.setFinishNum(finishNum);
+    }
+
     public AudioParam(Audio audio) {
         this.audio = audio;
     }

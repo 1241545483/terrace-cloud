@@ -114,7 +114,9 @@ public class AudioService extends AudioBaseService {
     public boolean increasePlayNum(String recId) {
         return audioRespository.increasePlayNum(recId) > 0;
     }
-
+    public boolean increaseFinishNum(String recId) {
+        return audioRespository.increaseFinishNum(recId) > 0;
+    }
 
     public Audio getAudioQrCode(Audio param) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();

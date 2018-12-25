@@ -26,6 +26,13 @@ public interface AudioRespository extends AudioMapper {
      * @return
      */
     Integer increasePlayNum(@Param("recId") String recId);
+    /**
+     * 音频观看量加1
+     *
+     * @param recId
+     * @return
+     */
+    Integer increaseFinishNum(@Param("recId") String recId);
 
     List<Audio> listSortByOrderNum(Map<String, Object> params);
 
