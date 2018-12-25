@@ -12,7 +12,7 @@
     <update id="increasePlayNum" parameterType="map">
         UPDATE `audio`
         SET
-            `finish_num` = finish_num + 1
+            `play_num` = play_num + 1
         WHERE
             `rec_id` = #{recId}
     </update>
@@ -20,7 +20,7 @@
     <update id="increaseFinishNum" parameterType="map">
         UPDATE `audio`
         SET
-        `play_num` = play_num + 1
+        `finish_num` = finish_num + 1
         WHERE
         `rec_id` = #{recId}
     </update>

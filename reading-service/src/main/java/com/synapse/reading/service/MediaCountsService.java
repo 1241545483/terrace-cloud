@@ -35,6 +35,9 @@ public class MediaCountsService extends MediaCountsBaseService {
     @Autowired
     private MediaCountsRespository mediaCountsRespository;
 
+    @Autowired
+    private AudioService audioService;
+
     public MediaCounts find(String recId) {
         return mediaCountsRespository.selectByPrimaryKey(recId);
     }
@@ -48,6 +51,7 @@ public class MediaCountsService extends MediaCountsBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         String createTime = now + "%";
         if (mediaCountsRespository.countByCreateId(mediaId, user.getRecId(), createTime) > 0) {
+            audioService.increaseFinishNum(mediaId);
             return mediaCountsRespository.updateFinishedByCreateId(mediaId, user.getRecId(), createTime);
         } else {
             MediaCounts mediaCounts = new MediaCounts();
@@ -58,6 +62,7 @@ public class MediaCountsService extends MediaCountsBaseService {
             mediaCounts.setCreateTime(now);
             mediaCounts.setMediaType("audio");
             mediaCounts.setFinished("1");
+            audioService.increaseFinishNum(mediaId);
             mediaCountsRespository.insertSelective(mediaCounts);
             return 1;
         }
@@ -67,6 +72,7 @@ public class MediaCountsService extends MediaCountsBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         String createTime = now + "%";
         if (mediaCountsRespository.countByCreateId(mediaId, user.getRecId(), createTime) > 0) {
+            audioService.increasePlayNum(mediaId);
             return mediaCountsRespository.updateByCreateId(mediaId, user.getRecId(), createTime);
         } else {
             MediaCounts mediaCounts = new MediaCounts();
@@ -78,6 +84,7 @@ public class MediaCountsService extends MediaCountsBaseService {
             mediaCounts.setMediaType("audio");
             mediaCounts.setFinished("0");
             mediaCountsRespository.insert(mediaCounts);
+            audioService.increasePlayNum(mediaId);
             return 1;
         }
     }
