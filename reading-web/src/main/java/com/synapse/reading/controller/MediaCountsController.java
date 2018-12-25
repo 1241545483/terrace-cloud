@@ -171,10 +171,33 @@ public class MediaCountsController extends BaseController{
             Integer num = mediaCountsService.updateByCreateId(mediaId,user);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-            logger.error("delete MediaCounts Error!", e);
+            logger.error("updateByCreateId MediaCounts Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("delete MediaCounts Error!", e);
+            logger.error("updateByCreateId MediaCounts Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "增加个人播放完成音频数量")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "增加数量"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/updateFinishedByCreateId/{mediaId}",method = RequestMethod.POST)
+    public ResponseEntity updateFinishedByCreateId(@PathVariable("mediaId") String mediaId){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Integer num = mediaCountsService.updateFinishedByCreateId(mediaId,user);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("updateFinishedByCreateId MediaCounts Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("updateFinishedByCreateId MediaCounts Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
@@ -194,10 +217,10 @@ public class MediaCountsController extends BaseController{
             List<Map<String,String>> num = mediaCountsService.clickCountByTime(startTime,endTime,mediaId);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-            logger.error("delete MediaCounts Error!", e);
+            logger.error("clickCountByTime MediaCounts Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("delete MediaCounts Error!", e);
+            logger.error("clickCountByTime MediaCounts Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
@@ -217,10 +240,10 @@ public class MediaCountsController extends BaseController{
                 List<Map<String,String>> num = mediaCountsService.finishCountByTime(startTime,endTime,mediaId);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-            logger.error("delete MediaCounts Error!", e);
+            logger.error("finishCountByTime MediaCounts Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("delete MediaCounts Error!", e);
+            logger.error("finishCountByTime MediaCounts Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
@@ -240,10 +263,10 @@ public class MediaCountsController extends BaseController{
             List<Map<String,String>> num = mediaCountsService.finishRateByTime(startTime,endTime,mediaId);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-            logger.error("delete MediaCounts Error!", e);
+            logger.error("finishRateByTime MediaCounts Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("delete MediaCounts Error!", e);
+            logger.error("finishRateByTime MediaCounts Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }

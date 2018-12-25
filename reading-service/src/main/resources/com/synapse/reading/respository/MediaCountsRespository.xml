@@ -3,10 +3,26 @@
 <mapper namespace="com.synapse.reading.respository.MediaCountsRespository">
 
 
+    <select id="countByCreateId" parameterType="map" resultType="int">
+        select count(1)
+        from `media_counts`
+        where `media_id` = #{mediaId} AND `create_id` = #{createId} AND  `create_time` LIKE #{createTime}
+    </select>
+
+
+
     <update id="updateByCreateId" parameterType="map">
         UPDATE `media_counts`
         SET
         `clicked` = clicked + 1
+        WHERE
+        `media_id` = #{media_id} AND `create_id` = #{create_id} AND  `create_time` LIKE #{createTime}
+    </update>
+
+    <update id="updateFinishedByCreateId" parameterType="map">
+        UPDATE `media_counts`
+        SET
+        `finished` = finished + 1
         WHERE
         `media_id` = #{media_id} AND `create_id` = #{create_id} AND  `create_time` LIKE #{createTime}
     </update>
@@ -16,7 +32,7 @@
         date_format(create_time,'%Y-%m-%d') time,sum(clicked) num
         from `media_counts`
         where media_id=#{mediaId} AND date_format(create_time,'%Y-%m-%d') >= #{startTime}
-        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d')
+        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d') ORDER BY date_format(create_time,'%Y-%m-%d')
         ]]>
     </select>
 
@@ -25,7 +41,7 @@
         date_format(create_time,'%Y-%m-%d') time,sum(finished) num
         from `media_counts`
         where media_id=#{mediaId} AND date_format(create_time,'%Y-%m-%d') >= #{startTime}
-        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d')
+        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d') ORDER BY date_format(create_time,'%Y-%m-%d')
         ]]>
     </select>
 
@@ -34,7 +50,7 @@
         date_format(create_time,'%Y-%m-%d') time,CONCAT( ROUND( sum(finished) / sum(clicked) * 100, 0 ), '', '%' ) rate
         from `media_counts`
         where media_id=#{mediaId} AND date_format(create_time,'%Y-%m-%d') >= #{startTime}
-        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d')
+        AND date_format(create_time,'%Y-%m-%d')<#{endTime} GROUP BY  date_format(create_time,'%Y-%m-%d') ORDER BY date_format(create_time,'%Y-%m-%d')
         ]]>
     </select>
 </mapper>

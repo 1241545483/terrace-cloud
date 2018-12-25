@@ -29,60 +29,93 @@ import java.util.HashMap;
 @Transactional
 public class MediaCountsService extends MediaCountsBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private MediaCountsRespository mediaCountsRespository;
 
-    public MediaCounts find(String recId){
-	    return mediaCountsRespository.selectByPrimaryKey(recId);
+    public MediaCounts find(String recId) {
+        return mediaCountsRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(MediaCounts param){
+    public Integer update(MediaCounts param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-		return mediaCountsRespository.updateByPrimaryKeySelective(param);
+        return mediaCountsRespository.updateByPrimaryKeySelective(param);
     }
 
-    public Integer updateByCreateId(String mediaId,User user){
+    public Integer updateFinishedByCreateId(String mediaId, User user) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        String createTime =now+"%";
-        return mediaCountsRespository.updateByCreateId(mediaId,user.getRecId(),createTime);
+        String createTime = now + "%";
+        if (mediaCountsRespository.countByCreateId(mediaId, user.getRecId(), createTime) > 0) {
+            return mediaCountsRespository.updateFinishedByCreateId(mediaId, user.getRecId(), createTime);
+        } else {
+            MediaCounts mediaCounts = new MediaCounts();
+            mediaCounts.setRecId(idService.gen("ID"));
+            mediaCounts.setMediaId(mediaId);
+            mediaCounts.setClicked("0");
+            mediaCounts.setCreateId(user.getRecId());
+            mediaCounts.setCreateTime(now);
+            mediaCounts.setMediaType("audio");
+            mediaCounts.setFinished("1");
+            mediaCountsRespository.insertSelective(mediaCounts);
+            return 1;
+        }
     }
 
-    public  List<Map<String,String>>  clickCountByTime(String startTime,String endTime,String mediaId){
-        System.err.println(mediaCountsRespository.clickCountByTime(startTime,endTime,mediaId));
-        return  mediaCountsRespository.clickCountByTime(startTime,endTime,mediaId);
+    public Integer updateByCreateId(String mediaId, User user) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        String createTime = now + "%";
+        if (mediaCountsRespository.countByCreateId(mediaId, user.getRecId(), createTime) > 0) {
+            return mediaCountsRespository.updateByCreateId(mediaId, user.getRecId(), createTime);
+        } else {
+            MediaCounts mediaCounts = new MediaCounts();
+            mediaCounts.setRecId(idService.gen("ID"));
+            mediaCounts.setMediaId(mediaId);
+            mediaCounts.setClicked("1");
+            mediaCounts.setCreateId(user.getRecId());
+            mediaCounts.setCreateTime(now);
+            mediaCounts.setMediaType("audio");
+            mediaCounts.setFinished("0");
+            mediaCountsRespository.insert(mediaCounts);
+            return 1;
+        }
     }
 
-    public List<Map<String,String>>  finishCountByTime(String startTime,String endTime,String mediaId){
-        return  mediaCountsRespository.finishCountByTime(startTime,endTime,mediaId);
+    public List<Map<String, String>> clickCountByTime(String startTime, String endTime, String mediaId) {
+        System.err.println(mediaCountsRespository.clickCountByTime(startTime, endTime, mediaId));
+        return mediaCountsRespository.clickCountByTime(startTime, endTime, mediaId);
     }
 
-    public List<Map<String,String>>  finishRateByTime(String startTime,String endTime,String mediaId){
-        return  mediaCountsRespository.finishRateByTime(startTime,endTime,mediaId);
+    public List<Map<String, String>> finishCountByTime(String startTime, String endTime, String mediaId) {
+        return mediaCountsRespository.finishCountByTime(startTime, endTime, mediaId);
     }
+
+    public List<Map<String, String>> finishRateByTime(String startTime, String endTime, String mediaId) {
+        return mediaCountsRespository.finishRateByTime(startTime, endTime, mediaId);
+    }
+
     public String create(MediaCounts param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
+        param.setCreateTime(now);
         mediaCountsRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId){
+    public Integer delete(String recId) {
         return mediaCountsRespository.deleteByPrimaryKey(recId);
-	}
+    }
 
-	public List<MediaCounts> list(MediaCounts mediaCountsParam, PageInfo pageInfo) {
-        Map<String,Object> params = prepareParams(mediaCountsParam);
+    public List<MediaCounts> list(MediaCounts mediaCountsParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(mediaCountsParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return mediaCountsRespository.list(params);
-	}
+    }
 
-	public Integer count(MediaCounts mediaCountsParam) {
-        Map<String,Object> params = prepareParams(mediaCountsParam);
+    public Integer count(MediaCounts mediaCountsParam) {
+        Map<String, Object> params = prepareParams(mediaCountsParam);
         return mediaCountsRespository.count(params);
     }
 

@@ -16,8 +16,9 @@ import java.util.Map;
  */
 public interface MediaCountsRespository extends MediaCountsMapper {
 
-
+    Integer countByCreateId(@Param("mediaId") String mediaId,@Param("createId")String createId,@Param("createTime")String createTime);
     Integer updateByCreateId(@Param("mediaId") String mediaId,@Param("createId")String createId,@Param("createTime")String createTime);
+    Integer updateFinishedByCreateId(@Param("mediaId") String mediaId,@Param("createId")String createId,@Param("createTime")String createTime);
     List<Map<String,String>> clickCountByTime(@Param("startTime")String startTime, @Param("endTime") String endTime, @Param("mediaId") String mediaId);
     List<Map<String,String>> finishCountByTime(@Param("startTime")String startTime, @Param("endTime") String endTime, @Param("mediaId") String mediaId);
     List<Map<String,String>> finishRateByTime(@Param("startTime")String startTime, @Param("endTime") String endTime, @Param("mediaId") String mediaId);
