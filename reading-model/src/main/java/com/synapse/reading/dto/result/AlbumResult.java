@@ -22,6 +22,14 @@ public class AlbumResult {
     public AlbumResult() {
     }
 
+    public String getBanner() {
+        return album.getBanner();
+    }
+
+    public void setBanner(String banner) {
+        album.setBanner(banner);
+    }
+
     public AlbumResult(Album album) {
         this.album = album;
     }

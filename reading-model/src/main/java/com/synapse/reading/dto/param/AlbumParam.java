@@ -63,6 +63,14 @@ public class AlbumParam {
         return album.getName();
     }
 
+    public String getBanner() {
+        return album.getBanner();
+    }
+
+    public void setBanner(String banner) {
+        album.setBanner(banner);
+    }
+
     public void setName(String name) {
         album.setName(name);
     }

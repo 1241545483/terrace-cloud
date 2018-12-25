@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-01
+ * @since 2018-12-25
  */
 public class Album implements Serializable {
 
@@ -28,6 +28,10 @@ public class Album implements Serializable {
      * 封面图片URL
      */
     private String cover;
+    /**
+     * 替换封面图片URL
+     */
+    private String banner;
     /**
      * 0 未发布，1已发布
      */
@@ -93,6 +97,14 @@ public class Album implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 
     public String getPublishStatus() {

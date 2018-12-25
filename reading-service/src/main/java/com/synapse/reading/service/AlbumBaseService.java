@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-01
+ * @since 2018-12-25
  */
 public class AlbumBaseService {
 
@@ -34,6 +34,9 @@ public class AlbumBaseService {
         }
         if (albumParam.getCover() != null && !albumParam.getCover().trim().equals("")) {
             params.put("cover", albumParam.getCover());
+        }
+        if (albumParam.getBanner() != null && !albumParam.getBanner().trim().equals("")) {
+            params.put("banner", albumParam.getBanner());
         }
         if (albumParam.getPublishStatus() != null && !albumParam.getPublishStatus().trim().equals("")) {
             params.put("publishStatus", albumParam.getPublishStatus());

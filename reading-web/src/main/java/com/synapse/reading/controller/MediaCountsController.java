@@ -162,7 +162,7 @@ public class MediaCountsController extends BaseController{
             @ApiResponse(code = 200, response = Integer.class, message = "增加数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/updateByCreateId/{mediaId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/v1/updateByCreateId/{mediaId}",method = RequestMethod.POST)
     public ResponseEntity updateByCreateId(@PathVariable("mediaId") String mediaId){
         try {
             User user = UserContext.getUser();
@@ -185,7 +185,7 @@ public class MediaCountsController extends BaseController{
             @ApiResponse(code = 200, response = Integer.class, message = "增加数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/clickCountByTime/{mediaId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/v1/clickCountByTime/{mediaId}",method = RequestMethod.GET)
     public ResponseEntity clickCountByTime(@PathVariable("mediaId") String mediaId,String startTime,String endTime){
         try {
             User user = UserContext.getUser();
@@ -208,7 +208,7 @@ public class MediaCountsController extends BaseController{
             @ApiResponse(code = 200, response = Integer.class, message = "完成数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/finishCountByTime/{mediaId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/v1/finishCountByTime/{mediaId}",method = RequestMethod.GET)
     public ResponseEntity finishCountByTime(@PathVariable("mediaId") String mediaId,String startTime,String endTime){
         try {
             User user = UserContext.getUser();
@@ -231,7 +231,7 @@ public class MediaCountsController extends BaseController{
             @ApiResponse(code = 200, response = Integer.class, message = "完成率"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/finishRateByTime/{mediaId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/v1/finishRateByTime/{mediaId}",method = RequestMethod.GET)
     public ResponseEntity finishRateByTime(@PathVariable("mediaId") String mediaId,String startTime,String endTime){
         try {
             User user = UserContext.getUser();
