@@ -48,8 +48,8 @@ public class MediaCountsService extends MediaCountsBaseService {
     }
 
     public Integer updateFinishedByCreateId(String mediaId, User user) {
-        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        String createTime = now + "%";
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE);
+        String createTime = now ;
         if (mediaCountsRespository.countByCreateId(mediaId, user.getRecId(), createTime) > 0) {
             audioService.increaseFinishNum(mediaId);
             return mediaCountsRespository.updateFinishedByCreateId(mediaId, user.getRecId(), createTime);
