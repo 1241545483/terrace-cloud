@@ -161,8 +161,8 @@ public class MediaCountsController extends BaseController{
             @ApiResponse(code = 200, response = Integer.class, message = "增加数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/updateByCreateId/{mediaId}",method = RequestMethod.POST)
-    public ResponseEntity updateByCreateId(@PathVariable("mediaId") String mediaId ,MediaCounts mediaCounts){
+    @RequestMapping(value = "/v1/increaseClickNum/{mediaId}",method = RequestMethod.PUT)
+    public ResponseEntity updateByCreateId(@PathVariable("mediaId") String mediaId ,@RequestBody MediaCounts mediaCounts){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
@@ -184,8 +184,8 @@ public class MediaCountsController extends BaseController{
             @ApiResponse(code = 200, response = Integer.class, message = "增加数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/updateFinishedByCreateId/{mediaId}",method = RequestMethod.POST)
-    public ResponseEntity updateFinishedByCreateId(@PathVariable("mediaId") String mediaId,MediaCounts mediaCounts){
+    @RequestMapping(value = "/v1/increaseFinishedNum/{mediaId}",method = RequestMethod.PUT)
+    public ResponseEntity updateFinishedByCreateId(@PathVariable("mediaId") String mediaId,@RequestBody MediaCounts mediaCounts){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
