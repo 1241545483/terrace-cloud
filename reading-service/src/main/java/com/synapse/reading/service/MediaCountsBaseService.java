@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-25
+ * @since 2018-12-26
  */
 public class MediaCountsBaseService {
 
@@ -31,9 +31,6 @@ public class MediaCountsBaseService {
         }
         if (mediaCountsParam.getFinished() != null && !mediaCountsParam.getFinished().trim().equals("")) {
             params.put("finished", mediaCountsParam.getFinished());
-        }
-        if (mediaCountsParam.getCreateId() != null && !mediaCountsParam.getCreateId().trim().equals("")) {
-            params.put("createId", mediaCountsParam.getCreateId());
         }
         if (mediaCountsParam.getCreateTime() != null && !mediaCountsParam.getCreateTime().trim().equals("")) {
             params.put("createTime", mediaCountsParam.getCreateTime());

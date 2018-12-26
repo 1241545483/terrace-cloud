@@ -9,13 +9,12 @@
         <result column="media_type" property="mediaType" />
         <result column="clicked" property="clicked" />
         <result column="finished" property="finished" />
-        <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`media_id`,`media_type`,`clicked`,`finished`,`create_id`,`create_time`
+      `rec_id`,`media_id`,`media_type`,`clicked`,`finished`,`create_time`
     </sql>
 
 
@@ -30,7 +29,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.MediaCounts">
         insert into `media_counts`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{mediaId},#{mediaType},#{clicked},#{finished},#{createId},#{createTime})
+        values (#{recId},#{mediaId},#{mediaType},#{clicked},#{finished},#{createTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -57,9 +56,6 @@
                 <if test="finished != null" >
                     `finished`,
                 </if>
-                <if test="createId != null" >
-                    `create_id`,
-                </if>
                 <if test="createTime != null" >
                     `create_time`,
                 </if>
@@ -79,9 +75,6 @@
                 </if>
                 <if test="finished != null" >
 			        #{finished},
-                </if>
-                <if test="createId != null" >
-			        #{createId},
                 </if>
                 <if test="createTime != null" >
 			        #{createTime},
@@ -107,9 +100,6 @@
 	            <if test="finished != null" >
 		            `finished` = #{finished},
 	            </if>
-	            <if test="createId != null" >
-		            `create_id` = #{createId},
-	            </if>
 	            <if test="createTime != null" >
 		            `create_time` = #{createTime},
 	            </if>
@@ -119,7 +109,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.MediaCounts" >
         update  `media_counts` SET
-		    `rec_id`=#{recId},`media_id`=#{mediaId},`media_type`=#{mediaType},`clicked`=#{clicked},`finished`=#{finished},`create_id`=#{createId},`create_time`=#{createTime}
+		    `rec_id`=#{recId},`media_id`=#{mediaId},`media_type`=#{mediaType},`clicked`=#{clicked},`finished`=#{finished},`create_time`=#{createTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -142,9 +132,6 @@
             </if>
             <if test="finished != null" >
                 AND `finished` = #{finished}
-            </if>
-            <if test="createId != null" >
-                AND `create_id` = #{createId}
             </if>
             <if test="createTime != null" >
                 AND `create_time` = #{createTime}
@@ -170,9 +157,6 @@
             </if>
             <if test="finished != null" >
 			    AND `finished` = #{finished}
-            </if>
-            <if test="createId != null" >
-			    AND `create_id` = #{createId}
             </if>
             <if test="createTime != null" >
 			    AND `create_time` = #{createTime}

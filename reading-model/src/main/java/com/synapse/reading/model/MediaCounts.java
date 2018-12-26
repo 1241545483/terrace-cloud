@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-25
+ * @since 2018-12-26
  */
 public class MediaCounts implements Serializable {
 
@@ -36,10 +36,6 @@ public class MediaCounts implements Serializable {
      * 音频播放完成
      */
     private String finished;
-    /**
-     * 创建人
-     */
-    private String createId;
     /**
      * 创建时间
      */
@@ -84,14 +80,6 @@ public class MediaCounts implements Serializable {
 
     public void setFinished(String finished) {
         this.finished = finished;
-    }
-
-    public String getCreateId() {
-        return createId;
-    }
-
-    public void setCreateId(String createId) {
-        this.createId = createId;
     }
 
     public String getCreateTime() {
