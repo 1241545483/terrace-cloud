@@ -8,7 +8,6 @@ CREATE TABLE media_counts
   media_type  VARCHAR(30) NOT NULL COMMENT '播放类型',
   clicked     VARCHAR(10) COMMENT '点击音频，未播放完成',
   finished    VARCHAR(10) COMMENT '音频播放完成',
-  create_id   VARCHAR(30) COMMENT '创建人',
   create_time VARCHAR(30) COMMENT '创建时间',
   PRIMARY KEY (rec_id )
 );

@@ -157,18 +157,18 @@ public class MediaCountsController extends BaseController{
         }
     }
 
-    @ApiOperation(value = "增加个人点击音频数量")
+    @ApiOperation(value = "增加点击音频或视频数量")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "增加数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/updateByCreateId/{mediaId}",method = RequestMethod.POST)
-    public ResponseEntity updateByCreateId(@PathVariable("mediaId") String mediaId){
+    public ResponseEntity updateByCreateId(@PathVariable("mediaId") String mediaId ,String mediaType){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            Integer num = mediaCountsService.updateByCreateId(mediaId,user);
+            Integer num = mediaCountsService.updateByCreateId(mediaId,mediaType);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("updateByCreateId MediaCounts Error!", e);
@@ -180,18 +180,18 @@ public class MediaCountsController extends BaseController{
         }
     }
 
-    @ApiOperation(value = "增加个人播放完成音频数量")
+    @ApiOperation(value = "增加当前音频或音频播放完成数量")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "增加数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/updateFinishedByCreateId/{mediaId}",method = RequestMethod.POST)
-    public ResponseEntity updateFinishedByCreateId(@PathVariable("mediaId") String mediaId){
+    public ResponseEntity updateFinishedByCreateId(@PathVariable("mediaId") String mediaId,String mediaType){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            Integer num = mediaCountsService.updateFinishedByCreateId(mediaId,user);
+            Integer num = mediaCountsService.updateFinishedByCreateId(mediaId,mediaType);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("updateFinishedByCreateId MediaCounts Error!", e);

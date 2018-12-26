@@ -6,7 +6,7 @@
     <select id="countByCreateId" parameterType="map" resultType="int">
         select count(1)
         from `media_counts`
-        where `media_id` = #{mediaId} AND `create_id` = #{createId} AND  `create_time`=#{createTime}
+        where `media_id` = #{mediaId} AND  `create_time`=#{createTime}
     </select>
 
 
@@ -16,7 +16,7 @@
         SET
         `clicked` = clicked + 1
         WHERE
-        `media_id` = #{mediaId} AND `create_id` = #{createId} AND  `create_time` = #{createTime}
+        `media_id` = #{mediaId}  AND  `create_time` = #{createTime} AND media_type = #{mediaType}
     </update>
 
     <update id="updateFinishedByCreateId" parameterType="map">
@@ -24,7 +24,7 @@
         SET
         `finished` = finished + 1
         WHERE
-        `media_id` = #{mediaId} AND `create_id` = #{createId} AND  `create_time`= #{createTime}
+        `media_id` = #{mediaId}  AND  `create_time`= #{createTime} AND media_type = #{mediaType}
     </update>
 
     <select id="clickCountByTime" parameterType="map" resultType="map">
