@@ -47,18 +47,17 @@ public class MediaCountsService extends MediaCountsBaseService {
         return mediaCountsRespository.updateByPrimaryKeySelective(param);
     }
 
-    public Integer updateFinishedByCreateId(String mediaId,String mediaType) {
+    public Integer updateFinishedByCreateId(String mediaId,MediaCounts mediaCounts) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE);
-        if (mediaCountsRespository.countByCreateId(mediaId,now,mediaType) > 0) {
+        if (mediaCountsRespository.countByCreateId(mediaId,now,mediaCounts.getMediaType()) > 0) {
             audioService.increaseFinishNum(mediaId);
-            return mediaCountsRespository.updateFinishedByCreateId(mediaId, now,mediaType);
+            return mediaCountsRespository.updateFinishedByCreateId(mediaId, now,mediaCounts.getMediaType());
         } else {
-            MediaCounts mediaCounts = new MediaCounts();
             mediaCounts.setRecId(idService.gen("ID"));
             mediaCounts.setMediaId(mediaId);
             mediaCounts.setClicked("0");
             mediaCounts.setCreateTime(now);
-            mediaCounts.setMediaType(mediaType);
+            mediaCounts.setMediaType(mediaCounts.getMediaType());
             mediaCounts.setFinished("1");
             audioService.increaseFinishNum(mediaId);
             mediaCountsRespository.insertSelective(mediaCounts);
@@ -66,18 +65,17 @@ public class MediaCountsService extends MediaCountsBaseService {
         }
     }
 
-    public Integer updateByCreateId(String mediaId,String mediaType) {
+    public Integer updateByCreateId(String mediaId,MediaCounts mediaCounts) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE);
-        if (mediaCountsRespository.countByCreateId(mediaId, now,mediaType) > 0) {
+        if (mediaCountsRespository.countByCreateId(mediaId, now,mediaCounts.getMediaType()) > 0) {
             audioService.increasePlayNum(mediaId);
-            return mediaCountsRespository.updateByCreateId(mediaId,now,mediaType);
+            return mediaCountsRespository.updateByCreateId(mediaId,now,mediaCounts.getMediaType());
         } else {
-            MediaCounts mediaCounts = new MediaCounts();
             mediaCounts.setRecId(idService.gen("ID"));
             mediaCounts.setMediaId(mediaId);
             mediaCounts.setClicked("1");
             mediaCounts.setCreateTime(now);
-            mediaCounts.setMediaType(mediaType);
+            mediaCounts.setMediaType(mediaCounts.getMediaType());
             mediaCounts.setFinished("0");
             mediaCountsRespository.insert(mediaCounts);
             audioService.increasePlayNum(mediaId);

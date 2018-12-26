@@ -162,12 +162,12 @@ public class MediaCountsController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/updateByCreateId/{mediaId}",method = RequestMethod.POST)
-    public ResponseEntity updateByCreateId(@PathVariable("mediaId") String mediaId ,String mediaType){
+    public ResponseEntity updateByCreateId(@PathVariable("mediaId") String mediaId ,MediaCounts mediaCounts){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            Integer num = mediaCountsService.updateByCreateId(mediaId,mediaType);
+            Integer num = mediaCountsService.updateByCreateId(mediaId,mediaCounts);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("updateByCreateId MediaCounts Error!", e);
@@ -185,12 +185,12 @@ public class MediaCountsController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/updateFinishedByCreateId/{mediaId}",method = RequestMethod.POST)
-    public ResponseEntity updateFinishedByCreateId(@PathVariable("mediaId") String mediaId,String mediaType){
+    public ResponseEntity updateFinishedByCreateId(@PathVariable("mediaId") String mediaId,MediaCounts mediaCounts){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            Integer num = mediaCountsService.updateFinishedByCreateId(mediaId,mediaType);
+            Integer num = mediaCountsService.updateFinishedByCreateId(mediaId,mediaCounts);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("updateFinishedByCreateId MediaCounts Error!", e);
