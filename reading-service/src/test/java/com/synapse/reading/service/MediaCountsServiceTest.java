@@ -69,7 +69,7 @@ public class MediaCountsServiceTest {
         assertEquals(val,result.getMediaType());
         assertEquals(val,result.getClicked());
         assertEquals(val,result.getFinished());
-        assertEquals(val,result.getCreateId());
+
     }
 
     @Test
@@ -85,7 +85,6 @@ public class MediaCountsServiceTest {
             param.setMediaType(createVal);
             param.setClicked(createVal);
             param.setFinished(createVal);
-            param.setCreateId(createVal);
             param.setCreateTime(createVal);
 		    return mediaCountsService.create(param);
     }
@@ -97,7 +96,6 @@ public class MediaCountsServiceTest {
 	        param.setMediaType(updateVal);
 	        param.setClicked(updateVal);
 	        param.setFinished(updateVal);
-	        param.setCreateId(updateVal);
 	        param.setCreateTime(updateVal);
             mediaCountsService.update(param);
     }

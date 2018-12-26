@@ -121,7 +121,6 @@ public class MediaCountsController extends BaseController{
             //todo 根据角色判断权限
 
 	        MediaCounts model = param.getModel();
-                model.setCreateId(user.getRecId());
             String recId = mediaCountsService.create(model);
             return ResponseEntity.ok(recId);
         } catch (BusinessException e) {

@@ -78,14 +78,7 @@ public String getFinished() {
 		mediaCounts.setFinished(finished);
 	}
 
-		@ApiModelProperty(value = "创建人")
-public String getCreateId() {
-    return mediaCounts.getCreateId();
-}
 
-	public void setCreateId(String create_id) {
-		mediaCounts.setCreateId(create_id);
-	}
 
 		@ApiModelProperty(value = "创建时间")
 public String getCreateTime() {
