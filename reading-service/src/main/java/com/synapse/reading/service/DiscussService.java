@@ -92,14 +92,13 @@ public class DiscussService extends DiscussBaseService {
                     if (user.getUserId().equals(discuss.getCreateId())){
                         Map<String, Object> param= prepareParams(discuss);
                         param.put("userName",user.getUserName());
-//                        param.
+                        param.put("userImg",user.getUserImg());
                     }
                 }
             }
-
         }
 
-        return discussRespository.listByCommentType(params);
+        return discusses;
     }
 
     public Integer count(Discuss discussParam) {
