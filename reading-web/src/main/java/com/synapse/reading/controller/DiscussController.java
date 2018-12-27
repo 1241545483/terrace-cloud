@@ -84,6 +84,37 @@ public class DiscussController extends BaseController{
         }
 	}
 
+    @ApiOperation(value = "查询Discuss列表()")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = DiscussResult.class, message = "Discuss列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/listByCommentType",method = RequestMethod.GET)
+    public ResponseEntity listByCommentType(PageInfo pageInfo, @Validated(Search.class) DiscussParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = discussService.count(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            List<Discuss> models = discussService.listByCommentType(param.getModel(),pageInfo);
+            List<DiscussResult> results = models.stream().map(it -> new DiscussResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
+            map.put("discussList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Discuss Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Discuss Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 	@ApiOperation(value = "根据主键查询Discuss详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = DiscussResult.class, message = "Discuss对象"),

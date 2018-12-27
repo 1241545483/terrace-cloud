@@ -6,13 +6,13 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 视频
+ * 
  * </p>
  *
  * @author liuguangfu
  * @since 2018-12-27
  */
-public class Video implements Serializable {
+public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,49 +21,45 @@ public class Video implements Serializable {
      */
     private String recId;
     /**
-     * 视频名称
+     * 书籍名称
      */
     private String name;
     /**
-     * 视频链接
-     */
-    private String url;
-    /**
-     * 简介
+     * 书籍描述
      */
     private String intro;
     /**
-     * 标签( 研读，导读)
+     * slogan
      */
-    private String tag;
+    private String slogan;
     /**
-     * 二维码
+     * 书籍类型(1 音频，2视频，3音频+视频）
      */
-    private String qrCode;
+    private String type;
     /**
-     * 封面
+     * 书籍封面(封面图片URL)
      */
     private String cover;
     /**
-     * 属于哪个栏目(album 专辑，book书籍)
+     * banner
      */
-    private String belongTo;
+    private String banner;
     /**
-     * 属于哪个栏目ID(专辑或书籍主键)
+     * 发布状态(0 未发布，1已发布)
      */
-    private String belongToId;
+    private String publishStatus;
     /**
-     * 播放完成总数
+     * 状态(0 删除，1正常)
      */
-    private Long finishNum;
-    /**
-     * 播放量
-     */
-    private Long playNum;
+    private String status;
     /**
      * 排序
      */
     private Integer orderNum;
+    /**
+     * 访问数量
+     */
+    private Long visitNum;
     /**
      * 创建人
      */
@@ -98,14 +94,6 @@ public class Video implements Serializable {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getIntro() {
         return intro;
     }
@@ -114,20 +102,20 @@ public class Video implements Serializable {
         this.intro = intro;
     }
 
-    public String getTag() {
-        return tag;
+    public String getSlogan() {
+        return slogan;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
     }
 
-    public String getQrCode() {
-        return qrCode;
+    public String getType() {
+        return type;
     }
 
-    public void setQrCode(String qrCode) {
-        this.qrCode = qrCode;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getCover() {
@@ -138,36 +126,28 @@ public class Video implements Serializable {
         this.cover = cover;
     }
 
-    public String getBelongTo() {
-        return belongTo;
+    public String getBanner() {
+        return banner;
     }
 
-    public void setBelongTo(String belongTo) {
-        this.belongTo = belongTo;
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 
-    public String getBelongToId() {
-        return belongToId;
+    public String getPublishStatus() {
+        return publishStatus;
     }
 
-    public void setBelongToId(String belongToId) {
-        this.belongToId = belongToId;
+    public void setPublishStatus(String publishStatus) {
+        this.publishStatus = publishStatus;
     }
 
-    public Long getFinishNum() {
-        return finishNum;
+    public String getStatus() {
+        return status;
     }
 
-    public void setFinishNum(Long finishNum) {
-        this.finishNum = finishNum;
-    }
-
-    public Long getPlayNum() {
-        return playNum;
-    }
-
-    public void setPlayNum(Long playNum) {
-        this.playNum = playNum;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Integer getOrderNum() {
@@ -176,6 +156,14 @@ public class Video implements Serializable {
 
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public Long getVisitNum() {
+        return visitNum;
+    }
+
+    public void setVisitNum(Long visitNum) {
+        this.visitNum = visitNum;
     }
 
     public String getCreateId() {

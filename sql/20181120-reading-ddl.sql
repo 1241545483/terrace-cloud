@@ -58,29 +58,7 @@ CREATE TABLE audio
 ALTER TABLE audio
   COMMENT '音频';
 
-/*==============================================================*/
-/* Table: video                                                 */
-/*==============================================================*/
-CREATE TABLE video
-(
-  rec_id       VARCHAR(30) NOT NULL,
-  name         VARCHAR(30),
-  url          VARCHAR(500),
-  intro        TEXT,
-  qr_code      VARCHAR(100),
-  cover        VARCHAR(200) COMMENT '封面图片URL',
-  belong_to    VARCHAR(10) COMMENT 'album 专辑，book书籍',
-  belong_to_id VARCHAR(30) COMMENT '专辑或书籍主键',
-  play_num     BIGINT(11) DEFAULT 0,
-  create_id    VARCHAR(30),
-  create_time  VARCHAR(30),
-  update_id    VARCHAR(30),
-  update_time  VARCHAR(30),
-  PRIMARY KEY (rec_id)
-);
 
-ALTER TABLE video
-  COMMENT '视频';
 
 DROP TABLE IF EXISTS base_system_parameter;
 CREATE TABLE base_system_parameter

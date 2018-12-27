@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.DiscussRespository">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.DiscussResult"
+               extends="com.synapse.reading.mapper.DiscussMapper.BaseResultMap">
+        <id column="reply_num" property="replyNum"/>
+    </resultMap>
 
     <update id="updateDiscussLikeAddNum" parameterType="map">
         update  `discuss` SET
@@ -16,4 +21,20 @@
         where
         `rec_id` = #{recId}
     </update>
+
+
+    <select id="listByCommentType" parameterType="map" resultMap="simpleRow">
+        select
+        <include refid="com.synapse.reading.mapper.DiscussMapper.Base_Column_List" /> ,
+        b.reply_num
+        from `discuss` a
+        LEFT JOIN (SELECT s.reply_id rpy_id,count(1) reply_num from discuss s where
+        s.`comment_type` = 'reply' AND s.`comment_id` = #{commentId} group by s.reply_id) b
+        ON b.rpy_id = a.rec_id
+        where a.`comment_type` = #{commentType} AND a.`comment_id` = #{commentId}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
 </mapper>

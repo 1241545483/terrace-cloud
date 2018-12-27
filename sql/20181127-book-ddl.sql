@@ -54,3 +54,35 @@ alter table recommend comment '推荐';
 
 
 
+drop table if exists video;
+
+/*==============================================================*/
+/* Table: video                                                 */
+/*==============================================================*/
+create table video
+(
+  rec_id               varchar(30) not null comment '主键',
+  name                 varchar(30) comment '视频名称',
+  url                  varchar(500) comment '视频链接',
+  intro                text comment '简介',
+  tag                  varchar(30) comment '标签( 研读，导读)',
+  qr_code              varchar(100) comment '二维码',
+  cover                varchar(200) comment '封面',
+  belong_to            varchar(10) comment '属于哪个栏目(album 专辑，book书籍)',
+  belong_to_id         varchar(30) comment '属于哪个栏目ID(专辑或书籍主键)',
+  finish_num           bigint(11) comment '播放完成总数',
+  play_num             bigint(11) default 0 comment '播放量',
+  order_num            int(3) comment '排序',
+  create_id            varchar(30) comment '创建人',
+  create_time          varchar(30) comment '创建时间',
+  update_id            varchar(30) comment '更新人',
+  update_time          varchar(30) comment '更新时间',
+  primary key (rec_id)
+);
+
+alter table video comment '视频';
+
+alter table discuss add column reply_id varchar(30)  comment '回复评论' after comment_id;
+
+
+
