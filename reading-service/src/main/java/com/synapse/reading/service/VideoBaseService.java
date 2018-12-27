@@ -29,6 +29,9 @@ public class VideoBaseService {
         if (videoParam.getIntro() != null && !videoParam.getIntro().trim().equals("")) {
             params.put("intro", videoParam.getIntro());
         }
+        if (videoParam.getTag() != null && !videoParam.getTag().trim().equals("")) {
+            params.put("tag", videoParam.getTag());
+        }
         if (videoParam.getQrCode() != null && !videoParam.getQrCode().trim().equals("")) {
             params.put("qrCode", videoParam.getQrCode());
         }
@@ -40,6 +43,9 @@ public class VideoBaseService {
         }
         if (videoParam.getBelongToId() != null && !videoParam.getBelongToId().trim().equals("")) {
             params.put("belongToId", videoParam.getBelongToId());
+        }
+        if (videoParam.getFinishNum() != null) {
+            params.put("finishNum", videoParam.getFinishNum());
         }
         if (videoParam.getPlayNum() != null) {
             params.put("playNum", videoParam.getPlayNum());

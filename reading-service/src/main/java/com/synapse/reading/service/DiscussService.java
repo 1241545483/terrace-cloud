@@ -90,7 +90,9 @@ public class DiscussService extends DiscussBaseService {
             for (Discuss discuss:discusses){
                 for (UserInfo user:userList){
                     if (user.getUserId().equals(discuss.getCreateId())){
-
+                        Map<String, Object> param= prepareParams(discuss);
+                        param.put("userName",user.getUserName());
+//                        param.
                     }
                 }
             }
