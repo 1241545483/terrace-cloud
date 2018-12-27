@@ -104,6 +104,26 @@ public class BookController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "查询推荐Book详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = BookResult.class, message = "Book对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/book/{recommendtType}",method = RequestMethod.GET)
+    public ResponseEntity selectByRecommendType(@PathVariable("recommendtType") String recommendtType){
+        try {
+            List<Book> bookList = bookService.selectByRecommendType(recommendtType);
+            return ResponseEntity.ok(bookList);
+        } catch (BusinessException e) {
+            logger.error("get Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 	@ApiOperation(value = "创建Book")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),
