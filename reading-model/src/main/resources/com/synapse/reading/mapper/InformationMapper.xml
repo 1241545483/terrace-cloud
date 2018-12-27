@@ -248,46 +248,106 @@
         from `information`
         where 1 = 1
             <if test="recId != null" >
-			    AND `rec_id` = #{recId}
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
             </if>
             <if test="title != null" >
-			    AND `title` = #{title}
+	            <if test="title.indexOf('%') >= 0" >
+				    AND `title` like #{title}
+	            </if>
+                <if test="title.indexOf('%') lt 0" >
+                    AND `title` = #{title}
+                </if>
             </if>
             <if test="author != null" >
-			    AND `author` = #{author}
+	            <if test="author.indexOf('%') >= 0" >
+				    AND `author` like #{author}
+	            </if>
+                <if test="author.indexOf('%') lt 0" >
+                    AND `author` = #{author}
+                </if>
             </if>
             <if test="content != null" >
-			    AND `content` = #{content}
+	            <if test="content.indexOf('%') >= 0" >
+				    AND `content` like #{content}
+	            </if>
+                <if test="content.indexOf('%') lt 0" >
+                    AND `content` = #{content}
+                </if>
             </if>
             <if test="url != null" >
-			    AND `url` = #{url}
+	            <if test="url.indexOf('%') >= 0" >
+				    AND `url` like #{url}
+	            </if>
+                <if test="url.indexOf('%') lt 0" >
+                    AND `url` = #{url}
+                </if>
             </if>
             <if test="cover != null" >
-			    AND `cover` = #{cover}
+	            <if test="cover.indexOf('%') >= 0" >
+				    AND `cover` like #{cover}
+	            </if>
+                <if test="cover.indexOf('%') lt 0" >
+                    AND `cover` = #{cover}
+                </if>
             </if>
             <if test="readNum != null" >
-			    AND `read_num` = #{readNum}
+                    AND `read_num` = #{readNum}
             </if>
             <if test="likeNum != null" >
-			    AND `like_num` = #{likeNum}
+                    AND `like_num` = #{likeNum}
             </if>
             <if test="publishStatus != null" >
-			    AND `publish_status` = #{publishStatus}
+	            <if test="publishStatus.indexOf('%') >= 0" >
+				    AND `publish_status` like #{publishStatus}
+	            </if>
+                <if test="publishStatus.indexOf('%') lt 0" >
+                    AND `publish_status` = #{publishStatus}
+                </if>
             </if>
             <if test="status != null" >
-			    AND `status` = #{status}
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
+                </if>
             </if>
             <if test="createId != null" >
-			    AND `create_id` = #{createId}
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
             </if>
             <if test="createTime != null" >
-			    AND `create_time` = #{createTime}
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
             </if>
             <if test="updateId != null" >
-			    AND `update_id` = #{updateId}
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
             </if>
             <if test="updateTime != null" >
-			    AND `update_time` = #{updateTime}
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
             </if>
         <if test="startIndex != null">
         	limit ${startIndex}, ${pageSize}

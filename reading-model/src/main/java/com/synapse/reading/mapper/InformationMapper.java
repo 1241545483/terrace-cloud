@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-05
+ * @since 2018-12-27
  */
 public interface InformationMapper {
     Information selectByPrimaryKey(String recId);

@@ -9,8 +9,8 @@ import java.io.Serializable;
  * 
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-20
+ * @author liuguangfu
+ * @since 2018-12-27
  */
 public class BaseSystemParameter implements Serializable {
 

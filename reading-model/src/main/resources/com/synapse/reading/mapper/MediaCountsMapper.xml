@@ -144,22 +144,52 @@
         from `media_counts`
         where 1 = 1
             <if test="recId != null" >
-			    AND `rec_id` = #{recId}
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
             </if>
             <if test="mediaId != null" >
-			    AND `media_id` = #{mediaId}
+	            <if test="mediaId.indexOf('%') >= 0" >
+				    AND `media_id` like #{mediaId}
+	            </if>
+                <if test="mediaId.indexOf('%') lt 0" >
+                    AND `media_id` = #{mediaId}
+                </if>
             </if>
             <if test="mediaType != null" >
-			    AND `media_type` = #{mediaType}
+	            <if test="mediaType.indexOf('%') >= 0" >
+				    AND `media_type` like #{mediaType}
+	            </if>
+                <if test="mediaType.indexOf('%') lt 0" >
+                    AND `media_type` = #{mediaType}
+                </if>
             </if>
             <if test="clicked != null" >
-			    AND `clicked` = #{clicked}
+	            <if test="clicked.indexOf('%') >= 0" >
+				    AND `clicked` like #{clicked}
+	            </if>
+                <if test="clicked.indexOf('%') lt 0" >
+                    AND `clicked` = #{clicked}
+                </if>
             </if>
             <if test="finished != null" >
-			    AND `finished` = #{finished}
+	            <if test="finished.indexOf('%') >= 0" >
+				    AND `finished` like #{finished}
+	            </if>
+                <if test="finished.indexOf('%') lt 0" >
+                    AND `finished` = #{finished}
+                </if>
             </if>
             <if test="createTime != null" >
-			    AND `create_time` = #{createTime}
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
             </if>
         <if test="startIndex != null">
         	limit ${startIndex}, ${pageSize}

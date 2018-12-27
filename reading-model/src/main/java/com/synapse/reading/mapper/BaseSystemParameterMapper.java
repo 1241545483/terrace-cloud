@@ -10,8 +10,8 @@ import java.util.Map;
  *  Mapper 接口
  * </p>
  *
- * @author wangyifan
- * @since 2018-11-20
+ * @author liuguangfu
+ * @since 2018-12-27
  */
 public interface BaseSystemParameterMapper {
     BaseSystemParameter selectByPrimaryKey(String recId);

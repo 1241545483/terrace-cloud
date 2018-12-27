@@ -170,28 +170,63 @@
         from `discuss`
         where 1 = 1
             <if test="recId != null" >
-			    AND `rec_id` = #{recId}
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
             </if>
             <if test="commentType != null" >
-			    AND `comment_type` = #{commentType}
+	            <if test="commentType.indexOf('%') >= 0" >
+				    AND `comment_type` like #{commentType}
+	            </if>
+                <if test="commentType.indexOf('%') lt 0" >
+                    AND `comment_type` = #{commentType}
+                </if>
             </if>
             <if test="commentId != null" >
-			    AND `comment_id` = #{commentId}
+	            <if test="commentId.indexOf('%') >= 0" >
+				    AND `comment_id` like #{commentId}
+	            </if>
+                <if test="commentId.indexOf('%') lt 0" >
+                    AND `comment_id` = #{commentId}
+                </if>
             </if>
             <if test="content != null" >
-			    AND `content` = #{content}
+	            <if test="content.indexOf('%') >= 0" >
+				    AND `content` like #{content}
+	            </if>
+                <if test="content.indexOf('%') lt 0" >
+                    AND `content` = #{content}
+                </if>
             </if>
             <if test="likeNum != null" >
-			    AND `like_num` = #{likeNum}
+                    AND `like_num` = #{likeNum}
             </if>
             <if test="status != null" >
-			    AND `status` = #{status}
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
+                </if>
             </if>
             <if test="createId != null" >
-			    AND `create_id` = #{createId}
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
             </if>
             <if test="createTime != null" >
-			    AND `create_time` = #{createTime}
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
             </if>
         <if test="startIndex != null">
         	limit ${startIndex}, ${pageSize}

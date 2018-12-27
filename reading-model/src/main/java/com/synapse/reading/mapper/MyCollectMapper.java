@@ -11,10 +11,10 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-01
+ * @since 2018-12-27
  */
 public interface MyCollectMapper {
-        MyCollect selectByPrimaryKey(String recId);
+    MyCollect selectByPrimaryKey(String recId);
 
     Integer deleteByPrimaryKey(String recId);
 
