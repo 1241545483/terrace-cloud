@@ -109,10 +109,10 @@ public class BookController extends BaseController{
             @ApiResponse(code = 200, response = BookResult.class, message = "Book对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/book/{recommendtType}",method = RequestMethod.GET)
-    public ResponseEntity selectByRecommendType(@PathVariable("recommendtType") String recommendtType){
+    @RequestMapping(value = "/v1/recommend/book",method = RequestMethod.GET)
+    public ResponseEntity selectByRecommendType(){
         try {
-            List<Book> bookList = bookService.selectByRecommendType(recommendtType);
+            List<Book> bookList = bookService.selectByRecommendType();
             return ResponseEntity.ok(bookList);
         } catch (BusinessException e) {
             logger.error("get Book Error!", e);
