@@ -42,16 +42,15 @@ public String getRecId() {
 		recommend.setRecId(rec_id);
 	}
 
-		@ApiModelProperty(value = "被推荐类型(info:资讯,audio:音频,vedio:视频)")
-public String getRecommendtType() {
-    return recommend.getRecommendtType();
-}
-
-	public void setRecommendtType(String recommendt_type) {
-		recommend.setRecommendtType(recommendt_type);
+	public String getRecommendType() {
+		return recommend.getRecommendType();
 	}
 
-		@ApiModelProperty(value = "被推荐主键")
+	public void setRecommendType(String recommendType) {
+		recommend.setRecommendType(recommendType);
+	}
+
+	@ApiModelProperty(value = "被推荐主键")
 public String getRecommendId() {
     return recommend.getRecommendId();
 }

@@ -39,16 +39,14 @@ drop table if exists recommend;
 create table recommend
 (
   rec_id               varchar(30) not null comment '主键',
-  recommendt_type      varchar(10) comment '被推荐类型(info:资讯,audio:音频,vedio:视频)',
+  recommend_type      varchar(10) comment '被推荐类型(info:资讯,audio:音频,vedio:视频)',
   recommend_id         varchar(30) comment '被推荐主键',
   create_id            varchar(30) comment '推荐人',
   create_time          varchar(30) comment '推荐时间',
   start_time           varchar(30) comment '开始时间',
   end_time             varchar(30) comment '结束时间',
   primary key (rec_id)
-)
-  ENGINE = InnoDB
-  CHARSET = utf8;
+);
 
 alter table recommend comment '推荐';
 
@@ -82,7 +80,7 @@ create table video
 
 alter table video comment '视频';
 
-alter table discuss add column reply_id varchar(30)  comment '回复评论' after comment_id;
+ alter table discuss add column reply_id varchar(30)  comment '回复评论' after comment_id;
 
 
 
