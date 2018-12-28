@@ -73,9 +73,6 @@ public class BookService extends BookBaseService {
         return bookRespository.list(params);
 	}
 
-    public List<Book> selectByRecommendType() {
-        return bookRespository.selectByRecommendType("book");
-    }
 
 	public Integer count(Book bookParam) {
 		bookParam.setStatus(BookConstants.STATUS.OK.num());

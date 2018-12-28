@@ -65,7 +65,7 @@ public class RecommendServiceTest {
 
     private void checkField(String recId, String val){
 		Recommend result = recommendService.find(recId);
-        assertEquals(val,result.getRecommendtType());
+        assertEquals(val,result.getRecommendType());
         assertEquals(val,result.getRecommendId());
         assertEquals(val,result.getCreateId());
         assertEquals(val,result.getStartTime());
@@ -81,7 +81,7 @@ public class RecommendServiceTest {
     public String doCreate(){
             Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
 		    Recommend param = new Recommend();
-            param.setRecommendtType(createVal);
+            param.setRecommendType(createVal);
             param.setRecommendId(createVal);
             param.setCreateId(createVal);
             param.setCreateTime(createVal);
@@ -93,7 +93,7 @@ public class RecommendServiceTest {
     public void doUpdate(String recId){
 			Recommend param = new Recommend();
 	        param.setRecId(recId);
-	        param.setRecommendtType(updateVal);
+	        param.setRecommendType(updateVal);
 	        param.setRecommendId(updateVal);
 	        param.setCreateId(updateVal);
 	        param.setCreateTime(updateVal);

@@ -15,5 +15,5 @@ import java.util.List;
  * @since 2018-12-27
  */
 public interface BookRespository extends BookMapper {
-    List<Book> selectByRecommendType(@Param("recommendtType")String recommendtType);
+
 }

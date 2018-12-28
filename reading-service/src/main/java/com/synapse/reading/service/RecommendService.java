@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.reading.model.Book;
 import com.synapse.reading.model.Recommend;
 import com.synapse.reading.respository.RecommendRespository;
 import com.synapse.reading.dto.param.RecommendParam;
@@ -61,6 +62,10 @@ public class RecommendService extends RecommendBaseService {
         params.put("pageSize", pageInfo.getPerPageNum());
         return recommendRespository.list(params);
 	}
+
+    public List<Book> selectByRecommendType(String recommendType) {
+        return recommendRespository.selectByRecommendType(recommendType);
+    }
 
 	public Integer count(Recommend recommendParam) {
         Map<String,Object> params = prepareParams(recommendParam);

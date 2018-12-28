@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.RecommendRespository">
 
+    <select id="selectByRecommendType" resultMap="com.synapse.reading.mapper.BookMapper.BaseResultMap" parameterType="map" >
+        select
+        b.rec_id,b.banner,b.name
+        from `book` b
+        LEFT JOIN recommend r ON b.rec_id=r.recommend_id
+        where
+        r.recommend_type=#{recommendType}
+    </select>
 </mapper>

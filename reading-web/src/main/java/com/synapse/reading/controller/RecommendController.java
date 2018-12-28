@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.model.Book;
 import com.synapse.reading.model.Recommend;
 import com.synapse.reading.dto.param.RecommendParam;
 import com.synapse.reading.dto.result.RecommendResult;
@@ -157,7 +158,32 @@ public class RecommendController extends BaseController{
         }
     }
 
-	@ApiOperation(value = "根据主键更新Recommend")
+
+    @ApiOperation(value = "查询推荐")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "推荐列表"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/selectByRecommendType/{recommendType}",method = RequestMethod.GET)
+    public ResponseEntity selectByRecommendType(@PathVariable("recommendType") String recommendType){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            List<Book> booklist = recommendService.selectByRecommendType(recommendType);
+            return ResponseEntity.ok(booklist);
+        } catch (BusinessException e) {
+            logger.error("selectByRecommendType Recommend Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("selectByRecommendType Recommend Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+    @ApiOperation(value = "根据主键更新Recommend")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
@@ -186,5 +212,11 @@ public class RecommendController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
+
+
+
+
+
+
 
 }
