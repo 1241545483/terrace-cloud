@@ -20,5 +20,5 @@ public interface UserService {
 
     @RequestMapping(value = "/api/v1/selectByUserIdList", method = RequestMethod.GET
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    ArrayList<UserInfo> selectByUserIdList(@RequestParam("userIdList") String userIdListStr);
+    ArrayList<UserInfo> selectByUserIdList(@RequestParam("userIdListStr") String userIdListStr);
 }
