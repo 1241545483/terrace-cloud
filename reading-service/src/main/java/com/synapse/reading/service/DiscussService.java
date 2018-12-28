@@ -1,24 +1,21 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.constants.DiscussConstants;
 import com.synapse.reading.model.Discuss;
+import com.synapse.reading.remote.IdService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.DiscussRespository;
-import com.synapse.reading.dto.param.DiscussParam;
-import com.synapse.reading.dto.result.DiscussResult;
-import com.synapse.common.utils.DateUtils;
 import com.synapse.user.model.UserInfo;
-import io.swagger.client.model.User;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.synapse.reading.constants.DiscussConstants;
-import com.synapse.reading.remote.IdService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 
 /**
@@ -86,7 +83,8 @@ public class DiscussService extends DiscussBaseService {
             for (Discuss discuss:discusses){
                 useridList.add(discuss.getCreateId());
             }
-            ArrayList<UserInfo> userList=  userService.selectByUserIdList(useridList);
+            String userIdListStr = StringUtils.join(useridList.toArray());
+            ArrayList<UserInfo> userList=  userService.selectByUserIdList(userIdListStr);
             for (Discuss discuss:discusses){
                 for (UserInfo user:userList){
                     if (user.getUserId().equals(discuss.getCreateId())){
