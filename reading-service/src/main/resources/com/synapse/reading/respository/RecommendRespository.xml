@@ -4,7 +4,7 @@
 
     <select id="selectByRecommendType" resultMap="com.synapse.reading.mapper.BookMapper.BaseResultMap" parameterType="map" >
         select
-        b.rec_id,b.banner,b.name
+        b.rec_id,b.banner,b.name,b.cover
         from `book` b
         LEFT JOIN recommend r ON b.rec_id=r.recommend_id
         where
