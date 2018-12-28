@@ -82,11 +82,11 @@ public class DiscussService extends DiscussBaseService {
         params.put("pageSize", pageInfo.getPerPageNum());
         List<Discuss> discusses = discussRespository.listByCommentType(params);
         List<String> useridList = new ArrayList<>();
-        if (discusses!=null ||!"".equals(discusses)){
+        if (discusses!=null &&!"".equals(discusses)){
             for (Discuss discuss:discusses){
                 useridList.add(discuss.getCreateId());
             }
-            List<UserInfo> userList=  userService.selectByUserIdList(useridList);
+            ArrayList<UserInfo> userList=  userService.selectByUserIdList(useridList);
             for (Discuss discuss:discusses){
                 for (UserInfo user:userList){
                     if (user.getUserId().equals(discuss.getCreateId())){

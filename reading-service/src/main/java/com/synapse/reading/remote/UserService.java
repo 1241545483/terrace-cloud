@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,5 +20,5 @@ public interface UserService {
 
     @RequestMapping(value = "/api/v1/selectByUserIdList", method = RequestMethod.GET
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    List<UserInfo> selectByUserIdList(@RequestParam("userIdList") List<String> userIdList);
+    ArrayList<UserInfo> selectByUserIdList(@RequestParam("userIdList") List<String> userIdList);
 }
