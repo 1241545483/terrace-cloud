@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-27
+ * @since 2018-12-28
  */
 public class Book implements Serializable {
 
@@ -24,6 +24,10 @@ public class Book implements Serializable {
      * 书籍名称
      */
     private String name;
+    /**
+     * 书籍作者名称
+     */
+    private String author;
     /**
      * 书籍描述
      */
@@ -92,6 +96,14 @@ public class Book implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getIntro() {

@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.synapse.reading.model.Book">
         <id column="rec_id" property="recId" />
         <result column="name" property="name" />
+        <result column="author" property="author" />
         <result column="intro" property="intro" />
         <result column="slogan" property="slogan" />
         <result column="type" property="type" />
@@ -23,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`slogan`,`type`,`cover`,`banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`author`,`intro`,`slogan`,`type`,`cover`,`banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -38,7 +39,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Book">
         insert into `book`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{slogan},#{type},#{cover},#{banner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{author},#{intro},#{slogan},#{type},#{cover},#{banner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -55,6 +56,9 @@
                 </if>
                 <if test="name != null" >
                     `name`,
+                </if>
+                <if test="author != null" >
+                    `author`,
                 </if>
                 <if test="intro != null" >
                     `intro`,
@@ -102,6 +106,9 @@
                 </if>
                 <if test="name != null" >
 			        #{name},
+                </if>
+                <if test="author != null" >
+			        #{author},
                 </if>
                 <if test="intro != null" >
 			        #{intro},
@@ -154,6 +161,9 @@
 	            <if test="name != null" >
 		            `name` = #{name},
 	            </if>
+	            <if test="author != null" >
+		            `author` = #{author},
+	            </if>
 	            <if test="intro != null" >
 		            `intro` = #{intro},
 	            </if>
@@ -199,7 +209,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Book" >
         update  `book` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`banner`=#{banner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`author`=#{author},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`banner`=#{banner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -213,6 +223,9 @@
             </if>
             <if test="name != null" >
                 AND `name` = #{name}
+            </if>
+            <if test="author != null" >
+                AND `author` = #{author}
             </if>
             <if test="intro != null" >
                 AND `intro` = #{intro}
@@ -274,6 +287,14 @@
 	            </if>
                 <if test="name.indexOf('%') lt 0" >
                     AND `name` = #{name}
+                </if>
+            </if>
+            <if test="author != null" >
+	            <if test="author.indexOf('%') >= 0" >
+				    AND `author` like #{author}
+	            </if>
+                <if test="author.indexOf('%') lt 0" >
+                    AND `author` = #{author}
                 </if>
             </if>
             <if test="intro != null" >

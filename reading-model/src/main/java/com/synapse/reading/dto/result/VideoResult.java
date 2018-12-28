@@ -17,6 +17,22 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "VideoResult对象", description = "视频")
 public class VideoResult {
 
+    public String getTag() {
+        return video.getTag();
+    }
+
+    public void setTag(String tag) {
+        video.setTag(tag);
+    }
+
+    public Long getFinishNum() {
+        return video.getFinishNum();
+    }
+
+    public void setFinishNum(Long finishNum) {
+        video.setFinishNum(finishNum);
+    }
+
     private Video video = new Video();
 
     public VideoResult() {

@@ -43,6 +43,22 @@ public class VideoParam {
         return video;
     }
 
+    public String getTag() {
+        return video.getTag();
+    }
+
+    public void setTag(String tag) {
+        video.setTag(tag);
+    }
+
+    public Long getFinishNum() {
+        return video.getFinishNum();
+    }
+
+    public void setFinishNum(Long finishNum) {
+        video.setFinishNum(finishNum);
+    }
+
     public void setModel(Video video) {
         this.video = video;
     }

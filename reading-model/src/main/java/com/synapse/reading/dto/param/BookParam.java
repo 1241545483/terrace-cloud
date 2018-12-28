@@ -172,4 +172,11 @@ public String getUpdateTime() {
 		book.setUpdateTime(update_time);
 	}
 
-    }
+	public String getAuthor() {
+		return book.getAuthor();
+	}
+
+	public void setAuthor(String author) {
+		book.setAuthor(author);
+	}
+}
