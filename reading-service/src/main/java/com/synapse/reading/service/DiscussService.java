@@ -83,10 +83,12 @@ public class DiscussService extends DiscussBaseService {
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         List<DiscussResult> discusses = discussRespository.listByCommentType(params);
+        logger.error("discusses---------------------------------",discusses);
         List<String> useridList = new ArrayList<>();
         if (discusses!=null &&!"".equals(discusses)){
             for (DiscussResult discuss:discusses){
                 useridList.add(discuss.getCreateId());
+                logger.error("discuss---------------------------------",discuss);
             }
             String userIdListStr = StringUtils.join(useridList.toArray());
             logger.error("userIdListStr---------------------------------",userIdListStr);
