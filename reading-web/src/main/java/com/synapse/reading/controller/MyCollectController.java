@@ -245,13 +245,13 @@ public class MyCollectController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/myCollect/addByCreateId/{recId}", method = RequestMethod.PUT)
-    public ResponseEntity addByCreateId(@PathVariable("recId") String recId){
+    public ResponseEntity addByCreateId(@PathVariable("recId") String recId,String collectType){
         try {
 
             User user = UserContext.getUser();
             //todo 根据角色判断权限
             logger.info("before insert");
-            boolean valid = myCollectService.addByCreateId(recId, user);
+            boolean valid = myCollectService.addByCreateId(recId, user,collectType);
             logger.info("after insert {}",valid);
             return ResponseEntity.ok(valid);
         } catch (BusinessException e) {
