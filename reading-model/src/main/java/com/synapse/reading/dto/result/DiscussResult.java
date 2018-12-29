@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.synapse.reading.model.Discuss;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.client.model.UserName;
 
 /**
  * <p>
@@ -17,6 +18,10 @@ import io.swagger.annotations.ApiModelProperty;
 public class DiscussResult {
 
     private Discuss  discuss = new Discuss();
+
+    private String userName;
+
+    private String userImg;
 
     public DiscussResult(){}
 
@@ -116,19 +121,19 @@ public String getCreateTime() {
 
 	@ApiModelProperty(value = "用户姓名")
 	public String getUserName() {
-		return discuss.getCreateTime();
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		discuss.setCreateTime(userName);
+		this.userName=userName
 	}
 
 	@ApiModelProperty(value = "用户头像")
 	public String getUserImg() {
-		return discuss.getCreateTime();
+		return userImg;
 	}
 
 	public void setUserImg(String userImg) {
-		discuss.setCreateTime(userImg);
+		this.userImg=userImg;
 	}
 }
