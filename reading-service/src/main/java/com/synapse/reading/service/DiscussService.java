@@ -10,6 +10,8 @@ import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.DiscussRespository;
 import com.synapse.user.model.UserInfo;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,8 @@ public class DiscussService extends DiscussBaseService {
 
     @Autowired
     private DiscussRespository discussRespository;
+
+    private Logger logger = LoggerFactory.getLogger(DiscussService.class);
 
     public Discuss find(String recId) {
         return discussRespository.selectByPrimaryKey(recId);
@@ -86,8 +90,11 @@ public class DiscussService extends DiscussBaseService {
             }
             String userIdListStr = StringUtils.join(useridList.toArray());
             ArrayList<UserInfo> userList=  userService.selectByUserIdList(userIdListStr);
+            logger.error("userList---------------------------------",userList);
             for (DiscussResult discuss:discusses){
+                logger.error("discuss---------------------------------",discuss);
                 for (UserInfo user:userList){
+                    logger.error("user---------------------------------",user);
                     if (user.getUserId().equals(discuss.getCreateId())){
                         discuss.setUserName(user.getUserName());
                         discuss.setUserImg(user.getUserImg());
