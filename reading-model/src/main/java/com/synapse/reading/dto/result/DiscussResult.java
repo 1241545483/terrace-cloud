@@ -23,6 +23,8 @@ public class DiscussResult {
 
     private String userImg;
 
+    private String replyNum;
+
     public DiscussResult(){}
 
     public DiscussResult(Discuss  discuss){
@@ -112,11 +114,11 @@ public String getCreateTime() {
 
 	@ApiModelProperty(value = "回复评论数量")
 	public String getReplyNum() {
-		return discuss.getCreateTime();
+		return replyNum;
 	}
 
 	public void setReplyNum(String replyNum) {
-		discuss.setCreateTime(replyNum);
+		this.replyNum=replyNum;
 	}
 
 	@ApiModelProperty(value = "用户姓名")
