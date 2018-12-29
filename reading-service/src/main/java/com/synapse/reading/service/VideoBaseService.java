@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-28
+ * @since 2018-12-29
  */
 public class VideoBaseService {
 

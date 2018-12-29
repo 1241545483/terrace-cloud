@@ -119,22 +119,47 @@
 	    from `member`
         where 1 = 1
             <if test="userId != null" >
-                AND `user_id` = #{userId}
+                    <if test="userId.indexOf('%') >= 0" >
+                        AND `user_id` like #{userId}
+                    </if>
+                    <if test="userId.indexOf('%') lt 0" >
+                        AND `user_id` = #{userId}
+                    </if>
             </if>
             <if test="point != null" >
-                AND `point` = #{point}
+                    AND `point` = #{point}
             </if>
             <if test="createId != null" >
-                AND `create_id` = #{createId}
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
             </if>
             <if test="createTime != null" >
-                AND `create_time` = #{createTime}
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
             </if>
             <if test="updateId != null" >
-                AND `update_id` = #{updateId}
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
             </if>
             <if test="updateTime != null" >
-                AND `update_time` = #{updateTime}
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
             </if>
     </select>
 

@@ -219,52 +219,117 @@
 	    from `video`
         where 1 = 1
             <if test="recId != null" >
-                AND `rec_id` = #{recId}
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
             </if>
             <if test="name != null" >
-                AND `name` = #{name}
+                    <if test="name.indexOf('%') >= 0" >
+                        AND `name` like #{name}
+                    </if>
+                    <if test="name.indexOf('%') lt 0" >
+                        AND `name` = #{name}
+                    </if>
             </if>
             <if test="url != null" >
-                AND `url` = #{url}
+                    <if test="url.indexOf('%') >= 0" >
+                        AND `url` like #{url}
+                    </if>
+                    <if test="url.indexOf('%') lt 0" >
+                        AND `url` = #{url}
+                    </if>
             </if>
             <if test="intro != null" >
-                AND `intro` = #{intro}
+                    <if test="intro.indexOf('%') >= 0" >
+                        AND `intro` like #{intro}
+                    </if>
+                    <if test="intro.indexOf('%') lt 0" >
+                        AND `intro` = #{intro}
+                    </if>
             </if>
             <if test="tag != null" >
-                AND `tag` = #{tag}
+                    <if test="tag.indexOf('%') >= 0" >
+                        AND `tag` like #{tag}
+                    </if>
+                    <if test="tag.indexOf('%') lt 0" >
+                        AND `tag` = #{tag}
+                    </if>
             </if>
             <if test="qrCode != null" >
-                AND `qr_code` = #{qrCode}
+                    <if test="qrCode.indexOf('%') >= 0" >
+                        AND `qr_code` like #{qrCode}
+                    </if>
+                    <if test="qrCode.indexOf('%') lt 0" >
+                        AND `qr_code` = #{qrCode}
+                    </if>
             </if>
             <if test="cover != null" >
-                AND `cover` = #{cover}
+                    <if test="cover.indexOf('%') >= 0" >
+                        AND `cover` like #{cover}
+                    </if>
+                    <if test="cover.indexOf('%') lt 0" >
+                        AND `cover` = #{cover}
+                    </if>
             </if>
             <if test="belongTo != null" >
-                AND `belong_to` = #{belongTo}
+                    <if test="belongTo.indexOf('%') >= 0" >
+                        AND `belong_to` like #{belongTo}
+                    </if>
+                    <if test="belongTo.indexOf('%') lt 0" >
+                        AND `belong_to` = #{belongTo}
+                    </if>
             </if>
             <if test="belongToId != null" >
-                AND `belong_to_id` = #{belongToId}
+                    <if test="belongToId.indexOf('%') >= 0" >
+                        AND `belong_to_id` like #{belongToId}
+                    </if>
+                    <if test="belongToId.indexOf('%') lt 0" >
+                        AND `belong_to_id` = #{belongToId}
+                    </if>
             </if>
             <if test="finishNum != null" >
-                AND `finish_num` = #{finishNum}
+                    AND `finish_num` = #{finishNum}
             </if>
             <if test="playNum != null" >
-                AND `play_num` = #{playNum}
+                    AND `play_num` = #{playNum}
             </if>
             <if test="orderNum != null" >
-                AND `order_num` = #{orderNum}
+                    AND `order_num` = #{orderNum}
             </if>
             <if test="createId != null" >
-                AND `create_id` = #{createId}
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
             </if>
             <if test="createTime != null" >
-                AND `create_time` = #{createTime}
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
             </if>
             <if test="updateId != null" >
-                AND `update_id` = #{updateId}
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
             </if>
             <if test="updateTime != null" >
-                AND `update_time` = #{updateTime}
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
             </if>
     </select>
 

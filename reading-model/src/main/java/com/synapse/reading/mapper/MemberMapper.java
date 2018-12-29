@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-27
+ * @since 2018-12-29
  */
 public interface MemberMapper {
     Member selectByPrimaryKey(String recId);

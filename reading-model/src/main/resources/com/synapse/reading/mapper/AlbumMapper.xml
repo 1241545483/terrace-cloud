@@ -209,49 +209,114 @@
 	    from `album`
         where 1 = 1
             <if test="recId != null" >
-                AND `rec_id` = #{recId}
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
             </if>
             <if test="name != null" >
-                AND `name` = #{name}
+                    <if test="name.indexOf('%') >= 0" >
+                        AND `name` like #{name}
+                    </if>
+                    <if test="name.indexOf('%') lt 0" >
+                        AND `name` = #{name}
+                    </if>
             </if>
             <if test="intro != null" >
-                AND `intro` = #{intro}
+                    <if test="intro.indexOf('%') >= 0" >
+                        AND `intro` like #{intro}
+                    </if>
+                    <if test="intro.indexOf('%') lt 0" >
+                        AND `intro` = #{intro}
+                    </if>
             </if>
             <if test="slogan != null" >
-                AND `slogan` = #{slogan}
+                    <if test="slogan.indexOf('%') >= 0" >
+                        AND `slogan` like #{slogan}
+                    </if>
+                    <if test="slogan.indexOf('%') lt 0" >
+                        AND `slogan` = #{slogan}
+                    </if>
             </if>
             <if test="type != null" >
-                AND `type` = #{type}
+                    <if test="type.indexOf('%') >= 0" >
+                        AND `type` like #{type}
+                    </if>
+                    <if test="type.indexOf('%') lt 0" >
+                        AND `type` = #{type}
+                    </if>
             </if>
             <if test="cover != null" >
-                AND `cover` = #{cover}
+                    <if test="cover.indexOf('%') >= 0" >
+                        AND `cover` like #{cover}
+                    </if>
+                    <if test="cover.indexOf('%') lt 0" >
+                        AND `cover` = #{cover}
+                    </if>
             </if>
             <if test="banner != null" >
-                AND `banner` = #{banner}
+                    <if test="banner.indexOf('%') >= 0" >
+                        AND `banner` like #{banner}
+                    </if>
+                    <if test="banner.indexOf('%') lt 0" >
+                        AND `banner` = #{banner}
+                    </if>
             </if>
             <if test="publishStatus != null" >
-                AND `publish_status` = #{publishStatus}
+                    <if test="publishStatus.indexOf('%') >= 0" >
+                        AND `publish_status` like #{publishStatus}
+                    </if>
+                    <if test="publishStatus.indexOf('%') lt 0" >
+                        AND `publish_status` = #{publishStatus}
+                    </if>
             </if>
             <if test="status != null" >
-                AND `status` = #{status}
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
+                    </if>
             </if>
             <if test="orderNum != null" >
-                AND `order_num` = #{orderNum}
+                    AND `order_num` = #{orderNum}
             </if>
             <if test="visitNum != null" >
-                AND `visit_num` = #{visitNum}
+                    AND `visit_num` = #{visitNum}
             </if>
             <if test="createId != null" >
-                AND `create_id` = #{createId}
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
             </if>
             <if test="createTime != null" >
-                AND `create_time` = #{createTime}
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
             </if>
             <if test="updateId != null" >
-                AND `update_id` = #{updateId}
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
             </if>
             <if test="updateTime != null" >
-                AND `update_time` = #{updateTime}
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
             </if>
     </select>
 

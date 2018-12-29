@@ -109,19 +109,44 @@
 	    from `my_collect`
         where 1 = 1
             <if test="recId != null" >
-                AND `rec_id` = #{recId}
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
             </if>
             <if test="collectType != null" >
-                AND `collect_type` = #{collectType}
+                    <if test="collectType.indexOf('%') >= 0" >
+                        AND `collect_type` like #{collectType}
+                    </if>
+                    <if test="collectType.indexOf('%') lt 0" >
+                        AND `collect_type` = #{collectType}
+                    </if>
             </if>
             <if test="collectId != null" >
-                AND `collect_id` = #{collectId}
+                    <if test="collectId.indexOf('%') >= 0" >
+                        AND `collect_id` like #{collectId}
+                    </if>
+                    <if test="collectId.indexOf('%') lt 0" >
+                        AND `collect_id` = #{collectId}
+                    </if>
             </if>
             <if test="createId != null" >
-                AND `create_id` = #{createId}
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
             </if>
             <if test="createTime != null" >
-                AND `create_time` = #{createTime}
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
             </if>
     </select>
 

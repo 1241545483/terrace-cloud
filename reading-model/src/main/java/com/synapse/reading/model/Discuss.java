@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-27
+ * @since 2018-12-29
  */
 public class Discuss implements Serializable {
 
@@ -28,6 +28,10 @@ public class Discuss implements Serializable {
      * 被评论主键
      */
     private String commentId;
+    /**
+     * 回复评论
+     */
+    private String replyId;
     /**
      * 评论内容
      */
@@ -72,6 +76,14 @@ public class Discuss implements Serializable {
 
     public void setCommentId(String commentId) {
         this.commentId = commentId;
+    }
+
+    public String getReplyId() {
+        return replyId;
+    }
+
+    public void setReplyId(String replyId) {
+        this.replyId = replyId;
     }
 
     public String getContent() {

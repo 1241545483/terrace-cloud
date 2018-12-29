@@ -149,31 +149,76 @@
 	    from `share_image`
         where 1 = 1
             <if test="recId != null" >
-                AND `rec_id` = #{recId}
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
             </if>
             <if test="userId != null" >
-                AND `user_id` = #{userId}
+                    <if test="userId.indexOf('%') >= 0" >
+                        AND `user_id` like #{userId}
+                    </if>
+                    <if test="userId.indexOf('%') lt 0" >
+                        AND `user_id` = #{userId}
+                    </if>
             </if>
             <if test="shareType != null" >
-                AND `share_type` = #{shareType}
+                    <if test="shareType.indexOf('%') >= 0" >
+                        AND `share_type` like #{shareType}
+                    </if>
+                    <if test="shareType.indexOf('%') lt 0" >
+                        AND `share_type` = #{shareType}
+                    </if>
             </if>
             <if test="shareId != null" >
-                AND `share_id` = #{shareId}
+                    <if test="shareId.indexOf('%') >= 0" >
+                        AND `share_id` like #{shareId}
+                    </if>
+                    <if test="shareId.indexOf('%') lt 0" >
+                        AND `share_id` = #{shareId}
+                    </if>
             </if>
             <if test="url != null" >
-                AND `url` = #{url}
+                    <if test="url.indexOf('%') >= 0" >
+                        AND `url` like #{url}
+                    </if>
+                    <if test="url.indexOf('%') lt 0" >
+                        AND `url` = #{url}
+                    </if>
             </if>
             <if test="createId != null" >
-                AND `create_id` = #{createId}
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
             </if>
             <if test="createTime != null" >
-                AND `create_time` = #{createTime}
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
             </if>
             <if test="updateId != null" >
-                AND `update_id` = #{updateId}
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
             </if>
             <if test="updateTime != null" >
-                AND `update_time` = #{updateTime}
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
             </if>
     </select>
 

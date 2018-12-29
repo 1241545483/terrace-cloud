@@ -159,34 +159,79 @@
 	    from `base_system_parameter`
         where 1 = 1
             <if test="recId != null" >
-                AND `REC_ID` = #{recId}
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `REC_ID` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `REC_ID` = #{recId}
+                    </if>
             </if>
             <if test="parameterType != null" >
-                AND `PARAMETER_TYPE` = #{parameterType}
+                    <if test="parameterType.indexOf('%') >= 0" >
+                        AND `PARAMETER_TYPE` like #{parameterType}
+                    </if>
+                    <if test="parameterType.indexOf('%') lt 0" >
+                        AND `PARAMETER_TYPE` = #{parameterType}
+                    </if>
             </if>
             <if test="parameterKey != null" >
-                AND `PARAMETER_KEY` = #{parameterKey}
+                    <if test="parameterKey.indexOf('%') >= 0" >
+                        AND `PARAMETER_KEY` like #{parameterKey}
+                    </if>
+                    <if test="parameterKey.indexOf('%') lt 0" >
+                        AND `PARAMETER_KEY` = #{parameterKey}
+                    </if>
             </if>
             <if test="parameterName != null" >
-                AND `PARAMETER_NAME` = #{parameterName}
+                    <if test="parameterName.indexOf('%') >= 0" >
+                        AND `PARAMETER_NAME` like #{parameterName}
+                    </if>
+                    <if test="parameterName.indexOf('%') lt 0" >
+                        AND `PARAMETER_NAME` = #{parameterName}
+                    </if>
             </if>
             <if test="parameterValue != null" >
-                AND `PARAMETER_VALUE` = #{parameterValue}
+                    <if test="parameterValue.indexOf('%') >= 0" >
+                        AND `PARAMETER_VALUE` like #{parameterValue}
+                    </if>
+                    <if test="parameterValue.indexOf('%') lt 0" >
+                        AND `PARAMETER_VALUE` = #{parameterValue}
+                    </if>
             </if>
             <if test="weight != null" >
-                AND `WEIGHT` = #{weight}
+                    AND `WEIGHT` = #{weight}
             </if>
             <if test="parentParameterType != null" >
-                AND `PARENT_PARAMETER_TYPE` = #{parentParameterType}
+                    <if test="parentParameterType.indexOf('%') >= 0" >
+                        AND `PARENT_PARAMETER_TYPE` like #{parentParameterType}
+                    </if>
+                    <if test="parentParameterType.indexOf('%') lt 0" >
+                        AND `PARENT_PARAMETER_TYPE` = #{parentParameterType}
+                    </if>
             </if>
             <if test="parentParameterKey != null" >
-                AND `PARENT_PARAMETER_KEY` = #{parentParameterKey}
+                    <if test="parentParameterKey.indexOf('%') >= 0" >
+                        AND `PARENT_PARAMETER_KEY` like #{parentParameterKey}
+                    </if>
+                    <if test="parentParameterKey.indexOf('%') lt 0" >
+                        AND `PARENT_PARAMETER_KEY` = #{parentParameterKey}
+                    </if>
             </if>
             <if test="createTime != null" >
-                AND `CREATE_TIME` = #{createTime}
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `CREATE_TIME` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `CREATE_TIME` = #{createTime}
+                    </if>
             </if>
             <if test="updateTime != null" >
-                AND `UPDATE_TIME` = #{updateTime}
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `UPDATE_TIME` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `UPDATE_TIME` = #{updateTime}
+                    </if>
             </if>
     </select>
 

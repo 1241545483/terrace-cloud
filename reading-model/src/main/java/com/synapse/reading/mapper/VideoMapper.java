@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-28
+ * @since 2018-12-29
  */
 public interface VideoMapper {
     Video selectByPrimaryKey(String recId);
