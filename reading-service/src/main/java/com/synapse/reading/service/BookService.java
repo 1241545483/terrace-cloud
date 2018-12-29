@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.reading.model.Book;
 import com.synapse.reading.respository.BookRespository;
 import com.synapse.reading.dto.param.BookParam;
@@ -79,5 +80,16 @@ public class BookService extends BookBaseService {
         Map<String,Object> params = prepareParams(bookParam);
         return bookRespository.count(params);
     }
+
+    public List<BookResult> listMyCollectByBook( User user) {
+        String userId =user.getRecId();
+        return bookRespository.listMyCollectByBook(userId);
+    }
+
+    public BookResult selectIsCollect(String recId,User user) {
+
+        return bookRespository.selectIsCollect(user.getRecId(),recId);
+    }
+
 
 }

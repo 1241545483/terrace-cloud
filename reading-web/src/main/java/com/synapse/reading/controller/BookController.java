@@ -190,4 +190,56 @@ public class BookController extends BaseController{
         }
 	}
 
+
+    @ApiOperation(value = "查询为书籍的收藏列表")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/listMyCollectByBook", method = RequestMethod.GET)
+    public ResponseEntity listMyCollectByBook(){
+        try {
+
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            List<BookResult> results = bookService.listMyCollectByBook(user);
+            return ResponseEntity.ok(results);
+        } catch (BusinessException e) {
+            logger.error("update Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+    @ApiOperation(value = "根据主键查询Book详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/selectIsCollect/{recId}", method = RequestMethod.GET)
+    public ResponseEntity selectIsCollect(@PathVariable("recId") String recId){
+        try {
+
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            BookResult results = bookService.selectIsCollect(recId,user);
+            return ResponseEntity.ok(results);
+        } catch (BusinessException e) {
+            logger.error("update Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
 }

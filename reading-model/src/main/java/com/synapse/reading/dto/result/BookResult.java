@@ -17,6 +17,15 @@ import io.swagger.annotations.ApiModelProperty;
 public class BookResult {
 
     private Book  book = new Book();
+	private String isCollect;
+
+	public String getIsCollect() {
+		return isCollect;
+	}
+
+	public void setIsCollect(String isCollect) {
+		this.isCollect = isCollect;
+	}
 
     public BookResult(){}
 
