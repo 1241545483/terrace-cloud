@@ -100,7 +100,6 @@ public class DiscussController extends BaseController{
             int totalNum = discussService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
             List<DiscussResult> models = discussService.listByCommentType(param.getModel(),pageInfo);
-//            List<DiscussResult> results = models.stream().map(it -> new DiscussResult(it)).collect(Collectors.toList());
             Map<String, Object> map = new HashMap();
             map.put("discussList", models);
             map.put("totalNum", totalNum);

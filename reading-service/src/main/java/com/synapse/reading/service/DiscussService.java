@@ -83,28 +83,17 @@ public class DiscussService extends DiscussBaseService {
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         List<DiscussResult> discusses = discussRespository.listByCommentType(params);
-        logger.error("discusses---------------------------------{}",discusses);
         List<String> useridList = new ArrayList<>();
         if (discusses!=null &&discusses.size()!=0){
             for (DiscussResult discuss:discusses){
                 useridList.add(discuss.getCreateId());
-                logger.error("discuss---------------------------------{}",discuss);
             }
             String userIdListStr = StringUtils.join(useridList.toArray());
-            logger.error("userIdListStr---------------------------------{}",userIdListStr);
             ArrayList<UserInfo> userList=  userService.selectByUserIdList(userIdListStr);
-            logger.error("userList---------------------------------{}",userList);
             for (DiscussResult discuss:discusses){
-                logger.error("discuss---------------------------------{}",discuss);
                 for (UserInfo user:userList){
-                    logger.error("user---------------------------------{}",user);
                     if (user.getUserId().equals(discuss.getCreateId())){
-                        logger.error("user.getUserId()---------------------------------{}",user.getUserId());
-                        logger.error("user.getCreateId()---------------------------------{}",discuss.getCreateId());
-                        logger.error("user.getUserName()---------------------------------{}",user.getUserName());
-                        logger.error("user.getUserImg()---------------------------------{}",user.getUserImg());
                         discuss.setUserName(user.getUserName());
-                        logger.error("user.getUserName()---------------------------------{}",discuss.getUserName());
                         discuss.setUserImg(user.getUserImg());
                     }
                 }
