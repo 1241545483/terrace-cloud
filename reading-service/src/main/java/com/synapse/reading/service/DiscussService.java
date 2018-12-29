@@ -100,9 +100,9 @@ public class DiscussService extends DiscussBaseService {
                     logger.error("user---------------------------------{}",user);
                     if (user.getUserId().equals(discuss.getCreateId())){
                         logger.error("user.getUserId()---------------------------------{}",user.getUserId());
-                        logger.error("user.getUserId()---------------------------------{}",discuss.getCreateId());
-                        logger.error("user.getUserName()---------------------------------{}",discuss.getUserName());
-                        logger.error("user.getUserImg()---------------------------------{}",discuss.getUserImg());
+                        logger.error("user.getCreateId()---------------------------------{}",discuss.getCreateId());
+                        logger.error("user.getUserName()---------------------------------{}",user.getUserName());
+                        logger.error("user.getUserImg()---------------------------------{}",user.getUserImg());
                         discuss.setUserName(user.getUserName());
                         discuss.setUserImg(user.getUserImg());
                     }
