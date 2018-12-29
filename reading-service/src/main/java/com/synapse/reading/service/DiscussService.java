@@ -104,6 +104,7 @@ public class DiscussService extends DiscussBaseService {
                         logger.error("user.getUserName()---------------------------------{}",user.getUserName());
                         logger.error("user.getUserImg()---------------------------------{}",user.getUserImg());
                         discuss.setUserName(user.getUserName());
+                        logger.error("user.getUserName()---------------------------------{}",discuss.getUserName());
                         discuss.setUserImg(user.getUserImg());
                     }
                 }
