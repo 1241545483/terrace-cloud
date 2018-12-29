@@ -126,6 +126,14 @@ public String getCreateTime() {
 		return userName;
 	}
 
+	public String getReplyId() {
+		return discuss.getReplyId();
+	}
+
+	public void setReplyId(String replyId) {
+		discuss.setReplyId(replyId);
+	}
+
 	public void setUserName(String userName) {
 		this.userName=userName;
 	}
