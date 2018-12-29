@@ -83,21 +83,21 @@ public class DiscussService extends DiscussBaseService {
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         List<DiscussResult> discusses = discussRespository.listByCommentType(params);
-        logger.error("discusses---------------------------------",discusses);
+        logger.error("discusses---------------------------------{}",discusses);
         List<String> useridList = new ArrayList<>();
-        if (discusses!=null &&!"".equals(discusses)){
+        if (discusses!=null &&discusses.size()!=0){
             for (DiscussResult discuss:discusses){
                 useridList.add(discuss.getCreateId());
-                logger.error("discuss---------------------------------",discuss);
+                logger.error("discuss---------------------------------{}",discuss);
             }
             String userIdListStr = StringUtils.join(useridList.toArray());
-            logger.error("userIdListStr---------------------------------",userIdListStr);
+            logger.error("userIdListStr---------------------------------{}",userIdListStr);
             ArrayList<UserInfo> userList=  userService.selectByUserIdList(userIdListStr);
-            logger.error("userList---------------------------------",userList);
+            logger.error("userList---------------------------------{}",userList);
             for (DiscussResult discuss:discusses){
-                logger.error("discuss---------------------------------",discuss);
+                logger.error("discuss---------------------------------{}",discuss);
                 for (UserInfo user:userList){
-                    logger.error("user---------------------------------",user);
+                    logger.error("user---------------------------------{}",user);
                     if (user.getUserId().equals(discuss.getCreateId())){
                         discuss.setUserName(user.getUserName());
                         discuss.setUserImg(user.getUserImg());
