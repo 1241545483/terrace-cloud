@@ -32,6 +32,7 @@
         s.`comment_type` = 'reply' AND s.`comment_id` = #{commentId} group by s.reply_id) b
         ON b.rpy_id = a.rec_id
         where a.`comment_type` = #{commentType} AND a.`comment_id` = #{commentId}
+        AND a.status='1'
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
