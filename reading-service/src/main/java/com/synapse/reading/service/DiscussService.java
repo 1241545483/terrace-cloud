@@ -86,6 +86,7 @@ public class DiscussService extends DiscussBaseService {
         List<String> useridList = new ArrayList<>();
         if (discusses!=null &&discusses.size()!=0){
             for (DiscussResult discuss:discusses){
+                logger.error("discuss.getCreateId-------{}",discuss.getCreateId());
                 useridList.add(discuss.getCreateId());
             }
             String userIdListStr = StringUtils.join(useridList.toArray());
