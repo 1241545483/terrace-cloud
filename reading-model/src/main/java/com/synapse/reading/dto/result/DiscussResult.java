@@ -125,7 +125,7 @@ public String getCreateTime() {
 	}
 
 	public void setUserName(String userName) {
-		this.userName=userName
+		this.userName=userName;
 	}
 
 	@ApiModelProperty(value = "用户头像")
