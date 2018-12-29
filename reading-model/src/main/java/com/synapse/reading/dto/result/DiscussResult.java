@@ -105,5 +105,30 @@ public String getCreateTime() {
 		discuss.setCreateTime(create_time);
 	}
 
-		
+	@ApiModelProperty(value = "回复评论数量")
+	public String getReplyNum() {
+		return discuss.getCreateTime();
+	}
+
+	public void setReplyNum(String replyNum) {
+		discuss.setCreateTime(replyNum);
+	}
+
+	@ApiModelProperty(value = "用户姓名")
+	public String getUserName() {
+		return discuss.getCreateTime();
+	}
+
+	public void setUserName(String userName) {
+		discuss.setCreateTime(userName);
+	}
+
+	@ApiModelProperty(value = "用户头像")
+	public String getUserImg() {
+		return discuss.getCreateTime();
+	}
+
+	public void setUserImg(String userImg) {
+		discuss.setCreateTime(userImg);
+	}
 }

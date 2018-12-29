@@ -3,6 +3,7 @@ package com.synapse.reading.service;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.constants.DiscussConstants;
+import com.synapse.reading.dto.result.DiscussResult;
 import com.synapse.reading.model.Discuss;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.remote.UserService;
@@ -72,25 +73,24 @@ public class DiscussService extends DiscussBaseService {
         return discussRespository.list(params);
     }
 
-    public List<Discuss> listByCommentType(Discuss discussParam, PageInfo pageInfo) {
+    public List<DiscussResult> listByCommentType(Discuss discussParam, PageInfo pageInfo) {
         discussParam.setStatus(DiscussConstants.STATUS.OK.num());
         Map<String, Object> params = prepareParams(discussParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
-        List<Discuss> discusses = discussRespository.listByCommentType(params);
+        List<DiscussResult> discusses = discussRespository.listByCommentType(params);
         List<String> useridList = new ArrayList<>();
         if (discusses!=null &&!"".equals(discusses)){
-            for (Discuss discuss:discusses){
+            for (DiscussResult discuss:discusses){
                 useridList.add(discuss.getCreateId());
             }
             String userIdListStr = StringUtils.join(useridList.toArray());
             ArrayList<UserInfo> userList=  userService.selectByUserIdList(userIdListStr);
-            for (Discuss discuss:discusses){
+            for (DiscussResult discuss:discusses){
                 for (UserInfo user:userList){
                     if (user.getUserId().equals(discuss.getCreateId())){
-                        Map<String, Object> param= prepareParams(discuss);
-                        param.put("userName",user.getUserName());
-                        param.put("userImg",user.getUserImg());
+                        discuss.setUserName(user.getUserName());
+                        discuss.setUserImg(user.getUserImg());
                     }
                 }
             }

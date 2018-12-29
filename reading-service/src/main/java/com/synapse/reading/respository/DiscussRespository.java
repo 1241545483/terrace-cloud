@@ -1,5 +1,6 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.DiscussResult;
 import com.synapse.reading.mapper.DiscussMapper;
 import com.synapse.reading.model.Discuss;
 import org.apache.ibatis.annotations.Param;
@@ -21,6 +22,6 @@ public interface DiscussRespository extends DiscussMapper {
 
     Integer updateDiscussLikeReduceNum(@Param("recId") String recId);
 
-    List<Discuss> listByCommentType(Map<String, Object> params);
+    List<DiscussResult> listByCommentType(Map<String, Object> params);
 
 }
