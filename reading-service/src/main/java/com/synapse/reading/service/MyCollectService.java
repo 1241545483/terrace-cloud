@@ -84,17 +84,16 @@ public class MyCollectService extends MyCollectBaseService {
         return myCollectRespository.countIsCollect(recId, userId) > 0;
     }
 
-    public boolean addByCreateId(String recId, User user,String collectType) {
+    public boolean addByCreateId(String recId, User user,MyCollect model) {
         if (myCollectRespository.countIsCollect(recId, user.getRecId()) > 0) {
             return myCollectRespository.deleteCollectByCreateId(recId, user.getRecId()) <= 0;
         } else {
             String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-            MyCollect model = new MyCollect();
             model.setRecId(idService.gen("ID"));
             model.setCreateTime(now);
             model.setCollectId(recId);
             model.setCreateId(user.getRecId());
-            model.setCollectType(collectType);
+            model.setCollectType(model.getCollectType());
             try {
                 logger.info("before insert");
                 myCollectRespository.insert(model);
