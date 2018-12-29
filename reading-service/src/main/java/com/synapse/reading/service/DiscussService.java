@@ -84,18 +84,19 @@ public class DiscussService extends DiscussBaseService {
         params.put("pageSize", pageInfo.getPerPageNum());
         List<DiscussResult> discusses = discussRespository.listByCommentType(params);
         List<String> useridList = new ArrayList<>();
-        if (discusses!=null &&discusses.size()!=0){
-            for (DiscussResult discuss:discusses){
-                logger.error("discuss.getCreateId-------{}",discuss.getCreateId());
+        if (discusses != null && discusses.size() != 0) {
+            for (DiscussResult discuss : discusses) {
+                logger.error("discuss.getCreateId-------{}", discuss.getCreateId());
                 useridList.add(discuss.getCreateId());
             }
-            String userIdListStr = StringUtils.join(useridList.toArray());
-            ArrayList<UserInfo> userList=  userService.selectByUserIdList(userIdListStr);
-            for (DiscussResult discuss:discusses){
-                for (UserInfo user:userList){
-                    if (user.getUserId().equals(discuss.getCreateId())){
+            String userIdListStr = StringUtils.join(useridList.toArray(),",");
+            ArrayList<UserInfo> userList = userService.selectByUserIdList(userIdListStr);
+            for (DiscussResult discuss : discusses) {
+                for (UserInfo user : userList) {
+                    if (user.getUserId().equals(discuss.getCreateId())) {
                         discuss.setUserName(user.getUserName());
                         discuss.setUserImg(user.getUserImg());
+                        break;
                     }
                 }
             }
