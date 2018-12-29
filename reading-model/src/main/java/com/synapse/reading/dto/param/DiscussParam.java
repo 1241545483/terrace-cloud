@@ -28,6 +28,14 @@ public class DiscussParam  {
         this.discuss = discuss;
     }
 
+    public String getReplyId() {
+        return discuss.getReplyId();
+    }
+
+    public void setReplyId(String replyId) {
+        discuss.setReplyId(replyId);
+    }
+
     @JsonIgnore
     public Discuss getModel() {
         return discuss;
