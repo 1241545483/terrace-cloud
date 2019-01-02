@@ -94,24 +94,6 @@ public class VideoService extends VideoBaseService {
         return param.getRecId();
     }
 
-//    public String createAndUploudUrl(Video param) {
-//        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-//        param.setRecId(idService.gen("ID"));
-//        param.setRecId("696");
-//        param.setCreateTime(now);
-//        param.setUpdateTime(now);
-//        getVidaoQrCode(param);
-//        videoRespository.insert(param);
-//        String attach = param.getUrl();
-//        if(StringUtils.endsWithIgnoreCase(attach,".tmp")){
-//            Map<String, String> stringStringMap = fileUploadApiService.realUrl(attach);
-//            attach = stringStringMap.get("realPath");
-//            param.setUrl(attach);
-//            videoRespository.updateByPrimaryKeySelective(param);
-//        }
-//        return param.getRecId();
-//    }
-
     public Integer delete(String recId) {
         return videoRespository.deleteByPrimaryKey(recId);
     }
@@ -139,6 +121,7 @@ public class VideoService extends VideoBaseService {
         params.put("bookId", param.getBelongToId());
         params.put("videoId", param.getRecId());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
+        logger.error("result",result);
         if (result != null && result.getCode() == 200) {
             String body = (String) result.getBody();
             String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
