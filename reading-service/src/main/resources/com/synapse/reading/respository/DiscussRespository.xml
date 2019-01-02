@@ -33,7 +33,7 @@
         ON b.rpy_id = a.rec_id
         where a.`comment_type` = #{commentType} AND a.`comment_id` = #{commentId}
         AND a.status='1'
-        <if test="reply_id != null">
+        <if test="replyId != null">
             AND  ${reply_id}=#{replyId}
         </if>
         <if test="startIndex != null">
