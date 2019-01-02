@@ -83,14 +83,15 @@ public class VideoService extends VideoBaseService {
 //        param.setRecId("696");
         param.setCreateTime(now);
         param.setUpdateTime(now);
+        getVidaoQrCode(param);
+        videoRespository.insert(param);
         String attach = param.getUrl();
         if(StringUtils.endsWithIgnoreCase(attach,".tmp")){
             Map<String, String> stringStringMap = fileUploadApiService.realUrl(attach);
             attach = stringStringMap.get("realPath");
             param.setUrl(attach);
-            videoRespository.insert(param);
+            videoRespository.updateByPrimaryKeySelective(param);
         }
-        getVidaoQrCode(param);
         return param.getRecId();
     }
 
@@ -118,7 +119,7 @@ public class VideoService extends VideoBaseService {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
         miniQrcodeParam.setPage("pages/video/video");
         Map<String, String> params = new HashMap<>();
-        params.put("albumId", param.getBelongToId());
+        params.put("bookId", param.getBelongToId());
         params.put("videoId", param.getRecId());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
         if (result != null && result.getCode() == 200) {
