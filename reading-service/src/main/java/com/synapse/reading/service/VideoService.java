@@ -13,6 +13,8 @@ import com.synapse.reading.dto.param.VideoParam;
 import com.synapse.reading.dto.result.VideoResult;
 import com.synapse.common.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +55,21 @@ public class VideoService extends VideoBaseService {
     @Autowired
     private Gson gson;
 
+    private Logger logger = LoggerFactory.getLogger(VideoService.class);
+
     public Video find(String recId) {
+        Video param = videoRespository.selectByPrimaryKey(recId);
+        String attach = param.getUrl();
+        if (attach.indexOf(".tmp")>0) {
+            Map<String, String> stringStringMap = fileUploadApiService.realUrl(attach);
+            attach = stringStringMap.get("realPath");
+            try {
+                param.setUrl(attach);
+                videoRespository.updateByPrimaryKeySelective(param);
+            } catch (Exception e) {
+                logger.error("视频格式转换异常!", e);
+            }
+        }
         return videoRespository.selectByPrimaryKey(recId);
     }
 
@@ -77,23 +93,23 @@ public class VideoService extends VideoBaseService {
         return param.getRecId();
     }
 
-    public String createAndUploudUrl(Video param) {
-        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        param.setRecId(idService.gen("ID"));
+//    public String createAndUploudUrl(Video param) {
+//        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+//        param.setRecId(idService.gen("ID"));
 //        param.setRecId("696");
-        param.setCreateTime(now);
-        param.setUpdateTime(now);
-        getVidaoQrCode(param);
-        videoRespository.insert(param);
-        String attach = param.getUrl();
-        if(StringUtils.endsWithIgnoreCase(attach,".tmp")){
-            Map<String, String> stringStringMap = fileUploadApiService.realUrl(attach);
-            attach = stringStringMap.get("realPath");
-            param.setUrl(attach);
-            videoRespository.updateByPrimaryKeySelective(param);
-        }
-        return param.getRecId();
-    }
+//        param.setCreateTime(now);
+//        param.setUpdateTime(now);
+//        getVidaoQrCode(param);
+//        videoRespository.insert(param);
+//        String attach = param.getUrl();
+//        if(StringUtils.endsWithIgnoreCase(attach,".tmp")){
+//            Map<String, String> stringStringMap = fileUploadApiService.realUrl(attach);
+//            attach = stringStringMap.get("realPath");
+//            param.setUrl(attach);
+//            videoRespository.updateByPrimaryKeySelective(param);
+//        }
+//        return param.getRecId();
+//    }
 
     public Integer delete(String recId) {
         return videoRespository.deleteByPrimaryKey(recId);
