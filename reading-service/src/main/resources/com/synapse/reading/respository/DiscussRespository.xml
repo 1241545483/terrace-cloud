@@ -34,7 +34,7 @@
         where a.`comment_type` = #{commentType} AND a.`comment_id` = #{commentId}
         AND a.status='1'
         <if test="replyId != null">
-            AND  ${reply_id}=#{replyId}
+            AND reply_id=#{replyId}
         </if>
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
