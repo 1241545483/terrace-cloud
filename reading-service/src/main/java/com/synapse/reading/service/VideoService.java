@@ -60,14 +60,12 @@ public class VideoService extends VideoBaseService {
     public Video find(String recId) {
         Video video = videoRespository.selectByPrimaryKey(recId);
         VideoResult param =  new VideoResult(video);
-        logger.error("param.getUrl()2",param.getUrl());
         String attach = param.getUrl();
         if (attach.indexOf(".tmp")>0) {
             Map<String, String> stringStringMap = fileUploadApiService.realUrl(attach);
             attach = stringStringMap.get("realPath");
             try {
                 param.setUrl(attach);
-                logger.error("param.getUrl()2",param.getUrl());
                 videoRespository.updateByPrimaryKeySelective(video);
             } catch (Exception e) {
                 logger.error("视频格式转换异常!", e);
@@ -91,8 +89,8 @@ public class VideoService extends VideoBaseService {
         param.setRecId(idService.gen("ID"));
         param.setCreateTime(now);
         param.setUpdateTime(now);
-        videoRespository.insert(param);
         getVidaoQrCode(param);
+        videoRespository.insert(param);
         return param.getRecId();
     }
 
