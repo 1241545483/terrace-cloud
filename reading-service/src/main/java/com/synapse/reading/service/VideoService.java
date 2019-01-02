@@ -116,7 +116,7 @@ public class VideoService extends VideoBaseService {
 
     public Video getVidaoQrCode(Video param) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/video/video");
+        miniQrcodeParam.setPage("pages/audio/audio");
         Map<String, String> params = new HashMap<>();
         params.put("bookId", param.getBelongToId());
         params.put("videoId", param.getRecId());
