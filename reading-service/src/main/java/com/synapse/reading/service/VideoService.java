@@ -6,11 +6,13 @@ import com.synapse.common.trans.Result;
 import com.synapse.common.utils.JsonUtils;
 import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.model.Video;
+import com.synapse.reading.remote.FileUploadApiService;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.VideoRespository;
 import com.synapse.reading.dto.param.VideoParam;
 import com.synapse.reading.dto.result.VideoResult;
 import com.synapse.common.utils.DateUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,10 @@ public class VideoService extends VideoBaseService {
 
     @Autowired
     private ShortLinkApiService shortLinkApiService;
+
+    @Autowired
+    private FileUploadApiService  fileUploadApiService;
+
     @Autowired
     private Gson gson;
 
@@ -67,6 +73,23 @@ public class VideoService extends VideoBaseService {
         param.setCreateTime(now);
         param.setUpdateTime(now);
         videoRespository.insert(param);
+        getVidaoQrCode(param);
+        return param.getRecId();
+    }
+
+    public String createAndUploudUrl(Video param) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+       // param.setRecId(idService.gen("ID"));
+        param.setRecId("696");
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
+        String attach = param.getUrl();
+        if(StringUtils.endsWithIgnoreCase(attach,".tmp")){
+            Map<String, String> stringStringMap = fileUploadApiService.realUrl(attach);
+            attach = stringStringMap.get("realPath");
+            param.setUrl(attach);
+            videoRespository.insert(param);
+        }
         getVidaoQrCode(param);
         return param.getRecId();
     }
