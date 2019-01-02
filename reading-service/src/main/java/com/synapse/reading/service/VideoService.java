@@ -79,8 +79,8 @@ public class VideoService extends VideoBaseService {
 
     public String createAndUploudUrl(Video param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-       // param.setRecId(idService.gen("ID"));
-        param.setRecId("696");
+        param.setRecId(idService.gen("ID"));
+//        param.setRecId("696");
         param.setCreateTime(now);
         param.setUpdateTime(now);
         String attach = param.getUrl();
