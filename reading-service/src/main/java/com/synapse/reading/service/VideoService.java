@@ -58,14 +58,17 @@ public class VideoService extends VideoBaseService {
     private Logger logger = LoggerFactory.getLogger(VideoService.class);
 
     public Video find(String recId) {
-        Video param = videoRespository.selectByPrimaryKey(recId);
+        Video video = videoRespository.selectByPrimaryKey(recId);
+        VideoResult param =  new VideoResult(video);
+        logger.error("param.getUrl()2",param.getUrl());
         String attach = param.getUrl();
         if (attach.indexOf(".tmp")>0) {
             Map<String, String> stringStringMap = fileUploadApiService.realUrl(attach);
             attach = stringStringMap.get("realPath");
             try {
                 param.setUrl(attach);
-                videoRespository.updateByPrimaryKeySelective(param);
+                logger.error("param.getUrl()2",param.getUrl());
+                videoRespository.updateByPrimaryKeySelective(video);
             } catch (Exception e) {
                 logger.error("视频格式转换异常!", e);
             }
