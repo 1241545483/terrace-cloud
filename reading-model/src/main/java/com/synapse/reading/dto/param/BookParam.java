@@ -179,4 +179,12 @@ public String getUpdateTime() {
 	public void setAuthor(String author) {
 		book.setAuthor(author);
 	}
+
+	public String getQrCode() {
+		return book.getQrCode();
+	}
+
+	public void setQrCode(String qrCode) {
+		book.setQrCode(qrCode);
+	}
 }

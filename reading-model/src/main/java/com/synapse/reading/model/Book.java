@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-28
+ * @since 2019-01-03
  */
 public class Book implements Serializable {
 
@@ -48,6 +48,10 @@ public class Book implements Serializable {
      * banner
      */
     private String banner;
+    /**
+     * 二维码
+     */
+    private String qrCode;
     /**
      * 发布状态(0 未发布，1已发布)
      */
@@ -144,6 +148,14 @@ public class Book implements Serializable {
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
     }
 
     public String getPublishStatus() {

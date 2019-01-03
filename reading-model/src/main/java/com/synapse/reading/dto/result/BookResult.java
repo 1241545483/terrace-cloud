@@ -27,7 +27,15 @@ public class BookResult {
 		this.isCollect = isCollect;
 	}
 
-    public BookResult(){}
+	public String getQrCode() {
+		return book.getQrCode();
+	}
+
+	public void setQrCode(String qrCode) {
+		book.setQrCode(qrCode);
+	}
+
+	public BookResult(){}
 
     public BookResult(Book  book){
         this.book = book;

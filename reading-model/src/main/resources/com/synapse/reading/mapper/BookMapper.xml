@@ -12,6 +12,7 @@
         <result column="type" property="type" />
         <result column="cover" property="cover" />
         <result column="banner" property="banner" />
+        <result column="qr_code" property="qrCode" />
         <result column="publish_status" property="publishStatus" />
         <result column="status" property="status" />
         <result column="order_num" property="orderNum" />
@@ -24,7 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`author`,`intro`,`slogan`,`type`,`cover`,`banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`author`,`intro`,`slogan`,`type`,`cover`,`banner`,`qr_code`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -39,7 +40,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Book">
         insert into `book`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{author},#{intro},#{slogan},#{type},#{cover},#{banner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{author},#{intro},#{slogan},#{type},#{cover},#{banner},#{qrCode},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -74,6 +75,9 @@
                 </if>
                 <if test="banner != null" >
                     `banner`,
+                </if>
+                <if test="qrCode != null" >
+                    `qr_code`,
                 </if>
                 <if test="publishStatus != null" >
                     `publish_status`,
@@ -124,6 +128,9 @@
                 </if>
                 <if test="banner != null" >
 			        #{banner},
+                </if>
+                <if test="qrCode != null" >
+			        #{qrCode},
                 </if>
                 <if test="publishStatus != null" >
 			        #{publishStatus},
@@ -179,6 +186,9 @@
 	            <if test="banner != null" >
 		            `banner` = #{banner},
 	            </if>
+	            <if test="qrCode != null" >
+		            `qr_code` = #{qrCode},
+	            </if>
 	            <if test="publishStatus != null" >
 		            `publish_status` = #{publishStatus},
 	            </if>
@@ -209,7 +219,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Book" >
         update  `book` SET
-		    `rec_id`=#{recId},`name`=#{name},`author`=#{author},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`banner`=#{banner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`author`=#{author},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`banner`=#{banner},`qr_code`=#{qrCode},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -219,52 +229,130 @@
 	    from `book`
         where 1 = 1
             <if test="recId != null" >
-                AND `rec_id` = #{recId}
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
             </if>
             <if test="name != null" >
-                AND `name` = #{name}
+                    <if test="name.indexOf('%') >= 0" >
+                        AND `name` like #{name}
+                    </if>
+                    <if test="name.indexOf('%') lt 0" >
+                        AND `name` = #{name}
+                    </if>
             </if>
             <if test="author != null" >
-                AND `author` = #{author}
+                    <if test="author.indexOf('%') >= 0" >
+                        AND `author` like #{author}
+                    </if>
+                    <if test="author.indexOf('%') lt 0" >
+                        AND `author` = #{author}
+                    </if>
             </if>
             <if test="intro != null" >
-                AND `intro` = #{intro}
+                    <if test="intro.indexOf('%') >= 0" >
+                        AND `intro` like #{intro}
+                    </if>
+                    <if test="intro.indexOf('%') lt 0" >
+                        AND `intro` = #{intro}
+                    </if>
             </if>
             <if test="slogan != null" >
-                AND `slogan` = #{slogan}
+                    <if test="slogan.indexOf('%') >= 0" >
+                        AND `slogan` like #{slogan}
+                    </if>
+                    <if test="slogan.indexOf('%') lt 0" >
+                        AND `slogan` = #{slogan}
+                    </if>
             </if>
             <if test="type != null" >
-                AND `type` = #{type}
+                    <if test="type.indexOf('%') >= 0" >
+                        AND `type` like #{type}
+                    </if>
+                    <if test="type.indexOf('%') lt 0" >
+                        AND `type` = #{type}
+                    </if>
             </if>
             <if test="cover != null" >
-                AND `cover` = #{cover}
+                    <if test="cover.indexOf('%') >= 0" >
+                        AND `cover` like #{cover}
+                    </if>
+                    <if test="cover.indexOf('%') lt 0" >
+                        AND `cover` = #{cover}
+                    </if>
             </if>
             <if test="banner != null" >
-                AND `banner` = #{banner}
+                    <if test="banner.indexOf('%') >= 0" >
+                        AND `banner` like #{banner}
+                    </if>
+                    <if test="banner.indexOf('%') lt 0" >
+                        AND `banner` = #{banner}
+                    </if>
+            </if>
+            <if test="qrCode != null" >
+                    <if test="qrCode.indexOf('%') >= 0" >
+                        AND `qr_code` like #{qrCode}
+                    </if>
+                    <if test="qrCode.indexOf('%') lt 0" >
+                        AND `qr_code` = #{qrCode}
+                    </if>
             </if>
             <if test="publishStatus != null" >
-                AND `publish_status` = #{publishStatus}
+                    <if test="publishStatus.indexOf('%') >= 0" >
+                        AND `publish_status` like #{publishStatus}
+                    </if>
+                    <if test="publishStatus.indexOf('%') lt 0" >
+                        AND `publish_status` = #{publishStatus}
+                    </if>
             </if>
             <if test="status != null" >
-                AND `status` = #{status}
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
+                    </if>
             </if>
             <if test="orderNum != null" >
-                AND `order_num` = #{orderNum}
+                    AND `order_num` = #{orderNum}
             </if>
             <if test="visitNum != null" >
-                AND `visit_num` = #{visitNum}
+                    AND `visit_num` = #{visitNum}
             </if>
             <if test="createId != null" >
-                AND `create_id` = #{createId}
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
             </if>
             <if test="createTime != null" >
-                AND `create_time` = #{createTime}
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
             </if>
             <if test="updateId != null" >
-                AND `update_id` = #{updateId}
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
             </if>
             <if test="updateTime != null" >
-                AND `update_time` = #{updateTime}
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
             </if>
     </select>
 
@@ -335,6 +423,14 @@
 	            </if>
                 <if test="banner.indexOf('%') lt 0" >
                     AND `banner` = #{banner}
+                </if>
+            </if>
+            <if test="qrCode != null" >
+	            <if test="qrCode.indexOf('%') >= 0" >
+				    AND `qr_code` like #{qrCode}
+	            </if>
+                <if test="qrCode.indexOf('%') lt 0" >
+                    AND `qr_code` = #{qrCode}
                 </if>
             </if>
             <if test="publishStatus != null" >

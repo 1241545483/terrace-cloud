@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-28
+ * @since 2019-01-03
  */
 public class BookBaseService {
 
@@ -40,6 +40,9 @@ public class BookBaseService {
         }
         if (bookParam.getBanner() != null && !bookParam.getBanner().trim().equals("")) {
             params.put("banner", bookParam.getBanner());
+        }
+        if (bookParam.getQrCode() != null && !bookParam.getQrCode().trim().equals("")) {
+            params.put("qrCode", bookParam.getQrCode());
         }
         if (bookParam.getPublishStatus() != null && !bookParam.getPublishStatus().trim().equals("")) {
             params.put("publishStatus", bookParam.getPublishStatus());

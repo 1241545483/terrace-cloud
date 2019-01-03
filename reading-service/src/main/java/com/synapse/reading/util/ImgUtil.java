@@ -55,7 +55,7 @@ public class ImgUtil {
 //        for (int i = 0; i < forName.length; i++) //逐行输出
 //            System.out.println(forName[i]);
 
-        System.out.println(DrawSuccessPosterByBook("http://img.njlsedu.cn/SHILU/1/36181121410196937.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你", "嘿嘿嘿", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
+        System.out.println(DrawSuccessPosterByBook("http://img.njlsedu.cn/SHILU/1/36181121410196937.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
 
     }
 
@@ -207,11 +207,11 @@ public class ImgUtil {
         ImageIO.write(erbdBuffer, "png", tempPng.toFile());
 
 
-        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 193, 553);// 二维码合并
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 100, 595);// 二维码合并
 
         BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 195, 250);// 二维码图合并
 
-        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 301, 553);// 背景图合并
+        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 325, 595);// 背景图合并
 
         ImageIO.write(new2, "png", tempPng.toFile());
 
@@ -230,18 +230,16 @@ public class ImgUtil {
         Font font32 = new Font("微软雅黑", Font.BOLD, 32);
         Font font34 = new Font("微软雅黑", Font.BOLD, 34);
         Font font50 = new Font("微软雅黑", Font.BOLD, 50);
-
-        BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, 30, 65, font50, black);
         int length = bookName.length();
-        txt = ImgUtil.addTxtAtXy(txt, bookName, (594 - length) / 2, 200, font28, black1);
+        BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length*font28.getSize()) / 2, 230, font28, black1);
         String userName = wxNickName + "邀请您一起观看";
-        txt = ImgUtil.addTxtAtXy(txt, userName, 37, 132, font28, black1);
+        txt = ImgUtil.addTxtAtXy(txt, userName, 30, 85, font28, black1);
         String name = "智性阅读";
         String name1 = "趣味导读课";
         String name2 = "长按二维码一起加入阅读";
-        txt = ImgUtil.addTxtAtXy(txt, name, 37, 100, font32, black);
-        txt = ImgUtil.addTxtAtXy(txt, name1, 426, 132, font28, yellow);
-        txt = ImgUtil.addTxtAtXy(txt, name1, (594 - name2.length()) / 2, 800, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name, 30, 50, font32, black);
+        txt = ImgUtil.addTxtAtXy(txt, name1, 426, 85, font28, yellow);
+        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length()*font28.getSize()) / 2, 830, font28, color);
 
         String activityName = "";
         //换行处理
@@ -249,12 +247,12 @@ public class ImgUtil {
         if (solgan.length() > 12) {
             for (int i = 0; i < line; i++) {
                 activityName = solgan.substring(0 + (i * 12), 12 + (i * 12));
-                txt = ImgUtil.addTxtAtXy(txt, activityName, 168, 542 + (font28.getSize() + 4) * i, font28, black);
+                txt = ImgUtil.addTxtAtXy(txt, activityName, 140, 510 + (font28.getSize() + 4) * i, font28, black);
             }
             activityName = solgan.substring((line * 12));
-            txt = ImgUtil.addTxtAtXy(txt, activityName, 168, 542 + (font28.getSize() + 4) * line, font28, black);
+            txt = ImgUtil.addTxtAtXy(txt, activityName, 140, 510 + (font28.getSize() + 4) * line, font28, black);
         } else {
-            txt = ImgUtil.addTxtAtXy(txt, solgan, 168, 542, font28, black);
+            txt = ImgUtil.addTxtAtXy(txt, solgan, 140, 510, font28, black);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
         ImageIO.write(txt, "png", tempPng.toFile());
