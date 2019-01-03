@@ -8,6 +8,7 @@ import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.mapper.ShareImageMapper;
 import com.synapse.reading.model.Audio;
 import com.synapse.reading.model.ShareImage;
+import com.synapse.reading.model.Video;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.respository.ShareImageRespository;
 import com.synapse.reading.util.ImgUtil;
@@ -49,6 +50,10 @@ public class ShareImageService extends ShareImageBaseService {
     private ShareImageMapper shareImageMapper;
     @Autowired
     private MiniQrcodeService miniQrcodeService;
+    @Autowired
+    private  VideoService videoService;
+    @Autowired
+    private  BookService bookService;
 
 
     protected static org.slf4j.Logger logger = LoggerFactory.getLogger(ShareImageService.class);
@@ -128,8 +133,38 @@ public class ShareImageService extends ShareImageBaseService {
                 param.setUserId(user.getRecId());
                 param.setCreateId(user.getRecId());
                 shareImageMapper.insertSelective(param);
-
-
+            }
+            if ("video".equals(shareType)) {
+                Video video = videoService.find(id);
+                String modelUrl = "http://img.njlsedu.cn/SHILU/1/36181121410196937.png";
+                String backdropUrl = "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png";
+                String url = video.getCover();
+                if ("".equals(url)) {
+                    url = "http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
+                }
+                String qrcodeUrl = video.getQrCode();
+                String wxNickName = user.getUsername();
+                String solgan = bookService.find(video.getBelongToId()).getSlogan();
+                String bookName = bookService.find(video.getBelongToId()).getName();
+                Path tempPng = ImgUtil.DrawSuccessPosterByBook(modelUrl, url, qrcodeUrl, wxNickName, solgan, bookName, backdropUrl);
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+                String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                ShareImage param = new ShareImage();
+                param.setRecId(idService.gen("ID"));
+                //    param.setRecId("66");
+                param.setCreateTime(now);
+                param.setShareId(id);
+                param.setShareType(shareType);
+                param.setUrl(shareUrl);
+                param.setUserId(user.getRecId());
+                param.setCreateId(user.getRecId());
+                shareImageMapper.insertSelective(param);
             }
             return shareImageRespository.list(params).get(0).getUrl();
         }
