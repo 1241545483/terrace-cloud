@@ -7,6 +7,7 @@ import com.synapse.common.sso.model.User;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.mapper.ShareImageMapper;
 import com.synapse.reading.model.Audio;
+import com.synapse.reading.model.Book;
 import com.synapse.reading.model.ShareImage;
 import com.synapse.reading.model.Video;
 import com.synapse.reading.remote.IdService;
@@ -134,18 +135,18 @@ public class ShareImageService extends ShareImageBaseService {
                 param.setCreateId(user.getRecId());
                 shareImageMapper.insertSelective(param);
             }
-            if ("video".equals(shareType)) {
-                Video video = videoService.find(id);
+            if ("book".equals(shareType)) {
+                Book book = bookService.find(id);
                 String modelUrl = "http://img.njlsedu.cn/SHILU/1/36181121410196937.png";
                 String backdropUrl = "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png";
-                String url = video.getCover();
+                String url = book.getCover();
                 if ("".equals(url)) {
                     url = "http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
                 }
-                String qrcodeUrl = video.getQrCode();
+                String qrcodeUrl = book.getQrCode();
                 String wxNickName = user.getUsername();
-                String solgan = bookService.find(video.getBelongToId()).getSlogan();
-                String bookName = bookService.find(video.getBelongToId()).getName();
+                String solgan = book.getSlogan();
+                String bookName = book.getName();
                 Path tempPng = ImgUtil.DrawSuccessPosterByBook(modelUrl, url, qrcodeUrl, wxNickName, solgan, bookName, backdropUrl);
                 FileInputStream fis = new FileInputStream(tempPng.toFile());
                 String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
