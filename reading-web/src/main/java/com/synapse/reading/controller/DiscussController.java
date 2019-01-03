@@ -122,8 +122,8 @@ public class DiscussController extends BaseController{
     @RequestMapping(value = "/v1/discuss/{recId}",method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
-            Discuss discuss = discussService.find(recId);
-            return ResponseEntity.ok(new DiscussResult(discuss));
+            DiscussResult discuss = discussService.find(recId);
+            return ResponseEntity.ok(discuss);
         } catch (BusinessException e) {
             logger.error("get Discuss Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

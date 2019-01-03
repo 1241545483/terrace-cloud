@@ -43,8 +43,29 @@ public class DiscussService extends DiscussBaseService {
 
     private Logger logger = LoggerFactory.getLogger(DiscussService.class);
 
-    public Discuss find(String recId) {
-        return discussRespository.selectByPrimaryKey(recId);
+    public DiscussResult find(String recId) {
+        Discuss discussParam = discussRespository.selectByPrimaryKey(recId);
+        Map<String, Object> params = prepareParams(discussParam);
+        List<DiscussResult> discusses = discussRespository.listByCommentType(params);
+        List<String> useridList = new ArrayList<>();
+        if (discusses != null && discusses.size() != 0) {
+            for (DiscussResult discuss : discusses) {
+                useridList.add(discuss.getCreateId());
+            }
+            String userIdListStr = StringUtils.join(useridList.toArray(), ",");
+            ArrayList<UserInfo> userList = userService.selectByUserIdList(userIdListStr);
+            for (DiscussResult discuss : discusses) {
+                for (UserInfo user : userList) {
+                    if (user.getUserId().equals(discuss.getCreateId())) {
+                        discuss.setUserName(user.getUserName());
+                        discuss.setUserImg(user.getUserImg());
+                        break;
+                    }
+                }
+            }
+        }
+
+        return discusses.get(0);
     }
 
     public Integer update(Discuss param) {
@@ -88,7 +109,7 @@ public class DiscussService extends DiscussBaseService {
             for (DiscussResult discuss : discusses) {
                 useridList.add(discuss.getCreateId());
             }
-            String userIdListStr = StringUtils.join(useridList.toArray(),",");
+            String userIdListStr = StringUtils.join(useridList.toArray(), ",");
             ArrayList<UserInfo> userList = userService.selectByUserIdList(userIdListStr);
             for (DiscussResult discuss : discusses) {
                 for (UserInfo user : userList) {

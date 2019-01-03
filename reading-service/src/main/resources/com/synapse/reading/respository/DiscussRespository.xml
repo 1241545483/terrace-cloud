@@ -22,6 +22,14 @@
         `rec_id` = #{recId}
     </update>
 
+    <select id="selectUserByPrimaryKey" resultMap="com.synapse.reading.mapper.DiscussMapper.BaseResultMap" parameterType="map" >
+        select
+        <include refid="com.synapse.reading.mapper.DiscussMapper.Base_Column_List" />
+        from `discuss`
+        where
+        `rec_id` = #{recId}
+    </select>
+
 
     <select id="listByCommentType" parameterType="map" resultMap="simpleRow">
         select
