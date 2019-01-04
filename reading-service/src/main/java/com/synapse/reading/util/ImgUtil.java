@@ -232,13 +232,13 @@ public class ImgUtil {
         Font font50 = new Font("微软雅黑", Font.BOLD, 50);
         int length = bookName.length();
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length*font28.getSize()) / 2, 230, font28, black1);
-        String userName = wxNickName + "邀请您一起观看";
+        String userName = wxNickName + "邀请您一起免费观看";
         txt = ImgUtil.addTxtAtXy(txt, userName, 30, 85, font28, black1);
         String name = "智性阅读";
-        String name1 = "趣味导读课";
-        String name2 = "长按二维码一起加入阅读";
+
+        String name2 = "扫码学习";
         txt = ImgUtil.addTxtAtXy(txt, name, 30, 50, font32, black);
-        txt = ImgUtil.addTxtAtXy(txt, name1, 426, 85, font28, yellow);
+
         txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length()*font28.getSize()) / 2, 830, font28, color);
 
         String activityName = "";
