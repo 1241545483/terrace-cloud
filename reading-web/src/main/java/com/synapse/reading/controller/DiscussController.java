@@ -270,6 +270,32 @@ public class DiscussController extends BaseController{
         }
     }
 
+
+    @ApiOperation(value = "用户ID")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "用户Id"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/discuss/", method = RequestMethod.PUT)
+    public ResponseEntity userId(){
+        try {
+
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            return ResponseEntity.ok(user.getRecId());
+        } catch (BusinessException e) {
+            logger.error("back userId Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("back userId Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
     @ApiOperation(value = "查询评论数量")
     @ApiResponses({
             @ApiResponse(code = 200, response = DiscussResult.class, message = "评论数量"),
