@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public interface DiscussRespository extends DiscussMapper {
 
-
+    Integer deleteByCreateId(Discuss model);
     Integer updateDiscussLikeAddNum(@Param("recId") String recId);
 
     Integer updateDiscussLikeReduceNum(@Param("recId") String recId);

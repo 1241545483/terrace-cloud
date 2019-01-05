@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.constants.DiscussConstants;
 import com.synapse.reading.dto.result.DiscussResult;
@@ -88,6 +89,15 @@ public class DiscussService extends DiscussBaseService {
         model.setRecId(recId);
         model.setStatus(DiscussConstants.STATUS.DELETED.num());
         return discussRespository.updateByPrimaryKeySelective(model);
+    }
+
+    public Integer deleteByCreateId(String recId,User user) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        Discuss model = new Discuss();
+        model.setRecId(recId);
+        model.setCreateId(user.getRecId());
+        model.setStatus(DiscussConstants.STATUS.DELETED.num());
+        return discussRespository.deleteByCreateId(model);
     }
 
     public List<Discuss> list(Discuss discussParam, PageInfo pageInfo) {

@@ -175,7 +175,7 @@ public class DiscussController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-			Integer num = discussService.delete(recId,user.getRecId());
+			Integer num = discussService.deleteByCreateId(recId,user);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("delete Discuss Error!", e);

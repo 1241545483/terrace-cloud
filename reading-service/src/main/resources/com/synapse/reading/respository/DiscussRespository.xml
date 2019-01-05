@@ -49,4 +49,39 @@
         </if>
     </select>
 
+    <update id="deleteByCreateId" parameterType="com.synapse.reading.model.Discuss" >
+        update `discuss`
+        <set >
+            <if test="recId != null" >
+                `rec_id` = #{recId},
+            </if>
+            <if test="commentType != null" >
+                `comment_type` = #{commentType},
+            </if>
+            <if test="commentId != null" >
+                `comment_id` = #{commentId},
+            </if>
+            <if test="replyId != null" >
+                `reply_id` = #{replyId},
+            </if>
+            <if test="content != null" >
+                `content` = #{content},
+            </if>
+            <if test="likeNum != null" >
+                `like_num` = #{likeNum},
+            </if>
+            <if test="status != null" >
+                `status` = #{status},
+            </if>
+            <if test="createId != null" >
+                `create_id` = #{createId},
+            </if>
+            <if test="createTime != null" >
+                `create_time` = #{createTime},
+            </if>
+        </set>
+        where
+        `rec_id` = #{recId} AND  create_id = #{createId}
+    </update>
+
 </mapper>
