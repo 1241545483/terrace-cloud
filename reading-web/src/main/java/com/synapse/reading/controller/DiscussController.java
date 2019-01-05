@@ -277,7 +277,7 @@ public class DiscussController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/discuss/userId", method = RequestMethod.PUT)
+    @RequestMapping(value = "/v1/discuss/userId", method = RequestMethod.GET)
     public ResponseEntity userId(){
         try {
 
