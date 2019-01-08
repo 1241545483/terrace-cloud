@@ -6,6 +6,7 @@
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{C4098C43-3D65-4FDB-A595-70C8D9C95E9E}" Loaded="No" Name="阅读平台" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="file:///H|/阅读平台.prj"/>
 		<Model Expanded="Yes" ID="{C4098C43-3D65-4FDB-A595-70C8D9C95E9E}" Loaded="No" Name="阅读平台" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="file:///H|/阅读平台.prj"/>
+		<Model Expanded="Yes" ID="{8C5E850D-B9AC-412B-95DD-5660EC1087E9}" Loaded="No" Name="阅读" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="file:///H|/阅读.pdm"/>
 		<Model Expanded="Yes" ID="{8C5E850D-B9AC-412B-95DD-5660EC1087E9}" Name="阅读" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="file:///H|/阅读.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
