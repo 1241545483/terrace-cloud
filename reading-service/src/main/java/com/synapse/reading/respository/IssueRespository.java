@@ -17,6 +17,6 @@ import java.util.Map;
  */
 public interface IssueRespository extends IssueMapper {
 
-    void insertIssueAll(List<Issue> params);
+List<Issue>  selectBybelongToId(String recId);
 
 }

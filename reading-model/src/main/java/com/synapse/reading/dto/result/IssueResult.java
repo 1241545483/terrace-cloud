@@ -1,9 +1,14 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.reading.dto.param.IssueItemParam;
 import com.synapse.reading.model.Issue;
+import com.synapse.reading.model.IssueItem;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -17,12 +22,21 @@ import io.swagger.annotations.ApiModelProperty;
 public class IssueResult {
 
     private Issue  issue = new Issue();
+	private List<IssueItem> issueItemList = new ArrayList<>();
 
     public IssueResult(){}
 
     public IssueResult(Issue  issue){
         this.issue = issue;
     }
+	@JsonIgnore
+	public List<IssueItem>  getModelList() {
+		return issueItemList;
+	}
+
+	public void setModelList(List<IssueItem>  issueItemList) {
+		this.issueItemList=issueItemList;
+	}
 
     @JsonIgnore
     public Issue getModel() {
@@ -168,5 +182,11 @@ public String getUpdateTime() {
 		issue.setUpdateTime(update_time);
 	}
 
-		
+	public List<IssueItem> getIssueItemList() {
+		return issueItemList;
+	}
+
+	public void setIssueItemList(List<IssueItem> issueItemList) {
+		this.issueItemList = issueItemList;
+	}
 }

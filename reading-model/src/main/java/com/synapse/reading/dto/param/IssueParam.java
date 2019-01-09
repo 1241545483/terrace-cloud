@@ -36,6 +36,18 @@ public class IssueParam {
         this.issue = issue;
     }
 
+
+
+
+    @JsonIgnore
+    public List<IssueItemParam>  getModelList() {
+        return issueItemParamList;
+    }
+
+    public void setModelList(List<IssueItemParam>  issueItemParamList) {
+        this.issueItemParamList = issueItemParamList;
+    }
+
     @JsonIgnore
     public Issue getModel() {
         return issue;
@@ -180,11 +192,11 @@ public class IssueParam {
         issue.setUpdateTime(update_time);
     }
 
-    public List<IssueItemParam> getissueItemParamList() {
+    public List<IssueItemParam> getIssueItemParamList() {
         return issueItemParamList;
     }
 
-    public void setissueItemParamList(List<IssueItemParam> issueItemParamList) {
+    public void setIssueItemParamList(List<IssueItemParam> issueItemParamList) {
         this.issueItemParamList = issueItemParamList;
     }
 }

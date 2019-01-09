@@ -2,4 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.IssueItemRespository">
 
+    <delete id="deleteByIssueId" parameterType="java.lang.String" >
+        delete from `issue_item`
+        where
+        `issue_id` = #{issueId}
+    </delete>
+
+    <select id="selectByPrimaryIssueId" resultMap="com.synapse.reading.mapper.IssueItemMapper.BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `issue_item`
+        where
+        `issue_id` = #{issueId}
+    </select>
+
+
+
+
+
 </mapper>

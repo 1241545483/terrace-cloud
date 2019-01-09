@@ -38,6 +38,10 @@ public class IssueItemService extends IssueItemBaseService {
 	    return issueItemRespository.selectByPrimaryKey(recId);
     }
 
+    public List<IssueItem> findByIssueId(String issueId){
+        return issueItemRespository.selectByPrimaryIssueId(issueId);
+    }
+
 	public Integer update(IssueItem param){
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
@@ -56,6 +60,10 @@ public class IssueItemService extends IssueItemBaseService {
 	public Integer delete(String recId){
         return issueItemRespository.deleteByPrimaryKey(recId);
 	}
+
+    public Integer deleteByIssueId(String issueId){
+        return issueItemRespository.deleteByIssueId(issueId);
+    }
 
 	public List<IssueItem> list(IssueItem issueItemParam, PageInfo pageInfo) {
         Map<String,Object> params = prepareParams(issueItemParam);

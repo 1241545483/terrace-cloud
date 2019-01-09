@@ -4,6 +4,12 @@
 
 
 
-
+    <select id="selectBybelongToId" resultMap="com.synapse.reading.mapper.IssueMapper.BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `issue`
+        where
+        `belong_to_id` = #{recId}
+    </select>
 
 </mapper>
