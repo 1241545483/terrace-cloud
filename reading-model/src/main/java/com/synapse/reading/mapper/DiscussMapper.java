@@ -26,7 +26,7 @@ public interface DiscussMapper {
 
     Integer updateByPrimaryKey(Discuss model);
 
-    List<Discuss> list(Map<String, Object> params);
+    List<Discuss>   list(Map<String, Object> params);
 
     Integer count(Map<String, Object> params);
 }

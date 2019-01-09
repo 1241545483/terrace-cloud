@@ -152,6 +152,8 @@ public class ImgUtil {
             txt = ImgUtil.addTxtAtXy(txt, solgan, 273, 294, font28, black);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
+        Graphics2D gd = txt.createGraphics();
+        gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         ImageIO.write(txt, "png", tempPng.toFile());
         // 上传到服务器
 //        System.out.println(tempPng.toAbsolutePath());
@@ -255,6 +257,8 @@ public class ImgUtil {
             txt = ImgUtil.addTxtAtXy(txt, solgan, 140, 510, font28, black);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
+        Graphics2D gd = txt.createGraphics();
+        gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         ImageIO.write(txt, "png", tempPng.toFile());
         // 上传到服务器
 //        System.out.println(tempPng.toAbsolutePath());
