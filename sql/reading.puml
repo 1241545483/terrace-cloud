@@ -1,0 +1,76 @@
+@startuml
+'start setting---------------------------------------
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam usecase {
+	BackgroundColor #79A3C3
+	FontColor #EFF0F3
+	BorderColor DarkSlateGray
+
+	ArrowColor #4A5864
+}
+skinparam actorBackgroundColor  #F2938F
+skinparam actorBorderColor  #F2938F
+skinparam actorFontColor  #6A6373
+skinparam package {
+	style rectangle
+	BackgroundColor #EFF0F3
+	FontColor #6A6373
+}
+left to right direction
+'end setting---------------------------------------
+actor 读者 as reader
+actor 管理员 as admin
+rectangle reading{
+	rectangle 登录注册 {
+	  reader -- (注册)
+	  reader -- (登录)
+	  (登录) -- admin
+	}
+	rectangle 专辑 {
+	  reader -- (查看专辑列表)
+	  reader -- (查看专辑介绍)
+	  reader -- (查看音频列表)
+	  reader -- (播放音频)
+	  reader -- (分享音频)
+	  reader -- (收藏音频)
+	  (专辑管理) -- admin
+	  (音频管理) -- admin
+	}
+	rectangle 个人中心 {
+      reader -- (签到)
+      reader -- (积分查询)
+      reader -- (我的收藏)
+      reader -- (书架)
+      reader -- (微信学习群)
+      reader -- (意见反馈)
+    }
+	rectangle 资讯 {
+      reader -- (查看资讯列表)
+      reader -- (查看资讯详情)
+      reader -- (收藏资讯)
+      (资讯管理) -- admin
+    }
+	rectangle 书籍 {
+	reader -- (查看书籍介绍)
+	(书籍管理) -- admin
+	rectangle 视频 {
+	      reader -- (查看视频列表)
+	      reader -- (播放视频)
+	      (视频管理) -- admin
+      }
+      rectangle 评论 {
+	      reader -- (查看评论列表)
+	      reader -- (评论)
+	      reader -- (回复评论)
+      }
+      rectangle 题目 {
+	      reader -- (查看题目)
+	      reader -- (回答题目)
+	      reader -- (题目评分)
+	      reader -- (题目解析)
+	      (题目管理) -- admin
+      }
+    }
+}
+@enduml
