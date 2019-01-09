@@ -11,6 +11,7 @@ import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class IssueParam {
 
     private Issue issue = new Issue();
 
-    private List<IssueItemParam>  issueItemParamList;
+    private List<IssueItemParam>  issueItemParamList = new ArrayList<>();
 
     public IssueParam() {
     }
