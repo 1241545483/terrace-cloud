@@ -4,12 +4,12 @@
 
 
 
-    <select id="selectBybelongToId" resultMap="com.synapse.reading.mapper.IssueMapper.BaseResultMap" parameterType="java.lang.String" >
+    <select id="selectBybelongToId" resultMap="com.synapse.reading.mapper.IssueMapper.BaseResultMap" parameterType="map" >
         select
         <include refid="com.synapse.reading.mapper.IssueMapper.Base_Column_List" />
         from `issue`
         where
-        `belong_to_id` = #{recId}
+        `belong_to_id` = #{recId} AND   `belong_to` = #{belongTo}
     </select>
 
 </mapper>

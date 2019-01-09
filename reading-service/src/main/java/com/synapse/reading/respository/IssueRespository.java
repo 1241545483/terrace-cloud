@@ -3,6 +3,7 @@ package com.synapse.reading.respository;
 import com.synapse.reading.mapper.IssueMapper;
 import com.synapse.reading.model.Issue;
 import com.synapse.reading.model.IssueItem;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,6 @@ import java.util.Map;
  */
 public interface IssueRespository extends IssueMapper {
 
-List<Issue>  selectBybelongToId(String recId);
+List<Issue>  selectBybelongToId(@Param("recId") String recId,@Param("belongTo") String  belongTo);
 
 }

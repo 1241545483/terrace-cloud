@@ -141,9 +141,9 @@ public class IssueService extends IssueBaseService {
         }
     }
 
-    public List<IssueResult> getIssueList(String recId) {
+    public List<IssueResult> getIssueList(String recId,String belongTo) {
 
-        List<Issue> issueList = issueRespository.selectBybelongToId(recId);
+        List<Issue> issueList = issueRespository.selectBybelongToId(recId,belongTo);
         List<IssueResult> issueResultList = new ArrayList<IssueResult>();
         IssueResult issueResult = new IssueResult();
         for (Issue issue :
