@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.IssueAnswerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.IssueAnswer">
+        <id column="rec_id" property="recId" />
+        <result column="issue_id" property="issueId" />
+        <result column="item_id" property="itemId" />
+        <result column="status" property="status" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`issue_id`,`item_id`,`status`,`create_id`,`create_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `issue_answer`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.IssueAnswer">
+        insert into `issue_answer`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{issueId},#{itemId},#{status},#{createId},#{createTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `issue_answer`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.IssueAnswer" >
+        insert into `issue_answer`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="issueId != null" >
+                    `issue_id`,
+                </if>
+                <if test="itemId != null" >
+                    `item_id`,
+                </if>
+                <if test="status != null" >
+                    `status`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="issueId != null" >
+			        #{issueId},
+                </if>
+                <if test="itemId != null" >
+			        #{itemId},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.IssueAnswer" >
+        update `issue_answer`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="issueId != null" >
+		            `issue_id` = #{issueId},
+	            </if>
+	            <if test="itemId != null" >
+		            `item_id` = #{itemId},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.IssueAnswer" >
+        update  `issue_answer` SET
+		    `rec_id`=#{recId},`issue_id`=#{issueId},`item_id`=#{itemId},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `issue_answer`
+        where 1 = 1
+            <if test="recId != null" >
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
+            </if>
+            <if test="issueId != null" >
+                    <if test="issueId.indexOf('%') >= 0" >
+                        AND `issue_id` like #{issueId}
+                    </if>
+                    <if test="issueId.indexOf('%') lt 0" >
+                        AND `issue_id` = #{issueId}
+                    </if>
+            </if>
+            <if test="itemId != null" >
+                    <if test="itemId.indexOf('%') >= 0" >
+                        AND `item_id` like #{itemId}
+                    </if>
+                    <if test="itemId.indexOf('%') lt 0" >
+                        AND `item_id` = #{itemId}
+                    </if>
+            </if>
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `issue_answer`
+        where 1 = 1
+            <if test="recId != null" >
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
+            </if>
+            <if test="issueId != null" >
+	            <if test="issueId.indexOf('%') >= 0" >
+				    AND `issue_id` like #{issueId}
+	            </if>
+                <if test="issueId.indexOf('%') lt 0" >
+                    AND `issue_id` = #{issueId}
+                </if>
+            </if>
+            <if test="itemId != null" >
+	            <if test="itemId.indexOf('%') >= 0" >
+				    AND `item_id` like #{itemId}
+	            </if>
+                <if test="itemId.indexOf('%') lt 0" >
+                    AND `item_id` = #{itemId}
+                </if>
+            </if>
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

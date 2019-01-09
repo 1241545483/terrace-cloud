@@ -1,11 +1,11 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
-import com.synapse.reading.model.Discuss;
-import com.synapse.reading.respository.DiscussRespository;
-import com.synapse.reading.dto.param.DiscussParam;
-import com.synapse.reading.dto.result.DiscussResult;
-import com.synapse.reading.constants.DiscussConstants;
+import com.synapse.reading.model.Issue;
+import com.synapse.reading.respository.IssueRespository;
+import com.synapse.reading.dto.param.IssueParam;
+import com.synapse.reading.dto.result.IssueResult;
+import com.synapse.reading.constants.IssueConstants;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,16 +29,16 @@ import static org.junit.Assert.*;
 
 /**
  * <p>
- * 评论表 服务测试类
+ * 观看视频回答题目 服务测试类
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-01
+ * @since 2019-01-09
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestConfig.class)
 @Transactional
-public class DiscussServiceTest {
+public class IssueServiceTest {
 
     private final String createVal = "A";
     private final String updateVal = "B";
@@ -47,12 +47,12 @@ public class DiscussServiceTest {
     private IdService idService;
 
     @Autowired
-    private DiscussService discussService;
+    private IssueService issueService;
 
     @Test
     public void testFind(){
         String recId = doCreate();
-	    DiscussResult result = discussService.find(recId);
+	    Issue result = issueService.find(recId);
         assertNotNull(result);
     }
 
@@ -65,11 +65,18 @@ public class DiscussServiceTest {
     }
 
     private void checkField(String recId, String val){
-        DiscussResult result = discussService.find(recId);
-        assertEquals(val,result.getCommentType());
-        assertEquals(val,result.getCommentId());
+		Issue result = issueService.find(recId);
         assertEquals(val,result.getContent());
+        assertEquals(val,result.getBelongTo());
+        assertEquals(val,result.getBelongToId());
+        assertEquals(val,result.getImg1());
+        assertEquals(val,result.getImg2());
+        assertEquals(val,result.getImg3());
+        assertEquals(val,result.getType());
+        assertEquals(val,result.getAnalysis());
+        assertEquals(val,result.getDifficulty());
         assertEquals(val,result.getCreateId());
+        assertEquals(val,result.getUpdateId());
     }
 
     @Test
@@ -80,64 +87,78 @@ public class DiscussServiceTest {
 
     public String doCreate(){
             Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
-		    Discuss param = new Discuss();
-            param.setCommentType(createVal);
-            param.setCommentId(createVal);
+		    Issue param = new Issue();
             param.setContent(createVal);
-            param.setLikeNum(-1L);
+            param.setBelongTo(createVal);
+            param.setBelongToId(createVal);
+            param.setImg1(createVal);
+            param.setImg2(createVal);
+            param.setImg3(createVal);
+            param.setType(createVal);
+            param.setAnalysis(createVal);
+            param.setDifficulty(createVal);
             param.setStatus(createVal);
             param.setCreateId(createVal);
             param.setCreateTime(createVal);
-		    return discussService.create(param);
+            param.setUpdateId(createVal);
+            param.setUpdateTime(createVal);
+		    return issueService.create(param);
     }
 
     public void doUpdate(String recId){
-			Discuss param = new Discuss();
+			Issue param = new Issue();
 	        param.setRecId(recId);
-	        param.setCommentType(updateVal);
-	        param.setCommentId(updateVal);
 	        param.setContent(updateVal);
-	        param.setLikeNum(-2L);
+	        param.setBelongTo(updateVal);
+	        param.setBelongToId(updateVal);
+	        param.setImg1(updateVal);
+	        param.setImg2(updateVal);
+	        param.setImg3(updateVal);
+	        param.setType(updateVal);
+	        param.setAnalysis(updateVal);
+	        param.setDifficulty(updateVal);
 	        param.setStatus(updateVal);
 	        param.setCreateId(updateVal);
 	        param.setCreateTime(updateVal);
-            discussService.update(param);
+	        param.setUpdateId(updateVal);
+	        param.setUpdateTime(updateVal);
+            issueService.update(param);
     }
 
     @Test
 	public void delete(){
-		    Discuss param = new Discuss();
-            param.setStatus(DiscussConstants.STATUS.OK.num());
-            int num = discussService.count(param);
+		    Issue param = new Issue();
+            param.setStatus(IssueConstants.STATUS.OK.num());
+            int num = issueService.count(param);
 	        String recId = doCreate();
-	        int num2 = discussService.count(param);
+	        int num2 = issueService.count(param);
 	        assertEquals(num + 1, num2);
-			discussService.delete(recId, "-1");
-            int num3 = discussService.count(param);
+			issueService.delete(recId, "-1");
+            int num3 = issueService.count(param);
             assertEquals(num, num3);
 	}
 
     @Test
 	public void testList() {
-		Discuss param = new Discuss();
+		Issue param = new Issue();
         PageInfo pageInfo = new PageInfo();
         pageInfo.setPerPageNum(1000000);
         pageInfo.setCurrentPageIndex(1);
         pageInfo.setTotalNum(100000);
-		List<Discuss> results = discussService.list(param,pageInfo);
+		List<Issue> results = issueService.list(param,pageInfo);
 		int num = results.size();
         String recId = doCreate();
-        List<Discuss> results2 = discussService.list(param,pageInfo);
+        List<Issue> results2 = issueService.list(param,pageInfo);
         int num2 = results2.size();
         assertEquals(num + 1, num2);
 	}
 
     @Test
 	public void testCount() {
-		    Discuss param = new Discuss();
-            int num = discussService.count(param);
+		    Issue param = new Issue();
+            int num = issueService.count(param);
             doCreate();
-            int num2 = discussService.count(param);
+            int num2 = issueService.count(param);
 	        assertEquals(num + 1, num2);
     }
 

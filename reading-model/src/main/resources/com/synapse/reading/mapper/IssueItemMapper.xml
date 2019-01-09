@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.IssueItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.IssueItem">
+        <id column="rec_id" property="recId" />
+        <result column="issue_id" property="issueId" />
+        <result column="content" property="content" />
+        <result column="img1" property="img1" />
+        <result column="img2" property="img2" />
+        <result column="img3" property="img3" />
+        <result column="is_answer" property="isAnswer" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`issue_id`,`content`,`img1`,`img2`,`img3`,`is_answer`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `issue_item`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.IssueItem">
+        insert into `issue_item`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{issueId},#{content},#{img1},#{img2},#{img3},#{isAnswer},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `issue_item`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.IssueItem" >
+        insert into `issue_item`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="issueId != null" >
+                    `issue_id`,
+                </if>
+                <if test="content != null" >
+                    `content`,
+                </if>
+                <if test="img1 != null" >
+                    `img1`,
+                </if>
+                <if test="img2 != null" >
+                    `img2`,
+                </if>
+                <if test="img3 != null" >
+                    `img3`,
+                </if>
+                <if test="isAnswer != null" >
+                    `is_answer`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="issueId != null" >
+			        #{issueId},
+                </if>
+                <if test="content != null" >
+			        #{content},
+                </if>
+                <if test="img1 != null" >
+			        #{img1},
+                </if>
+                <if test="img2 != null" >
+			        #{img2},
+                </if>
+                <if test="img3 != null" >
+			        #{img3},
+                </if>
+                <if test="isAnswer != null" >
+			        #{isAnswer},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.IssueItem" >
+        update `issue_item`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="issueId != null" >
+		            `issue_id` = #{issueId},
+	            </if>
+	            <if test="content != null" >
+		            `content` = #{content},
+	            </if>
+	            <if test="img1 != null" >
+		            `img1` = #{img1},
+	            </if>
+	            <if test="img2 != null" >
+		            `img2` = #{img2},
+	            </if>
+	            <if test="img3 != null" >
+		            `img3` = #{img3},
+	            </if>
+	            <if test="isAnswer != null" >
+		            `is_answer` = #{isAnswer},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.IssueItem" >
+        update  `issue_item` SET
+		    `rec_id`=#{recId},`issue_id`=#{issueId},`content`=#{content},`img1`=#{img1},`img2`=#{img2},`img3`=#{img3},`is_answer`=#{isAnswer},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `issue_item`
+        where 1 = 1
+            <if test="recId != null" >
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
+            </if>
+            <if test="issueId != null" >
+                    <if test="issueId.indexOf('%') >= 0" >
+                        AND `issue_id` like #{issueId}
+                    </if>
+                    <if test="issueId.indexOf('%') lt 0" >
+                        AND `issue_id` = #{issueId}
+                    </if>
+            </if>
+            <if test="content != null" >
+                    <if test="content.indexOf('%') >= 0" >
+                        AND `content` like #{content}
+                    </if>
+                    <if test="content.indexOf('%') lt 0" >
+                        AND `content` = #{content}
+                    </if>
+            </if>
+            <if test="img1 != null" >
+                    <if test="img1.indexOf('%') >= 0" >
+                        AND `img1` like #{img1}
+                    </if>
+                    <if test="img1.indexOf('%') lt 0" >
+                        AND `img1` = #{img1}
+                    </if>
+            </if>
+            <if test="img2 != null" >
+                    <if test="img2.indexOf('%') >= 0" >
+                        AND `img2` like #{img2}
+                    </if>
+                    <if test="img2.indexOf('%') lt 0" >
+                        AND `img2` = #{img2}
+                    </if>
+            </if>
+            <if test="img3 != null" >
+                    <if test="img3.indexOf('%') >= 0" >
+                        AND `img3` like #{img3}
+                    </if>
+                    <if test="img3.indexOf('%') lt 0" >
+                        AND `img3` = #{img3}
+                    </if>
+            </if>
+            <if test="isAnswer != null" >
+                    <if test="isAnswer.indexOf('%') >= 0" >
+                        AND `is_answer` like #{isAnswer}
+                    </if>
+                    <if test="isAnswer.indexOf('%') lt 0" >
+                        AND `is_answer` = #{isAnswer}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="updateId != null" >
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="updateTime != null" >
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `issue_item`
+        where 1 = 1
+            <if test="recId != null" >
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
+            </if>
+            <if test="issueId != null" >
+	            <if test="issueId.indexOf('%') >= 0" >
+				    AND `issue_id` like #{issueId}
+	            </if>
+                <if test="issueId.indexOf('%') lt 0" >
+                    AND `issue_id` = #{issueId}
+                </if>
+            </if>
+            <if test="content != null" >
+	            <if test="content.indexOf('%') >= 0" >
+				    AND `content` like #{content}
+	            </if>
+                <if test="content.indexOf('%') lt 0" >
+                    AND `content` = #{content}
+                </if>
+            </if>
+            <if test="img1 != null" >
+	            <if test="img1.indexOf('%') >= 0" >
+				    AND `img1` like #{img1}
+	            </if>
+                <if test="img1.indexOf('%') lt 0" >
+                    AND `img1` = #{img1}
+                </if>
+            </if>
+            <if test="img2 != null" >
+	            <if test="img2.indexOf('%') >= 0" >
+				    AND `img2` like #{img2}
+	            </if>
+                <if test="img2.indexOf('%') lt 0" >
+                    AND `img2` = #{img2}
+                </if>
+            </if>
+            <if test="img3 != null" >
+	            <if test="img3.indexOf('%') >= 0" >
+				    AND `img3` like #{img3}
+	            </if>
+                <if test="img3.indexOf('%') lt 0" >
+                    AND `img3` = #{img3}
+                </if>
+            </if>
+            <if test="isAnswer != null" >
+	            <if test="isAnswer.indexOf('%') >= 0" >
+				    AND `is_answer` like #{isAnswer}
+	            </if>
+                <if test="isAnswer.indexOf('%') lt 0" >
+                    AND `is_answer` = #{isAnswer}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="updateId != null" >
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="updateTime != null" >
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>
