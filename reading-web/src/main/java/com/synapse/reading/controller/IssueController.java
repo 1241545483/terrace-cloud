@@ -14,8 +14,7 @@ import com.synapse.reading.service.IssueService;
 import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +23,6 @@ import com.synapse.reading.exception.common.ValidException;
 import org.springframework.validation.BindingResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import com.synapse.reading.constants.CommonConstants;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.synapse.reading.controller.BaseController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,8 +64,12 @@ public class IssueController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "recId", value = "用户ID", dataType = "String",paramType = "query"),
+            @ApiImplicitParam(name = "content", value = "content", dataType = "String",paramType = "query")
+    })
     @RequestMapping(value = "/v1/issue", method = RequestMethod.GET)
-    public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) IssueParam param, BindingResult bindingResult) {
+    public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) @ApiIgnore IssueParam param, BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
@@ -204,7 +206,7 @@ public class IssueController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/createIssueAll", method = RequestMethod.POST)
-    public ResponseEntity createIssueAll(@RequestBody @Validated(Create.class) IssueParam param, BindingResult bindingResult) {
+    public ResponseEntity createIssueAll(@RequestBody @Validated(Create.class) List<IssueParam> param, BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
@@ -212,12 +214,8 @@ public class IssueController extends BaseController {
             }
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-            List<IssueItemParam> issueItemParam = param.getModelList();
-            Issue model = param.getModel();
-            model.setCreateId(user.getRecId());
-            model.setUpdateId(user.getRecId());
-            String recId = issueService.createIssueAll(model, issueItemParam);
-            return ResponseEntity.ok(recId);
+
+            return ResponseEntity.ok(issueService.createIssueAll(param,user));
         } catch (BusinessException e) {
             logger.error("create createIssueAll Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

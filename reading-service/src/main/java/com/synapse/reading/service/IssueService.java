@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.reading.dto.param.IssueItemParam;
 import com.synapse.reading.model.Issue;
 import com.synapse.reading.model.IssueAnswer;
@@ -89,16 +90,32 @@ public class IssueService extends IssueBaseService {
         return issueRespository.count(params);
     }
 
-    public String createIssueAll(Issue issueParam, List<IssueItemParam> issueItemParamList) {
-        create(issueParam);
-        String issueId = issueParam.getRecId();
-        for (IssueItemParam issueItemParam : issueItemParamList
-                ) {
-            IssueItem issueItem = issueItemParam.getModel();
-            issueItem.setIssueId(issueId);
-            issueItemService.create(issueItem);
+    public Integer createIssueAll( List<IssueParam> param,User user) {
+        if (!"".equals(param) && param != null){
+            for (IssueParam issueParam:
+                    param) {
+                List<IssueItemParam> issueItemParamList = issueParam.getModelList();
+                Issue model = issueParam.getModel();
+                model.setCreateId(user.getRecId());
+                model.setUpdateId(user.getRecId());
+                create(model);
+                String issueId = issueParam.getRecId();
+                if (!"".equals(issueItemService.find(issueId)) && issueItemService.find(issueId) != null) {
+                    issueItemService.delete(issueId);
+                    for (IssueItemParam issueItemParam : issueItemParamList
+                            ) {
+                        IssueItem issueItem = issueItemParam.getModel();
+                        issueItem.setIssueId(issueId);
+                        issueItem.setCreateId(user.getRecId());
+                        issueItemService.create(issueItem);
+                    }
+                }
+            }
+            return 1;
+        }else {
+            return 0;
         }
-        return issueParam.getRecId();
+
     }
 
 
