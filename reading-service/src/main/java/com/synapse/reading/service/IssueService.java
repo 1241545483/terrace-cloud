@@ -42,7 +42,7 @@ public class IssueService extends IssueBaseService {
     @Autowired
     private IssueItemService issueItemService;
     @Autowired
-    private  IssueAnswerService issueAnswerService;
+    private IssueAnswerService issueAnswerService;
     @Autowired
     private IssueService issueService;
 
@@ -90,9 +90,9 @@ public class IssueService extends IssueBaseService {
         return issueRespository.count(params);
     }
 
-    public Integer createIssueAll( List<IssueParam> param,User user) {
-        if (!"".equals(param) && param != null){
-            for (IssueParam issueParam:
+    public Integer createIssueAll(List<IssueParam> param, User user) {
+        if (!"".equals(param) && param != null) {
+            for (IssueParam issueParam :
                     param) {
                 List<IssueItemParam> issueItemParamList = issueParam.getModelList();
                 Issue model = issueParam.getModel();
@@ -100,19 +100,19 @@ public class IssueService extends IssueBaseService {
                 model.setUpdateId(user.getRecId());
                 create(model);
                 String issueId = issueParam.getRecId();
-                if (!"".equals(issueItemService.find(issueId)) && issueItemService.find(issueId) != null) {
-                    issueItemService.delete(issueId);
-                    for (IssueItemParam issueItemParam : issueItemParamList
-                            ) {
-                        IssueItem issueItem = issueItemParam.getModel();
-                        issueItem.setIssueId(issueId);
-                        issueItem.setCreateId(user.getRecId());
-                        issueItemService.create(issueItem);
-                    }
+//                if (!"".equals(issueItemService.find(issueId)) && issueItemService.find(issueId) != null) {
+                issueItemService.delete(issueId);
+                for (IssueItemParam issueItemParam : issueItemParamList
+                        ) {
+                    IssueItem issueItem = issueItemParam.getModel();
+                    issueItem.setIssueId(issueId);
+                    issueItem.setCreateId(user.getRecId());
+                    issueItemService.create(issueItem);
                 }
+//                }
             }
             return 1;
-        }else {
+        } else {
             return 0;
         }
 
@@ -123,11 +123,11 @@ public class IssueService extends IssueBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
         String issueId = param.getRecId();
-        IssueAnswer issueAnswer =new IssueAnswer();
+        IssueAnswer issueAnswer = new IssueAnswer();
         issueAnswer.setIssueId(issueId);
-        if(issueAnswerService.count(issueAnswer)>0){
-            return  0;
-        }else{
+        if (issueAnswerService.count(issueAnswer) > 0) {
+            return 0;
+        } else {
             if (!"".equals(issueItemService.find(issueId)) && issueItemService.find(issueId) != null) {
                 issueItemService.delete(issueId);
                 for (IssueItemParam issueItemParam : issueItemParamList
@@ -146,8 +146,8 @@ public class IssueService extends IssueBaseService {
         List<Issue> issueList = issueRespository.selectBybelongToId(recId);
         List<IssueResult> issueResultList = new ArrayList<IssueResult>();
         IssueResult issueResult = new IssueResult();
-        for (Issue issue:
-        issueList ) {
+        for (Issue issue :
+                issueList) {
             List<IssueItem> issueItemList = issueItemService.findByIssueId(issue.getRecId());
             issueResult.setModel(issue);
             issueResult.setIssueItemList(issueItemList);
@@ -155,7 +155,6 @@ public class IssueService extends IssueBaseService {
         }
         return issueResultList;
     }
-
 
 
 }
