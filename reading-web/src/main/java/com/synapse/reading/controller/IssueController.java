@@ -212,7 +212,7 @@ public class IssueController extends BaseController {
             }
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-            List<IssueItemParam> issueItemParam = param.getIssueItemParamList();
+            List<IssueItemParam> issueItemParam = param.getModelList();
             Issue model = param.getModel();
             model.setCreateId(user.getRecId());
             model.setUpdateId(user.getRecId());
@@ -270,7 +270,7 @@ public class IssueController extends BaseController {
             }
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-            List<IssueItemParam> issueItemParam = param.getIssueItemParamList();
+            List<IssueItemParam> issueItemParam = param.getModelList();
             Issue model = param.getModel();
             model.setRecId(recId);
             model.setUpdateId(user.getRecId());
