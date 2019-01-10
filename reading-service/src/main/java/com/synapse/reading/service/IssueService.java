@@ -3,6 +3,7 @@ package com.synapse.reading.service;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.dto.param.IssueItemParam;
+import com.synapse.reading.dto.result.IssueItemResult;
 import com.synapse.reading.model.Issue;
 import com.synapse.reading.model.IssueAnswer;
 import com.synapse.reading.model.IssueItem;
@@ -130,8 +131,7 @@ public class IssueService extends IssueBaseService {
         } else {
             if (!"".equals(issueItemService.find(issueId)) && issueItemService.find(issueId) != null) {
                 issueItemService.delete(issueId);
-                for (IssueItemParam issueItemParam : issueItemParamList
-                        ) {
+                for (IssueItemParam issueItemParam : issueItemParamList) {
                     IssueItem issueItem = issueItemParam.getModel();
                     issueItem.setIssueId(issueId);
                     issueItemService.create(issueItem);
@@ -141,19 +141,48 @@ public class IssueService extends IssueBaseService {
         }
     }
 
-    public List<IssueResult> getIssueList(String recId,String belongTo) {
+    public List<IssueResult> getIssueList(String recId, String belongTo) {
 
-        List<Issue> issueList = issueRespository.selectBybelongToId(recId,belongTo);
-        List<IssueResult> issueResultList = new ArrayList<IssueResult>();
-        IssueResult issueResult = new IssueResult();
-        for (Issue issue :
-                issueList) {
-            List<IssueItem> issueItemList = issueItemService.findByIssueId(issue.getRecId());
-            issueResult.setModel(issue);
-            issueResult.setIssueItemList(issueItemList);
-            issueResultList.add(issueResult);
+        List<Map<String, String>> issueLists = issueRespository.selectBybelongToId(recId, belongTo);
+        List<IssueResult> list = new ArrayList<IssueResult>();
+        IssueResult issueResult = null;
+        for (Map<String, String> map : issueLists) {
+            if (issueResult == null || !map.get("rec_id").equals(issueResult.getRecId())) {
+                issueResult = new IssueResult();
+                list.add(issueResult);
+                issueResult.setRecId(map.get("rec_id"));
+                issueResult.setContent(map.get("content"));
+                issueResult.setBelongTo(map.get("belong_to"));
+                issueResult.setBelongToId(map.get("belong_to_id"));
+                issueResult.setImg1(map.get("img1"));
+                issueResult.setImg2(map.get("img2"));
+                issueResult.setImg3(map.get("img3"));
+                issueResult.setType(map.get("type"));
+                issueResult.setAnalysis(map.get("analysis"));
+                issueResult.setDifficulty(map.get("difficulty"));
+                issueResult.setCreateId(map.get("create_id"));
+                issueResult.setCreateTime(map.get("create_time"));
+                issueResult.setUpdateId(map.get("update_id"));
+                issueResult.setUpdateTime(map.get("update_time"));
+            }
+            IssueItemResult item = new IssueItemResult();
+            issueResult.getIssueItemList().add(item);
+            //设置选项
+            item.setRecId(map.get("item_rec_id"));
+            item.setIssueId(map.get("issue_id"));
+            item.setContent(map.get("item_content"));
+            item.setImg1(map.get("item_img1"));
+            item.setImg2(map.get("item_img2"));
+            item.setImg3(map.get("item_img3"));
+            item.setIsAnswer(map.get("is_answer"));
+            item.setCreateId(map.get("item_create_id"));
+            item.setCreateTime(map.get("item_create_time"));
+            item.setUpdateId(map.get("item_update_id"));
+            item.setUpdateTime(map.get("item_update_time"));
+
+
         }
-        return issueResultList;
+        return list;
     }
 
 

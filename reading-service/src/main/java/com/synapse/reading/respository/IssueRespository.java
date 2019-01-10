@@ -1,5 +1,6 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.IssueResult;
 import com.synapse.reading.mapper.IssueMapper;
 import com.synapse.reading.model.Issue;
 import com.synapse.reading.model.IssueItem;
@@ -18,6 +19,6 @@ import java.util.Map;
  */
 public interface IssueRespository extends IssueMapper {
 
-List<Issue>  selectBybelongToId(@Param("recId") String recId,@Param("belongTo") String  belongTo);
+List<Map<String,String>>  selectBybelongToId(@Param("recId") String recId, @Param("belongTo") String  belongTo);
 
 }

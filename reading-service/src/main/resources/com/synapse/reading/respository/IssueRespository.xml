@@ -4,12 +4,14 @@
 
 
 
-    <select id="selectBybelongToId" resultMap="com.synapse.reading.mapper.IssueMapper.BaseResultMap" parameterType="map" >
+    <select id="selectBybelongToId" resultType="map" parameterType="map" >
         select
-        <include refid="com.synapse.reading.mapper.IssueMapper.Base_Column_List" />
-        from `issue`
+            a.`rec_id` , a.`content`, a.`belong_to`, a.`belong_to_id`, a.`img1`, a.`img2`, a.`img3`, a.`type`, a.`analysis`, a.`difficulty`, a.`status`, a.`create_id`, a.`create_time`, a.`update_id`, a.`update_time`
+            ,b.`rec_id` item_rec_id ,b.`issue_id` ,b.`content` item_content,b.`img1` item_img1,b.`img2` item_img2,b.`img3` item_img3,b.`is_answer`,b.`create_id` item_create_id ,b.`create_time` item_create_time ,b.`update_id` item_update_id ,b.`update_time` item_update_time
+        from `issue` a
+        JOIN  issue_item b on a.rec_id =b.issue_id
         where
-        `belong_to_id` = #{recId} AND   `belong_to` = #{belongTo}
+            a.`belong_to_id` = #{recId} AND   a.`belong_to` = #{belongTo} AND a.status='1'  order by a.rec_id ,b.rec_id
     </select>
 
 </mapper>

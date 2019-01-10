@@ -175,29 +175,29 @@ public class IssueController extends BaseController {
     }
 
 
-    @ApiOperation(value = "根据主键查询单个Issue详情")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = IssueResult.class, message = "Issue对象包含选项"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-    @RequestMapping(value = "/v1/getIssueAll/{recId}", method = RequestMethod.GET)
-    public ResponseEntity getIssueAll(@PathVariable("recId") String recId) {
-        try {
-            IssueResult issueResult = new IssueResult();
-            Issue issue = issueService.find(recId);
-            List<IssueItem> issueItemList = issueItemService.findByIssueId(recId);
-            issueResult.setModel(issue);
-            issueResult.setIssueItemList(issueItemList);
-            return ResponseEntity.ok(issueResult);
-        } catch (BusinessException e) {
-            logger.error("get issueResult Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
-        } catch (Exception e) {
-            logger.error("get issueResult Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
-        }
-    }
+//    @ApiOperation(value = "根据主键查询单个Issue详情")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, response = IssueResult.class, message = "Issue对象包含选项"),
+//            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+//    })
+//    @RequestMapping(value = "/v1/getIssueAll/{recId}", method = RequestMethod.GET)
+//    public ResponseEntity getIssueAll(@PathVariable("recId") String recId) {
+//        try {
+//            IssueResult issueResult = new IssueResult();
+//            Issue issue = issueService.find(recId);
+//            List<IssueItem> issueItemList = issueItemService.findByIssueId(recId);
+//            issueResult.setModel(issue);
+//            issueResult.setIssueItemList(issueItemList);
+//            return ResponseEntity.ok(issueResult);
+//        } catch (BusinessException e) {
+//            logger.error("get issueResult Error!", e);
+//            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+//        } catch (Exception e) {
+//            logger.error("get issueResult Error!", e);
+//            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+//                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+//        }
+//    }
 
     @ApiOperation(value = "创建Issue和IssueItem")
     @ApiResponses({
