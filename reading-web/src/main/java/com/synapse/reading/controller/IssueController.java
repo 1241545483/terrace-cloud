@@ -158,7 +158,7 @@ public class IssueController extends BaseController {
             }
             int totalNum = issueService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
-            List<IssueResult> results = issueService.getIssueList(param.getBelongToId());
+            List<IssueResult> results = issueService.getIssueList(param.getBelongToId(),param.getBelongTo());
             Map<String, Object> map = new HashMap();
             map.put("issueList", results);
             map.put("totalNum", totalNum);
