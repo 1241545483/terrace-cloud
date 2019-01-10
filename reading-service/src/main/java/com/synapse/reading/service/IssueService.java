@@ -93,24 +93,25 @@ public class IssueService extends IssueBaseService {
 
     public Integer createIssueAll(List<IssueParam> param, User user) {
         if (!"".equals(param) && param != null) {
-            for (IssueParam issueParam :
-                    param) {
+
+            for (IssueParam issueParam : param) {
+                if("".equals(issueParam.getRecId())||issueParam.getRecId()==null){
+                    Issue model = issueParam.getModel();
+                    model.setCreateId(user.getRecId());
+                    model.setUpdateId(user.getRecId());
+                    create(model);
+                }else {
+                    issueRespository.updateByPrimaryKeySelective(issueParam.getModel());
+                }
                 List<IssueItemParam> issueItemParamList = issueParam.getModelList();
-                Issue model = issueParam.getModel();
-                model.setCreateId(user.getRecId());
-                model.setUpdateId(user.getRecId());
-                create(model);
                 String issueId = issueParam.getRecId();
-//                if (!"".equals(issueItemService.find(issueId)) && issueItemService.find(issueId) != null) {
-                issueItemService.delete(issueId);
-                for (IssueItemParam issueItemParam : issueItemParamList
-                        ) {
+                issueItemService.deleteByIssueId(issueId);
+                for (IssueItemParam issueItemParam : issueItemParamList) {
                     IssueItem issueItem = issueItemParam.getModel();
                     issueItem.setIssueId(issueId);
                     issueItem.setCreateId(user.getRecId());
                     issueItemService.create(issueItem);
                 }
-//                }
             }
             return 1;
         } else {
@@ -129,8 +130,8 @@ public class IssueService extends IssueBaseService {
         if (issueAnswerService.count(issueAnswer) > 0) {
             return 0;
         } else {
-            if (!"".equals(issueItemService.find(issueId)) && issueItemService.find(issueId) != null) {
-                issueItemService.delete(issueId);
+            if (!"".equals(issueItemService.findByIssueId(issueId)) && issueItemService.find(issueId) != null) {
+                issueItemService.deleteByIssueId(issueId);
                 for (IssueItemParam issueItemParam : issueItemParamList) {
                     IssueItem issueItem = issueItemParam.getModel();
                     issueItem.setIssueId(issueId);
