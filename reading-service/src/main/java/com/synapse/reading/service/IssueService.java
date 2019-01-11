@@ -130,7 +130,8 @@ public class IssueService extends IssueBaseService {
         if (issueAnswerService.count(issueAnswer) > 0) {
             return 0;
         } else {
-            if (!"".equals(issueItemService.findByIssueId(issueId)) && issueItemService.find(issueId) != null) {
+            List<IssueItem> issueItemList = issueItemService.findByIssueId(issueId);
+             if (issueItemList.size()>0 && issueItemList != null) {
                 issueItemService.deleteByIssueId(issueId);
                 for (IssueItemParam issueItemParam : issueItemParamList) {
                     IssueItem issueItem = issueItemParam.getModel();
