@@ -1,0 +1,82 @@
+@startuml
+'start setting---------------------------------------
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam component {
+	BackgroundColor #79A3C3
+	FontColor #EFF0F3
+	BorderColor DarkSlateGray
+
+	ArrowColor #4A5864
+}
+skinparam interface {
+	backgroundColor #F2938F
+	borderColor #F2938F
+	fontColor #6A6373
+}
+skinparam actorBackgroundColor  #F2938F
+skinparam actorBorderColor  #F2938F
+skinparam actorFontColor  #6A6373
+skinparam package {
+	BackgroundColor #EFF0F3
+	FontColor #6A6373
+}
+'end setting---------------------------------------
+
+'version 1
+
+actor 用户 as user
+actor 管理员 as admin
+
+node "前端系统" {
+	node "小程序"{
+		[小程序] as wx
+		user --> wx
+	}
+
+	node "浏览器"{
+		[官网] as web
+		[后台管理] as manage
+		user --> web
+		admin --> manage
+	}
+}
+
+node "后端系统" {
+	node "智性阅读系统" {
+		[功能模块] as reading
+	}
+
+	node "文件系统" {
+		[功能模块] as file
+	}
+
+	database "数据库系统" {
+		[数据库] as readingDB
+		reading --> readingDB : <<use>>
+	}
+
+	node "用户系统" {
+		[功能模块] as userSystem
+		reading -right-> userSystem : <<use>>
+		userSystem --> readingDB : <<use>>
+	}
+
+	node "支付系统" {
+		[功能模块] as pay
+		reading --> pay : <<use>>
+		pay --> readingDB : <<use>>
+	}
+
+	node "网关" {
+		[路由]  as route
+		web --> route
+		manage --> route
+		wx --> route
+		route --> file
+		route --> reading
+		route --> userSystem
+	}
+}
+
+@enduml
