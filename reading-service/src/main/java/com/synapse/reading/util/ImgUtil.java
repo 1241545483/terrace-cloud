@@ -152,8 +152,8 @@ public class ImgUtil {
             txt = ImgUtil.addTxtAtXy(txt, solgan, 273, 294, font28, black);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
-      //  Graphics2D gd = txt.createGraphics();
-      //  gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        //  Graphics2D gd = txt.createGraphics();
+        //  gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         ImageIO.write(txt, "png", tempPng.toFile());
         // 上传到服务器
 //        System.out.println(tempPng.toAbsolutePath());
@@ -233,7 +233,7 @@ public class ImgUtil {
         Font font34 = new Font("微软雅黑", Font.BOLD, 34);
         Font font50 = new Font("微软雅黑", Font.BOLD, 50);
         int length = bookName.length();
-        BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length*font28.getSize()) / 2, 230, font28, black1);
+        BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length * font28.getSize()) / 2, 230, font28, black1);
         String userName = wxNickName + "邀请您一起免费观看";
         txt = ImgUtil.addTxtAtXy(txt, userName, 30, 85, font28, black1);
         String name = "智性阅读";
@@ -241,7 +241,7 @@ public class ImgUtil {
         String name2 = "扫码学习";
         txt = ImgUtil.addTxtAtXy(txt, name, 30, 50, font32, black);
 
-        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length()*font28.getSize()) / 2, 830, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length() * font28.getSize()) / 2, 830, font28, color);
 
         String activityName = "";
         //换行处理
@@ -257,8 +257,8 @@ public class ImgUtil {
             txt = ImgUtil.addTxtAtXy(txt, solgan, 140, 510, font28, black);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
-       // Graphics2D gd = txt.createGraphics();
-       // gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        // Graphics2D gd = txt.createGraphics();
+        // gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         ImageIO.write(txt, "png", tempPng.toFile());
         // 上传到服务器
 //        System.out.println(tempPng.toAbsolutePath());
@@ -617,6 +617,13 @@ public class ImgUtil {
 
             g2d.setColor(color);
             g2d.setFont(font);
+
+//            最常用的渲染提示是在文本的边缘混合前景和背景颜色。要在应用程序中请求这种提示，必须用下面的方法：
+//            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+//            如果滥用这个方法，会导致文本展示过度的模糊。这种情况下，更好的渲染提示如下：
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, (RenderingHints.VALUE_TEXT_ANTIALIAS_GASP));
+//            LCD展示是一个属性，Java 2D API可以用它创建不是很模糊的抗锯齿文本，但在小字体时又能清晰展示。要使用这种绘制方式，需要使用以下代码：
+//            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, (RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB));
 
             // 10,20 表示这段文字在图片上的位置(x,y) .第一个是你设置的内容。
             g2d.drawString(txt, x, y);
