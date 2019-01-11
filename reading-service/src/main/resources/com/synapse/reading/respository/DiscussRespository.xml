@@ -44,6 +44,7 @@
         <if test="replyId != null">
             AND reply_id=#{replyId}
         </if>
+        order by create_time DESC
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
