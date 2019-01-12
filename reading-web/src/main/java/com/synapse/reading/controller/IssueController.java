@@ -65,8 +65,8 @@ public class IssueController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "recId", value = "用户ID", dataType = "String",paramType = "query"),
-            @ApiImplicitParam(name = "content", value = "content", dataType = "String",paramType = "query")
+            @ApiImplicitParam(name = "recId", value = "用户ID", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "content", value = "content", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/v1/issue", method = RequestMethod.GET)
     public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) @ApiIgnore IssueParam param, BindingResult bindingResult) {
@@ -158,7 +158,7 @@ public class IssueController extends BaseController {
             }
             int totalNum = issueService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
-            List<IssueResult> results = issueService.getIssueList(param.getBelongToId(),param.getBelongTo());
+            List<IssueResult> results = issueService.getIssueList(param.getBelongToId(), param.getBelongTo());
             Map<String, Object> map = new HashMap();
             map.put("issueList", results);
             map.put("totalNum", totalNum);
@@ -215,7 +215,7 @@ public class IssueController extends BaseController {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            return ResponseEntity.ok(issueService.createIssueAll(param,user));
+            return ResponseEntity.ok(issueService.createIssueAll(param, user));
         } catch (BusinessException e) {
             logger.error("create createIssueAll Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
@@ -327,6 +327,34 @@ public class IssueController extends BaseController {
             model.setRecId(recId);
             model.setUpdateId(user.getRecId());
             Integer num = issueService.update(model);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("update Issue Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Issue Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "获取用户答题分数")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "分数"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/selectScoreByUserId", method = RequestMethod.GET)
+    public ResponseEntity selectScoreByUserId(IssueParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Double num = issueService.selectScoreByUserId(user, param.getBelongToId(), param.getBelongTo());
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("update Issue Error!", e);

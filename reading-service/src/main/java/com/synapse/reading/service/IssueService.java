@@ -95,12 +95,12 @@ public class IssueService extends IssueBaseService {
         if (!"".equals(param) && param != null) {
 
             for (IssueParam issueParam : param) {
-                if("".equals(issueParam.getRecId())||issueParam.getRecId()==null){
+                if ("".equals(issueParam.getRecId()) || issueParam.getRecId() == null) {
                     Issue model = issueParam.getModel();
                     model.setCreateId(user.getRecId());
                     model.setUpdateId(user.getRecId());
                     create(model);
-                }else {
+                } else {
                     issueRespository.updateByPrimaryKeySelective(issueParam.getModel());
                 }
                 List<IssueItemParam> issueItemParamList = issueParam.getModelList();
@@ -131,7 +131,7 @@ public class IssueService extends IssueBaseService {
             return 0;
         } else {
             List<IssueItem> issueItemList = issueItemService.findByIssueId(issueId);
-             if (issueItemList.size()>0 && issueItemList != null) {
+            if (issueItemList.size() > 0 && issueItemList != null) {
                 issueItemService.deleteByIssueId(issueId);
                 for (IssueItemParam issueItemParam : issueItemParamList) {
                     IssueItem issueItem = issueItemParam.getModel();
@@ -187,5 +187,36 @@ public class IssueService extends IssueBaseService {
         return list;
     }
 
+    public double selectScoreByUserId(User user, String belongToId, String belongTo) {
+        Double score = issueRespository.selectScoreByUserId(user.getRecId(), belongToId, belongTo);
+        if (!"".equals(score) && score != null) {
+            if (score == 1) {
+                return 5;
+            } else if (0.8 < score && score < 1) {
+                return 4.5;
+            } else if (score == 0.8) {
+                return 4;
+            } else if (0.6 < score && score < 0.8) {
+                return 3.5;
+            } else if (score == 0.6) {
+                return 3;
+            } else if (0.4 < score && score < 0.6) {
+                return 2.5;
+            } else if (score == 0.4) {
+                return 2;
+            } else if (0.2 < score && score < 0.4) {
+                return 1.5;
+            } else if (score == 0.2) {
+                return 1;
+            } else if (0 < score && score < 0.2) {
+                return 0.5;
+            } else {
+                return 0;
+            }
+        } else {
+            return -1;
+        }
+
+    }
 
 }

@@ -153,7 +153,7 @@ public class TestMain extends WebMvcConfigurerAdapter {
                 roles.put("bizroleId", "area_manager");
                 userInfos.add(roles);
                 bizRoles.put("SHILU", userInfos);
-                UserContext.setUser(new User("159", "鞠九兵", "password", true, "1000", "1", bizRoles, "1", null, null, null, "1"));
+                UserContext.setUser(new User("516919611287928832", "鞠九兵", "password", true, "1000", "1", bizRoles, "1", null, null, null, "1"));
                 return super.preHandle(request, response, handler);
             }
 //            @Override

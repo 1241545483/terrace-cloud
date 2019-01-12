@@ -21,4 +21,6 @@ public interface IssueRespository extends IssueMapper {
 
 List<Map<String,String>>  selectBybelongToId(@Param("recId") String recId, @Param("belongTo") String  belongTo);
 
+Double  selectScoreByUserId(@Param("userId") String userId,@Param("belongToId") String belongToId,@Param("belongTo") String belongTo);
+
 }
