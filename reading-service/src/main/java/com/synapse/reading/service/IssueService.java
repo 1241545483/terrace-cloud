@@ -193,23 +193,23 @@ public class IssueService extends IssueBaseService {
             if (score == 1) {
                 return 5;
             } else if (0.8 < score && score < 1) {
-                return 4.5;
+                return 4;
             } else if (score == 0.8) {
                 return 4;
             } else if (0.6 < score && score < 0.8) {
-                return 3.5;
+                return 3;
             } else if (score == 0.6) {
                 return 3;
             } else if (0.4 < score && score < 0.6) {
-                return 2.5;
+                return 2;
             } else if (score == 0.4) {
                 return 2;
             } else if (0.2 < score && score < 0.4) {
-                return 1.5;
+                return 1;
             } else if (score == 0.2) {
                 return 1;
             } else if (0 < score && score < 0.2) {
-                return 0.5;
+                return 0;
             } else {
                 return 0;
             }
