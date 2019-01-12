@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.dto.param.IssueParam;
 import com.synapse.reading.model.IssueAnswer;
 import com.synapse.reading.dto.param.IssueAnswerParam;
 import com.synapse.reading.dto.result.IssueAnswerResult;
@@ -154,6 +155,29 @@ public class IssueAnswerController extends BaseController{
             logger.error("delete IssueAnswer Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "删除用户当前IssueAnswer")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/deleteByCreateId",method = RequestMethod.DELETE)
+    public ResponseEntity deleteByCreateId(@RequestBody IssueParam param){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Integer num = issueAnswerService.deleteByCreateId(user,param.getBelongToId(),param.getBelongTo());
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("delete IssueAnswer Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("delete IssueAnswer Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 

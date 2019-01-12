@@ -1,6 +1,7 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.IssueAnswerMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -11,5 +12,5 @@ import com.synapse.reading.mapper.IssueAnswerMapper;
  * @since 2019-01-09
  */
 public interface IssueAnswerRespository extends IssueAnswerMapper {
-
+    Integer deleteByCreateId(@Param("createId") String createId, @Param("belongToId") String belongToId, @Param("belongTo") String belongTo);
 }

@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.IssueAnswerRespository">
 
+    <delete id="deleteByCreateId" parameterType="map" >
+
+        DELETE s from issue_answer s
+            join issue b on s.issue_id=b.rec_id  AND  b.belong_to_id = #{belongToId} AND b.belong_to=#{belongTo}
+        where s.create_id =#{createId};
+    </delete>
+
+
 </mapper>

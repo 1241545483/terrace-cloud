@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.reading.model.IssueAnswer;
 import com.synapse.reading.respository.IssueAnswerRespository;
 import com.synapse.reading.dto.param.IssueAnswerParam;
@@ -59,6 +60,9 @@ public class IssueAnswerService extends IssueAnswerBaseService {
         model.setRecId(recId);
         model.setStatus(IssueAnswerConstants.STATUS.DELETED.num());
         return issueAnswerRespository.updateByPrimaryKeySelective(model);
+    }
+    public Integer deleteByCreateId(User user, String belongToId, String belongTo){
+        return issueAnswerRespository.deleteByCreateId(user.getRecId(),belongToId,belongTo);
     }
 
 	public List<IssueAnswer> list(IssueAnswer issueAnswerParam, PageInfo pageInfo) {
