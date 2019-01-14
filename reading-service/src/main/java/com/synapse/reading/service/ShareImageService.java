@@ -115,10 +115,11 @@ public class ShareImageService extends ShareImageBaseService {
                 ClassPathResource classPath =new ClassPathResource("/imgs/audioModelUrl.png");
 //                InputStream modelUrl = classPath.getInputStream();
                 BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
-//                String url = audio.getCover();
-                 URL audioModelCover = new URL(audio.getCover());
-                BufferedImage url = ImageIO.read(audioModelCover);
-                if (url==null) {
+                BufferedImage url =null;
+               if (!"".equals(audio.getCover())&&audio.getCover()!=null){
+                   URL audioModelCover = new URL(audio.getCover());
+                  url = ImageIO.read(audioModelCover);
+               }else  {
 //                    File url = new File("\\imgs\\audioModelCover.png");
 //                    url = "http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
                     ClassPathResource urlClassPath =new ClassPathResource("/imgs/audioModelCover.png");
