@@ -184,7 +184,7 @@ public class ImgUtil {
 //        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
 //        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
-        BufferedImage goodsMinBuffer =ImgUtil.zoomInImage(goodsBuffer,220,280);
+        BufferedImage goodsMinBuffer = ImgUtil.zoomInImage(goodsBuffer, 220, 280);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
         Path tempPng = Files.createTempFile("", ".png");
@@ -206,7 +206,7 @@ public class ImgUtil {
 //        BufferedImage bdBuffer = ImageIO.read(backdropUrlRead);
 
         BufferedImage erbdBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(bdBuffer, 186), 186, 0);// 二维码缩小
-        erbdBuffer = ImgUtil.zoomInImage(bdBuffer, 186, 186 );
+        erbdBuffer = ImgUtil.zoomInImage(bdBuffer, 186, 186);
         ImageIO.write(erbdBuffer, "png", tempPng.toFile());
 
 
