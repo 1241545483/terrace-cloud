@@ -183,8 +183,8 @@ public class ImgUtil {
 //
 //        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
-        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,
-                0);
+//        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
+        BufferedImage goodsMinBuffer =ImgUtil.zoomInImage(goodsBuffer,220,280);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
         Path tempPng = Files.createTempFile("", ".png");
