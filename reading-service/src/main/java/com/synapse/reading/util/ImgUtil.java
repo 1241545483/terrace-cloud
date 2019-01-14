@@ -166,22 +166,22 @@ public class ImgUtil {
 
     }
 
-    public static Path DrawSuccessPosterByBook(String modelUrl, String url, String qrcodeUrl, String wxNickName, String solgan, String bookName, String backdropUrl) throws IOException {
+    public static Path DrawSuccessPosterByBook(BufferedImage bgBuffer, BufferedImage goodsBuffer, String qrcodeUrl, String wxNickName, String solgan, String bookName, BufferedImage bdBuffer) throws IOException {
 
         //背景图片处理
         //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
 
-        URL bg = new URL(modelUrl);
-        BufferedImage bgBuffer = ImageIO.read(bg);
+//        URL bg = new URL(modelUrl);
+//        BufferedImage bgBuffer = ImageIO.read(bg);
 
         int widthBg = bgBuffer.getWidth();
         int heightBg = bgBuffer.getHeight();
 
 
         //书籍图片处理
-        URL BookRead = new URL(url);//url 头像的URL
-
-        BufferedImage goodsBuffer = ImageIO.read(BookRead);
+//        URL BookRead = new URL(url);//url 头像的URL
+//
+//        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
         BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 276), 204,
                 0);
@@ -202,8 +202,8 @@ public class ImgUtil {
         ImageIO.write(erMinBuffer, "png", tempPng.toFile());
 
         //背景图片处理
-        URL backdropUrlRead = new URL(backdropUrl);//url 为图片的URL// 二维码缩小处理
-        BufferedImage bdBuffer = ImageIO.read(backdropUrlRead);
+//        URL backdropUrlRead = new URL(backdropUrl);//url 为图片的URL// 二维码缩小处理
+//        BufferedImage bdBuffer = ImageIO.read(backdropUrlRead);
 
         BufferedImage erbdBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(bdBuffer, 186), 186, 0);// 二维码缩小
         erbdBuffer = ImgUtil.zoomInImage(bdBuffer, 186, 186 );

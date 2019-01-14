@@ -120,8 +120,6 @@ public class ShareImageService extends ShareImageBaseService {
                    URL audioModelCover = new URL(audio.getCover());
                   url = ImageIO.read(audioModelCover);
                }else  {
-//                    File url = new File("\\imgs\\audioModelCover.png");
-//                    url = "http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
                     ClassPathResource urlClassPath =new ClassPathResource("/imgs/audioModelCover.png");
                     url = ImageIO.read(urlClassPath.getInputStream());
                 }
@@ -152,11 +150,17 @@ public class ShareImageService extends ShareImageBaseService {
             }
             if ("book".equals(shareType)) {
                 Book book = bookService.find(id);
-                String modelUrl = "http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png";
-                String backdropUrl = "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png";
-                String url = book.getCover();
-                if ("".equals(url)) {
-                    url = "http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
+                ClassPathResource classPath =new ClassPathResource("/imgs/bookModelUrl.png");
+                BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
+                ClassPathResource classPathDropUrl =new ClassPathResource("/imgs/bookBackdropUrl.png");
+                BufferedImage backdropUrl = ImageIO.read(classPathDropUrl.getInputStream());
+                BufferedImage url =null;
+                if (!"".equals(book.getCover())&&book.getCover()!=null){
+                    URL audioModelCover = new URL(book.getCover());
+                    url = ImageIO.read(audioModelCover);
+                }else  {
+                    ClassPathResource urlClassPath =new ClassPathResource("/imgs/bookModelCover.png");
+                    url = ImageIO.read(urlClassPath.getInputStream());
                 }
                 String qrcodeUrl = book.getQrCode();
                 String wxNickName = user.getUsername();
