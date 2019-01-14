@@ -111,12 +111,12 @@ public class ImgUtil {
 
         Font font8 = new Font("微软雅黑", Font.BOLD, 8);
         Font font12 = new Font("微软雅黑", Font.BOLD, 14);
-        Font font23 = new Font("微软雅黑", Font.PLAIN, 23);
-        Font font28B = new Font("微软雅黑", Font.BOLD, 28);
-        Font font28 = new Font("微软雅黑", Font.PLAIN, 28);
-        Font font24 = new Font("微软雅黑", Font.PLAIN, 24);
-        Font font34 = new Font("微软雅黑", Font.PLAIN, 34);
-        Font font50 = new Font("微软雅黑", Font.BOLD, 50);
+        Font font23 = new Font("思源黑体 CN", Font.PLAIN, 23);
+        Font font28B = new Font("思源黑体 CN", Font.BOLD, 28);
+        Font font28 = new Font("思源黑体 CN", Font.PLAIN, 28);
+        Font font24 = new Font("思源黑体 CN", Font.PLAIN, 24);
+        Font font34 = new Font("思源黑体 CN", Font.PLAIN, 34);
+        Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
 
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, albumName, 30, 65, font50, black);
         String audioNameAll = "";
@@ -234,7 +234,7 @@ public class ImgUtil {
         Font font32 = new Font("思源黑体 CN", Font.BOLD, 32);
         Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
         Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
-        bookName="《"+bookName+"》";
+        
         int length = bookName.length();
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length * font28.getSize()) / 2, 230, font28, black1);
         String userName = wxNickName + "邀请您一起免费观看";
