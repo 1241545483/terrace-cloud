@@ -194,26 +194,16 @@ public class IssueService extends IssueBaseService {
     public double selectScoreByUserId(User user, String belongToId, String belongTo) {
         Double score = issueRespository.selectScoreByUserId(user.getRecId(), belongToId, belongTo);
         if (!"".equals(score) && score != null) {
-            if (score == 1) {
+            if (0.8 < score && score <=1) {
                 return 5;
-            } else if (0.8 < score && score < 1) {
+            } else if (0.6 < score && score <=0.8) {
                 return 4;
-            } else if (score == 0.8) {
-                return 4;
-            } else if (0.6 < score && score < 0.8) {
+            } else if (0.4 < score && score <= 0.6) {
                 return 3;
-            } else if (score == 0.6) {
-                return 3;
-            } else if (0.4 < score && score < 0.6) {
+            } else if (0.2 < score && score <= 0.4) {
                 return 2;
-            } else if (score == 0.4) {
-                return 2;
-            } else if (0.2 < score && score < 0.4) {
+            } else if (0 < score && score <=0.2) {
                 return 1;
-            } else if (score == 0.2) {
-                return 1;
-            } else if (0 < score && score < 0.2) {
-                return 0;
             } else {
                 return 0;
             }
