@@ -114,7 +114,7 @@ public class BookService extends BookBaseService {
 
     public Book getVidaoQrCode(Book param) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/audio/audio");
+        miniQrcodeParam.setPage("pages/book/index");
         Map<String, String> params = new HashMap<>();
         params.put("bookId", param.getRecId());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
