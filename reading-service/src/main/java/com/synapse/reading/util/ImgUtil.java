@@ -183,7 +183,7 @@ public class ImgUtil {
 //
 //        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
-        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 276), 204,
+        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 240), 184,
                 0);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
