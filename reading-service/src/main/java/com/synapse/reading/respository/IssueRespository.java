@@ -23,4 +23,6 @@ List<Map<String,String>>  selectBybelongToId(@Param("recId") String recId, @Para
 
 Double  selectScoreByUserId(@Param("userId") String userId,@Param("belongToId") String belongToId,@Param("belongTo") String belongTo);
 
+Integer  selectCountByUserId(@Param("userId") String userId,@Param("belongToId") String belongToId,@Param("belongTo") String belongTo);
+
 }

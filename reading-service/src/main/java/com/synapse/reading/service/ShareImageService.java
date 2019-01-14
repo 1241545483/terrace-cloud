@@ -137,7 +137,7 @@ public class ShareImageService extends ShareImageBaseService {
             }
             if ("book".equals(shareType)) {
                 Book book = bookService.find(id);
-                String modelUrl = "http://img.njlsedu.cn/SHILU/1/36181121410196937.png";
+                String modelUrl = "http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png";
                 String backdropUrl = "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png";
                 String url = book.getCover();
                 if ("".equals(url)) {

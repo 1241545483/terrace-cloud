@@ -187,6 +187,10 @@ public class IssueService extends IssueBaseService {
         return list;
     }
 
+    public int selectCountByUserId(User user, String belongToId, String belongTo) {
+        return issueRespository.selectCountByUserId(user.getRecId(), belongToId, belongTo);
+    }
+
     public double selectScoreByUserId(User user, String belongToId, String belongTo) {
         Double score = issueRespository.selectScoreByUserId(user.getRecId(), belongToId, belongTo);
         if (!"".equals(score) && score != null) {

@@ -27,4 +27,16 @@
 
     </select>
 
+    <select id="selectCountByUserId" resultType="int" parameterType="map" >
+
+        SELECT count(1)
+        FROM
+        (SELECT a.content issue ,a.difficulty,b.content item ,b.is_answer,c.rec_id,c.create_id from issue a
+        join issue_item b on a.rec_id = b.issue_id
+        LEFT JOIN issue_answer c on a.rec_id = c.issue_id AND b.rec_id = c.item_id and c.create_id = #{userId}
+        WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1
+        order by a.rec_id,b.rec_id ) a WHERE a.rec_id is not NULL AND a.is_answer=1
+
+    </select>
+
 </mapper>

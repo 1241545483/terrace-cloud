@@ -54,8 +54,8 @@ public class ImgUtil {
 //        String [] forName = e.getAvailableFontFamilyNames(); //返回包含在此所有字体系列名称的数组， GraphicsEnvironment本地化为默认的语言环境，如返回 Locale.getDefault() 。
 //        for (int i = 0; i < forName.length; i++) //逐行输出
 //            System.out.println(forName[i]);
-
-        System.out.println(DrawSuccessPosterByBook("http://img.njlsedu.cn/SHILU/1/36181121410196937.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
+        System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png","http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png","http://img.jssns.cn/SHILU/1/43022872422734077.png","用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd","嘿嘿嘿呵呵呵呵","哈哈哈"));
+//        System.out.println(DrawSuccessPosterByBook("http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
 
     }
 
@@ -111,10 +111,11 @@ public class ImgUtil {
 
         Font font8 = new Font("微软雅黑", Font.BOLD, 8);
         Font font12 = new Font("微软雅黑", Font.BOLD, 14);
-        Font font23 = new Font("微软雅黑", Font.BOLD, 23);
-        Font font28 = new Font("微软雅黑", Font.BOLD, 28);
-        Font font24 = new Font("微软雅黑", Font.BOLD, 24);
-        Font font34 = new Font("微软雅黑", Font.BOLD, 34);
+        Font font23 = new Font("微软雅黑", Font.PLAIN, 23);
+        Font font28B = new Font("微软雅黑", Font.BOLD, 28);
+        Font font28 = new Font("微软雅黑", Font.PLAIN, 28);
+        Font font24 = new Font("微软雅黑", Font.PLAIN, 24);
+        Font font34 = new Font("微软雅黑", Font.PLAIN, 34);
         Font font50 = new Font("微软雅黑", Font.BOLD, 50);
 
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, albumName, 30, 65, font50, black);
@@ -134,7 +135,7 @@ public class ImgUtil {
         txt = ImgUtil.addTxtAtXy(txt, userName, 42, 696, font24, black1);
         String name = "邀您一起读书";
         String name1 = "识别二维码，免费听好书";
-        txt = ImgUtil.addTxtAtXy(txt, name, 42, 750, font28, black1);
+        txt = ImgUtil.addTxtAtXy(txt, name, 42, 750, font28B, black1);
         txt = ImgUtil.addTxtAtXy(txt, name1, 42, 800, font23, black1);
 
 
@@ -205,7 +206,7 @@ public class ImgUtil {
         BufferedImage bdBuffer = ImageIO.read(backdropUrlRead);
 
         BufferedImage erbdBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(bdBuffer, 186), 186, 0);// 二维码缩小
-
+        erbdBuffer = ImgUtil.zoomInImage(bdBuffer, 186, 186 );
         ImageIO.write(erbdBuffer, "png", tempPng.toFile());
 
 
@@ -224,14 +225,16 @@ public class ImgUtil {
         Color hui1 = new Color(153, 153, 153); // 蛋灰
         Color yellow = new Color(255, 255, 0); //黄色
 
-        Font font8 = new Font("微软雅黑", Font.BOLD, 8);
-        Font font12 = new Font("微软雅黑", Font.BOLD, 14);
-        Font font23 = new Font("微软雅黑", Font.BOLD, 23);
-        Font font28 = new Font("微软雅黑", Font.BOLD, 28);
-        Font font24 = new Font("微软雅黑", Font.BOLD, 24);
-        Font font32 = new Font("微软雅黑", Font.BOLD, 32);
-        Font font34 = new Font("微软雅黑", Font.BOLD, 34);
-        Font font50 = new Font("微软雅黑", Font.BOLD, 50);
+        Font font8 = new Font("思源黑体 CN", Font.BOLD, 8);
+        Font font12 = new Font("思源黑体 CN", Font.BOLD, 14);
+        Font font23 = new Font("思源黑体 CN", Font.BOLD, 23);
+//        Font font28 = new Font("思源黑体 CN", Font.BOLD, 28);
+        Font font28 = new Font("思源黑体 CN", Font.PLAIN, 28);
+        Font font24 = new Font("思源黑体 CN", Font.BOLD, 24);
+        Font font32 = new Font("思源黑体 CN", Font.BOLD, 32);
+        Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
+        Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
+        bookName="《"+bookName+"》";
         int length = bookName.length();
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length * font28.getSize()) / 2, 230, font28, black1);
         String userName = wxNickName + "邀请您一起免费观看";

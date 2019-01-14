@@ -357,10 +357,38 @@ public class IssueController extends BaseController {
             Double num = issueService.selectScoreByUserId(user, param.getBelongToId(), param.getBelongTo());
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-            logger.error("update Issue Error!", e);
+            logger.error("get selectScoreByUserId Error!!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("update Issue Error!", e);
+            logger.error("get selectScoreByUserId Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "获取用户答题数")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "答对数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/selectCountByUserId", method = RequestMethod.GET)
+    public ResponseEntity selectCountByUserId(IssueParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            int num = issueService.selectCountByUserId(user, param.getBelongToId(), param.getBelongTo());
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("get selectCountByUserId Error!!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get selectCountByUserId Error!!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
