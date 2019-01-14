@@ -13,14 +13,21 @@ import com.synapse.reading.model.Video;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.respository.ShareImageRespository;
 import com.synapse.reading.util.ImgUtil;
+import org.apache.ibatis.javassist.ClassPath;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -105,10 +112,17 @@ public class ShareImageService extends ShareImageBaseService {
         } else {
             if ("audio".equals(shareType)) {
                 Audio audio = audioService.find(id);
-                String modelUrl = "http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png";
-                String url = audio.getCover();
+                ClassPathResource classPath =new ClassPathResource("/imgs/audioModelUrl.png");
+//                InputStream modelUrl = classPath.getInputStream();
+                BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
+//                String url = audio.getCover();
+                 URL audioModelCover = new URL(audio.getCover());
+                BufferedImage url = ImageIO.read(audioModelCover);
                 if ("".equals(url)) {
-                    url = "http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
+//                    File url = new File("\\imgs\\audioModelCover.png");
+//                    url = "http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png";
+                    ClassPathResource urlClassPath =new ClassPathResource("/imgs/audioModelCover.png");
+                    url = ImageIO.read(urlClassPath.getInputStream());
                 }
                 String qrcodeUrl = audio.getQrCode();
                 String wxNickName = user.getUsername();

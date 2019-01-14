@@ -54,28 +54,28 @@ public class ImgUtil {
 //        String [] forName = e.getAvailableFontFamilyNames(); //返回包含在此所有字体系列名称的数组， GraphicsEnvironment本地化为默认的语言环境，如返回 Locale.getDefault() 。
 //        for (int i = 0; i < forName.length; i++) //逐行输出
 //            System.out.println(forName[i]);
-        System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png","http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png","http://img.jssns.cn/SHILU/1/43022872422734077.png","用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd","嘿嘿嘿呵呵呵呵","哈哈哈"));
+//        System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png","http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png","http://img.jssns.cn/SHILU/1/43022872422734077.png","用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd","嘿嘿嘿呵呵呵呵","哈哈哈"));
 //        System.out.println(DrawSuccessPosterByBook("http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
 
     }
 
 
-    public static Path DrawSuccessPoster(String modelUrl, String url, String qrcodeUrl, String wxNickName, String solgan, String albumName, String audioName) throws IOException {
+    public static Path DrawSuccessPoster(BufferedImage bgBuffer, BufferedImage goodsBuffer, String qrcodeUrl, String wxNickName, String solgan, String albumName, String audioName) throws IOException {
 
         //背景图片处理
         //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
 
-        URL bg = new URL(modelUrl);
-        BufferedImage bgBuffer = ImageIO.read(bg);
+//        URL bg = new URL(modelUrl);
+//        BufferedImage bgBuffer = ImageIO.read(modelUrl);
 
         int widthBg = bgBuffer.getWidth();
         int heightBg = bgBuffer.getHeight();
 
 
         //音频图片处理
-        URL AudioRead = new URL(url);//url 头像的URL
+//        URL AudioRead = new URL(url);//url 头像的URL
 
-        BufferedImage goodsBuffer = ImageIO.read(AudioRead);
+//        BufferedImage goodsBuffer = ImageIO.read(url);
 
         BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 167), 182,
                 0);
@@ -234,7 +234,7 @@ public class ImgUtil {
         Font font32 = new Font("思源黑体 CN", Font.BOLD, 32);
         Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
         Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
-        
+
         int length = bookName.length();
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length * font28.getSize()) / 2, 230, font28, black1);
         String userName = wxNickName + "邀请您一起免费观看";
