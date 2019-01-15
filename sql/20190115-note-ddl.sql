@@ -1,0 +1,1 @@
+alter table book add column note text comment '笔记' after intro ;
