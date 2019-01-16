@@ -205,7 +205,7 @@ public class IssueController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/createIssueAll", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/createIssueAll", method = RequestMethod.PUT)
     public ResponseEntity createIssueAll(@RequestBody @Validated(Create.class) List<IssueParam> param, BindingResult bindingResult) {
         try {
             //验证失败
