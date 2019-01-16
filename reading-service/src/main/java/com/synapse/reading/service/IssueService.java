@@ -166,6 +166,7 @@ public class IssueService extends IssueBaseService {
                 issueResult.setCreateTime(map.get("create_time"));
                 issueResult.setUpdateId(map.get("update_id"));
                 issueResult.setUpdateTime(map.get("update_time"));
+                issueResult.setStatus("1");
             }
             IssueItemResult item = new IssueItemResult();
             issueResult.getIssueItemList().add(item);
@@ -181,6 +182,7 @@ public class IssueService extends IssueBaseService {
             item.setCreateTime(map.get("item_create_time"));
             item.setUpdateId(map.get("item_update_id"));
             item.setUpdateTime(map.get("item_update_time"));
+
 
 
         }
