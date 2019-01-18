@@ -273,7 +273,7 @@ public class ImgUtil {
 
     }
 
-    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, BufferedImage logoUrl, String qrcodeUrl, String slognName, BufferedImage starUrl,String wxNickName) throws IOException {
+    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, BufferedImage logoUrl, String qrcodeUrl, String slognName, BufferedImage starUrl, String wxNickName) throws IOException {
 
         //背景图片处理
         //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
@@ -342,21 +342,15 @@ public class ImgUtil {
         Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
         Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
 
-//        int length = bookName.length();
-//        BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length * font28.getSize()) / 2, 230, font28, black1);
-//        String userName = wxNickName + "邀请您一起免费观看";
-//        txt = ImgUtil.addTxtAtXy(txt, userName, 30, 85, font28, black1);
-        String name = "智性阅读";
 
+        String name = "智性阅读";
         String name2 = "让孩子知道自己有多优秀!";
-        BufferedImage txt = null;
+        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 80, font34, black);
         Graphics2D g2d = txt.createGraphics();
-        FontMetrics metrics = g2d.getFontMetrics(font34);
-        txt = ImgUtil.addTxtAtXy(new2, name, (594 -  metrics.stringWidth(name)) / 2, 80, font34, black);
-        metrics = g2d.getFontMetrics(font28);
+        FontMetrics metrics = g2d.getFontMetrics(font28);
         // Determine the Y coordinate for the text (note we add the ascent, as
-        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 -  metrics.stringWidth(wxNickName)) / 2, 370, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name2, (594 -  metrics.stringWidth(name2)) / 2, 850, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - metrics.stringWidth(wxNickName)) / 2, 370, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - metrics.stringWidth(name2)) / 2, 850, font28, color);
 
         String activityName = "";
         //换行处理
@@ -364,12 +358,12 @@ public class ImgUtil {
         if (slognName.length() > 12) {
             for (int i = 0; i < line; i++) {
                 activityName = slognName.substring(0 + (i * 12), 12 + (i * 12));
-                txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12* font30.getSize()) / 2, 420 + (font30.getSize() + 4) * i, font30, color);
+                txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12 * font30.getSize()) / 2, 420 + (font30.getSize() + 4) * i, font30, color);
             }
             activityName = slognName.substring((line * 12));
-            txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12* font30.getSize()) / 2, 420 + (font30.getSize() + 4) * line, font30, color);
+            txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12 * font30.getSize()) / 2, 420 + (font30.getSize() + 4) * line, font30, color);
         } else {
-            txt = ImgUtil.addTxtAtXy(txt, slognName, (594 - 12* font30.getSize()) / 2, 420, font30, color);
+            txt = ImgUtil.addTxtAtXy(txt, slognName, (594 - 12 * font30.getSize()) / 2, 420, font30, color);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
         // Graphics2D gd = txt.createGraphics();
