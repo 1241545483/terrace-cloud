@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.dto.param.IssueParam;
 import com.synapse.reading.model.ShareImage;
 import com.synapse.reading.dto.param.ShareImageParam;
 import com.synapse.reading.dto.result.ShareImageResult;
@@ -236,5 +237,28 @@ public class ShareImageController extends BaseController {
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+    @ApiOperation(value = "根据主键查询issue分享图片详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = ShareImageResult.class, message = "分享issue图片地址"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/shareImage/getShareUrlByIssue", method = RequestMethod.GET)
+    public ResponseEntity getShareUrlByIssue(IssueParam param) {
+        try {
+            User user = UserContext.getUser();
+            String shareType = "issue";
+
+            String url = shareImageService.getIssueShareUrl(param.getRecId(), user,shareType,param.getBelongTo(),param.getBelongToId());
+            return ResponseEntity.ok(url);
+        } catch (BusinessException e) {
+            logger.error("get ShareImage Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get ShareImage Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
 }

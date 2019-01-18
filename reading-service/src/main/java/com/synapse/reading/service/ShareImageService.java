@@ -59,10 +59,11 @@ public class ShareImageService extends ShareImageBaseService {
     @Autowired
     private MiniQrcodeService miniQrcodeService;
     @Autowired
-    private  VideoService videoService;
+    private VideoService videoService;
     @Autowired
-    private  BookService bookService;
-
+    private BookService bookService;
+    @Autowired
+    private IssueService issueService;
 
     protected static org.slf4j.Logger logger = LoggerFactory.getLogger(ShareImageService.class);
 
@@ -108,19 +109,19 @@ public class ShareImageService extends ShareImageBaseService {
         params.put("shareType", shareType);
         params.put("shareId", id);
         if (shareImageRespository.count(params) > 0) {
-            return shareImageRespository.list(params).get(0).getUrl() ;
+            return shareImageRespository.list(params).get(0).getUrl();
         } else {
             if ("audio".equals(shareType)) {
                 Audio audio = audioService.find(id);
-                ClassPathResource classPath =new ClassPathResource("/imgs/audioModelUrl.png");
+                ClassPathResource classPath = new ClassPathResource("/imgs/audioModelUrl.png");
 //                InputStream modelUrl = classPath.getInputStream();
                 BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
-                BufferedImage url =null;
-               if (!"".equals(audio.getCover())&&audio.getCover()!=null){
-                   URL audioModelCover = new URL(audio.getCover());
-                  url = ImageIO.read(audioModelCover);
-               }else  {
-                    ClassPathResource urlClassPath =new ClassPathResource("/imgs/audioModelCover.png");
+                BufferedImage url = null;
+                if (!"".equals(audio.getCover()) && audio.getCover() != null) {
+                    URL audioModelCover = new URL(audio.getCover());
+                    url = ImageIO.read(audioModelCover);
+                } else {
+                    ClassPathResource urlClassPath = new ClassPathResource("/imgs/audioModelCover.png");
                     url = ImageIO.read(urlClassPath.getInputStream());
                 }
                 String qrcodeUrl = audio.getQrCode();
@@ -138,7 +139,7 @@ public class ShareImageService extends ShareImageBaseService {
                 String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
-               param.setRecId(idService.gen("ID"));
+                param.setRecId(idService.gen("ID"));
                 //    param.setRecId("66");
                 param.setCreateTime(now);
                 param.setShareId(id);
@@ -150,16 +151,16 @@ public class ShareImageService extends ShareImageBaseService {
             }
             if ("book".equals(shareType)) {
                 Book book = bookService.find(id);
-                ClassPathResource classPath =new ClassPathResource("/imgs/bookModelUrl.png");
+                ClassPathResource classPath = new ClassPathResource("/imgs/bookModelUrl.png");
                 BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
-                ClassPathResource classPathDropUrl =new ClassPathResource("/imgs/bookBackdropUrl.png");
+                ClassPathResource classPathDropUrl = new ClassPathResource("/imgs/bookBackdropUrl.png");
                 BufferedImage backdropUrl = ImageIO.read(classPathDropUrl.getInputStream());
-                BufferedImage url =null;
-                if (!"".equals(book.getCover())&&book.getCover()!=null){
+                BufferedImage url = null;
+                if (!"".equals(book.getCover()) && book.getCover() != null) {
                     URL audioModelCover = new URL(book.getCover());
                     url = ImageIO.read(audioModelCover);
-                }else  {
-                    ClassPathResource urlClassPath =new ClassPathResource("/imgs/bookModelCover.png");
+                } else {
+                    ClassPathResource urlClassPath = new ClassPathResource("/imgs/bookModelCover.png");
                     url = ImageIO.read(urlClassPath.getInputStream());
                 }
                 String qrcodeUrl = book.getQrCode();
@@ -191,4 +192,51 @@ public class ShareImageService extends ShareImageBaseService {
 
     }
 
+    public String getIssueShareUrl(String id, User user, String shareType, String belongTo, String belongToId) throws IOException {
+        ShareImage shareImageParam = new ShareImage();
+        Map<String, Object> params = prepareParams(shareImageParam);
+        params.put("userId", user.getRecId());
+        params.put("shareType", shareType);
+        params.put("shareId", id);
+        if (shareImageRespository.count(params) > 0) {
+            return shareImageRespository.list(params).get(0).getUrl();
+        } else {
+            if ("issue".equals(shareType)) {
+                Book book = bookService.find(id);
+                ClassPathResource classPath = new ClassPathResource("/imgs/issueModelUrl.png");
+                BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
+                ClassPathResource classPathDropUrl = new ClassPathResource("/imgs/logo.png");
+                BufferedImage logoUrl = ImageIO.read(classPathDropUrl.getInputStream());
+                String qrcodeUrl = book.getQrCode();
+                String wxNickName = user.getUsername();
+                String bookName = book.getName();
+                int rightNum = issueService.selectCountByUserId(user, belongTo, belongToId);
+                int starNum = (int)issueService.selectScoreByUserId(user, belongTo, belongToId);
+                String slognName ="在"+bookName+"习题闯关中答对"+rightNum+"题，获取"+starNum+"颗星";
+                ClassPathResource classPathStarUrl = new ClassPathResource("/imgs/star/"+starNum+".png");
+                BufferedImage starUrl = ImageIO.read(classPathStarUrl.getInputStream());
+                Path tempPng = ImgUtil.DrawSuccessPosterByIssue(modelUrl, logoUrl, qrcodeUrl, slognName,starUrl);
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+                String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                ShareImage param = new ShareImage();
+                param.setRecId(idService.gen("ID"));
+                //    param.setRecId("66");
+                param.setCreateTime(now);
+                param.setShareId(id);
+                param.setShareType(shareType);
+                param.setUrl(shareUrl);
+                param.setUserId(user.getRecId());
+                param.setCreateId(user.getRecId());
+                shareImageMapper.insertSelective(param);
+            }
+            return shareImageRespository.list(params).get(0).getUrl();
+        }
+
+    }
 }

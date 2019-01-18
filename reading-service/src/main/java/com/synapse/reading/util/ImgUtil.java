@@ -273,6 +273,113 @@ public class ImgUtil {
 
     }
 
+    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, BufferedImage logoUrl, String qrcodeUrl, String slognName, BufferedImage starUrl) throws IOException {
+
+        //背景图片处理
+        //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
+
+//        URL bg = new URL(modelUrl);
+//        BufferedImage bgBuffer = ImageIO.read(bg);
+
+        int widthBg = modelUrl.getWidth();
+        int heightBg = modelUrl.getHeight();
+
+
+        //书籍图片处理
+//        URL BookRead = new URL(url);//url 头像的URL
+//
+//        BufferedImage goodsBuffer = ImageIO.read(BookRead);
+
+//        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
+        BufferedImage goodsMinBuffer = ImgUtil.zoomInImage(logoUrl, 196, 188);
+//        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
+
+        Path tempPng = Files.createTempFile("", ".png");
+        ImageIO.write(modelUrl, "png", tempPng.toFile());
+
+        ImageIO.write(goodsMinBuffer, "png", tempPng.toFile());
+
+
+//二维码图片处理
+        URL qrcodeUrlRead = new URL(qrcodeUrl);//url 为图片的URL// 二维码缩小处理
+        BufferedImage erBuffer = ImageIO.read(qrcodeUrlRead);
+
+        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 186), 186, 0);// 二维码缩小
+
+        ImageIO.write(erMinBuffer, "png", tempPng.toFile());
+
+        //背景图片处理
+//        URL backdropUrlRead = new URL(backdropUrl);//url 为图片的URL// 二维码缩小处理
+//        BufferedImage bdBuffer = ImageIO.read(backdropUrlRead);
+
+        BufferedImage erbdBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(starUrl, 186), 186, 0);// 二维码缩小
+        erbdBuffer = ImgUtil.zoomInImage(starUrl, 186, 186);
+        ImageIO.write(erbdBuffer, "png", tempPng.toFile());
+
+
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 199, 595);// 二维码合并
+
+        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 199, 150);// 二维码图合并
+
+        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 147, 460);// 背景图合并
+
+        ImageIO.write(new2, "png", tempPng.toFile());
+
+        Color black1 = new Color(67, 32, 32);
+        Color color = new Color(255, 255, 255); // 白色
+        Color black = new Color(51, 51, 51); // 黑色
+        Color hui = new Color(171, 171, 171); // 深灰
+        Color hui1 = new Color(153, 153, 153); // 蛋灰
+        Color yellow = new Color(255, 255, 0); //黄色
+
+        Font font8 = new Font("思源黑体 CN", Font.BOLD, 8);
+        Font font12 = new Font("思源黑体 CN", Font.BOLD, 14);
+        Font font23 = new Font("思源黑体 CN", Font.BOLD, 23);
+//        Font font28 = new Font("思源黑体 CN", Font.BOLD, 28);
+        Font font28 = new Font("思源黑体 CN", Font.PLAIN, 28);
+        Font font24 = new Font("思源黑体 CN", Font.BOLD, 24);
+        Font font32 = new Font("思源黑体 CN", Font.BOLD, 32);
+        Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
+        Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
+
+//        int length = bookName.length();
+//        BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length * font28.getSize()) / 2, 230, font28, black1);
+//        String userName = wxNickName + "邀请您一起免费观看";
+//        txt = ImgUtil.addTxtAtXy(txt, userName, 30, 85, font28, black1);
+        String name = "智性阅读";
+
+        String name2 = "让孩子知道自己有多优秀!";
+        BufferedImage txt = ImgUtil.addTxtAtXy(new2, name, 206, 50, font32, black);
+
+        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length() * font28.getSize()) / 2, 830, font28, color);
+
+        String activityName = "";
+        //换行处理
+        int line = (slognName.length() / 12);
+        if (slognName.length() > 12) {
+            for (int i = 0; i < line; i++) {
+                activityName = slognName.substring(0 + (i * 12), 12 + (i * 12));
+                txt = ImgUtil.addTxtAtXy(txt, activityName, 140, 510 + (font28.getSize() + 4) * i, font28, black);
+            }
+            activityName = slognName.substring((line * 12));
+            txt = ImgUtil.addTxtAtXy(txt, activityName, 140, 510 + (font28.getSize() + 4) * line, font28, black);
+        } else {
+            txt = ImgUtil.addTxtAtXy(txt, slognName, 140, 510, font28, black);
+        }
+//        Path tempFile = Files.createTempFile("", ".png");
+        // Graphics2D gd = txt.createGraphics();
+        // gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        ImageIO.write(txt, "png", tempPng.toFile());
+        // 上传到服务器
+//        System.out.println(tempPng.toAbsolutePath());
+//        MiniQrcodeService miniQrcodeService = new MiniQrcodeService();
+//        FileInputStream fis = new FileInputStream(tempPng.toFile());
+//        String shareUrl = miniQrcodeService.inputStreamUpload(fis, "shareUrl");
+//        System.err.println(shareUrl);
+        return tempPng;
+
+    }
+
     /**
      * 获取指定字体指定内容的宽度
      *
