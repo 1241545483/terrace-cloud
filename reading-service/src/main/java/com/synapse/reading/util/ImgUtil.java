@@ -273,7 +273,7 @@ public class ImgUtil {
 
     }
 
-    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, BufferedImage logoUrl, String qrcodeUrl, String slognName, BufferedImage starUrl) throws IOException {
+    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, BufferedImage logoUrl, String qrcodeUrl, String slognName, BufferedImage starUrl,String wxNickName) throws IOException {
 
         //背景图片处理
         //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
@@ -313,13 +313,13 @@ public class ImgUtil {
 //        BufferedImage bdBuffer = ImageIO.read(backdropUrlRead);
 
         BufferedImage erbdBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(starUrl, 186), 186, 0);// 二维码缩小
-        erbdBuffer = ImgUtil.zoomInImage(starUrl, 186, 186);
+        erbdBuffer = ImgUtil.zoomInImage(starUrl, 300, 48);
         ImageIO.write(erbdBuffer, "png", tempPng.toFile());
 
 
-        BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 199, 595);// 二维码合并
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 204, 595);// 二维码合并
 
-        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 199, 150);// 二维码图合并
+        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 204, 150);// 二维码图合并
 
         BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 147, 460);// 背景图合并
 
@@ -338,7 +338,7 @@ public class ImgUtil {
 //        Font font28 = new Font("思源黑体 CN", Font.BOLD, 28);
         Font font28 = new Font("思源黑体 CN", Font.PLAIN, 28);
         Font font24 = new Font("思源黑体 CN", Font.BOLD, 24);
-        Font font32 = new Font("思源黑体 CN", Font.BOLD, 32);
+        Font font30 = new Font("思源黑体 CN", Font.PLAIN, 30);
         Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
         Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
 
@@ -349,9 +349,9 @@ public class ImgUtil {
         String name = "智性阅读";
 
         String name2 = "让孩子知道自己有多优秀!";
-        BufferedImage txt = ImgUtil.addTxtAtXy(new2, name, 206, 50, font32, black);
-
-        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length() * font28.getSize()) / 2, 830, font28, color);
+        BufferedImage txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 60, font34, black);
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - wxNickName.length() * font28.getSize()) / 2, 350, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length() * font28.getSize()) / 2, 850, font28, color);
 
         String activityName = "";
         //换行处理
@@ -359,12 +359,12 @@ public class ImgUtil {
         if (slognName.length() > 12) {
             for (int i = 0; i < line; i++) {
                 activityName = slognName.substring(0 + (i * 12), 12 + (i * 12));
-                txt = ImgUtil.addTxtAtXy(txt, activityName, 140, 510 + (font28.getSize() + 4) * i, font28, black);
+                txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12* font28.getSize()) / 2, 380 + (font28.getSize() + 4) * i, font30, color);
             }
             activityName = slognName.substring((line * 12));
-            txt = ImgUtil.addTxtAtXy(txt, activityName, 140, 510 + (font28.getSize() + 4) * line, font28, black);
+            txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12* font28.getSize()) / 2, 380 + (font28.getSize() + 4) * line, font30, color);
         } else {
-            txt = ImgUtil.addTxtAtXy(txt, slognName, 140, 510, font28, black);
+            txt = ImgUtil.addTxtAtXy(txt, slognName, (594 - 12* font28.getSize()) / 2, 380, font30, color);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
         // Graphics2D gd = txt.createGraphics();
