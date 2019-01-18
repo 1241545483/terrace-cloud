@@ -349,8 +349,8 @@ public class ImgUtil {
         String name = "智性阅读";
 
         String name2 = "让孩子知道自己有多优秀!";
-        BufferedImage txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 60, font34, black);
-        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - wxNickName.length() * font28.getSize()) / 2, 350, font28, color);
+        BufferedImage txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 80, font34, black);
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - wxNickName.length() * font28.getSize()) / 2, 370, font28, color);
         txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length() * font28.getSize()) / 2, 850, font28, color);
 
         String activityName = "";
@@ -359,12 +359,12 @@ public class ImgUtil {
         if (slognName.length() > 12) {
             for (int i = 0; i < line; i++) {
                 activityName = slognName.substring(0 + (i * 12), 12 + (i * 12));
-                txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12* font28.getSize()) / 2, 380 + (font28.getSize() + 4) * i, font30, color);
+                txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12* font30.getSize()) / 2, 400 + (font30.getSize() + 4) * i, font30, color);
             }
             activityName = slognName.substring((line * 12));
-            txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12* font28.getSize()) / 2, 380 + (font28.getSize() + 4) * line, font30, color);
+            txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12* font30.getSize()) / 2, 400 + (font30.getSize() + 4) * line, font30, color);
         } else {
-            txt = ImgUtil.addTxtAtXy(txt, slognName, (594 - 12* font28.getSize()) / 2, 380, font30, color);
+            txt = ImgUtil.addTxtAtXy(txt, slognName, (594 - 12* font30.getSize()) / 2, 400, font30, color);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
         // Graphics2D gd = txt.createGraphics();
