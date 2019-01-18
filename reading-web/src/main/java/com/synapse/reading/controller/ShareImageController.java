@@ -248,7 +248,7 @@ public class ShareImageController extends BaseController {
             User user = UserContext.getUser();
             String shareType = "issue";
 
-            String url = shareImageService.getIssueShareUrl(param.getRecId(), user,shareType,param.getBelongTo(),param.getBelongToId());
+            String url = shareImageService.getIssueShareUrl( user,shareType,param.getBelongTo(),param.getBelongToId());
             return ResponseEntity.ok(url);
         } catch (BusinessException e) {
             logger.error("get ShareImage Error!", e);

@@ -192,17 +192,17 @@ public class ShareImageService extends ShareImageBaseService {
 
     }
 
-    public String getIssueShareUrl(String id, User user, String shareType, String belongTo, String belongToId) throws IOException {
+    public String getIssueShareUrl(User user, String shareType, String belongTo, String belongToId) throws IOException {
         ShareImage shareImageParam = new ShareImage();
         Map<String, Object> params = prepareParams(shareImageParam);
         params.put("userId", user.getRecId());
         params.put("shareType", shareType);
-        params.put("shareId", id);
+        params.put("shareId", belongToId);
         if (shareImageRespository.count(params) > 0) {
             return shareImageRespository.list(params).get(0).getUrl();
         } else {
             if ("issue".equals(shareType)) {
-                Book book = bookService.find(id);
+                Book book = bookService.find(belongToId);
                 ClassPathResource classPath = new ClassPathResource("/imgs/issueModelUrl.png");
                 BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
                 ClassPathResource classPathDropUrl = new ClassPathResource("/imgs/logo.png");
@@ -228,7 +228,7 @@ public class ShareImageService extends ShareImageBaseService {
                 param.setRecId(idService.gen("ID"));
                 //    param.setRecId("66");
                 param.setCreateTime(now);
-                param.setShareId(id);
+                param.setShareId(belongToId);
                 param.setShareType(shareType);
                 param.setUrl(shareUrl);
                 param.setUserId(user.getRecId());
