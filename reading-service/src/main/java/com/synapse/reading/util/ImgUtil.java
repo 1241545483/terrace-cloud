@@ -291,7 +291,7 @@ public class ImgUtil {
 //        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
 //        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
-        BufferedImage goodsMinBuffer = ImgUtil.zoomInImage(logoUrl, 120, 120);
+        BufferedImage goodsMinBuffer = ImgUtil.zoomInImageNoBack(logoUrl, 120, 120);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
         Path tempPng = Files.createTempFile("", ".png");
@@ -345,19 +345,33 @@ public class ImgUtil {
 
         String name = "智性阅读";
         String name2 = "让孩子知道自己有多优秀!";
-        String name3 = "在"+bookName+"习题闯关中";
-        String name4 ="答对"+rightNum+"题，获取"+starNum+"颗星";
-        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, 144, 40, font34, black);
+        String name3 = "在";
+        String name4 ="习题闯关中";
+        String name5 = "在"+bookName+"习题闯关中";
+        String rightNums =rightNum+"";
+        String starNums = starNum+"";
+        String name6 ="答对"+rightNum+"题，获取"+starNum+"颗星";
+        String name7 ="答对";
+        String name8 ="题，获取";
+        String name9 ="颗星";
+
+        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 114, font34, black);
         Graphics2D g2d = txt.createGraphics();
         FontMetrics metrics = g2d.getFontMetrics(font28);
         // Determine the Y coordinate for the text (note we add the ascent, as
-        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - metrics.stringWidth(wxNickName)) / 2, 294, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name2, 110, 820, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name3, (594 - metrics.stringWidth(name3)) / 2, 376, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name4, (594 - metrics.stringWidth(name4)) / 2, 376 + (font30.getSize() + 4), font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - metrics.stringWidth(wxNickName)) / 2, 340, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - metrics.stringWidth(name2)) / 2, 820, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name3, (594 - metrics.stringWidth(name5)) / 2, 376, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, bookName, (594 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3), 376, font28, yellow);
+        txt = ImgUtil.addTxtAtXy(txt, name4, (594 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3)+metrics.stringWidth(bookName), 376, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name7, (594 - metrics.stringWidth(name6)) / 2, 376 + (font30.getSize() + 4), font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, rightNums, (594 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7), 376 + (font30.getSize() + 4), font28, yellow);
+        txt = ImgUtil.addTxtAtXy(txt, name8, (594 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums), 376 + (font30.getSize() + 4), font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, starNums, (594 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8), 376 + (font30.getSize() + 4), font28, yellow);
+        txt = ImgUtil.addTxtAtXy(txt, name9, (594 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8)+metrics.stringWidth(starNums), 376 + (font30.getSize() + 4), font28, color);
 //        String activityName = "";
         //换行处理
-        
+
 //        int line = (slognName.length() / 12);
 //        if (slognName.length() > 12) {
 //            for (int i = 0; i < line; i++) {
@@ -448,7 +462,7 @@ public class ImgUtil {
         return result;
     }
 
-    /**
+       /**
      * 对图片进行强制放大或缩小
      *
      * @param originalImage 原始图片
@@ -469,6 +483,29 @@ public class ImgUtil {
         g2d.dispose();
         return image;
     }
+
+    /**
+     * 对图片进行强制放大或缩小,不去背景图
+     *
+     * @param originalImage 原始图片
+     * @return
+     */
+    public static BufferedImage zoomInImageNoBack(BufferedImage originalImage, int width, int height) {
+        /* 新建一个空白画布 */
+        BufferedImage image = new BufferedImage(width, height, originalImage.getType());
+        // BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = image.createGraphics();
+
+//        /* 设置背景透明 */
+//        image = g2d.getDeviceConfiguration().createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+//        // g2d.dispose();
+//        g2d = image.createGraphics();
+
+        g2d.drawImage(originalImage, 0, 0, width, height, null);
+        g2d.dispose();
+        return image;
+    }
+
 
     /**
      * 实现图像的等比缩放(固定宽度)
