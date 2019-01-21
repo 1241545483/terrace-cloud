@@ -277,7 +277,6 @@ public class ImgUtil {
 
         //背景图片处理
         //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
-
 //        URL bg = new URL(modelUrl);
 //        BufferedImage bgBuffer = ImageIO.read(bg);
 
