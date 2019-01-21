@@ -291,13 +291,13 @@ public class ImgUtil {
 //        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
 //        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
-        BufferedImage goodsMinBuffer = ImgUtil.resizeByWidth(logoUrl, 120*120);
+//        BufferedImage goodsMinBuffer = ImgUtil.resizeByWidth(logoUrl, 120*120);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
         Path tempPng = Files.createTempFile("", ".png");
         ImageIO.write(modelUrl, "png", tempPng.toFile());
 
-        ImageIO.write(goodsMinBuffer, "png", tempPng.toFile());
+        ImageIO.write(logoUrl, "png", tempPng.toFile());
 
 
 //二维码图片处理
@@ -319,7 +319,7 @@ public class ImgUtil {
 
         BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 234, 615);// 二维码合并
 
-        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 244, 160);// 二维码图合并
+        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, logoUrl, 244, 160);// 二维码图合并
 
         BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 147, 470);// 背景图合并
 
