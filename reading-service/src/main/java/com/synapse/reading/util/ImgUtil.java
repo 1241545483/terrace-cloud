@@ -325,12 +325,12 @@ public class ImgUtil {
 
         ImageIO.write(new2, "png", tempPng.toFile());
 
-        Color black1 = new Color(67, 32, 32);
+        Color yellow = new Color(251,212,35);
         Color color = new Color(255, 255, 255); // 白色
         Color black = new Color(51, 51, 51); // 黑色
         Color hui = new Color(171, 171, 171); // 深灰
         Color hui1 = new Color(153, 153, 153); // 蛋灰
-        Color yellow = new Color(255, 255, 0); //黄色
+//        Color yellow = new Color(255, 255, 0); //黄色
 
         Font font8 = new Font("思源黑体 CN", Font.BOLD, 8);
         Font font12 = new Font("思源黑体 CN", Font.BOLD, 14);
