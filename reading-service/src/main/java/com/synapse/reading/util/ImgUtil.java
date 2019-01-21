@@ -355,11 +355,11 @@ public class ImgUtil {
         String name8 ="题，获取";
         String name9 ="颗星";
 
-        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 114, font34, black);
+        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 84, font34, black);
         Graphics2D g2d = txt.createGraphics();
         FontMetrics metrics = g2d.getFontMetrics(font28);
         // Determine the Y coordinate for the text (note we add the ascent, as
-        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - metrics.stringWidth(wxNickName)) / 2, 340, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - metrics.stringWidth(wxNickName)) / 2, 310, font28, color);
         txt = ImgUtil.addTxtAtXy(txt, name2, (594 - metrics.stringWidth(name2)) / 2, 820, font28, color);
         txt = ImgUtil.addTxtAtXy(txt, name3, (594 - metrics.stringWidth(name5)) / 2, 376, font28, color);
         txt = ImgUtil.addTxtAtXy(txt, bookName, (594 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3), 376, font28, yellow);
