@@ -57,10 +57,7 @@
         <if test="updateTime != null">
             AND `update_time` = #{updateTime}
         </if>
-        <if test="orderNum != null">
             ORDER BY `order_num`
-        </if>
-
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
