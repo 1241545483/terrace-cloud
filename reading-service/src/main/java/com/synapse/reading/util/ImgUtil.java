@@ -357,6 +357,7 @@ public class ImgUtil {
         txt = ImgUtil.addTxtAtXy(txt, name4, (594 - metrics.stringWidth(name4)) / 2, 376 + (font30.getSize() + 4), font28, color);
 //        String activityName = "";
         //换行处理
+        
 //        int line = (slognName.length() / 12);
 //        if (slognName.length() > 12) {
 //            for (int i = 0; i < line; i++) {
