@@ -212,10 +212,10 @@ public class ShareImageService extends ShareImageBaseService {
                 String bookName = book.getName();
                 int rightNum = issueService.selectCountByUserId(user,belongToId,belongTo);
                 int starNum = (int)issueService.selectScoreByUserId(user,belongToId,belongTo);
-                String slognName ="在"+bookName+"习题闯关中答对"+rightNum+"题，获取"+starNum+"颗星";
+//                String slognName ="在"+bookName+"习题闯关中答对"+rightNum+"题，获取"+starNum+"颗星";
                 ClassPathResource classPathStarUrl = new ClassPathResource("/imgs/star/"+starNum+".png");
                 BufferedImage starUrl = ImageIO.read(classPathStarUrl.getInputStream());
-                Path tempPng = ImgUtil.DrawSuccessPosterByIssue(modelUrl, logoUrl, qrcodeUrl, slognName,starUrl,wxNickName);
+                Path tempPng = ImgUtil.DrawSuccessPosterByIssue(modelUrl, logoUrl, qrcodeUrl,starUrl,wxNickName,bookName,rightNum,starNum);
                 FileInputStream fis = new FileInputStream(tempPng.toFile());
                 String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
                 Gson gson = new Gson();

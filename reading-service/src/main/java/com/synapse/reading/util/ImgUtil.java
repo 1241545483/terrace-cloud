@@ -273,7 +273,7 @@ public class ImgUtil {
 
     }
 
-    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, BufferedImage logoUrl, String qrcodeUrl, String slognName, BufferedImage starUrl, String wxNickName) throws IOException {
+    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, BufferedImage logoUrl, String qrcodeUrl, BufferedImage starUrl, String wxNickName, String bookName, int rightNum, int starNum) throws IOException {
 
         //背景图片处理
         //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
@@ -291,7 +291,7 @@ public class ImgUtil {
 //        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
 //        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
-        BufferedImage goodsMinBuffer = ImgUtil.zoomInImage(logoUrl, 196, 188);
+        BufferedImage goodsMinBuffer = ImgUtil.zoomInImage(logoUrl, 120, 120);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
         Path tempPng = Files.createTempFile("", ".png");
@@ -304,7 +304,7 @@ public class ImgUtil {
         URL qrcodeUrlRead = new URL(qrcodeUrl);//url 为图片的URL// 二维码缩小处理
         BufferedImage erBuffer = ImageIO.read(qrcodeUrlRead);
 
-        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 186), 186, 0);// 二维码缩小
+        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 128), 128, 0);// 二维码缩小
 
         ImageIO.write(erMinBuffer, "png", tempPng.toFile());
 
@@ -317,11 +317,11 @@ public class ImgUtil {
         ImageIO.write(erbdBuffer, "png", tempPng.toFile());
 
 
-        BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 204, 595);// 二维码合并
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 234, 615);// 二维码合并
 
-        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 199, 150);// 二维码图合并
+        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 244, 160);// 二维码图合并
 
-        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 147, 480);// 背景图合并
+        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 147, 470);// 背景图合并
 
         ImageIO.write(new2, "png", tempPng.toFile());
 
@@ -345,26 +345,29 @@ public class ImgUtil {
 
         String name = "智性阅读";
         String name2 = "让孩子知道自己有多优秀!";
-        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 80, font34, black);
+        String name3 = "在"+bookName+"习题闯关中";
+        String name4 ="答对"+rightNum+"题，获取"+starNum+"颗星";
+        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, 144, 40, font34, black);
         Graphics2D g2d = txt.createGraphics();
         FontMetrics metrics = g2d.getFontMetrics(font28);
         // Determine the Y coordinate for the text (note we add the ascent, as
-        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - metrics.stringWidth(wxNickName)) / 2, 370, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - metrics.stringWidth(name2)) / 2, 850, font28, color);
-
-        String activityName = "";
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - metrics.stringWidth(wxNickName)) / 2, 294, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name2, 110, 820, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name3, (594 - metrics.stringWidth(name3)) / 2, 376, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name4, (594 - metrics.stringWidth(name4)) / 2, 376 + (font30.getSize() + 4), font28, color);
+//        String activityName = "";
         //换行处理
-        int line = (slognName.length() / 12);
-        if (slognName.length() > 12) {
-            for (int i = 0; i < line; i++) {
-                activityName = slognName.substring(0 + (i * 12), 12 + (i * 12));
-                txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12 * font30.getSize()) / 2, 420 + (font30.getSize() + 4) * i, font30, color);
-            }
-            activityName = slognName.substring((line * 12));
-            txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12 * font30.getSize()) / 2, 420 + (font30.getSize() + 4) * line, font30, color);
-        } else {
-            txt = ImgUtil.addTxtAtXy(txt, slognName, (594 - 12 * font30.getSize()) / 2, 420, font30, color);
-        }
+//        int line = (slognName.length() / 12);
+//        if (slognName.length() > 12) {
+//            for (int i = 0; i < line; i++) {
+//                activityName = slognName.substring(0 + (i * 12), 12 + (i * 12));
+//                txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12 * font30.getSize()) / 2, 420 + (font30.getSize() + 4) * i, font30, color);
+//            }
+//            activityName = slognName.substring((line * 12));
+//            txt = ImgUtil.addTxtAtXy(txt, activityName, (594 - 12 * font30.getSize()) / 2, 420 + (font30.getSize() + 4) * line, font30, color);
+//        } else {
+//            txt = ImgUtil.addTxtAtXy(txt, slognName, (594 - 12 * font30.getSize()) / 2, 420, font30, color);
+//        }
 //        Path tempFile = Files.createTempFile("", ".png");
         // Graphics2D gd = txt.createGraphics();
         // gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
