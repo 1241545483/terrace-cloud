@@ -10,4 +10,11 @@
             `share_type` = #{shareType} AND `user_id` = #{userId}
     </select>
 
+    <delete id="deleteByPrimaryKey" parameterType="map" >
+        delete from `share_image`
+        where
+        `user_id` = #{userId} AND `share_type` = 'issue' and `share_id` = #{belongToId}
+
+    </delete>
+
 </mapper>

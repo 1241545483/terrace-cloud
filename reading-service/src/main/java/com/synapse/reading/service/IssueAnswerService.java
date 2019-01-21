@@ -36,6 +36,9 @@ public class IssueAnswerService extends IssueAnswerBaseService {
     @Autowired
     private IssueAnswerRespository issueAnswerRespository;
 
+    @Autowired
+    private  ShareImageService shareImageService;
+
     public IssueAnswer find(String recId){
 	    return issueAnswerRespository.selectByPrimaryKey(recId);
     }
@@ -62,7 +65,9 @@ public class IssueAnswerService extends IssueAnswerBaseService {
         return issueAnswerRespository.updateByPrimaryKeySelective(model);
     }
     public Integer deleteByCreateId(User user, String belongToId, String belongTo){
-        return issueAnswerRespository.deleteByCreateId(user.getRecId(),belongToId,belongTo);
+        Integer num1 = shareImageService.deleteByUserId(user.getRecId(),belongToId);
+        Integer num2 = issueAnswerRespository.deleteByCreateId(user.getRecId(),belongToId,belongTo);
+        return num1+num2;
     }
 
 	public List<IssueAnswer> list(IssueAnswer issueAnswerParam, PageInfo pageInfo) {

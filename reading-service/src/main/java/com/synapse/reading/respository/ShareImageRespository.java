@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Param;
 public interface ShareImageRespository extends ShareImageMapper {
 
     ShareImage selectByShareTypeAndUserId(@Param("userId")String userId, @Param("shareType")String shareType);
+    Integer deleteByUserId(@Param("userId") String userId, @Param("belongToId") String belongToId);
+
 }

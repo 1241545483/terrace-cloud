@@ -89,6 +89,9 @@ public class ShareImageService extends ShareImageBaseService {
     public Integer delete(String recId) {
         return shareImageRespository.deleteByPrimaryKey(recId);
     }
+    public Integer deleteByUserId(String userId,String belongToId) {
+        return shareImageRespository.deleteByUserId(userId,belongToId);
+    }
 
     public List<ShareImage> list(ShareImage shareImageParam, PageInfo pageInfo) {
         Map<String, Object> params = prepareParams(shareImageParam);
