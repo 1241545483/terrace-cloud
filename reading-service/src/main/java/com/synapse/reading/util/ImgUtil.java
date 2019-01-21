@@ -291,7 +291,7 @@ public class ImgUtil {
 //        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
 //        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
-        BufferedImage goodsMinBuffer = ImgUtil.zoomInImageNoBack(logoUrl, 120, 120);
+        BufferedImage goodsMinBuffer = ImgUtil.resizeByWidth(logoUrl, 120*120);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
         Path tempPng = Files.createTempFile("", ".png");
@@ -484,27 +484,6 @@ public class ImgUtil {
         return image;
     }
 
-    /**
-     * 对图片进行强制放大或缩小,不去背景图
-     *
-     * @param originalImage 原始图片
-     * @return
-     */
-    public static BufferedImage zoomInImageNoBack(BufferedImage originalImage, int width, int height) {
-        /* 新建一个空白画布 */
-        BufferedImage image = new BufferedImage(width, height, originalImage.getType());
-        // BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = image.createGraphics();
-
-//        /* 设置背景透明 */
-//        image = g2d.getDeviceConfiguration().createCompatibleImage(width, height, Transparency.TRANSLUCENT);
-//        // g2d.dispose();
-//        g2d = image.createGraphics();
-
-        g2d.drawImage(originalImage, 0, 0, width, height, null);
-        g2d.dispose();
-        return image;
-    }
 
 
     /**
