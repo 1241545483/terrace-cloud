@@ -18,7 +18,7 @@ public class BookResult {
 
     private Book  book = new Book();
 	private String isCollect;
-
+   private  String note;
 	public String getIsCollect() {
 		return isCollect;
 	}
@@ -192,5 +192,13 @@ public String getUpdateTime() {
 
 	public void setAuthor(String author) {
 		book.setAuthor(author);
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 }

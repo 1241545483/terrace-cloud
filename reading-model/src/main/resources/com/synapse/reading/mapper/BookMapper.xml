@@ -8,6 +8,7 @@
         <result column="name" property="name" />
         <result column="author" property="author" />
         <result column="intro" property="intro" />
+        <result column="note" property="note" />
         <result column="slogan" property="slogan" />
         <result column="type" property="type" />
         <result column="cover" property="cover" />
@@ -25,7 +26,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`author`,`intro`,`slogan`,`type`,`cover`,`banner`,`qr_code`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`author`,`intro`,`note`,`slogan`,`type`,`cover`,`banner`,`qr_code`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -40,7 +41,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Book">
         insert into `book`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{author},#{intro},#{slogan},#{type},#{cover},#{banner},#{qrCode},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{author},#{intro},#{note},#{slogan},#{type},#{cover},#{banner},#{qrCode},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -63,6 +64,9 @@
                 </if>
                 <if test="intro != null" >
                     `intro`,
+                </if>
+                <if test="note != null" >
+                    `note`,
                 </if>
                 <if test="slogan != null" >
                     `slogan`,
@@ -116,6 +120,9 @@
                 </if>
                 <if test="intro != null" >
 			        #{intro},
+                </if>
+                <if test="note != null" >
+			        #{note},
                 </if>
                 <if test="slogan != null" >
 			        #{slogan},
@@ -174,6 +181,9 @@
 	            <if test="intro != null" >
 		            `intro` = #{intro},
 	            </if>
+	            <if test="note != null" >
+		            `note` = #{note},
+	            </if>
 	            <if test="slogan != null" >
 		            `slogan` = #{slogan},
 	            </if>
@@ -219,7 +229,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Book" >
         update  `book` SET
-		    `rec_id`=#{recId},`name`=#{name},`author`=#{author},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`banner`=#{banner},`qr_code`=#{qrCode},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`author`=#{author},`intro`=#{intro},`note`=#{note},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`banner`=#{banner},`qr_code`=#{qrCode},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -258,6 +268,14 @@
                     </if>
                     <if test="intro.indexOf('%') lt 0" >
                         AND `intro` = #{intro}
+                    </if>
+            </if>
+            <if test="note != null" >
+                    <if test="note.indexOf('%') >= 0" >
+                        AND `note` like #{note}
+                    </if>
+                    <if test="note.indexOf('%') lt 0" >
+                        AND `note` = #{note}
                     </if>
             </if>
             <if test="slogan != null" >
@@ -391,6 +409,14 @@
 	            </if>
                 <if test="intro.indexOf('%') lt 0" >
                     AND `intro` = #{intro}
+                </if>
+            </if>
+            <if test="note != null" >
+	            <if test="note.indexOf('%') >= 0" >
+				    AND `note` like #{note}
+	            </if>
+                <if test="note.indexOf('%') lt 0" >
+                    AND `note` = #{note}
                 </if>
             </if>
             <if test="slogan != null" >

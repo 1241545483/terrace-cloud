@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-03
+ * @since 2019-01-22
  */
 public class BookBaseService {
 
@@ -28,6 +28,9 @@ public class BookBaseService {
         }
         if (bookParam.getIntro() != null && !bookParam.getIntro().trim().equals("")) {
             params.put("intro", bookParam.getIntro());
+        }
+        if (bookParam.getNote() != null && !bookParam.getNote().trim().equals("")) {
+            params.put("note", bookParam.getNote());
         }
         if (bookParam.getSlogan() != null && !bookParam.getSlogan().trim().equals("")) {
             params.put("slogan", bookParam.getSlogan());

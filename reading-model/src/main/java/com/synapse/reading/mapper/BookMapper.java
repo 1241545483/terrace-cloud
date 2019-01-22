@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-03
+ * @since 2019-01-22
  */
 public interface BookMapper {
     Book selectByPrimaryKey(String recId);
