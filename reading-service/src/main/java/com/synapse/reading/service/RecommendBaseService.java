@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-29
+ * @since 2019-01-22
  */
 public class RecommendBaseService {
 
@@ -25,6 +25,12 @@ public class RecommendBaseService {
         }
         if (recommendParam.getRecommendId() != null && !recommendParam.getRecommendId().trim().equals("")) {
             params.put("recommendId", recommendParam.getRecommendId());
+        }
+        if (recommendParam.getLevel() != null && !recommendParam.getLevel().trim().equals("")) {
+            params.put("level", recommendParam.getLevel());
+        }
+        if (recommendParam.getMenu() != null && !recommendParam.getMenu().trim().equals("")) {
+            params.put("menu", recommendParam.getMenu());
         }
         if (recommendParam.getCreateId() != null && !recommendParam.getCreateId().trim().equals("")) {
             params.put("createId", recommendParam.getCreateId());

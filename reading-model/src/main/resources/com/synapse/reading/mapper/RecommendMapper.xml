@@ -7,6 +7,8 @@
         <id column="rec_id" property="recId" />
         <result column="recommend_type" property="recommendType" />
         <result column="recommend_id" property="recommendId" />
+        <result column="level" property="level" />
+        <result column="menu" property="menu" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
         <result column="start_time" property="startTime" />
@@ -51,6 +53,12 @@
                 <if test="recommendId != null" >
                     `recommend_id`,
                 </if>
+                <if test="level != null" >
+                    `level`,
+                </if>
+                <if test="menu != null" >
+                    `menu`,
+                </if>
                 <if test="createId != null" >
                     `create_id`,
                 </if>
@@ -73,6 +81,12 @@
                 </if>
                 <if test="recommendId != null" >
 			        #{recommendId},
+                </if>
+                <if test="level != null" >
+			        #{level},
+                </if>
+                <if test="menu != null" >
+			        #{menu},
                 </if>
                 <if test="createId != null" >
 			        #{createId},
@@ -100,6 +114,12 @@
 	            </if>
 	            <if test="recommendId != null" >
 		            `recommend_id` = #{recommendId},
+	            </if>
+	            <if test="level != null" >
+		            `level` = #{level},
+	            </if>
+	            <if test="menu != null" >
+		            `menu` = #{menu},
 	            </if>
 	            <if test="createId != null" >
 		            `create_id` = #{createId},
@@ -150,6 +170,22 @@
                     </if>
                     <if test="recommendId.indexOf('%') lt 0" >
                         AND `recommend_id` = #{recommendId}
+                    </if>
+            </if>
+            <if test="level != null" >
+                    <if test="level.indexOf('%') >= 0" >
+                        AND `level` like #{level}
+                    </if>
+                    <if test="level.indexOf('%') lt 0" >
+                        AND `level` = #{level}
+                    </if>
+            </if>
+            <if test="menu != null" >
+                    <if test="menu.indexOf('%') >= 0" >
+                        AND `menu` like #{menu}
+                    </if>
+                    <if test="menu.indexOf('%') lt 0" >
+                        AND `menu` = #{menu}
                     </if>
             </if>
             <if test="createId != null" >
@@ -213,6 +249,22 @@
 	            </if>
                 <if test="recommendId.indexOf('%') lt 0" >
                     AND `recommend_id` = #{recommendId}
+                </if>
+            </if>
+            <if test="level != null" >
+	            <if test="level.indexOf('%') >= 0" >
+				    AND `level` like #{level}
+	            </if>
+                <if test="level.indexOf('%') lt 0" >
+                    AND `level` = #{level}
+                </if>
+            </if>
+            <if test="menu != null" >
+	            <if test="menu.indexOf('%') >= 0" >
+				    AND `menu` like #{menu}
+	            </if>
+                <if test="menu.indexOf('%') lt 0" >
+                    AND `menu` = #{menu}
                 </if>
             </if>
             <if test="createId != null" >

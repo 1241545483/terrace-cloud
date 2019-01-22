@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.CategoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Category">
+        <id column="rec_id" property="itemId" />
+        <result column="itemName" property="itemName" />
+        <result column="pid" property="pid" />
+        <result column="ppid" property="ppid" />
+        <result column="item_id" property="itemId" />
+        <result column="item_type" property="itemType" />
+        <result column="level" property="level" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`itemName`,`pid`,`ppid`,`item_id`,`item_type`,`level`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `category`
+        where
+                `rec_id` = #{itemId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.Category">
+        insert into `category`
+        (<include refid="Base_Column_List" />)
+        values (#{itemId},#{itemName},#{pid},#{ppid},#{itemId},#{itemType},#{level},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `category`
+        where
+			    `rec_id` = #{itemId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Category" >
+        insert into `category`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="itemId != null" >
+                    `rec_id`,
+                </if>
+                <if test="itemName != null" >
+                    `itemName`,
+                </if>
+                <if test="pid != null" >
+                    `pid`,
+                </if>
+                <if test="ppid != null" >
+                    `ppid`,
+                </if>
+                <if test="itemId != null" >
+                    `item_id`,
+                </if>
+                <if test="itemType != null" >
+                    `item_type`,
+                </if>
+                <if test="level != null" >
+                    `level`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="itemId != null" >
+			        #{itemId},
+                </if>
+                <if test="itemName != null" >
+			        #{itemName},
+                </if>
+                <if test="pid != null" >
+			        #{pid},
+                </if>
+                <if test="ppid != null" >
+			        #{ppid},
+                </if>
+                <if test="itemId != null" >
+			        #{itemId},
+                </if>
+                <if test="itemType != null" >
+			        #{itemType},
+                </if>
+                <if test="level != null" >
+			        #{level},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Category" >
+        update `category`
+        <set >
+	            <if test="itemId != null" >
+		            `rec_id` = #{itemId},
+	            </if>
+	            <if test="itemName != null" >
+		            `itemName` = #{itemName},
+	            </if>
+	            <if test="pid != null" >
+		            `pid` = #{pid},
+	            </if>
+	            <if test="ppid != null" >
+		            `ppid` = #{ppid},
+	            </if>
+	            <if test="itemId != null" >
+		            `item_id` = #{itemId},
+	            </if>
+	            <if test="itemType != null" >
+		            `item_type` = #{itemType},
+	            </if>
+	            <if test="level != null" >
+		            `level` = #{level},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{itemId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Category" >
+        update  `category` SET
+		    `rec_id`=#{itemId},`itemName`=#{itemName},`pid`=#{pid},`ppid`=#{ppid},`item_id`=#{itemId},`item_type`=#{itemType},`level`=#{level},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `rec_id` = #{itemId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `category`
+        where 1 = 1
+            <if test="itemId != null" >
+                    <if test="itemId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{itemId}
+                    </if>
+                    <if test="itemId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{itemId}
+                    </if>
+            </if>
+            <if test="itemName != null" >
+                    <if test="itemName.indexOf('%') >= 0" >
+                        AND `itemName` like #{itemName}
+                    </if>
+                    <if test="itemName.indexOf('%') lt 0" >
+                        AND `itemName` = #{itemName}
+                    </if>
+            </if>
+            <if test="pid != null" >
+                    <if test="pid.indexOf('%') >= 0" >
+                        AND `pid` like #{pid}
+                    </if>
+                    <if test="pid.indexOf('%') lt 0" >
+                        AND `pid` = #{pid}
+                    </if>
+            </if>
+            <if test="ppid != null" >
+                    <if test="ppid.indexOf('%') >= 0" >
+                        AND `ppid` like #{ppid}
+                    </if>
+                    <if test="ppid.indexOf('%') lt 0" >
+                        AND `ppid` = #{ppid}
+                    </if>
+            </if>
+            <if test="itemId != null" >
+                    <if test="itemId.indexOf('%') >= 0" >
+                        AND `item_id` like #{itemId}
+                    </if>
+                    <if test="itemId.indexOf('%') lt 0" >
+                        AND `item_id` = #{itemId}
+                    </if>
+            </if>
+            <if test="itemType != null" >
+                    <if test="itemType.indexOf('%') >= 0" >
+                        AND `item_type` like #{itemType}
+                    </if>
+                    <if test="itemType.indexOf('%') lt 0" >
+                        AND `item_type` = #{itemType}
+                    </if>
+            </if>
+            <if test="level != null" >
+                    <if test="level.indexOf('%') >= 0" >
+                        AND `level` like #{level}
+                    </if>
+                    <if test="level.indexOf('%') lt 0" >
+                        AND `level` = #{level}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="updateId != null" >
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="updateTime != null" >
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `category`
+        where 1 = 1
+            <if test="itemId != null" >
+	            <if test="itemId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{itemId}
+	            </if>
+                <if test="itemId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{itemId}
+                </if>
+            </if>
+            <if test="itemName != null" >
+	            <if test="itemName.indexOf('%') >= 0" >
+				    AND `itemName` like #{itemName}
+	            </if>
+                <if test="itemName.indexOf('%') lt 0" >
+                    AND `itemName` = #{itemName}
+                </if>
+            </if>
+            <if test="pid != null" >
+	            <if test="pid.indexOf('%') >= 0" >
+				    AND `pid` like #{pid}
+	            </if>
+                <if test="pid.indexOf('%') lt 0" >
+                    AND `pid` = #{pid}
+                </if>
+            </if>
+            <if test="ppid != null" >
+	            <if test="ppid.indexOf('%') >= 0" >
+				    AND `ppid` like #{ppid}
+	            </if>
+                <if test="ppid.indexOf('%') lt 0" >
+                    AND `ppid` = #{ppid}
+                </if>
+            </if>
+            <if test="itemId != null" >
+	            <if test="itemId.indexOf('%') >= 0" >
+				    AND `item_id` like #{itemId}
+	            </if>
+                <if test="itemId.indexOf('%') lt 0" >
+                    AND `item_id` = #{itemId}
+                </if>
+            </if>
+            <if test="itemType != null" >
+	            <if test="itemType.indexOf('%') >= 0" >
+				    AND `item_type` like #{itemType}
+	            </if>
+                <if test="itemType.indexOf('%') lt 0" >
+                    AND `item_type` = #{itemType}
+                </if>
+            </if>
+            <if test="level != null" >
+	            <if test="level.indexOf('%') >= 0" >
+				    AND `level` like #{level}
+	            </if>
+                <if test="level.indexOf('%') lt 0" >
+                    AND `level` = #{level}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="updateId != null" >
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="updateTime != null" >
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

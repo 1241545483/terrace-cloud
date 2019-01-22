@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-29
+ * @since 2019-01-22
  */
 public interface RecommendMapper {
     Recommend selectByPrimaryKey(String recId);

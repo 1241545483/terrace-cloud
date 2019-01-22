@@ -2,6 +2,7 @@ package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.RecommendMapper;
 import com.synapse.reading.model.Book;
+import com.synapse.reading.model.Directories;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,4 +17,6 @@ import java.util.List;
  */
 public interface RecommendRespository extends RecommendMapper {
     List<Book> selectByRecommendType(@Param("recommendType")String recommendType);
+
+    List<Directories> selectByRecommend(@Param("recommendType")String recommendType);
 }

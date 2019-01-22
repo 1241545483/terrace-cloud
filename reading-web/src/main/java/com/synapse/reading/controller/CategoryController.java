@@ -4,12 +4,10 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
-import com.synapse.reading.model.Book;
-import com.synapse.reading.model.CatItem;
-import com.synapse.reading.model.Recommend;
-import com.synapse.reading.dto.param.RecommendParam;
-import com.synapse.reading.dto.result.RecommendResult;
-import com.synapse.reading.service.RecommendService;
+import com.synapse.reading.model.Category;
+import com.synapse.reading.dto.param.CategoryParam;
+import com.synapse.reading.dto.result.CategoryResult;
+import com.synapse.reading.service.CategoryService;
 import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
@@ -40,80 +38,80 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 推荐 Controller
+ * 推荐中高考书籍目录（三级） Controller
  * </p>
  * @author liuguangfu
- * @since 2018-12-27
+ * @since 2019-01-22
  */
-@Api(tags = "RecommendController")
+@Api(tags = "CategoryController")
 @RestController
 @RequestMapping("/reading")
-public class RecommendController extends BaseController{
+public class CategoryController extends BaseController{
 
-    private Logger logger = LoggerFactory.getLogger(RecommendController.class);
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     @Autowired
-    private RecommendService recommendService;
+    private CategoryService categoryService;
 
-	@ApiOperation(value = "查询Recommend列表(分页)")
+	@ApiOperation(value = "查询Category列表(分页)")
     @ApiResponses({
-            @ApiResponse(code = 200, response = RecommendResult.class, message = "Recommend列表"),
+            @ApiResponse(code = 200, response = CategoryResult.class, message = "Category列表"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/recommend",method = RequestMethod.GET)
-	public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) RecommendParam param, BindingResult bindingResult) {
+	@RequestMapping(value = "/v1/category",method = RequestMethod.GET)
+	public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) CategoryParam param, BindingResult bindingResult) {
         try {
 	        //验证失败
 	        if (bindingResult.hasErrors()) {
 	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
 	        }
-	        int totalNum = recommendService.count(param.getModel());
+	        int totalNum = categoryService.count(param.getModel());
 	        preparePageInfo(pageInfo, totalNum);
-	        List<Recommend> models = recommendService.list(param.getModel(),pageInfo);
-	        List<RecommendResult> results = models.stream().map(it -> new RecommendResult(it)).collect(Collectors.toList());
+	        List<Category> models = categoryService.list(param.getModel(),pageInfo);
+	        List<CategoryResult> results = models.stream().map(it -> new CategoryResult(it)).collect(Collectors.toList());
 	        Map<String, Object> map = new HashMap();
-            map.put("recommendList", results);
+            map.put("categoryList", results);
             map.put("totalNum", totalNum);
 	        return ResponseEntity.ok(map);
         } catch (BusinessException e) {
-	        logger.error("list Recommend Error!", e);
+	        logger.error("list Category Error!", e);
 	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-	        logger.error("list Recommend Error!", e);
+	        logger.error("list Category Error!", e);
 	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
 		.body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
 
-	@ApiOperation(value = "根据主键查询Recommend详情")
+	@ApiOperation(value = "根据主键查询Category详情")
     @ApiResponses({
-            @ApiResponse(code = 200, response = RecommendResult.class, message = "Recommend对象"),
+            @ApiResponse(code = 200, response = CategoryResult.class, message = "Category对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/recommend/{recId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/category/{recId}",method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
-            Recommend recommend = recommendService.find(recId);
-            return ResponseEntity.ok(new RecommendResult(recommend));
+            Category category = categoryService.find(recId);
+            return ResponseEntity.ok(new CategoryResult(category));
         } catch (BusinessException e) {
-            logger.error("get Recommend Error!", e);
+            logger.error("get Category Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("get Recommend Error!", e);
+            logger.error("get Category Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "创建Recommend")
+	@ApiOperation(value = "创建Category")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/recommend", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody @Validated(Create.class) RecommendParam param, BindingResult bindingResult) {
+    @RequestMapping(value = "/v1/category", method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody @Validated(Create.class) CategoryParam param, BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
@@ -122,76 +120,52 @@ public class RecommendController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-	        Recommend model = param.getModel();
+	        Category model = param.getModel();
                 model.setCreateId(user.getRecId());
-            String recId = recommendService.create(model);
+                model.setUpdateId(user.getRecId());
+            String recId = categoryService.create(model);
             return ResponseEntity.ok(recId);
         } catch (BusinessException e) {
-            logger.error("create Recommend Error!", e);
+            logger.error("create Category Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("create Recommend Error!", e);
+            logger.error("create Category Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-	@ApiOperation(value = "根据主键删除Recommend")
+	@ApiOperation(value = "根据主键删除Category")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/recommend/{recId}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/v1/category/{recId}",method = RequestMethod.DELETE)
 	public ResponseEntity delete(@PathVariable("recId") String recId){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-			Integer num = recommendService.delete(recId);
+			Integer num = categoryService.delete(recId);
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-            logger.error("delete Recommend Error!", e);
+            logger.error("delete Category Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-            logger.error("delete Recommend Error!", e);
+            logger.error("delete Category Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 
-
-    @ApiOperation(value = "查询推荐")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "推荐列表"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-    @RequestMapping(value = "/v1/selectByRecommendType/{recommendType}",method = RequestMethod.GET)
-    public ResponseEntity selectByRecommendType(@PathVariable("recommendType") String recommendType){
-        try {
-            User user = UserContext.getUser();
-            //todo 根据角色判断权限
-
-            List<Book> booklist = recommendService.selectByRecommendType(recommendType);
-            return ResponseEntity.ok(booklist);
-        } catch (BusinessException e) {
-            logger.error("selectByRecommendType Recommend Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
-        } catch (Exception e) {
-            logger.error("selectByRecommendType Recommend Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
-        }
-    }
-
-
-    @ApiOperation(value = "根据主键更新Recommend")
+	@ApiOperation(value = "根据主键更新Category")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/recommend/{recId}", method = RequestMethod.PUT)
-    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) RecommendParam param, BindingResult bindingResult){
+	@RequestMapping(value = "/v1/category/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) CategoryParam param, BindingResult bindingResult){
         try {
 	        //验证失败
 	        if (bindingResult.hasErrors()) {
@@ -200,46 +174,19 @@ public class RecommendController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-	        Recommend model = param.getModel();
+	        Category model = param.getModel();
 	        model.setRecId(recId);
-	        Integer num = recommendService.update(model);
+            model.setUpdateId(user.getRecId());
+	        Integer num = categoryService.update(model);
 	        return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-	        logger.error("update Recommend Error!", e);
+	        logger.error("update Category Error!", e);
 	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-	        logger.error("update Recommend Error!", e);
+	        logger.error("update Category Error!", e);
 	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
-
-    @ApiOperation(value = "查询教育部推荐书目")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "推荐列表"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-    @RequestMapping(value = "/v1/selectByRecommend/{recommendType}",method = RequestMethod.GET)
-    public ResponseEntity selectByRecommend(@PathVariable("recommendType") String recommendType){
-        try {
-            User user = UserContext.getUser();
-            //todo 根据角色判断权限
-
-            List<CatItem> booklist = recommendService.selectByRecommend(recommendType);
-            return ResponseEntity.ok(booklist);
-        } catch (BusinessException e) {
-            logger.error("selectByRecommendType Recommend Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
-        } catch (Exception e) {
-            logger.error("selectByRecommendType Recommend Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
-        }
-    }
-
-
-
-
-
 
 }

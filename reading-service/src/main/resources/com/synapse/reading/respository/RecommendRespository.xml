@@ -2,12 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.RecommendRespository">
 
-    <select id="selectByRecommendType" resultMap="com.synapse.reading.mapper.BookMapper.BaseResultMap" parameterType="map" >
-        select
-        b.rec_id,b.banner,b.name,b.cover
-        from `book` b
-        LEFT JOIN recommend r ON b.rec_id=r.recommend_id
-        where
-        r.recommend_type=#{recommendType}
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Directories">
+        <result column="oneLevelName" property="oneLevelName"/>
+        <result column="twoLevelName" property="twoLevelName"/>
+        <result column="threeLevelName" property="threeLevelName"/>
+        <result column="name" property="itemName"/>
+        <result column="itemId" property="itemId"/>
+        <result column="publishStatus" property="publishStatus"/>
+    </resultMap>
+
+
+    <select id="selectByRecommendType" resultMap="com.synapse.reading.mapper.BookMapper.BaseResultMap"
+            parameterType="map">
+        SELECT
+            b.rec_id,
+            b.banner,
+            b.name,
+            b.cover
+        FROM `book` b
+            LEFT JOIN recommend r ON b.rec_id = r.recommend_id
+        WHERE
+            r.recommend_type = #{recommendType}
+    </select>
+
+    <select id="selectByRecommend" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+            a.`name`         oneLevelName,
+            b.`name`         twoLevelName,
+            c.`name`         threeLevelName,
+            d.`name`,
+            d.rec_id         itemId,
+            d.publish_status publishStatus
+        FROM category a
+            JOIN category b ON a.rec_id = b.pid
+            JOIN category c ON b.rec_id = c.pid AND c.item_type = #{recommendType}
+            JOIN book d ON d.rec_id = c.item_id
+        WHERE a.`level` = 1
     </select>
 </mapper>

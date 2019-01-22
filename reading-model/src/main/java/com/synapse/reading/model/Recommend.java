@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-29
+ * @since 2019-01-22
  */
 public class Recommend implements Serializable {
 
@@ -28,6 +28,14 @@ public class Recommend implements Serializable {
      * 被推荐主键
      */
     private String recommendId;
+    /**
+     * 推荐年级
+     */
+    private String level;
+    /**
+     * 推荐栏目
+     */
+    private String menu;
     /**
      * 推荐人
      */
@@ -68,6 +76,22 @@ public class Recommend implements Serializable {
 
     public void setRecommendId(String recommendId) {
         this.recommendId = recommendId;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
     }
 
     public String getCreateId() {
