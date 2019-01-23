@@ -122,8 +122,9 @@ public class AudioService extends AudioBaseService {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
         miniQrcodeParam.setPage("pages/audio/audio");
         Map<String, String> params = new HashMap<>();
-        params.put("albumId", param.getBelongToId());
+        params.put("belongToId", param.getBelongToId());
         params.put("audioId", param.getRecId());
+        params.put("belongTo",param.getBelongTo());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
         if (result != null && result.getCode() == 200) {
             String body = (String) result.getBody();
