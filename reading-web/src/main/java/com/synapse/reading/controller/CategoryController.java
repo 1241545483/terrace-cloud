@@ -11,8 +11,7 @@ import com.synapse.reading.service.CategoryService;
 import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +20,6 @@ import com.synapse.reading.exception.common.ValidException;
 import org.springframework.validation.BindingResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import com.synapse.reading.constants.CommonConstants;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +38,7 @@ import java.util.stream.Collectors;
  * 推荐中高考书籍目录（三级） Controller
  * </p>
  * @author liuguangfu
- * @since 2019-01-22
+ * @since 2019-01-23
  */
 @Api(tags = "CategoryController")
 @RestController
@@ -59,6 +56,17 @@ public class CategoryController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "recId" , paramType = "query"),
+        @ApiImplicitParam(name = "name" , paramType = "query"),
+        @ApiImplicitParam(name = "pid" , paramType = "query"),
+        @ApiImplicitParam(name = "ppid" , paramType = "query"),
+        @ApiImplicitParam(name = "level" , paramType = "query"),
+        @ApiImplicitParam(name = "weight" , paramType = "query"),
+        @ApiImplicitParam(name = "createId" , paramType = "query"),
+        @ApiImplicitParam(name = "createTime" , paramType = "query"),
+        @ApiImplicitParam(name = "updateId" , paramType = "query"),
+        @ApiImplicitParam(name = "updateTime" , paramType = "query")    })
 	@RequestMapping(value = "/v1/category",method = RequestMethod.GET)
 	public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) CategoryParam param, BindingResult bindingResult) {
         try {
