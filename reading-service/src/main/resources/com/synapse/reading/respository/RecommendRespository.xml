@@ -36,8 +36,9 @@
             d.publish_status publishStatus
         FROM category a
             JOIN category b ON a.rec_id = b.pid
-            JOIN category c ON b.rec_id = c.pid AND c.item_type = #{recommendType}
-            JOIN book d ON d.rec_id = c.item_id
+            JOIN category c ON b.rec_id = c.pid
+            join  relevance_item  e on c.rec_id = e.category_id AND e.item_type = #{recommendType}
+            JOIN book d ON d.rec_id = e.item_id
         WHERE a.`level` = 1
     </select>
 </mapper>

@@ -6,13 +6,13 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 推荐中高考书籍目录（三级）
+ * 书籍与目录对应关系
  * </p>
  *
  * @author liuguangfu
  * @since 2019-01-23
  */
-public class Category implements Serializable {
+public class RelevanceItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,23 +21,19 @@ public class Category implements Serializable {
      */
     private String recId;
     /**
-     * 目录名字
+     * 目录id
      */
-    private String name;
+    private String categoryId;
     /**
-     * 父级id
+     * 项目id
      */
-    private String pid;
+    private String itemId;
     /**
-     * 爷级id
+     * 类型
      */
-    private String ppid;
+    private String itemType;
     /**
-     * 等级
-     */
-    private String level;
-    /**
-     * 排序
+     * 目录排序
      */
     private String weight;
     /**
@@ -66,36 +62,28 @@ public class Category implements Serializable {
         this.recId = recId;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getPid() {
-        return pid;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setPid(String pid) {
-        this.pid = pid;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
-    public String getPpid() {
-        return ppid;
+    public String getItemType() {
+        return itemType;
     }
 
-    public void setPpid(String ppid) {
-        this.ppid = ppid;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     public String getWeight() {

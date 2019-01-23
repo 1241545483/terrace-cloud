@@ -73,23 +73,23 @@ public String getPpid() {
 		category.setPpid(ppid);
 	}
 
-        @ApiModelProperty(value = "项目id")
-public String getItemId() {
-    return category.getItemId();
-}
-
-	public void setItemId(String item_id) {
-		category.setItemId(item_id);
-	}
-
-        @ApiModelProperty(value = "类型")
-public String getItemType() {
-    return category.getItemType();
-}
-
-	public void setItemType(String item_type) {
-		category.setItemType(item_type);
-	}
+//        @ApiModelProperty(value = "项目id")
+//public String getItemId() {
+//    return category.getItemId();
+//}
+//
+//	public void setItemId(String item_id) {
+//		category.setItemId(item_id);
+//	}
+//
+//        @ApiModelProperty(value = "类型")
+//public String getItemType() {
+//    return category.getItemType();
+//}
+//
+//	public void setItemType(String item_type) {
+//		category.setItemType(item_type);
+//	}
 
         @ApiModelProperty(value = "等级")
 public String getLevel() {

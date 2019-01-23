@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-22
+ * @since 2019-01-23
  */
 public class CategoryBaseService {
 
@@ -29,14 +29,11 @@ public class CategoryBaseService {
         if (categoryParam.getPpid() != null && !categoryParam.getPpid().trim().equals("")) {
             params.put("ppid", categoryParam.getPpid());
         }
-        if (categoryParam.getItemId() != null && !categoryParam.getItemId().trim().equals("")) {
-            params.put("itemId", categoryParam.getItemId());
-        }
-        if (categoryParam.getItemType() != null && !categoryParam.getItemType().trim().equals("")) {
-            params.put("itemType", categoryParam.getItemType());
-        }
         if (categoryParam.getLevel() != null && !categoryParam.getLevel().trim().equals("")) {
             params.put("level", categoryParam.getLevel());
+        }
+        if (categoryParam.getWeight() != null && !categoryParam.getWeight().trim().equals("")) {
+            params.put("weight", categoryParam.getWeight());
         }
         if (categoryParam.getCreateId() != null && !categoryParam.getCreateId().trim().equals("")) {
             params.put("createId", categoryParam.getCreateId());

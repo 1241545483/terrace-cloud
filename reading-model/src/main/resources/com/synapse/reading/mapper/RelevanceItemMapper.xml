@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.synapse.reading.mapper.CategoryMapper">
+<mapper namespace="com.synapse.reading.mapper.RelevanceItemMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Category">
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.RelevanceItem">
         <id column="rec_id" property="recId" />
-        <result column="name" property="name" />
-        <result column="pid" property="pid" />
-        <result column="ppid" property="ppid" />
-        <result column="level" property="level" />
+        <result column="category_id" property="categoryId" />
+        <result column="item_id" property="itemId" />
+        <result column="item_type" property="itemType" />
         <result column="weight" property="weight" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
@@ -18,47 +17,44 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`pid`,`ppid`,`level`,`weight`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`category_id`,`item_id`,`item_type`,`weight`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
         <include refid="Base_Column_List" />
-        from `category`
+        from `relevance_item`
         where
                 `rec_id` = #{recId}
     </select>
 
-    <insert id="insert"  parameterType="com.synapse.reading.model.Category">
-        insert into `category`
+    <insert id="insert"  parameterType="com.synapse.reading.model.RelevanceItem">
+        insert into `relevance_item`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{pid},#{ppid},#{level},#{weight},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{categoryId},#{itemId},#{itemType},#{weight},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-        delete from `category`
+        delete from `relevance_item`
         where
 			    `rec_id` = #{recId}
     </delete>
 
-    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Category" >
-        insert into `category`
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.RelevanceItem" >
+        insert into `relevance_item`
         <trim prefix="(" suffix=")" suffixOverrides="," >
                 <if test="recId != null" >
                     `rec_id`,
                 </if>
-                <if test="name != null" >
-                    `name`,
+                <if test="categoryId != null" >
+                    `category_id`,
                 </if>
-                <if test="pid != null" >
-                    `pid`,
+                <if test="itemId != null" >
+                    `item_id`,
                 </if>
-                <if test="ppid != null" >
-                    `ppid`,
-                </if>
-                <if test="level != null" >
-                    `level`,
+                <if test="itemType != null" >
+                    `item_type`,
                 </if>
                 <if test="weight != null" >
                     `weight`,
@@ -80,17 +76,14 @@
                 <if test="recId != null" >
 			        #{recId},
                 </if>
-                <if test="name != null" >
-			        #{name},
+                <if test="categoryId != null" >
+			        #{categoryId},
                 </if>
-                <if test="pid != null" >
-			        #{pid},
+                <if test="itemId != null" >
+			        #{itemId},
                 </if>
-                <if test="ppid != null" >
-			        #{ppid},
-                </if>
-                <if test="level != null" >
-			        #{level},
+                <if test="itemType != null" >
+			        #{itemType},
                 </if>
                 <if test="weight != null" >
 			        #{weight},
@@ -110,23 +103,20 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Category" >
-        update `category`
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.RelevanceItem" >
+        update `relevance_item`
         <set >
 	            <if test="recId != null" >
 		            `rec_id` = #{recId},
 	            </if>
-	            <if test="name != null" >
-		            `name` = #{name},
+	            <if test="categoryId != null" >
+		            `category_id` = #{categoryId},
 	            </if>
-	            <if test="pid != null" >
-		            `pid` = #{pid},
+	            <if test="itemId != null" >
+		            `item_id` = #{itemId},
 	            </if>
-	            <if test="ppid != null" >
-		            `ppid` = #{ppid},
-	            </if>
-	            <if test="level != null" >
-		            `level` = #{level},
+	            <if test="itemType != null" >
+		            `item_type` = #{itemType},
 	            </if>
 	            <if test="weight != null" >
 		            `weight` = #{weight},
@@ -147,16 +137,16 @@
         where
 		    `rec_id` = #{recId}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Category" >
-        update  `category` SET
-		    `rec_id`=#{recId},`name`=#{name},`pid`=#{pid},`ppid`=#{ppid},`level`=#{level},`weight`=#{weight},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.RelevanceItem" >
+        update  `relevance_item` SET
+		    `rec_id`=#{recId},`category_id`=#{categoryId},`item_id`=#{itemId},`item_type`=#{itemType},`weight`=#{weight},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
 
     <select id="count" parameterType="map" resultType="int">
         select count(1)
-	    from `category`
+	    from `relevance_item`
         where 1 = 1
             <if test="recId != null" >
                     <if test="recId.indexOf('%') >= 0" >
@@ -166,36 +156,28 @@
                         AND `rec_id` = #{recId}
                     </if>
             </if>
-            <if test="name != null" >
-                    <if test="name.indexOf('%') >= 0" >
-                        AND `name` like #{name}
+            <if test="categoryId != null" >
+                    <if test="categoryId.indexOf('%') >= 0" >
+                        AND `category_id` like #{categoryId}
                     </if>
-                    <if test="name.indexOf('%') lt 0" >
-                        AND `name` = #{name}
-                    </if>
-            </if>
-            <if test="pid != null" >
-                    <if test="pid.indexOf('%') >= 0" >
-                        AND `pid` like #{pid}
-                    </if>
-                    <if test="pid.indexOf('%') lt 0" >
-                        AND `pid` = #{pid}
+                    <if test="categoryId.indexOf('%') lt 0" >
+                        AND `category_id` = #{categoryId}
                     </if>
             </if>
-            <if test="ppid != null" >
-                    <if test="ppid.indexOf('%') >= 0" >
-                        AND `ppid` like #{ppid}
+            <if test="itemId != null" >
+                    <if test="itemId.indexOf('%') >= 0" >
+                        AND `item_id` like #{itemId}
                     </if>
-                    <if test="ppid.indexOf('%') lt 0" >
-                        AND `ppid` = #{ppid}
+                    <if test="itemId.indexOf('%') lt 0" >
+                        AND `item_id` = #{itemId}
                     </if>
             </if>
-            <if test="level != null" >
-                    <if test="level.indexOf('%') >= 0" >
-                        AND `level` like #{level}
+            <if test="itemType != null" >
+                    <if test="itemType.indexOf('%') >= 0" >
+                        AND `item_type` like #{itemType}
                     </if>
-                    <if test="level.indexOf('%') lt 0" >
-                        AND `level` = #{level}
+                    <if test="itemType.indexOf('%') lt 0" >
+                        AND `item_type` = #{itemType}
                     </if>
             </if>
             <if test="weight != null" >
@@ -243,7 +225,7 @@
     <select id="list" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from `category`
+        from `relevance_item`
         where 1 = 1
             <if test="recId != null" >
 	            <if test="recId.indexOf('%') >= 0" >
@@ -253,36 +235,28 @@
                     AND `rec_id` = #{recId}
                 </if>
             </if>
-            <if test="name != null" >
-	            <if test="name.indexOf('%') >= 0" >
-				    AND `name` like #{name}
+            <if test="categoryId != null" >
+	            <if test="categoryId.indexOf('%') >= 0" >
+				    AND `category_id` like #{categoryId}
 	            </if>
-                <if test="name.indexOf('%') lt 0" >
-                    AND `name` = #{name}
+                <if test="categoryId.indexOf('%') lt 0" >
+                    AND `category_id` = #{categoryId}
                 </if>
             </if>
-            <if test="pid != null" >
-	            <if test="pid.indexOf('%') >= 0" >
-				    AND `pid` like #{pid}
+            <if test="itemId != null" >
+	            <if test="itemId.indexOf('%') >= 0" >
+				    AND `item_id` like #{itemId}
 	            </if>
-                <if test="pid.indexOf('%') lt 0" >
-                    AND `pid` = #{pid}
+                <if test="itemId.indexOf('%') lt 0" >
+                    AND `item_id` = #{itemId}
                 </if>
             </if>
-            <if test="ppid != null" >
-	            <if test="ppid.indexOf('%') >= 0" >
-				    AND `ppid` like #{ppid}
+            <if test="itemType != null" >
+	            <if test="itemType.indexOf('%') >= 0" >
+				    AND `item_type` like #{itemType}
 	            </if>
-                <if test="ppid.indexOf('%') lt 0" >
-                    AND `ppid` = #{ppid}
-                </if>
-            </if>
-            <if test="level != null" >
-	            <if test="level.indexOf('%') >= 0" >
-				    AND `level` like #{level}
-	            </if>
-                <if test="level.indexOf('%') lt 0" >
-                    AND `level` = #{level}
+                <if test="itemType.indexOf('%') lt 0" >
+                    AND `item_type` = #{itemType}
                 </if>
             </if>
             <if test="weight != null" >

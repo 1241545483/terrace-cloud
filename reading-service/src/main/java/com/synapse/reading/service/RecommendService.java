@@ -1,10 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
-import com.synapse.reading.model.Book;
-import com.synapse.reading.model.CatItem;
-import com.synapse.reading.model.Directories;
-import com.synapse.reading.model.Recommend;
+import com.synapse.reading.model.*;
 import com.synapse.reading.respository.RecommendRespository;
 import com.synapse.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,10 +74,13 @@ public class RecommendService extends RecommendBaseService {
         List<Directories> directoriesList = recommendRespository.selectByRecommend(recommendType);
 
         List<CatItem> catList = new ArrayList<>();
+        List<Item> itemList = new ArrayList<>();
         CatItem item1 = null;
         CatItem item2 = null;
+        CatItem item3 = null;
         // 提供给二级目录的判断，如果一级目录重建了，则3二级目录必然要重建。处理可能一级目录不同，但是二级目录相同的情况
         boolean resetFlag = false;
+        boolean resetFlag1 = false;
 
         if (directoriesList != null && !directoriesList.isEmpty()) {
             for (Directories dir : directoriesList) {
@@ -91,17 +91,22 @@ public class RecommendService extends RecommendBaseService {
                     catList.add(item1);
                 }
                 if (item2 == null || !item2.getName().equals(dir.getTwoLevelName()) || resetFlag) {
-                    resetFlag = false;
+//                    resetFlag = false;
                     item2 = new CatItem();
                     item2.setName(dir.getTwoLevelName());
                     item1.addSubCat(item2);
                 }
-                CatItem item3 = new CatItem();
-                item3.setName(dir.getThreeLevelName());
-                item3.setItemId(dir.getItemId());
-                item3.setItemName(dir.getItemName());
-                item3.setPublishStatus(dir.getPublishStatus());
-                item2.addSubCat(item3);
+                if (item3 == null || !item3.getName().equals(dir.getTwoLevelName()) || resetFlag) {
+                    resetFlag = false;
+                    item3 = new CatItem();
+                    item3.setName(dir.getThreeLevelName());
+                    item2.addSubCat(item3);
+                }
+                Item item4 = new Item();
+                item4.setItemId(dir.getItemId());
+                item4.setItemName(dir.getItemName());
+                item4.setPublishStatus(dir.getPublishStatus());
+                item3.addSItemCat(item4);
             }
         }
 
