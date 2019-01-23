@@ -5,9 +5,11 @@ import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.dto.result.IssueAnswerResult;
 import com.synapse.reading.model.Information;
 import com.synapse.reading.dto.param.InformationParam;
 import com.synapse.reading.dto.result.InformationResult;
+import com.synapse.reading.model.IssueAnswer;
 import com.synapse.reading.model.MyLike;
 import com.synapse.reading.service.InformationService;
 import com.synapse.reading.web.valid.group.Update;
@@ -71,9 +73,8 @@ public class InformationController extends BaseController {
             }
             int totalNum = informationService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
-            User user = UserContext.getUser();
-            String userId = user.getRecId();
-            List<InformationResult> results = informationService.listAddIsLike(param.getModel(), pageInfo, userId);
+            List<Information> models = informationService.list(param.getModel(), pageInfo);
+            List<InformationResult> results = models.stream().map(it -> new InformationResult(it)).collect(Collectors.toList());
             Map<String, Object> map = new HashMap();
             map.put("informationList", results);
             map.put("totalNum", totalNum);
