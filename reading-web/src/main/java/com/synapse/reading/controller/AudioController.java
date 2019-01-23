@@ -141,7 +141,7 @@ public class AudioController extends BaseController{
     }
 
 
-    @ApiOperation(value = "根据主键查询Audio详情")
+    @ApiOperation(value = "根据主键查询Audio详情，含isCollect字段")
     @ApiResponses({
             @ApiResponse(code = 200, response = AudioResult.class, message = "Audio对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
@@ -161,6 +161,28 @@ public class AudioController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+    @ApiOperation(value = "根据主键查询Audio详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = AudioResult.class, message = "Audio对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/getAudio/{recId}",method = RequestMethod.GET)
+    public ResponseEntity getAudio(@PathVariable("recId") String recId){
+        try {
+            User user = UserContext.getUser();
+            Audio audio = audioService.find(recId);
+            return ResponseEntity.ok(audio);
+        } catch (BusinessException e) {
+            logger.error("get Audio Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Audio Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
 
     @ApiOperation(value = "创建Audio")
