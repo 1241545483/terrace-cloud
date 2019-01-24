@@ -152,6 +152,44 @@ public class ShareImageService extends ShareImageBaseService {
                 param.setCreateId(user.getRecId());
                 shareImageMapper.insertSelective(param);
             }
+            if ("bookAudio".equals(shareType)) {
+                Audio audio = audioService.find(id);
+                ClassPathResource classPath = new ClassPathResource("/imgs/audioModelUrl.png");
+//                InputStream modelUrl = classPath.getInputStream();
+                BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
+                BufferedImage url = null;
+                if (!"".equals(audio.getCover()) && audio.getCover() != null) {
+                    URL audioModelCover = new URL(audio.getCover());
+                    url = ImageIO.read(audioModelCover);
+                } else {
+                    ClassPathResource urlClassPath = new ClassPathResource("/imgs/audioModelCover.png");
+                    url = ImageIO.read(urlClassPath.getInputStream());
+                }
+                String qrcodeUrl = audio.getQrCode();
+                String wxNickName = user.getUsername();
+                String solgan = bookService.find(audio.getBelongToId()).getSlogan();
+                String albumName = bookService.find(audio.getBelongToId()).getName();
+                String audioName = audio.getName();
+                Path tempPng = ImgUtil.DrawSuccessPoster(modelUrl, url, qrcodeUrl, wxNickName, solgan, albumName, audioName);
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+                String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                ShareImage param = new ShareImage();
+                param.setRecId(idService.gen("ID"));
+                //    param.setRecId("66");
+                param.setCreateTime(now);
+                param.setShareId(id);
+                param.setShareType(shareType);
+                param.setUrl(shareUrl);
+                param.setUserId(user.getRecId());
+                param.setCreateId(user.getRecId());
+                shareImageMapper.insertSelective(param);
+            }
             if ("book".equals(shareType)) {
                 Book book = bookService.find(id);
                 ClassPathResource classPath = new ClassPathResource("/imgs/bookModelUrl.png");
