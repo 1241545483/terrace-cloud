@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2018-12-27
  */
 public interface RecommendRespository extends RecommendMapper {
-    List<Book> selectByRecommendType(@Param("recommendType")String recommendType);
+    Book selectByRecommendType(@Param("recommendType")String recommendType);
 
     List<Directories> selectByRecommend(@Param("recommendType")String recommendType);
 }

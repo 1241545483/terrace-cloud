@@ -24,6 +24,8 @@
             LEFT JOIN recommend r ON b.rec_id = r.recommend_id
         WHERE
             r.recommend_type = #{recommendType}
+        ORDER BY  r.create_time DESC
+        LIMIT 1
     </select>
 
     <select id="selectByRecommend" resultMap="BaseResultMap" parameterType="map">
