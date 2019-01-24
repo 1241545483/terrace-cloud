@@ -31,7 +31,7 @@
         if(b.rec_id IS NULL, 'false', 'true') is_collect
         FROM `book` a
         LEFT JOIN my_collect b ON a.rec_id = b.collect_id
-        WHERE b.create_id = #{userId} AND b.collect_type = 'book' ORDER BY  order_num ,create_time DESC
+        WHERE b.create_id = #{userId} AND b.collect_type = 'book'
     </select>
 
     <select id="selectIsCollect" parameterType="map" resultMap="simpleRow">

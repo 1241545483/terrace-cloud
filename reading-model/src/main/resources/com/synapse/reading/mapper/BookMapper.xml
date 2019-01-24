@@ -513,6 +513,7 @@
                     AND `update_time` = #{updateTime}
                 </if>
             </if>
+          ORDER BY  order_num ,create_time DESC
         <if test="startIndex != null">
         	limit ${startIndex}, ${pageSize}
         </if>
