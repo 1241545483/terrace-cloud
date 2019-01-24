@@ -171,8 +171,8 @@ public class RecommendController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            Book book = recommendService.selectByRecommendType(recommendType);
-            return ResponseEntity.ok(book);
+            List<Book> booklist = recommendService.selectByRecommendType(recommendType);
+            return ResponseEntity.ok(booklist);
         } catch (BusinessException e) {
             logger.error("selectByRecommendType Recommend Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

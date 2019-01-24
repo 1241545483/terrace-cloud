@@ -60,7 +60,7 @@ public class RecommendService extends RecommendBaseService {
         return recommendRespository.list(params);
     }
 
-    public Book selectByRecommendType(String recommendType) {
+    public List<Book> selectByRecommendType(String recommendType) {
         return recommendRespository.selectByRecommendType(recommendType);
     }
 
