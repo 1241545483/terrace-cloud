@@ -60,8 +60,8 @@ public class RecommendService extends RecommendBaseService {
         return recommendRespository.list(params);
     }
 
-    public List<Book> selectByRecommendType(String recommendType) {
-        return recommendRespository.selectByRecommendType(recommendType);
+    public List<Book> selectByRecommendType(String recommendType,String menu) {
+        return recommendRespository.selectByRecommendType(recommendType,menu);
     }
 
     public Integer count(Recommend recommendParam) {
@@ -69,9 +69,9 @@ public class RecommendService extends RecommendBaseService {
         return recommendRespository.count(params);
     }
 
-    public List<CatItem> selectByRecommend(String recommendType) {
+    public List<CatItem> selectByRecommend(String recommendType,String menu) {
 
-        List<Directories> directoriesList = recommendRespository.selectByRecommend(recommendType);
+        List<Directories> directoriesList = recommendRespository.selectByRecommend(recommendType,menu);
 
         List<CatItem> catList = new ArrayList<>();
         List<Item> itemList = new ArrayList<>();

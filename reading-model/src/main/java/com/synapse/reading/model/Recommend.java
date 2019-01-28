@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-22
+ * @since 2019-01-25
  */
 public class Recommend implements Serializable {
 

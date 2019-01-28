@@ -13,8 +13,7 @@ import com.synapse.reading.service.RecommendService;
 import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +22,6 @@ import com.synapse.reading.exception.common.ValidException;
 import org.springframework.validation.BindingResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import com.synapse.reading.constants.CommonConstants;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,7 +40,7 @@ import java.util.stream.Collectors;
  * 推荐 Controller
  * </p>
  * @author liuguangfu
- * @since 2018-12-27
+ * @since 2019-01-25
  */
 @Api(tags = "RecommendController")
 @RestController
@@ -61,6 +58,16 @@ public class RecommendController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "recId" , paramType = "query"),
+        @ApiImplicitParam(name = "recommendType" , paramType = "query"),
+        @ApiImplicitParam(name = "recommendId" , paramType = "query"),
+        @ApiImplicitParam(name = "level" , paramType = "query"),
+        @ApiImplicitParam(name = "menu" , paramType = "query"),
+        @ApiImplicitParam(name = "createId" , paramType = "query"),
+        @ApiImplicitParam(name = "createTime" , paramType = "query"),
+        @ApiImplicitParam(name = "startTime" , paramType = "query"),
+        @ApiImplicitParam(name = "endTime" , paramType = "query")    })
 	@RequestMapping(value = "/v1/recommend",method = RequestMethod.GET)
 	public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) RecommendParam param, BindingResult bindingResult) {
         try {
@@ -166,13 +173,13 @@ public class RecommendController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/selectByRecommendType/{recommendType}",method = RequestMethod.GET)
-    public ResponseEntity selectByRecommendType(@PathVariable("recommendType") String recommendType){
+    public ResponseEntity selectByRecommendType(@PathVariable("recommendType") String recommendType,String menu){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            List<Book> booklist = recommendService.selectByRecommendType(recommendType);
-            return ResponseEntity.ok(booklist);
+            List<Book> book = recommendService.selectByRecommendType(recommendType,menu);
+            return ResponseEntity.ok(book);
         } catch (BusinessException e) {
             logger.error("selectByRecommendType Recommend Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
@@ -182,6 +189,32 @@ public class RecommendController extends BaseController{
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+
+//    @ApiOperation(value = "查询推荐")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, response = Integer.class, message = "推荐列表"),
+//            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+//    })
+//    @RequestMapping(value = "/v1/selectByRecommendType/{recommendType}",method = RequestMethod.GET)
+//    public ResponseEntity selectByRecommendType(@PathVariable("recommendType") String recommendType){
+//        try {
+//            User user = UserContext.getUser();
+//            //todo 根据角色判断权限
+//
+//            List<Book> book = recommendService.selectByRecommendType(recommendType);
+//            return ResponseEntity.ok(book);
+//        } catch (BusinessException e) {
+//            logger.error("selectByRecommendType Recommend Error!", e);
+//            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+//        } catch (Exception e) {
+//            logger.error("selectByRecommendType Recommend Error!", e);
+//            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+//                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+//        }
+//    }
+
+
 
 
     @ApiOperation(value = "根据主键更新Recommend")
@@ -220,12 +253,12 @@ public class RecommendController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/selectByRecommend/{recommendType}",method = RequestMethod.GET)
-    public ResponseEntity selectByRecommend(@PathVariable("recommendType") String recommendType){
+    public ResponseEntity selectByRecommend(@PathVariable("recommendType") String recommendType,String menu){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-            List<CatItem> booklist = recommendService.selectByRecommend(recommendType);
+            List<CatItem> booklist = recommendService.selectByRecommend(recommendType,menu);
             return ResponseEntity.ok(booklist);
         } catch (BusinessException e) {
             logger.error("selectByRecommendType Recommend Error!", e);

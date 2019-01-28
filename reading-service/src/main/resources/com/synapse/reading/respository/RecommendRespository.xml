@@ -16,31 +16,39 @@
     <select id="selectByRecommendType" resultMap="com.synapse.reading.mapper.BookMapper.BaseResultMap"
             parameterType="map">
         SELECT
-            b.rec_id,
-            b.banner,
-            b.name,
-            b.cover
+        b.rec_id,
+        b.banner,
+        b.name,
+        b.cover
         FROM `book` b
-            LEFT JOIN recommend r ON b.rec_id = r.recommend_id
+        LEFT JOIN recommend r ON b.rec_id = r.recommend_id
         WHERE
-            r.recommend_type = #{recommendType}
-        ORDER BY  r.create_time DESC
-        LIMIT 1
+        r.recommend_type = #{recommendType}
+        <if test="menu != null">
+            AND r.`menu`= #{menu}
+        </if>
+        ORDER BY r.create_time DESC
+
     </select>
 
     <select id="selectByRecommend" resultMap="BaseResultMap" parameterType="map">
         SELECT
-            a.`name`         oneLevelName,
-            b.`name`         twoLevelName,
-            c.`name`         threeLevelName,
-            d.`name`,
-            d.rec_id         itemId,
-            d.publish_status publishStatus
+        a.`name` oneLevelName,
+        b.`name` twoLevelName,
+        c.`name` threeLevelName,
+        d.`name`,
+        d.rec_id itemId,
+        d.publish_status publishStatus
         FROM category a
-            JOIN category b ON a.rec_id = b.pid
-            JOIN category c ON b.rec_id = c.pid
-            join  relevance_item  e on c.rec_id = e.category_id AND e.item_type = #{recommendType}
-            JOIN book d ON d.rec_id = e.item_id
-        WHERE a.`level` = 1 ORDER BY a.name ,b.name ,c.name
+        JOIN category b ON a.rec_id = b.pid
+        JOIN category c ON b.rec_id = c.pid
+        JOIN relevance_item e ON c.rec_id = e.category_id AND e.item_type = #{recommendType}
+        JOIN recommend f ON e.item_id = f.recommend_id
+        <if test="menu != null">
+            AND f.`menu`= #{menu}
+        </if>
+        JOIN book d ON d.rec_id = f.recommend_id
+        WHERE a.`level` = 1
+        ORDER BY a.name, b.name, c.name
     </select>
 </mapper>
