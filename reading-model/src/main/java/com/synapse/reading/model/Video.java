@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-29
+ * @since 2019-01-28
  */
 public class Video implements Serializable {
 
@@ -44,6 +44,10 @@ public class Video implements Serializable {
      * 封面
      */
     private String cover;
+    /**
+     * pc端封面视频图片URL
+     */
+    private String pcCover;
     /**
      * 属于哪个栏目(album 专辑，book书籍)
      */
@@ -136,6 +140,14 @@ public class Video implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getPcCover() {
+        return pcCover;
+    }
+
+    public void setPcCover(String pcCover) {
+        this.pcCover = pcCover;
     }
 
     public String getBelongTo() {

@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class MybatisGenerator {
 
-    private static String[] tables = new String[]{"category"};
+    private static String[] tables = new String[]{"album","audio","video","book"};
     private static String BASE_PATH_ROOT = "/D:/program/reading";
     private static String AUTHOR = "liuguangfu";
 
@@ -183,7 +183,7 @@ public class MybatisGenerator {
 
             @Override
             public boolean overwrite() {
-                return true;
+                return false;
             }
         });
 

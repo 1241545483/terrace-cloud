@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-29
+ * @since 2019-01-28
  */
 public class VideoBaseService {
 
@@ -37,6 +37,9 @@ public class VideoBaseService {
         }
         if (videoParam.getCover() != null && !videoParam.getCover().trim().equals("")) {
             params.put("cover", videoParam.getCover());
+        }
+        if (videoParam.getPcCover() != null && !videoParam.getPcCover().trim().equals("")) {
+            params.put("pcCover", videoParam.getPcCover());
         }
         if (videoParam.getBelongTo() != null && !videoParam.getBelongTo().trim().equals("")) {
             params.put("belongTo", videoParam.getBelongTo());

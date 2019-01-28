@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-22
+ * @since 2019-01-28
  */
 public class BookBaseService {
 
@@ -41,14 +41,23 @@ public class BookBaseService {
         if (bookParam.getCover() != null && !bookParam.getCover().trim().equals("")) {
             params.put("cover", bookParam.getCover());
         }
+        if (bookParam.getPcCover() != null && !bookParam.getPcCover().trim().equals("")) {
+            params.put("pcCover", bookParam.getPcCover());
+        }
         if (bookParam.getBanner() != null && !bookParam.getBanner().trim().equals("")) {
             params.put("banner", bookParam.getBanner());
+        }
+        if (bookParam.getPcBanner() != null && !bookParam.getPcBanner().trim().equals("")) {
+            params.put("pcBanner", bookParam.getPcBanner());
         }
         if (bookParam.getQrCode() != null && !bookParam.getQrCode().trim().equals("")) {
             params.put("qrCode", bookParam.getQrCode());
         }
         if (bookParam.getPublishStatus() != null && !bookParam.getPublishStatus().trim().equals("")) {
             params.put("publishStatus", bookParam.getPublishStatus());
+        }
+        if (bookParam.getMenu() != null && !bookParam.getMenu().trim().equals("")) {
+            params.put("menu", bookParam.getMenu());
         }
         if (bookParam.getStatus() != null && !bookParam.getStatus().trim().equals("")) {
             params.put("status", bookParam.getStatus());

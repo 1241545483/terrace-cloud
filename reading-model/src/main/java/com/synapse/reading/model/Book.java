@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-22
+ * @since 2019-01-28
  */
 public class Book implements Serializable {
 
@@ -49,9 +49,17 @@ public class Book implements Serializable {
      */
     private String cover;
     /**
+     * pc端书籍封面
+     */
+    private String pcCover;
+    /**
      * banner
      */
     private String banner;
+    /**
+     * pc替换书籍封面
+     */
+    private String pcBanner;
     /**
      * 二维码
      */
@@ -60,6 +68,10 @@ public class Book implements Serializable {
      * 发布状态(0 未发布，1已发布)
      */
     private String publishStatus;
+    /**
+     * 栏目
+     */
+    private String menu;
     /**
      * 状态(0 删除，1正常)
      */
@@ -154,12 +166,28 @@ public class Book implements Serializable {
         this.cover = cover;
     }
 
+    public String getPcCover() {
+        return pcCover;
+    }
+
+    public void setPcCover(String pcCover) {
+        this.pcCover = pcCover;
+    }
+
     public String getBanner() {
         return banner;
     }
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    public String getPcBanner() {
+        return pcBanner;
+    }
+
+    public void setPcBanner(String pcBanner) {
+        this.pcBanner = pcBanner;
     }
 
     public String getQrCode() {
@@ -176,6 +204,14 @@ public class Book implements Serializable {
 
     public void setPublishStatus(String publishStatus) {
         this.publishStatus = publishStatus;
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
     }
 
     public String getStatus() {

@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-29
+ * @since 2019-01-28
  */
 public class AudioBaseService {
 
@@ -34,6 +34,9 @@ public class AudioBaseService {
         }
         if (audioParam.getCover() != null && !audioParam.getCover().trim().equals("")) {
             params.put("cover", audioParam.getCover());
+        }
+        if (audioParam.getPcCover() != null && !audioParam.getPcCover().trim().equals("")) {
+            params.put("pcCover", audioParam.getPcCover());
         }
         if (audioParam.getBelongTo() != null && !audioParam.getBelongTo().trim().equals("")) {
             params.put("belongTo", audioParam.getBelongTo());

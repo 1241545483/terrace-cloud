@@ -11,6 +11,7 @@
         <result column="tag" property="tag" />
         <result column="qr_code" property="qrCode" />
         <result column="cover" property="cover" />
+        <result column="pc_cover" property="pcCover" />
         <result column="belong_to" property="belongTo" />
         <result column="belong_to_id" property="belongToId" />
         <result column="finish_num" property="finishNum" />
@@ -24,7 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`url`,`intro`,`tag`,`qr_code`,`cover`,`belong_to`,`belong_to_id`,`finish_num`,`play_num`,`order_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`url`,`intro`,`tag`,`qr_code`,`cover`,`pc_cover`,`belong_to`,`belong_to_id`,`finish_num`,`play_num`,`order_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -39,7 +40,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Video">
         insert into `video`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{url},#{intro},#{tag},#{qrCode},#{cover},#{belongTo},#{belongToId},#{finishNum},#{playNum},#{orderNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{url},#{intro},#{tag},#{qrCode},#{cover},#{pcCover},#{belongTo},#{belongToId},#{finishNum},#{playNum},#{orderNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -71,6 +72,9 @@
                 </if>
                 <if test="cover != null" >
                     `cover`,
+                </if>
+                <if test="pcCover != null" >
+                    `pc_cover`,
                 </if>
                 <if test="belongTo != null" >
                     `belong_to`,
@@ -121,6 +125,9 @@
                 </if>
                 <if test="cover != null" >
 			        #{cover},
+                </if>
+                <if test="pcCover != null" >
+			        #{pcCover},
                 </if>
                 <if test="belongTo != null" >
 			        #{belongTo},
@@ -176,6 +183,9 @@
 	            <if test="cover != null" >
 		            `cover` = #{cover},
 	            </if>
+	            <if test="pcCover != null" >
+		            `pc_cover` = #{pcCover},
+	            </if>
 	            <if test="belongTo != null" >
 		            `belong_to` = #{belongTo},
 	            </if>
@@ -209,7 +219,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Video" >
         update  `video` SET
-		    `rec_id`=#{recId},`name`=#{name},`url`=#{url},`intro`=#{intro},`tag`=#{tag},`qr_code`=#{qrCode},`cover`=#{cover},`belong_to`=#{belongTo},`belong_to_id`=#{belongToId},`finish_num`=#{finishNum},`play_num`=#{playNum},`order_num`=#{orderNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`url`=#{url},`intro`=#{intro},`tag`=#{tag},`qr_code`=#{qrCode},`cover`=#{cover},`pc_cover`=#{pcCover},`belong_to`=#{belongTo},`belong_to_id`=#{belongToId},`finish_num`=#{finishNum},`play_num`=#{playNum},`order_num`=#{orderNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -272,6 +282,14 @@
                     </if>
                     <if test="cover.indexOf('%') lt 0" >
                         AND `cover` = #{cover}
+                    </if>
+            </if>
+            <if test="pcCover != null" >
+                    <if test="pcCover.indexOf('%') >= 0" >
+                        AND `pc_cover` like #{pcCover}
+                    </if>
+                    <if test="pcCover.indexOf('%') lt 0" >
+                        AND `pc_cover` = #{pcCover}
                     </if>
             </if>
             <if test="belongTo != null" >
@@ -392,6 +410,14 @@
 	            </if>
                 <if test="cover.indexOf('%') lt 0" >
                     AND `cover` = #{cover}
+                </if>
+            </if>
+            <if test="pcCover != null" >
+	            <if test="pcCover.indexOf('%') >= 0" >
+				    AND `pc_cover` like #{pcCover}
+	            </if>
+                <if test="pcCover.indexOf('%') lt 0" >
+                    AND `pc_cover` = #{pcCover}
                 </if>
             </if>
             <if test="belongTo != null" >

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-29
+ * @since 2019-01-28
  */
 public class Audio implements Serializable {
 
@@ -25,6 +25,10 @@ public class Audio implements Serializable {
      * 封面图片URL
      */
     private String cover;
+    /**
+     * pc端音频封面图片URL
+     */
+    private String pcCover;
     /**
      * album 专辑，book书籍
      */
@@ -94,6 +98,14 @@ public class Audio implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getPcCover() {
+        return pcCover;
+    }
+
+    public void setPcCover(String pcCover) {
+        this.pcCover = pcCover;
     }
 
     public String getBelongTo() {

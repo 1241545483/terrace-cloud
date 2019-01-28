@@ -12,9 +12,12 @@
         <result column="slogan" property="slogan" />
         <result column="type" property="type" />
         <result column="cover" property="cover" />
+        <result column="pc_cover" property="pcCover" />
         <result column="banner" property="banner" />
+        <result column="pc_banner" property="pcBanner" />
         <result column="qr_code" property="qrCode" />
         <result column="publish_status" property="publishStatus" />
+        <result column="menu" property="menu" />
         <result column="status" property="status" />
         <result column="order_num" property="orderNum" />
         <result column="visit_num" property="visitNum" />
@@ -26,7 +29,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`author`,`intro`,`note`,`slogan`,`type`,`cover`,`banner`,`qr_code`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`author`,`intro`,`note`,`slogan`,`type`,`cover`,`pc_cover`,`banner`,`pc_banner`,`qr_code`,`publish_status`,`menu`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -41,7 +44,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Book">
         insert into `book`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{author},#{intro},#{note},#{slogan},#{type},#{cover},#{banner},#{qrCode},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{author},#{intro},#{note},#{slogan},#{type},#{cover},#{pcCover},#{banner},#{pcBanner},#{qrCode},#{publishStatus},#{menu},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -77,14 +80,23 @@
                 <if test="cover != null" >
                     `cover`,
                 </if>
+                <if test="pcCover != null" >
+                    `pc_cover`,
+                </if>
                 <if test="banner != null" >
                     `banner`,
+                </if>
+                <if test="pcBanner != null" >
+                    `pc_banner`,
                 </if>
                 <if test="qrCode != null" >
                     `qr_code`,
                 </if>
                 <if test="publishStatus != null" >
                     `publish_status`,
+                </if>
+                <if test="menu != null" >
+                    `menu`,
                 </if>
                 <if test="status != null" >
                     `status`,
@@ -133,14 +145,23 @@
                 <if test="cover != null" >
 			        #{cover},
                 </if>
+                <if test="pcCover != null" >
+			        #{pcCover},
+                </if>
                 <if test="banner != null" >
 			        #{banner},
+                </if>
+                <if test="pcBanner != null" >
+			        #{pcBanner},
                 </if>
                 <if test="qrCode != null" >
 			        #{qrCode},
                 </if>
                 <if test="publishStatus != null" >
 			        #{publishStatus},
+                </if>
+                <if test="menu != null" >
+			        #{menu},
                 </if>
                 <if test="status != null" >
 			        #{status},
@@ -193,14 +214,23 @@
 	            <if test="cover != null" >
 		            `cover` = #{cover},
 	            </if>
+	            <if test="pcCover != null" >
+		            `pc_cover` = #{pcCover},
+	            </if>
 	            <if test="banner != null" >
 		            `banner` = #{banner},
+	            </if>
+	            <if test="pcBanner != null" >
+		            `pc_banner` = #{pcBanner},
 	            </if>
 	            <if test="qrCode != null" >
 		            `qr_code` = #{qrCode},
 	            </if>
 	            <if test="publishStatus != null" >
 		            `publish_status` = #{publishStatus},
+	            </if>
+	            <if test="menu != null" >
+		            `menu` = #{menu},
 	            </if>
 	            <if test="status != null" >
 		            `status` = #{status},
@@ -229,7 +259,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Book" >
         update  `book` SET
-		    `rec_id`=#{recId},`name`=#{name},`author`=#{author},`intro`=#{intro},`note`=#{note},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`banner`=#{banner},`qr_code`=#{qrCode},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`author`=#{author},`intro`=#{intro},`note`=#{note},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`pc_cover`=#{pcCover},`banner`=#{banner},`pc_banner`=#{pcBanner},`qr_code`=#{qrCode},`publish_status`=#{publishStatus},`menu`=#{menu},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -302,12 +332,28 @@
                         AND `cover` = #{cover}
                     </if>
             </if>
+            <if test="pcCover != null" >
+                    <if test="pcCover.indexOf('%') >= 0" >
+                        AND `pc_cover` like #{pcCover}
+                    </if>
+                    <if test="pcCover.indexOf('%') lt 0" >
+                        AND `pc_cover` = #{pcCover}
+                    </if>
+            </if>
             <if test="banner != null" >
                     <if test="banner.indexOf('%') >= 0" >
                         AND `banner` like #{banner}
                     </if>
                     <if test="banner.indexOf('%') lt 0" >
                         AND `banner` = #{banner}
+                    </if>
+            </if>
+            <if test="pcBanner != null" >
+                    <if test="pcBanner.indexOf('%') >= 0" >
+                        AND `pc_banner` like #{pcBanner}
+                    </if>
+                    <if test="pcBanner.indexOf('%') lt 0" >
+                        AND `pc_banner` = #{pcBanner}
                     </if>
             </if>
             <if test="qrCode != null" >
@@ -324,6 +370,14 @@
                     </if>
                     <if test="publishStatus.indexOf('%') lt 0" >
                         AND `publish_status` = #{publishStatus}
+                    </if>
+            </if>
+            <if test="menu != null" >
+                    <if test="menu.indexOf('%') >= 0" >
+                        AND `menu` like #{menu}
+                    </if>
+                    <if test="menu.indexOf('%') lt 0" >
+                        AND `menu` = #{menu}
                     </if>
             </if>
             <if test="status != null" >
@@ -443,12 +497,28 @@
                     AND `cover` = #{cover}
                 </if>
             </if>
+            <if test="pcCover != null" >
+	            <if test="pcCover.indexOf('%') >= 0" >
+				    AND `pc_cover` like #{pcCover}
+	            </if>
+                <if test="pcCover.indexOf('%') lt 0" >
+                    AND `pc_cover` = #{pcCover}
+                </if>
+            </if>
             <if test="banner != null" >
 	            <if test="banner.indexOf('%') >= 0" >
 				    AND `banner` like #{banner}
 	            </if>
                 <if test="banner.indexOf('%') lt 0" >
                     AND `banner` = #{banner}
+                </if>
+            </if>
+            <if test="pcBanner != null" >
+	            <if test="pcBanner.indexOf('%') >= 0" >
+				    AND `pc_banner` like #{pcBanner}
+	            </if>
+                <if test="pcBanner.indexOf('%') lt 0" >
+                    AND `pc_banner` = #{pcBanner}
                 </if>
             </if>
             <if test="qrCode != null" >
@@ -465,6 +535,14 @@
 	            </if>
                 <if test="publishStatus.indexOf('%') lt 0" >
                     AND `publish_status` = #{publishStatus}
+                </if>
+            </if>
+            <if test="menu != null" >
+	            <if test="menu.indexOf('%') >= 0" >
+				    AND `menu` like #{menu}
+	            </if>
+                <if test="menu.indexOf('%') lt 0" >
+                    AND `menu` = #{menu}
                 </if>
             </if>
             <if test="status != null" >
@@ -513,7 +591,6 @@
                     AND `update_time` = #{updateTime}
                 </if>
             </if>
-          ORDER BY  order_num ,create_time DESC
         <if test="startIndex != null">
         	limit ${startIndex}, ${pageSize}
         </if>
