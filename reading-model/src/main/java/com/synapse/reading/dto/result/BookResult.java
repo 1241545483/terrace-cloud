@@ -201,4 +201,28 @@ public String getUpdateTime() {
 	public void setNote(String note) {
 		this.note = note;
 	}
+
+	public String getPcCover() {
+		return book.getPcCover();
+	}
+
+	public void setPcCover(String pcCover) {
+		book.setPcCover(pcCover);
+	}
+
+	public String getPcBanner() {
+		return book.getPcBanner();
+	}
+
+	public void setPcBanner(String pcBanner) {
+		book.setPcBanner(pcBanner);
+	}
+
+	public String getMenu() {
+		return book.getMenu();
+	}
+
+	public void setMenu(String menu) {
+		book.setMenu(menu);
+	}
 }

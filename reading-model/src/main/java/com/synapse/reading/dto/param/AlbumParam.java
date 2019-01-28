@@ -32,6 +32,22 @@ public class AlbumParam {
         this.album = album;
     }
 
+    public String getPcCover() {
+        return album.getPcCover();
+    }
+
+    public void setPcCover(String pcCover) {
+        album.setPcCover(pcCover);
+    }
+
+    public String getPcBanner() {
+        return album.getPcBanner();
+    }
+
+    public void setPcBanner(String pcBanner) {
+        album.setPcBanner(pcBanner);
+    }
+
     @JsonIgnore
     public Album getModel() {
         return album;

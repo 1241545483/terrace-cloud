@@ -54,6 +54,14 @@ public class AudioParam {
         return audio.getFinishNum();
     }
 
+    public String getPcCover() {
+        return audio.getPcCover();
+    }
+
+    public void setPcCover(String pcCover) {
+        audio.setPcCover(pcCover);
+    }
+
     public void setFinishNum(Long finishNum) {
         audio.setFinishNum(finishNum);
     }

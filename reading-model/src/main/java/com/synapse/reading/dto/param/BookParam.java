@@ -37,7 +37,39 @@ public class BookParam  {
         this.book = book;
     }
 
-    @ApiModelProperty(value = "主键")
+	public String getNote() {
+		return book.getNote();
+	}
+
+	public void setNote(String note) {
+		book.setNote(note);
+	}
+
+	public String getPcCover() {
+		return book.getPcCover();
+	}
+
+	public void setPcCover(String pcCover) {
+		book.setPcCover(pcCover);
+	}
+
+	public String getPcBanner() {
+		return book.getPcBanner();
+	}
+
+	public void setPcBanner(String pcBanner) {
+		book.setPcBanner(pcBanner);
+	}
+
+	public String getMenu() {
+		return book.getMenu();
+	}
+
+	public void setMenu(String menu) {
+		book.setMenu(menu);
+	}
+
+	@ApiModelProperty(value = "主键")
 public String getRecId() {
     return book.getRecId();
 }

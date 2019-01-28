@@ -35,6 +35,14 @@ public class VideoResult {
 
     private Video video = new Video();
 
+    public String getPcCover() {
+        return video.getPcCover();
+    }
+
+    public void setPcCover(String pcCover) {
+        video.setPcCover(pcCover);
+    }
+
     public VideoResult() {
     }
 

@@ -176,4 +176,11 @@ public class AudioResult {
     }
 
 
+    public String getPcCover() {
+        return audio.getPcCover();
+    }
+
+    public void setPcCover(String pcCover) {
+        audio.setPcCover(pcCover);
+    }
 }
