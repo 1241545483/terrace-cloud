@@ -29,6 +29,9 @@ public class AlbumBaseService {
         if (albumParam.getSimpleIntro() != null && !albumParam.getSimpleIntro().trim().equals("")) {
             params.put("simpleIntro", albumParam.getSimpleIntro());
         }
+        if (albumParam.getTag() != null && !albumParam.getTag().trim().equals("")) {
+            params.put("tag", albumParam.getTag());
+        }
         if (albumParam.getSlogan() != null && !albumParam.getSlogan().trim().equals("")) {
             params.put("slogan", albumParam.getSlogan());
         }

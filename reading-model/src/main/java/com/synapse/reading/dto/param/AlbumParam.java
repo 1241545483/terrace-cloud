@@ -56,6 +56,14 @@ public class AlbumParam {
         album.setPcBanner(pcBanner);
     }
 
+    public String getTag() {
+        return album.getTag();
+    }
+
+    public void setTag(String tag) {
+        album.setTag(tag);
+    }
+
     @JsonIgnore
     public Album getModel() {
         return album;

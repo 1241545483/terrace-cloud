@@ -23,7 +23,10 @@ public class Album implements Serializable {
      * 简介
      */
     private String simpleIntro;
-
+    /**
+     * 标签
+     */
+    private String tag;
     private String slogan;
     /**
      * 1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍
@@ -98,6 +101,14 @@ public class Album implements Serializable {
 
     public void setSimpleIntro(String simpleIntro) {
         this.simpleIntro = simpleIntro;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getSlogan() {

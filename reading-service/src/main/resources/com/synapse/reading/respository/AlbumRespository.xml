@@ -51,6 +51,9 @@
         <if test="simpleIntro != null">
             AND `simple_intro` = #{simpleIntro}
         </if>
+        <if test="tag != null">
+            AND `tag` = #{tag}
+        </if>
         <if test="topicId != null">
             AND `topic_id` = #{topicId}
         </if>

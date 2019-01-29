@@ -170,6 +170,14 @@ public class AlbumResult {
         album.setUpdateTime(update_time);
     }
 
+    public String getTag() {
+        return album.getTag();
+    }
+
+    public void setTag(String tag) {
+        album.setTag(tag);
+    }
+
     public String getSimpleIntro() {
         return album.getSimpleIntro();
     }
