@@ -48,14 +48,12 @@
         <if test="createId != null">
             AND `create_id` = #{createId}
         </if>
-
-        <if test="simple_intro != null">
+        <if test="simpleIntro != null">
             AND `simple_intro` = #{simpleIntro}
         </if>
-        <if test="topic_id != null">
+        <if test="topicId != null">
             AND `topic_id` = #{topicId}
         </if>
-
         <if test="createTime != null">
             AND `create_time` = #{createTime}
         </if>
