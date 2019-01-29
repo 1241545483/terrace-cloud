@@ -24,7 +24,71 @@ public class TopicResult {
         this.topic = topic;
     }
 
-    @JsonIgnore
+	public String getCover() {
+		return topic.getCover();
+	}
+
+	public void setCover(String cover) {
+		topic.setCover(cover);
+	}
+
+	public String getPcCover() {
+		return topic.getPcCover();
+	}
+
+	public void setPcCover(String pcCover) {
+		topic.setPcCover(pcCover);
+	}
+
+	public String getPcBanner() {
+		return topic.getPcBanner();
+	}
+
+	public void setPcBanner(String pcBanner) {
+		topic.setPcBanner(pcBanner);
+	}
+
+	public String getIntro() {
+		return topic.getIntro();
+	}
+
+	public void setIntro(String intro) {
+		topic.setIntro(intro);
+	}
+
+	public String getSlogan() {
+		return topic.getSlogan();
+	}
+
+	public void setSlogan(String slogan) {
+		topic.setSlogan(slogan);
+	}
+
+	public String getPublishStatus() {
+		return topic.getPublishStatus();
+	}
+
+	public void setPublishStatus(String publishStatus) {
+		topic.setPublishStatus(publishStatus);
+	}
+
+	public String getStatus() {
+		return topic.getStatus();
+	}
+
+	public void setStatus(String status) {
+		topic.setStatus(status);
+	}
+
+	public String getDetail() {
+		return topic.getDetail();
+	}
+
+	public void setDetail(String detail) {
+		topic.setDetail(detail);
+	}
+
+	@JsonIgnore
     public Topic getModel() {
         return topic;
     }

@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-28
+ * @since 2019-01-29
  */
 public class TopicBaseService {
 
@@ -23,11 +23,35 @@ public class TopicBaseService {
         if (topicParam.getName() != null && !topicParam.getName().trim().equals("")) {
             params.put("name", topicParam.getName());
         }
+        if (topicParam.getCover() != null && !topicParam.getCover().trim().equals("")) {
+            params.put("cover", topicParam.getCover());
+        }
+        if (topicParam.getPcCover() != null && !topicParam.getPcCover().trim().equals("")) {
+            params.put("pcCover", topicParam.getPcCover());
+        }
         if (topicParam.getBanner() != null && !topicParam.getBanner().trim().equals("")) {
             params.put("banner", topicParam.getBanner());
         }
+        if (topicParam.getPcBanner() != null && !topicParam.getPcBanner().trim().equals("")) {
+            params.put("pcBanner", topicParam.getPcBanner());
+        }
+        if (topicParam.getIntro() != null && !topicParam.getIntro().trim().equals("")) {
+            params.put("intro", topicParam.getIntro());
+        }
+        if (topicParam.getSlogan() != null && !topicParam.getSlogan().trim().equals("")) {
+            params.put("slogan", topicParam.getSlogan());
+        }
+        if (topicParam.getPublishStatus() != null && !topicParam.getPublishStatus().trim().equals("")) {
+            params.put("publishStatus", topicParam.getPublishStatus());
+        }
+        if (topicParam.getStatus() != null && !topicParam.getStatus().trim().equals("")) {
+            params.put("status", topicParam.getStatus());
+        }
         if (topicParam.getOrderNum() != null) {
             params.put("orderNum", topicParam.getOrderNum());
+        }
+        if (topicParam.getDetail() != null && !topicParam.getDetail().trim().equals("")) {
+            params.put("detail", topicParam.getDetail());
         }
         if (topicParam.getCreateId() != null && !topicParam.getCreateId().trim().equals("")) {
             params.put("createId", topicParam.getCreateId());
