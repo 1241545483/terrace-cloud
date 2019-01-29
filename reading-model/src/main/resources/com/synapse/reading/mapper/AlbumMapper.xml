@@ -7,6 +7,7 @@
         <id column="rec_id" property="recId" />
         <result column="name" property="name" />
         <result column="intro" property="intro" />
+        <result column="simple_intro" property="simpleIntro" />
         <result column="slogan" property="slogan" />
         <result column="type" property="type" />
         <result column="topic_id" property="topicId" />
@@ -26,7 +27,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`slogan`,`type`,`topic_id`,`cover`,`pc_cover`,`banner`,`pc_banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`intro`,`simple_intro`,`slogan`,`type`,`topic_id`,`cover`,`pc_cover`,`banner`,`pc_banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -41,7 +42,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Album">
         insert into `album`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{slogan},#{type},#{topicId},#{cover},#{pcCover},#{banner},#{pcBanner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{intro},#{simpleIntro},#{slogan},#{type},#{topicId},#{cover},#{pcCover},#{banner},#{pcBanner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -61,6 +62,9 @@
                 </if>
                 <if test="intro != null" >
                     `intro`,
+                </if>
+                <if test="simpleIntro != null" >
+                    `simple_intro`,
                 </if>
                 <if test="slogan != null" >
                     `slogan`,
@@ -117,6 +121,9 @@
                 </if>
                 <if test="intro != null" >
 			        #{intro},
+                </if>
+                <if test="simpleIntro != null" >
+			        #{simpleIntro},
                 </if>
                 <if test="slogan != null" >
 			        #{slogan},
@@ -178,6 +185,9 @@
 	            <if test="intro != null" >
 		            `intro` = #{intro},
 	            </if>
+	            <if test="simpleIntro != null" >
+		            `simple_intro` = #{simpleIntro},
+	            </if>
 	            <if test="slogan != null" >
 		            `slogan` = #{slogan},
 	            </if>
@@ -229,7 +239,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Album" >
         update  `album` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`topic_id`=#{topicId},`cover`=#{cover},`pc_cover`=#{pcCover},`banner`=#{banner},`pc_banner`=#{pcBanner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`simple_intro`=#{simpleIntro},`slogan`=#{slogan},`type`=#{type},`topic_id`=#{topicId},`cover`=#{cover},`pc_cover`=#{pcCover},`banner`=#{banner},`pc_banner`=#{pcBanner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -260,6 +270,14 @@
                     </if>
                     <if test="intro.indexOf('%') lt 0" >
                         AND `intro` = #{intro}
+                    </if>
+            </if>
+            <if test="simpleIntro != null" >
+                    <if test="simpleIntro.indexOf('%') >= 0" >
+                        AND `simple_intro` like #{simpleIntro}
+                    </if>
+                    <if test="simpleIntro.indexOf('%') lt 0" >
+                        AND `simple_intro` = #{simpleIntro}
                     </if>
             </if>
             <if test="slogan != null" >
@@ -401,6 +419,14 @@
 	            </if>
                 <if test="intro.indexOf('%') lt 0" >
                     AND `intro` = #{intro}
+                </if>
+            </if>
+            <if test="simpleIntro != null" >
+	            <if test="simpleIntro.indexOf('%') >= 0" >
+				    AND `simple_intro` like #{simpleIntro}
+	            </if>
+                <if test="simpleIntro.indexOf('%') lt 0" >
+                    AND `simple_intro` = #{simpleIntro}
                 </if>
             </if>
             <if test="slogan != null" >

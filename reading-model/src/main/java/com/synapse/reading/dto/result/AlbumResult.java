@@ -170,6 +170,14 @@ public class AlbumResult {
         album.setUpdateTime(update_time);
     }
 
+    public String getSimpleIntro() {
+        return album.getSimpleIntro();
+    }
+
+    public void setSimpleIntro(String simpleIntro) {
+        album.setSimpleIntro(simpleIntro);
+    }
+
     public String getTopicId() {
         return album.getTopicId();
     }
