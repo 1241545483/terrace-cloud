@@ -170,6 +170,14 @@ public class AlbumResult {
         album.setUpdateTime(update_time);
     }
 
+    public String getTopicId() {
+        return album.getTopicId();
+    }
+
+    public void setTopicId(String topicId) {
+        album.setTopicId(topicId);
+    }
+
     public String getPcCover() {
         return album.getPcCover();
     }

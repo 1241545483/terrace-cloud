@@ -9,6 +9,7 @@
         <result column="intro" property="intro" />
         <result column="slogan" property="slogan" />
         <result column="type" property="type" />
+        <result column="topic_id" property="topicId" />
         <result column="cover" property="cover" />
         <result column="pc_cover" property="pcCover" />
         <result column="banner" property="banner" />
@@ -25,7 +26,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`slogan`,`type`,`cover`,`pc_cover`,`banner`,`pc_banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`intro`,`slogan`,`type`,`topic_id`,`cover`,`pc_cover`,`banner`,`pc_banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -40,7 +41,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Album">
         insert into `album`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{slogan},#{type},#{cover},#{pcCover},#{banner},#{pcBanner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{intro},#{slogan},#{type},#{topicId},#{cover},#{pcCover},#{banner},#{pcBanner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -66,6 +67,9 @@
                 </if>
                 <if test="type != null" >
                     `type`,
+                </if>
+                <if test="topicId != null" >
+                    `topic_id`,
                 </if>
                 <if test="cover != null" >
                     `cover`,
@@ -119,6 +123,9 @@
                 </if>
                 <if test="type != null" >
 			        #{type},
+                </if>
+                <if test="topicId != null" >
+			        #{topicId},
                 </if>
                 <if test="cover != null" >
 			        #{cover},
@@ -177,6 +184,9 @@
 	            <if test="type != null" >
 		            `type` = #{type},
 	            </if>
+	            <if test="topicId != null" >
+		            `topic_id` = #{topicId},
+	            </if>
 	            <if test="cover != null" >
 		            `cover` = #{cover},
 	            </if>
@@ -219,7 +229,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Album" >
         update  `album` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`cover`=#{cover},`pc_cover`=#{pcCover},`banner`=#{banner},`pc_banner`=#{pcBanner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`slogan`=#{slogan},`type`=#{type},`topic_id`=#{topicId},`cover`=#{cover},`pc_cover`=#{pcCover},`banner`=#{banner},`pc_banner`=#{pcBanner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -266,6 +276,14 @@
                     </if>
                     <if test="type.indexOf('%') lt 0" >
                         AND `type` = #{type}
+                    </if>
+            </if>
+            <if test="topicId != null" >
+                    <if test="topicId.indexOf('%') >= 0" >
+                        AND `topic_id` like #{topicId}
+                    </if>
+                    <if test="topicId.indexOf('%') lt 0" >
+                        AND `topic_id` = #{topicId}
                     </if>
             </if>
             <if test="cover != null" >
@@ -399,6 +417,14 @@
 	            </if>
                 <if test="type.indexOf('%') lt 0" >
                     AND `type` = #{type}
+                </if>
+            </if>
+            <if test="topicId != null" >
+	            <if test="topicId.indexOf('%') >= 0" >
+				    AND `topic_id` like #{topicId}
+	            </if>
+                <if test="topicId.indexOf('%') lt 0" >
+                    AND `topic_id` = #{topicId}
                 </if>
             </if>
             <if test="cover != null" >

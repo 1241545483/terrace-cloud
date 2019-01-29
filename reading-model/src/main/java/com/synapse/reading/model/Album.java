@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-28
+ * @since 2019-01-29
  */
 public class Album implements Serializable {
 
@@ -24,6 +24,10 @@ public class Album implements Serializable {
      * 1 音频，2视频，3 书籍，4音频+视频，5音频+书籍，6视频+书籍，7音频+视频+书籍
      */
     private String type;
+    /**
+     * 主题
+     */
+    private String topicId;
     /**
      * 封面图片URL
      */
@@ -97,6 +101,14 @@ public class Album implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
     }
 
     public String getCover() {
