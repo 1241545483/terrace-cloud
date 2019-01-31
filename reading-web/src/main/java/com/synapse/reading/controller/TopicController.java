@@ -116,11 +116,16 @@ public class TopicController extends BaseController{
             @ApiResponse(code = 200, response = TopicResult.class, message = "所有音频详情"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/getAllAudioList/{recId}",method = RequestMethod.GET)
-    public ResponseEntity getAllAudioList(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/getAllAudioList",method = RequestMethod.GET)
+    public ResponseEntity getAllAudioList(PageInfo pageInfo,TopicParam param){
         try {
-            List<Audio> allAudioList = topicService.getAllAudioList(recId);
-            return ResponseEntity.ok(allAudioList);
+            int totalNum = topicService.countAudioNum(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            List<Audio> allAudioList = topicService.getAllAudioList(param.getModel(),pageInfo);
+            Map<String, Object> map = new HashMap();
+            map.put("allAudioList", allAudioList);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("get Topic Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

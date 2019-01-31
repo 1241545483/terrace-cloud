@@ -4,6 +4,7 @@ import com.synapse.reading.mapper.TopicMapper;
 import com.synapse.reading.model.Audio;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,6 +16,8 @@ import java.util.List;
  */
 public interface TopicRespository extends TopicMapper {
 
-    List<Audio> getAllAudioList(String recId);
+    List<Audio> getAllAudioList(Map<String, Object> params);
+
+    Integer countAudioNum(Map<String, Object> params);
 
 }

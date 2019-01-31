@@ -39,8 +39,11 @@ public class TopicService extends TopicBaseService {
 	    return topicRespository.selectByPrimaryKey(recId);
     }
 
-    public List<Audio> getAllAudioList(String recId){
-        return topicRespository.getAllAudioList(recId);
+    public List<Audio> getAllAudioList(Topic topicParam, PageInfo pageInfo){
+        Map<String,Object> params = prepareParams(topicParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return topicRespository.getAllAudioList(params);
     }
 
 	public Integer update(Topic param){
@@ -74,4 +77,8 @@ public class TopicService extends TopicBaseService {
         return topicRespository.count(params);
     }
 
+    public Integer countAudioNum(Topic topicParam) {
+        Map<String,Object> params = prepareParams(topicParam);
+        return topicRespository.countAudioNum(params);
+    }
 }
