@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-29
+ * @since 2019-01-31
  */
 public class Album implements Serializable {
 

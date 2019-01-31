@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.reading.model.Audio;
 import com.synapse.reading.model.Topic;
 import com.synapse.reading.respository.TopicRespository;
 import com.synapse.reading.dto.param.TopicParam;
@@ -36,6 +37,10 @@ public class TopicService extends TopicBaseService {
 
     public Topic find(String recId){
 	    return topicRespository.selectByPrimaryKey(recId);
+    }
+
+    public List<Audio> getAllAudioList(String recId){
+        return topicRespository.getAllAudioList(recId);
     }
 
 	public Integer update(Topic param){

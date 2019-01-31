@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.model.Audio;
 import com.synapse.reading.model.Topic;
 import com.synapse.reading.dto.param.TopicParam;
 import com.synapse.reading.dto.result.TopicResult;
@@ -107,6 +108,26 @@ public class TopicController extends BaseController{
             logger.error("get Topic Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "根据主键查询所有音频详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TopicResult.class, message = "所有音频详情"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/getAllAudioList/{recId}",method = RequestMethod.GET)
+    public ResponseEntity getAllAudioList(@PathVariable("recId") String recId){
+        try {
+            List<Audio> allAudioList = topicService.getAllAudioList(recId);
+            return ResponseEntity.ok(allAudioList);
+        } catch (BusinessException e) {
+            logger.error("get Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 

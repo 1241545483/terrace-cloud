@@ -2,4 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.TopicRespository">
 
+    <select id="getAllAudioList" resultMap="com.synapse.reading.mapper.AudioMapper.BaseResultMap" parameterType="java.lang.String" >
+        select
+         *
+        from `audio` a
+         JOIN  album b  on   a.belong_to_id=b.rec_id
+         JOIN  topic   c on  c.rec_id =b.topic_id AND c.`rec_id` = #{recId}
+        where
+        1=1
+
+    </select>
+
+
+
 </mapper>

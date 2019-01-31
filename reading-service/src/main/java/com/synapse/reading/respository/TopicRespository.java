@@ -1,6 +1,9 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.TopicMapper;
+import com.synapse.reading.model.Audio;
+
+import java.util.List;
 
 /**
  * <p>
@@ -11,5 +14,7 @@ import com.synapse.reading.mapper.TopicMapper;
  * @since 2019-01-28
  */
 public interface TopicRespository extends TopicMapper {
+
+    List<Audio> getAllAudioList(String recId);
 
 }
