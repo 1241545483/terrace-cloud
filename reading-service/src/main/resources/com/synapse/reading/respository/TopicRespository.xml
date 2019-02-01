@@ -10,6 +10,7 @@
          JOIN  topic   c on  c.rec_id =b.topic_id AND c.`rec_id` = #{recId}
         where
         1=1
+        ORDER BY a.order_num
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
