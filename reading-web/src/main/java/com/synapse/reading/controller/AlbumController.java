@@ -67,6 +67,7 @@ public class AlbumController extends BaseController {
             if (bindingResult.hasErrors()) {
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
+            param.setPublishStatus("1");
             int totalNum = albumService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
             List<Album> models = albumService.listSortByOrderNum(param.getModel(), pageInfo);
@@ -208,6 +209,52 @@ public class AlbumController extends BaseController {
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
             logger.error("updatePlayVisitNum Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "修改专辑为发布状态")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/album/albumPublished/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity albumPublished(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            boolean valid = albumService.albumPublished(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("albumPublished Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("albumPublished Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "修改专辑为未发布状态")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/album/albumUnPublished/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity albumUnPublished(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            boolean valid = albumService.albumUnPublished(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("albumUnPublished Album Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("albumUnPublished Album Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }

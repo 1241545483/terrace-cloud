@@ -17,6 +17,16 @@ import java.util.Map;
  */
 public interface AlbumRespository extends AlbumMapper {
     Integer updatePlayVisitNum(@Param("recId") String recId);
+
     List<Album> listSortByOrderNum(Map<String, Object> params);
 
+    /*
+    修改专辑为发布状态
+     */
+    Integer albumPublished(@Param("recId") String recId);
+
+    /*
+    修改专辑为未发布状态
+    */
+    Integer albumUnPublished(@Param("recId") String recId);
 }

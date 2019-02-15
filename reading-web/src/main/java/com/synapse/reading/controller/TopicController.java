@@ -73,6 +73,7 @@ public class TopicController extends BaseController{
 	        if (bindingResult.hasErrors()) {
 	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
 	        }
+            param.setPublishStatus("1");
 	        int totalNum = topicService.count(param.getModel());
 	        preparePageInfo(pageInfo, totalNum);
 	        List<Topic> models = topicService.list(param.getModel(),pageInfo);
@@ -220,5 +221,55 @@ public class TopicController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
+
+    @ApiOperation(value = "修改电台为发布状态")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/topic/topicPublished/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity topicPublished(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            boolean valid = topicService.topicPublished(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("topicPublished Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("topicPublished Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "修改电台为未发布状态")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/topic/topicUnPublished/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity topicUnPublished(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            boolean valid = topicService.topicUnPublished(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("topicUnPublished Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("topicUnPublished Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
+
 
 }

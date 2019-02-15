@@ -81,4 +81,18 @@ public class TopicService extends TopicBaseService {
         Map<String,Object> params = prepareParams(topicParam);
         return topicRespository.countAudioNum(params);
     }
+
+    /*
+        修改专辑为发布状态
+        */
+    public boolean topicPublished(String recId) {
+        return topicRespository.topicPublished(recId)>0;
+    }
+
+    /*
+    修改专辑为未发布状态
+    */
+    public boolean topicUnPublished(String recId) {
+        return topicRespository.topicUnPublished(recId)>0;
+    }
 }

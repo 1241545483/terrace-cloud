@@ -20,4 +20,14 @@ public interface BookRespository extends BookMapper {
     List<BookResult> listMyCollectByBook(@Param("userId") String userId);
 
     BookResult selectIsCollect(@Param("userId") String userId,@Param("recId") String recId);
+
+    /*
+    修改书籍为发布状态
+     */
+    Integer bookPublished(@Param("recId") String recId);
+
+    /*
+    修改书籍为未发布状态
+    */
+    Integer bookUnPublished(@Param("recId") String recId);
 }

@@ -2,6 +2,7 @@ package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.TopicMapper;
 import com.synapse.reading.model.Audio;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -20,4 +21,13 @@ public interface TopicRespository extends TopicMapper {
 
     Integer countAudioNum(Map<String, Object> params);
 
+    /*
+    修改专辑为发布状态
+     */
+    Integer topicPublished(@Param("recId") String recId);
+
+    /*
+    修改专辑为未发布状态
+    */
+    Integer topicUnPublished(@Param("recId") String recId);
 }

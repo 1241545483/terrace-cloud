@@ -66,6 +66,7 @@ public class BookController extends BaseController{
 	        if (bindingResult.hasErrors()) {
 	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
 	        }
+            param.getModel().setPublishStatus("1");
 	        int totalNum = bookService.count(param.getModel());
 	        preparePageInfo(pageInfo, totalNum);
 	        List<Book> models = bookService.list(param.getModel(),pageInfo);
@@ -240,6 +241,50 @@ public class BookController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "修改专辑为发布状态")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/book/bookPublished/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity bookPublished(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
 
+            boolean valid = bookService.bookPublished(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("bookPublished Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("bookPublished Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "修改专辑为未发布状态")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "true"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/book/bookUnPublished/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity bookUnPublished(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            boolean valid = bookService.bookUnPublished(recId);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("bookUnPublished Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("bookUnPublished Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 }

@@ -107,6 +107,20 @@ public class BookService extends BookBaseService {
         return bookRespository.listMyCollectByBook(userId);
     }
 
+    /*
+        修改专辑为发布状态
+        */
+    public boolean bookPublished(String recId) {
+        return bookRespository.bookPublished(recId)>0;
+    }
+
+    /*
+    修改专辑为未发布状态
+    */
+    public boolean bookUnPublished(String recId) {
+        return bookRespository.bookUnPublished(recId)>0;
+    }
+
     public BookResult selectIsCollect(String recId, User user) {
 
         return bookRespository.selectIsCollect(user.getRecId(), recId);

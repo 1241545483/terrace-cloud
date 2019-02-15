@@ -10,6 +10,22 @@
             `rec_id` = #{recId}
     </update>
 
+    <update id="albumPublished" parameterType="map">
+        UPDATE `album` a
+        SET
+            a.`publish_status` = 1
+        WHERE
+            a.`rec_id` = #{recId} and a.status=1
+    </update>
+
+    <update id="albumUnPublished" parameterType="map">
+        UPDATE `album` a
+        SET
+        a.`publish_status` = 0
+        WHERE
+            a.`rec_id` = #{recId} and a.status=1
+    </update>
+
     <select id="listSortByOrderNum" parameterType="map" resultMap="com.synapse.reading.mapper.AlbumMapper.BaseResultMap">
         select
         <include refid="com.synapse.reading.mapper.AlbumMapper.Base_Column_List"/>

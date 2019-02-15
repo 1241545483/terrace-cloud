@@ -31,7 +31,7 @@
         if(b.rec_id IS NULL, 'false', 'true') is_collect
         FROM `book` a
         LEFT JOIN my_collect b ON a.rec_id = b.collect_id
-        WHERE b.create_id = #{userId} AND b.collect_type = 'book'
+        WHERE b.create_id = #{userId} AND b.collect_type = 'book' AND  a.publish_status=1 and a.status=1
     </select>
 
     <select id="selectIsCollect" parameterType="map" resultMap="simpleRow">
@@ -57,5 +57,23 @@
         LEFT JOIN my_collect b ON a.rec_id = b.collect_id  AND b.collect_id=#{recId} AND b.collect_type = 'book' AND b.create_id = #{userId}
         WHERE    a.rec_id=#{recId}
     </select>
+
+
+    <update id="bookPublished" parameterType="map">
+        UPDATE `book` a
+        SET
+        a.`publish_status` = 1
+        WHERE
+        a.`rec_id` = #{recId} and a.status=1
+    </update>
+
+    <update id="bookUnPublished" parameterType="map">
+        UPDATE `book` a
+        SET
+        a.`publish_status` = 0
+        WHERE
+        a.`rec_id` = #{recId} and a.status=1
+    </update>
+
 
 </mapper>

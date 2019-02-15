@@ -83,6 +83,19 @@ public class AlbumService extends AlbumBaseService {
         return albumRespository.updatePlayVisitNum(recId)>0;
     }
 
+    /*
+        修改专辑为发布状态
+        */
+    public boolean albumPublished(String recId) {
+        return albumRespository.albumPublished(recId)>0;
+    }
+
+    /*
+    修改专辑为未发布状态
+    */
+    public boolean albumUnPublished(String recId) {
+        return albumRespository.albumUnPublished(recId)>0;
+    }
 
     public List<Album> listSortByOrderNum(Album albumParam, PageInfo pageInfo) {
         albumParam.setStatus(AlbumConstants.STATUS.OK.num());
