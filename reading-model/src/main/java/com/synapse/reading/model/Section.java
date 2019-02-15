@@ -6,13 +6,13 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 主题，关联专辑
+ * 章节
  * </p>
  *
  * @author liuguangfu
  * @since 2019-02-15
  */
-public class Topic implements Serializable {
+public class Section implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,44 +21,41 @@ public class Topic implements Serializable {
      */
     private String recId;
     /**
-     * 目录名字
+     * 章节名称
      */
     private String name;
     /**
-     * 替换封面url
+     * 章节描述
      */
-    private String cover;
+    private String intro;
     /**
-     * pc端封面图片URL
+     * 课程id 
      */
-    private String pcCover;
+    private String lessionId;
     /**
-     * 替换封面图片URL
+     * 图片URL
+     */
+    private String image;
+    /**
+     * banner
      */
     private String banner;
     /**
-     * pc替换封面图片URL
-     */
-    private String pcBanner;
-    private String intro;
-    /**
-     * 电台视频介绍
-     */
-    private String presentation;
-    private String slogan;
-    /**
-     * 0 未发布，1已发布
+     * 发布状态(0 未发布，1已发布)
      */
     private String publishStatus;
     /**
-     * 0 删除，1正常
+     * 状态(0 删除，1正常)
      */
     private String status;
     /**
      * 排序
      */
     private Integer orderNum;
-    private String detail;
+    /**
+     * 访问数量
+     */
+    private Long visitNum;
     /**
      * 创建人
      */
@@ -93,38 +90,6 @@ public class Topic implements Serializable {
         this.name = name;
     }
 
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
-    public String getPcCover() {
-        return pcCover;
-    }
-
-    public void setPcCover(String pcCover) {
-        this.pcCover = pcCover;
-    }
-
-    public String getBanner() {
-        return banner;
-    }
-
-    public void setBanner(String banner) {
-        this.banner = banner;
-    }
-
-    public String getPcBanner() {
-        return pcBanner;
-    }
-
-    public void setPcBanner(String pcBanner) {
-        this.pcBanner = pcBanner;
-    }
-
     public String getIntro() {
         return intro;
     }
@@ -133,20 +98,28 @@ public class Topic implements Serializable {
         this.intro = intro;
     }
 
-    public String getPresentation() {
-        return presentation;
+    public String getLessionId() {
+        return lessionId;
     }
 
-    public void setPresentation(String presentation) {
-        this.presentation = presentation;
+    public void setLessionId(String lessionId) {
+        this.lessionId = lessionId;
     }
 
-    public String getSlogan() {
-        return slogan;
+    public String getImage() {
+        return image;
     }
 
-    public void setSlogan(String slogan) {
-        this.slogan = slogan;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 
     public String getPublishStatus() {
@@ -173,12 +146,12 @@ public class Topic implements Serializable {
         this.orderNum = orderNum;
     }
 
-    public String getDetail() {
-        return detail;
+    public Long getVisitNum() {
+        return visitNum;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setVisitNum(Long visitNum) {
+        this.visitNum = visitNum;
     }
 
     public String getCreateId() {

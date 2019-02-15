@@ -54,3 +54,7 @@ CREATE TABLE section
 
 ALTER TABLE section   COMMENT '章节';
 
+ALTER TABLE topic
+  ADD COLUMN  presentation  VARCHAR(200) DEFAULT NULL
+COMMENT '电台视频介绍'
+  AFTER intro;

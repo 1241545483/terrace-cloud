@@ -24,6 +24,14 @@ public class TopicResult {
         this.topic = topic;
     }
 
+	public String getPresentation() {
+		return topic.getPresentation();
+	}
+
+	public void setPresentation(String presentation) {
+		topic.setPresentation(presentation);
+	}
+
 	public String getCover() {
 		return topic.getCover();
 	}

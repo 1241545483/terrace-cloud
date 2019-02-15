@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.synapse.reading.mapper.TopicMapper">
+<mapper namespace="com.synapse.reading.mapper.LessonMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Topic">
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Lesson">
         <id column="rec_id" property="recId" />
         <result column="name" property="name" />
-        <result column="cover" property="cover" />
-        <result column="pc_cover" property="pcCover" />
-        <result column="banner" property="banner" />
-        <result column="pc_banner" property="pcBanner" />
         <result column="intro" property="intro" />
         <result column="presentation" property="presentation" />
-        <result column="slogan" property="slogan" />
+        <result column="image" property="image" />
+        <result column="banner" property="banner" />
         <result column="publish_status" property="publishStatus" />
         <result column="status" property="status" />
         <result column="order_num" property="orderNum" />
-        <result column="detail" property="detail" />
+        <result column="visit_num" property="visitNum" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
         <result column="update_id" property="updateId" />
@@ -25,32 +22,32 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`cover`,`pc_cover`,`banner`,`pc_banner`,`intro`,`presentation`,`slogan`,`publish_status`,`status`,`order_num`,`detail`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`intro`,`presentation`,`image`,`banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
         <include refid="Base_Column_List" />
-        from `topic`
+        from `lesson`
         where
                 `rec_id` = #{recId}
     </select>
 
-    <insert id="insert"  parameterType="com.synapse.reading.model.Topic">
-        insert into `topic`
+    <insert id="insert"  parameterType="com.synapse.reading.model.Lesson">
+        insert into `lesson`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{cover},#{pcCover},#{banner},#{pcBanner},#{intro},#{presentation},#{slogan},#{publishStatus},#{status},#{orderNum},#{detail},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{intro},#{presentation},#{image},#{banner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-        delete from `topic`
+        delete from `lesson`
         where
 			    `rec_id` = #{recId}
     </delete>
 
-    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Topic" >
-        insert into `topic`
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Lesson" >
+        insert into `lesson`
         <trim prefix="(" suffix=")" suffixOverrides="," >
                 <if test="recId != null" >
                     `rec_id`,
@@ -58,26 +55,17 @@
                 <if test="name != null" >
                     `name`,
                 </if>
-                <if test="cover != null" >
-                    `cover`,
-                </if>
-                <if test="pcCover != null" >
-                    `pc_cover`,
-                </if>
-                <if test="banner != null" >
-                    `banner`,
-                </if>
-                <if test="pcBanner != null" >
-                    `pc_banner`,
-                </if>
                 <if test="intro != null" >
                     `intro`,
                 </if>
                 <if test="presentation != null" >
                     `presentation`,
                 </if>
-                <if test="slogan != null" >
-                    `slogan`,
+                <if test="image != null" >
+                    `image`,
+                </if>
+                <if test="banner != null" >
+                    `banner`,
                 </if>
                 <if test="publishStatus != null" >
                     `publish_status`,
@@ -88,8 +76,8 @@
                 <if test="orderNum != null" >
                     `order_num`,
                 </if>
-                <if test="detail != null" >
-                    `detail`,
+                <if test="visitNum != null" >
+                    `visit_num`,
                 </if>
                 <if test="createId != null" >
                     `create_id`,
@@ -111,26 +99,17 @@
                 <if test="name != null" >
 			        #{name},
                 </if>
-                <if test="cover != null" >
-			        #{cover},
-                </if>
-                <if test="pcCover != null" >
-			        #{pcCover},
-                </if>
-                <if test="banner != null" >
-			        #{banner},
-                </if>
-                <if test="pcBanner != null" >
-			        #{pcBanner},
-                </if>
                 <if test="intro != null" >
 			        #{intro},
                 </if>
                 <if test="presentation != null" >
 			        #{presentation},
                 </if>
-                <if test="slogan != null" >
-			        #{slogan},
+                <if test="image != null" >
+			        #{image},
+                </if>
+                <if test="banner != null" >
+			        #{banner},
                 </if>
                 <if test="publishStatus != null" >
 			        #{publishStatus},
@@ -141,8 +120,8 @@
                 <if test="orderNum != null" >
 			        #{orderNum},
                 </if>
-                <if test="detail != null" >
-			        #{detail},
+                <if test="visitNum != null" >
+			        #{visitNum},
                 </if>
                 <if test="createId != null" >
 			        #{createId},
@@ -159,8 +138,8 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Topic" >
-        update `topic`
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Lesson" >
+        update `lesson`
         <set >
 	            <if test="recId != null" >
 		            `rec_id` = #{recId},
@@ -168,26 +147,17 @@
 	            <if test="name != null" >
 		            `name` = #{name},
 	            </if>
-	            <if test="cover != null" >
-		            `cover` = #{cover},
-	            </if>
-	            <if test="pcCover != null" >
-		            `pc_cover` = #{pcCover},
-	            </if>
-	            <if test="banner != null" >
-		            `banner` = #{banner},
-	            </if>
-	            <if test="pcBanner != null" >
-		            `pc_banner` = #{pcBanner},
-	            </if>
 	            <if test="intro != null" >
 		            `intro` = #{intro},
 	            </if>
 	            <if test="presentation != null" >
 		            `presentation` = #{presentation},
 	            </if>
-	            <if test="slogan != null" >
-		            `slogan` = #{slogan},
+	            <if test="image != null" >
+		            `image` = #{image},
+	            </if>
+	            <if test="banner != null" >
+		            `banner` = #{banner},
 	            </if>
 	            <if test="publishStatus != null" >
 		            `publish_status` = #{publishStatus},
@@ -198,8 +168,8 @@
 	            <if test="orderNum != null" >
 		            `order_num` = #{orderNum},
 	            </if>
-	            <if test="detail != null" >
-		            `detail` = #{detail},
+	            <if test="visitNum != null" >
+		            `visit_num` = #{visitNum},
 	            </if>
 	            <if test="createId != null" >
 		            `create_id` = #{createId},
@@ -217,16 +187,16 @@
         where
 		    `rec_id` = #{recId}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Topic" >
-        update  `topic` SET
-		    `rec_id`=#{recId},`name`=#{name},`cover`=#{cover},`pc_cover`=#{pcCover},`banner`=#{banner},`pc_banner`=#{pcBanner},`intro`=#{intro},`presentation`=#{presentation},`slogan`=#{slogan},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`detail`=#{detail},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Lesson" >
+        update  `lesson` SET
+		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`presentation`=#{presentation},`image`=#{image},`banner`=#{banner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
 
     <select id="count" parameterType="map" resultType="int">
         select count(1)
-	    from `topic`
+	    from `lesson`
         where 1 = 1
             <if test="recId != null" >
                     <if test="recId.indexOf('%') >= 0" >
@@ -242,38 +212,6 @@
                     </if>
                     <if test="name.indexOf('%') lt 0" >
                         AND `name` = #{name}
-                    </if>
-            </if>
-            <if test="cover != null" >
-                    <if test="cover.indexOf('%') >= 0" >
-                        AND `cover` like #{cover}
-                    </if>
-                    <if test="cover.indexOf('%') lt 0" >
-                        AND `cover` = #{cover}
-                    </if>
-            </if>
-            <if test="pcCover != null" >
-                    <if test="pcCover.indexOf('%') >= 0" >
-                        AND `pc_cover` like #{pcCover}
-                    </if>
-                    <if test="pcCover.indexOf('%') lt 0" >
-                        AND `pc_cover` = #{pcCover}
-                    </if>
-            </if>
-            <if test="banner != null" >
-                    <if test="banner.indexOf('%') >= 0" >
-                        AND `banner` like #{banner}
-                    </if>
-                    <if test="banner.indexOf('%') lt 0" >
-                        AND `banner` = #{banner}
-                    </if>
-            </if>
-            <if test="pcBanner != null" >
-                    <if test="pcBanner.indexOf('%') >= 0" >
-                        AND `pc_banner` like #{pcBanner}
-                    </if>
-                    <if test="pcBanner.indexOf('%') lt 0" >
-                        AND `pc_banner` = #{pcBanner}
                     </if>
             </if>
             <if test="intro != null" >
@@ -292,12 +230,20 @@
                         AND `presentation` = #{presentation}
                     </if>
             </if>
-            <if test="slogan != null" >
-                    <if test="slogan.indexOf('%') >= 0" >
-                        AND `slogan` like #{slogan}
+            <if test="image != null" >
+                    <if test="image.indexOf('%') >= 0" >
+                        AND `image` like #{image}
                     </if>
-                    <if test="slogan.indexOf('%') lt 0" >
-                        AND `slogan` = #{slogan}
+                    <if test="image.indexOf('%') lt 0" >
+                        AND `image` = #{image}
+                    </if>
+            </if>
+            <if test="banner != null" >
+                    <if test="banner.indexOf('%') >= 0" >
+                        AND `banner` like #{banner}
+                    </if>
+                    <if test="banner.indexOf('%') lt 0" >
+                        AND `banner` = #{banner}
                     </if>
             </if>
             <if test="publishStatus != null" >
@@ -319,13 +265,8 @@
             <if test="orderNum != null" >
                     AND `order_num` = #{orderNum}
             </if>
-            <if test="detail != null" >
-                    <if test="detail.indexOf('%') >= 0" >
-                        AND `detail` like #{detail}
-                    </if>
-                    <if test="detail.indexOf('%') lt 0" >
-                        AND `detail` = #{detail}
-                    </if>
+            <if test="visitNum != null" >
+                    AND `visit_num` = #{visitNum}
             </if>
             <if test="createId != null" >
                     <if test="createId.indexOf('%') >= 0" >
@@ -364,7 +305,7 @@
     <select id="list" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from `topic`
+        from `lesson`
         where 1 = 1
             <if test="recId != null" >
 	            <if test="recId.indexOf('%') >= 0" >
@@ -380,38 +321,6 @@
 	            </if>
                 <if test="name.indexOf('%') lt 0" >
                     AND `name` = #{name}
-                </if>
-            </if>
-            <if test="cover != null" >
-	            <if test="cover.indexOf('%') >= 0" >
-				    AND `cover` like #{cover}
-	            </if>
-                <if test="cover.indexOf('%') lt 0" >
-                    AND `cover` = #{cover}
-                </if>
-            </if>
-            <if test="pcCover != null" >
-	            <if test="pcCover.indexOf('%') >= 0" >
-				    AND `pc_cover` like #{pcCover}
-	            </if>
-                <if test="pcCover.indexOf('%') lt 0" >
-                    AND `pc_cover` = #{pcCover}
-                </if>
-            </if>
-            <if test="banner != null" >
-	            <if test="banner.indexOf('%') >= 0" >
-				    AND `banner` like #{banner}
-	            </if>
-                <if test="banner.indexOf('%') lt 0" >
-                    AND `banner` = #{banner}
-                </if>
-            </if>
-            <if test="pcBanner != null" >
-	            <if test="pcBanner.indexOf('%') >= 0" >
-				    AND `pc_banner` like #{pcBanner}
-	            </if>
-                <if test="pcBanner.indexOf('%') lt 0" >
-                    AND `pc_banner` = #{pcBanner}
                 </if>
             </if>
             <if test="intro != null" >
@@ -430,12 +339,20 @@
                     AND `presentation` = #{presentation}
                 </if>
             </if>
-            <if test="slogan != null" >
-	            <if test="slogan.indexOf('%') >= 0" >
-				    AND `slogan` like #{slogan}
+            <if test="image != null" >
+	            <if test="image.indexOf('%') >= 0" >
+				    AND `image` like #{image}
 	            </if>
-                <if test="slogan.indexOf('%') lt 0" >
-                    AND `slogan` = #{slogan}
+                <if test="image.indexOf('%') lt 0" >
+                    AND `image` = #{image}
+                </if>
+            </if>
+            <if test="banner != null" >
+	            <if test="banner.indexOf('%') >= 0" >
+				    AND `banner` like #{banner}
+	            </if>
+                <if test="banner.indexOf('%') lt 0" >
+                    AND `banner` = #{banner}
                 </if>
             </if>
             <if test="publishStatus != null" >
@@ -457,13 +374,8 @@
             <if test="orderNum != null" >
                     AND `order_num` = #{orderNum}
             </if>
-            <if test="detail != null" >
-	            <if test="detail.indexOf('%') >= 0" >
-				    AND `detail` like #{detail}
-	            </if>
-                <if test="detail.indexOf('%') lt 0" >
-                    AND `detail` = #{detail}
-                </if>
+            <if test="visitNum != null" >
+                    AND `visit_num` = #{visitNum}
             </if>
             <if test="createId != null" >
 	            <if test="createId.indexOf('%') >= 0" >

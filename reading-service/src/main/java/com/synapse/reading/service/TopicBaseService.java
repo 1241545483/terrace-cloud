@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-29
+ * @since 2019-02-15
  */
 public class TopicBaseService {
 
@@ -37,6 +37,9 @@ public class TopicBaseService {
         }
         if (topicParam.getIntro() != null && !topicParam.getIntro().trim().equals("")) {
             params.put("intro", topicParam.getIntro());
+        }
+        if (topicParam.getPresentation() != null && !topicParam.getPresentation().trim().equals("")) {
+            params.put("presentation", topicParam.getPresentation());
         }
         if (topicParam.getSlogan() != null && !topicParam.getSlogan().trim().equals("")) {
             params.put("slogan", topicParam.getSlogan());

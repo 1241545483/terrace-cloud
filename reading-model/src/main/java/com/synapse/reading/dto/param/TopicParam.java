@@ -33,6 +33,14 @@ public class TopicParam  {
         return topic;
     }
 
+    public String getPresentation() {
+        return topic.getPresentation();
+    }
+
+    public void setPresentation(String presentation) {
+        topic.setPresentation(presentation);
+    }
+
     public String getCover() {
         return topic.getCover();
     }
