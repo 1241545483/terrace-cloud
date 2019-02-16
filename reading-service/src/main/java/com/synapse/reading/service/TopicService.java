@@ -217,6 +217,7 @@ public class TopicService extends TopicBaseService {
         model.setUpdateTime(now);
         model.setStatus(TopicConstants.STATUS.DELETED.num());
         Album album = new Album();
+        album.setTopicId(recId);
         Map<String,Object> params =albumBaseService.prepareParams(album);
         List<Album> albumList= albumRespository.list(params);
         if (albumList!=null && !albumList.isEmpty()){
