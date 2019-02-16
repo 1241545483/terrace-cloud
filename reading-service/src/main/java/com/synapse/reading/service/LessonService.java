@@ -108,7 +108,8 @@ public class LessonService extends LessonBaseService {
                     }
                 }
             }
-        } else if (videoList!=null && !videoList.isEmpty()){
+        }
+        if (videoList!=null && !videoList.isEmpty()){
                 for (VideoParam video: videoList) {
                     video.setBelongTo(VideoConstants.BelongToType.LESSON.value());
                     video.setBelongToId(param.getRecId());
