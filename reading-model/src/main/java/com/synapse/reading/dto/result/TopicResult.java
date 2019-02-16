@@ -21,14 +21,14 @@ import java.util.List;
 @ApiModel(value = "TopicResult对象", description = "主题，关联专辑")
 public class TopicResult {
 
-	private List<Album> albumParamList = new ArrayList<>();// 子列表
+	private List<AlbumResult> albumResultList = new ArrayList<>();// 子列表
 
-	public List<Album> getAlbumParamList() {
-		return albumParamList;
+	public List<AlbumResult> getAlbumResultList() {
+		return albumResultList;
 	}
 
-	public void setAlbumParamList(List<Album> albumParamList) {
-		this.albumParamList = albumParamList;
+	public void setAlbumResultList(List<AlbumResult> albumResultList) {
+		this.albumResultList = albumResultList;
 	}
 
 	private Topic  topic = new Topic();

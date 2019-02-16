@@ -202,7 +202,7 @@ public class TopicService extends TopicBaseService {
                 List<Audio> audioList = audioRespository.list(audioParams);
                 albumResult.setAudioList(audioList);
             }
-            topicResult.setAlbumParamList(albumList);
+            topicResult.setAlbumResultList(albumResultList);
         }
 
         return topicResult;
