@@ -15,7 +15,6 @@ import com.synapse.reading.dto.result.LessonResult;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.respository.SectionRespository;
 import com.synapse.reading.respository.VideoRespository;
-import com.synapse.reading.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +24,8 @@ import com.synapse.reading.remote.IdService;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -177,7 +176,7 @@ public class LessonService extends LessonBaseService {
         Lesson lesson =  lessonRespository.selectByPrimaryKey(recId);
         lessonResult.setModel(lesson);
         if (sectionList!=null && !sectionList.isEmpty()){
-            List<SectionResult>  sectionResultList =Converter.convert(sectionList,SectionResult.class);
+            List<SectionResult> sectionResultList = sectionList.stream().map(sec -> new SectionResult(sec)).collect(Collectors.toList());
             for (SectionResult section : sectionResultList) {
                 video.setBelongToId(section.getRecId());
                 Map<String,Object> videoParams =videoBaseService.prepareParams(video);
@@ -199,43 +198,47 @@ public class LessonService extends LessonBaseService {
         model.setUpdateId(updateId);
         model.setUpdateTime(now);
         model.setStatus(LessonConstants.STATUS.DELETED.num());
-        Video video = new Video();
-        video.setBelongToId(recId);
-        video.setUpdateId(updateId);
-        video.setUpdateTime(now);
-        Map<String,Object> videoParams1 =videoBaseService.prepareParams(video);
-        List<Video> videoList1 = videoRespository.list(videoParams1);
-        if (videoList1!=null && !videoList1.isEmpty()){
-            for (Video video1 : videoList1) {
-                video1.setBelongToId("");
-                video1.setBelongTo("");
-                videoRespository.updateByPrimaryKeySelective(video1);
-            }
-        }
+        videoRespository.changeBelongToIdAndBelongTo(recId);
+//        Video video = new Video();
+//        video.setBelongToId(recId);
+//        video.setUpdateId(updateId);
+//        video.setUpdateTime(now);
+//        Map<String,Object> videoParams1 =videoBaseService.prepareParams(video);
+//        List<Video> videoList1 = videoRespository.list(videoParams1);
+//        if (videoList1!=null && !videoList1.isEmpty()){
+//            for (Video video1 : videoList1) {
+//                video1.setBelongToId("");
+//                video1.setBelongTo("");
+//                videoRespository.updateByPrimaryKey(video1);
+//            }
+//        }
         Section section1 = new Section();
         section1.setLessionId(recId);
-        section1.setStatus("1");
         Map<String,Object> params =sectionBaseService.prepareParams(section1);
         List<Section> sectionList= sectionRespository.list(params);
         if (sectionList!=null && !sectionList.isEmpty()){
             for (Section section : sectionList) {
-                video.setBelongToId(section.getRecId());
-                Map<String,Object> videoParams2 =videoBaseService.prepareParams(video);
-                List<Video> videoList2 = videoRespository.list(videoParams2);
-                if (videoList2!=null && !videoList2.isEmpty()){
-                    for (Video video2 : videoList2) {
-                        video2.setBelongToId("");
-                        video2.setBelongTo("");
-                        videoRespository.updateByPrimaryKeySelective(video2);
-                    }
-                }
+//                video.setBelongToId(section.getRecId());
+//                Map<String,Object> videoParams2 =videoBaseService.prepareParams(video);
+//                List<Video> videoList2 = videoRespository.list(videoParams2);
+//                if (videoList2!=null && !videoList2.isEmpty()){
+//                    for (Video video2 : videoList2) {
+//                        video2.setBelongToId("");
+//                        video2.setBelongTo("");
+//                        videoRespository.updateByPrimaryKey(video2);
+//                    }
+//                }
+                videoRespository.changeBelongToIdAndBelongTo(section.getRecId());
+                section.setLessionId(recId);
+                section.setUpdateId(updateId);
+                section.setUpdateTime(now);
+                section.setStatus(LessonConstants.STATUS.DELETED.num());
+                sectionRespository.updateByPrimaryKeySelective(section);
+
             }
+
         }
-        section1.setLessionId(recId);
-        section1.setUpdateId(updateId);
-        section1.setUpdateTime(now);
-        section1.setStatus(LessonConstants.STATUS.DELETED.num());
-        sectionRespository.updateByPrimaryKeySelective(section1);
+
         return lessonRespository.updateByPrimaryKeySelective(model);
     }
 

@@ -25,4 +25,6 @@ public interface VideoRespository extends VideoMapper {
     Integer increasePlayNum(@Param("recId") String recId);
 
     List<Video> listSortByOrderNum(Map<String, Object> params);
+
+    Integer changeBelongToIdAndBelongTo(@Param("belongToId") String belongToId);
 }
