@@ -174,6 +174,8 @@ public class LessonService extends LessonBaseService {
         Map<String,Object> videoParams1 =videoBaseService.prepareParams(video);
         List<Video> videoList1 = videoRespository.list(videoParams1);
         LessonResult lessonResult = new LessonResult();
+        Lesson lesson =  lessonRespository.selectByPrimaryKey(recId);
+        lessonResult.setModel(lesson);
         if (sectionList!=null && !sectionList.isEmpty()){
             List<SectionResult>  sectionResultList =Converter.convert(sectionList,SectionResult.class);
             for (SectionResult section : sectionResultList) {
