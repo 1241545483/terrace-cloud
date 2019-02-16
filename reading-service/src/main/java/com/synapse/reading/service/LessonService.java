@@ -151,7 +151,8 @@ public class LessonService extends LessonBaseService {
                     }
                 }
             }
-        } else if (videoList!=null && !videoList.isEmpty()){
+        }
+        if (videoList!=null && !videoList.isEmpty()){
             for (VideoParam video: videoList) {
                 video.setBelongTo(VideoConstants.BelongToType.LESSON.value());
                 video.setBelongToId(param.getRecId());
@@ -182,7 +183,8 @@ public class LessonService extends LessonBaseService {
                 section.setVideoList(videoList);
             }
             lessonResult.setSectionList(sectionList);
-        }else if (videoList1!=null && !videoList1.isEmpty()){
+        }
+        if (videoList1!=null && !videoList1.isEmpty()){
             lessonResult.setVideoList(videoList1);
         }
         return lessonResult;
