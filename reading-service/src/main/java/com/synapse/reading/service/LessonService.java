@@ -199,46 +199,20 @@ public class LessonService extends LessonBaseService {
         model.setUpdateTime(now);
         model.setStatus(LessonConstants.STATUS.DELETED.num());
         videoRespository.changeBelongToIdAndBelongTo(recId);
-//        Video video = new Video();
-//        video.setBelongToId(recId);
-//        video.setUpdateId(updateId);
-//        video.setUpdateTime(now);
-//        Map<String,Object> videoParams1 =videoBaseService.prepareParams(video);
-//        List<Video> videoList1 = videoRespository.list(videoParams1);
-//        if (videoList1!=null && !videoList1.isEmpty()){
-//            for (Video video1 : videoList1) {
-//                video1.setBelongToId("");
-//                video1.setBelongTo("");
-//                videoRespository.updateByPrimaryKey(video1);
-//            }
-//        }
         Section section1 = new Section();
         section1.setLessionId(recId);
         Map<String,Object> params =sectionBaseService.prepareParams(section1);
         List<Section> sectionList= sectionRespository.list(params);
         if (sectionList!=null && !sectionList.isEmpty()){
             for (Section section : sectionList) {
-//                video.setBelongToId(section.getRecId());
-//                Map<String,Object> videoParams2 =videoBaseService.prepareParams(video);
-//                List<Video> videoList2 = videoRespository.list(videoParams2);
-//                if (videoList2!=null && !videoList2.isEmpty()){
-//                    for (Video video2 : videoList2) {
-//                        video2.setBelongToId("");
-//                        video2.setBelongTo("");
-//                        videoRespository.updateByPrimaryKey(video2);
-//                    }
-//                }
                 videoRespository.changeBelongToIdAndBelongTo(section.getRecId());
                 section.setLessionId(recId);
                 section.setUpdateId(updateId);
                 section.setUpdateTime(now);
                 section.setStatus(LessonConstants.STATUS.DELETED.num());
                 sectionRespository.updateByPrimaryKeySelective(section);
-
             }
-
         }
-
         return lessonRespository.updateByPrimaryKeySelective(model);
     }
 

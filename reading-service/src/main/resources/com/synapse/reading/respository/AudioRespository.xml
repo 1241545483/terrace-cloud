@@ -17,6 +17,13 @@
             `rec_id` = #{recId}
     </update>
 
+    <update id="changeBelongToIdAndBelongTo" parameterType="map">
+        update  `audio` SET
+        `belong_to_id`='' , belong_to=''
+        where
+        `belong_to_id` = #{belongToId}
+    </update>
+
     <update id="increaseFinishNum" parameterType="map">
         UPDATE `audio`
         SET

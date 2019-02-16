@@ -41,4 +41,6 @@ public interface AudioRespository extends AudioMapper {
     List<AudioResult> listMyCollectByAudio(@Param("userId") String userId);
 
     AudioResult selectIsCollect(@Param("userId") String userId,@Param("recId") String recId);
+
+    Integer changeBelongToIdAndBelongTo(@Param("belongToId") String belongToId);
 }

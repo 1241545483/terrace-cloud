@@ -12,6 +12,9 @@ import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * AlbumParam
@@ -22,6 +25,17 @@ import com.synapse.reading.web.valid.group.Search;
  */
 @ApiModel(value = "AlbumParam对象", description = "")
 public class AlbumParam {
+
+    private List<AudioParam> audioParamList = new ArrayList<>();// 子列表
+
+    public List<AudioParam> getAudioParamList() {
+        return audioParamList;
+    }
+
+    public void setAudioParamList(List<AudioParam> audioParamList) {
+        this.audioParamList = audioParamList;
+    }
+
 
     private Album album = new Album();
 

@@ -9,6 +9,9 @@ import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * TopicParam
@@ -21,6 +24,16 @@ import com.synapse.reading.web.valid.group.Search;
 public class TopicParam  {
 
     private Topic  topic = new Topic();
+
+    private List<AlbumParam> albumParamList = new ArrayList<>();// 子列表
+
+    public List<AlbumParam> getAlbumParamList() {
+        return albumParamList;
+    }
+
+    public void setAlbumParamList(List<AlbumParam> albumParamList) {
+        this.albumParamList = albumParamList;
+    }
 
     public TopicParam(){}
 

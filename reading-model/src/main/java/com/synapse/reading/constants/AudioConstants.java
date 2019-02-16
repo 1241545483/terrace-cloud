@@ -10,4 +10,18 @@ package com.synapse.reading.constants;
  */
 public interface  AudioConstants  {
 
+    enum BelongToType {
+        ALBUM("album");
+
+        public final String code;
+
+        BelongToType(String code) {
+            this.code = code;
+        }
+
+        public String value() {
+            return code;
+        }
+    }
+
 }

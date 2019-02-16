@@ -2,9 +2,14 @@ package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.synapse.common.ann.DictFormat;
+import com.synapse.reading.dto.param.AudioParam;
 import com.synapse.reading.model.Album;
+import com.synapse.reading.model.Audio;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -18,6 +23,16 @@ import io.swagger.annotations.ApiModelProperty;
 public class AlbumResult {
 
     private Album album = new Album();
+
+    private List<Audio> audioList = new ArrayList<>();// 子列表
+
+    public List<Audio> getAudioList() {
+        return audioList;
+    }
+
+    public void setAudioList(List<Audio> audioList) {
+        this.audioList = audioList;
+    }
 
     public AlbumResult() {
     }

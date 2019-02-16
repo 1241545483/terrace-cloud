@@ -1,9 +1,14 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.reading.dto.param.AlbumParam;
+import com.synapse.reading.model.Album;
 import com.synapse.reading.model.Topic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -16,7 +21,17 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "TopicResult对象", description = "主题，关联专辑")
 public class TopicResult {
 
-    private Topic  topic = new Topic();
+	private List<Album> albumParamList = new ArrayList<>();// 子列表
+
+	public List<Album> getAlbumParamList() {
+		return albumParamList;
+	}
+
+	public void setAlbumParamList(List<Album> albumParamList) {
+		this.albumParamList = albumParamList;
+	}
+
+	private Topic  topic = new Topic();
 
     public TopicResult(){}
 

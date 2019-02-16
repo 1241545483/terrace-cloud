@@ -269,7 +269,112 @@ public class TopicController extends BaseController{
     }
 
 
+    @ApiOperation(value = "创建Topic(包含专辑，专辑中添加音频)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = String.class, message = "主键"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/topicDetail", method = RequestMethod.POST)
+    public ResponseEntity createTopic(@RequestBody @Validated(Create.class) TopicParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
 
+            Topic model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
+            String recId = topicService.createTopic(model,param.getAlbumParamList());
+            return ResponseEntity.ok(recId);
+        } catch (BusinessException e) {
+            logger.error("create Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("create Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+    @ApiOperation(value = "更新Topic(包含专辑，专辑中添加音频)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = String.class, message = "主键"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/topicDetail", method = RequestMethod.PUT)
+    public ResponseEntity updateTopic(@RequestBody @Validated(Create.class) TopicParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Topic model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
+            String recId = topicService.updateTopic(model,param.getAlbumParamList());
+            return ResponseEntity.ok(recId);
+        } catch (BusinessException e) {
+            logger.error("create Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("create Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "查询Topic详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TopicResult.class, message = "Topic对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/topicDetail/{recId}",method = RequestMethod.GET)
+    public ResponseEntity getTopic(@PathVariable("recId") String recId){
+        try {
+            TopicResult topic = topicService.getTopic(recId);
+            return ResponseEntity.ok(topic);
+        } catch (BusinessException e) {
+            logger.error("get Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+    @ApiOperation(value = "根据主键删除Topic(包含专辑，音频)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/deleteTopicAll/{recId}",method = RequestMethod.DELETE)
+    public ResponseEntity deleteAll(@PathVariable("recId") String recId){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Integer num = topicService.deleteAll(recId,user.getRecId());
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("delete Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("delete Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 
 }
