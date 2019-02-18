@@ -9,6 +9,9 @@ import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * BookParam
@@ -22,7 +25,27 @@ public class BookParam  {
 
     private Book  book = new Book();
 
-    public BookParam(){}
+	private List<AudioParam> audioParamList = new ArrayList<>();// 子列表
+
+	private List<VideoParam> videoParamList = new ArrayList<>();// 子列表
+
+	public List<AudioParam> getAudioParamList() {
+		return audioParamList;
+	}
+
+	public void setAudioParamList(List<AudioParam> audioParamList) {
+		this.audioParamList = audioParamList;
+	}
+
+	public List<VideoParam> getVideoParamList() {
+		return videoParamList;
+	}
+
+	public void setVideoParamList(List<VideoParam> videoParamList) {
+		this.videoParamList = videoParamList;
+	}
+
+	public BookParam(){}
 
     public BookParam(Book  book){
         this.book = book;

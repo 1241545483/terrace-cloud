@@ -287,4 +287,112 @@ public class BookController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "创建书籍，已创建完成的音频和视频添加进书籍")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = String.class, message = "主键"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/bookDetail", method = RequestMethod.POST)
+    public ResponseEntity createBook  (@RequestBody @Validated(Create.class) BookParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Book model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
+            String recId = bookService.createBook(model,param.getAudioParamList(),param.getVideoParamList());
+            return ResponseEntity.ok(recId);
+        } catch (BusinessException e) {
+            logger.error("create bookDetail Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("create bookDetail Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+    @ApiOperation(value = "更新书籍，已创建完成的音频和视频添加进书籍")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = String.class, message = "主键"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/bookDetail", method = RequestMethod.PUT)
+    public ResponseEntity updateBook  (@RequestBody @Validated(Create.class) BookParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Book model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
+            String recId = bookService.updateBook(model,param.getAudioParamList(),param.getVideoParamList());
+            return ResponseEntity.ok(recId);
+        } catch (BusinessException e) {
+            logger.error("create lessonDetail Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("create lessonDetail Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "查询Book详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = BookResult.class, message = "Book对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/bookDetail/{recId}",method = RequestMethod.GET)
+    public ResponseEntity getBook(@PathVariable("recId") String recId){
+        try {
+            BookResult lesson = bookService.getBook(recId);
+            return ResponseEntity.ok(lesson);
+        } catch (BusinessException e) {
+            logger.error("get Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "根据主键删除Book(包含音频，视频)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/bookDetail/{recId}",method = RequestMethod.DELETE)
+    public ResponseEntity deleteAll(@PathVariable("recId") String recId){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Integer num = bookService.deleteAll(recId,user.getRecId());
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("delete Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("delete Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
 }

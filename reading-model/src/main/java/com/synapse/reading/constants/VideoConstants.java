@@ -11,7 +11,7 @@ package com.synapse.reading.constants;
 public interface VideoConstants {
 
     enum BelongToType {
-        SECTION("section"), LESSON("lesson");
+        SECTION("section"), LESSON("lesson"),BOOK("book");
 
         public final String code;
 

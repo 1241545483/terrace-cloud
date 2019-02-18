@@ -11,7 +11,7 @@ package com.synapse.reading.constants;
 public interface  AudioConstants  {
 
     enum BelongToType {
-        ALBUM("album");
+        ALBUM("album"), BOOK("book");
 
         public final String code;
 

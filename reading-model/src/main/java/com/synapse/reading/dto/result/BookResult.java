@@ -1,9 +1,14 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.reading.model.Audio;
 import com.synapse.reading.model.Book;
+import com.synapse.reading.model.Video;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -17,8 +22,31 @@ import io.swagger.annotations.ApiModelProperty;
 public class BookResult {
 
     private Book  book = new Book();
+
 	private String isCollect;
-   private  String note;
+
+    private  String note;
+
+	private List<Audio> audioList = new ArrayList<>();// 子列表
+
+	private List<Video> videoList = new ArrayList<>();// 子列表
+
+	public List<Audio> getAudioList() {
+		return audioList;
+	}
+
+	public void setAudioList(List<Audio> audioList) {
+		this.audioList = audioList;
+	}
+
+	public List<Video> getVideoList() {
+		return videoList;
+	}
+
+	public void setVideoList(List<Video> videoList) {
+		this.videoList = videoList;
+	}
+
 	public String getIsCollect() {
 		return isCollect;
 	}
