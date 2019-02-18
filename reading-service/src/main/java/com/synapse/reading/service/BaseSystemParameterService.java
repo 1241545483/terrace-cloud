@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Transactional
 @Service
-public class BaseSystemParameterService {
+public class BaseSystemParameterService extends  BaseSystemParameterBaseService {
 
     @Autowired
     private BaseSystemParameterRespository baseSystemParameterRespository;

@@ -2,6 +2,7 @@ package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
 import com.synapse.reading.model.*;
+import com.synapse.reading.respository.BaseSystemParameterRespository;
 import com.synapse.reading.respository.RecommendRespository;
 import com.synapse.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ public class RecommendService extends RecommendBaseService {
 
     @Autowired
     private RecommendRespository recommendRespository;
+
+    @Autowired
+    private BaseSystemParameterRespository baseSystemParameterRespository;
+
+    @Autowired
+    private  BaseSystemParameterService baseSystemParameterService;
 
     public Recommend find(String recId) {
         return recommendRespository.selectByPrimaryKey(recId);
@@ -62,6 +69,13 @@ public class RecommendService extends RecommendBaseService {
 
     public List<Book> selectByRecommendType(String recommendType,String menu) {
         return recommendRespository.selectByRecommendType(recommendType,menu);
+    }
+
+    public List<BaseSystemParameter> selectRecommendMeun() {
+        BaseSystemParameter baseSystemParameter = new BaseSystemParameter();
+        baseSystemParameter.setParameterType("recommend_meun");
+        Map<String, Object> params = baseSystemParameterService.prepareParams(baseSystemParameter);
+        return  baseSystemParameterRespository.getList(params);
     }
 
     public Integer count(Recommend recommendParam) {

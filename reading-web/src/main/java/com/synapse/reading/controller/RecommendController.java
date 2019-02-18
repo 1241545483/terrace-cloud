@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.model.BaseSystemParameter;
 import com.synapse.reading.model.Book;
 import com.synapse.reading.model.CatItem;
 import com.synapse.reading.model.Recommend;
@@ -191,28 +192,25 @@ public class RecommendController extends BaseController{
     }
 
 
-//    @ApiOperation(value = "查询推荐")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, response = Integer.class, message = "推荐列表"),
-//            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-//    })
-//    @RequestMapping(value = "/v1/selectByRecommendType/{recommendType}",method = RequestMethod.GET)
-//    public ResponseEntity selectByRecommendType(@PathVariable("recommendType") String recommendType){
-//        try {
-//            User user = UserContext.getUser();
-//            //todo 根据角色判断权限
-//
-//            List<Book> book = recommendService.selectByRecommendType(recommendType);
-//            return ResponseEntity.ok(book);
-//        } catch (BusinessException e) {
-//            logger.error("selectByRecommendType Recommend Error!", e);
-//            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
-//        } catch (Exception e) {
-//            logger.error("selectByRecommendType Recommend Error!", e);
-//            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-//                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
-//        }
-//    }
+    @ApiOperation(value = "查询所有可推荐的栏目")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "栏目列表"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/recommendMeun",method = RequestMethod.GET)
+    public ResponseEntity selectRecommendMeun(){
+        try {
+            List<BaseSystemParameter> baseSystemParameters = recommendService.selectRecommendMeun();
+            return ResponseEntity.ok(baseSystemParameters);
+        } catch (BusinessException e) {
+            logger.error("select recommendMeun Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("select recommendMeun Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 
 
