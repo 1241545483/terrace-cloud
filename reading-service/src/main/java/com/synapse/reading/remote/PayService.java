@@ -19,7 +19,7 @@ import java.util.Map;
 @FeignClient(name = "${pay.url}")
 public interface PayService {
 
-    @RequestMapping(value = "/pay/v1/checkout/submit", method = RequestMethod.GET
+    @RequestMapping(value = "/pay/v1/checkout/submit", method = RequestMethod.POST
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public BizTrans<Map<String, Object>> prePay(@RequestBody PayTransInfo payInfo);
 }
