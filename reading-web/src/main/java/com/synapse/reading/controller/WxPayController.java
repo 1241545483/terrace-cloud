@@ -30,9 +30,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.crypto.Data;
-import java.util.Date;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 
 @Api(tags = "WxPayController")
@@ -69,6 +67,7 @@ public class WxPayController {
             pay.setChannelId(1L);
             pay.setService("W1");
             pay.setSubAppid(appId);
+            pay.setPayItems(new ArrayList<PayItemInfo>());
             pay.setSubOpenid(user.getRegWay());
             pay.setPartnerId(111L);
             pay.setSecurityKey(secret);
