@@ -47,39 +47,40 @@ public class WxPayController {
     private WxPayService wxPayService;
     @Value("${mini.app.appid}")
     private String appId;
-
+    @Value("${mini.app.secret}")
+    private String secret;
     @ApiOperation(value = "调用统一下单接口")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "支付参数"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/pay", method = RequestMethod.GET)
-    public ResponseEntity pay(@RequestBody Pay pay) {
+    @RequestMapping(value = "/v1/pay", method = RequestMethod.POST)
+    public ResponseEntity pay(@RequestBody PayTransInfo  pay) {
         try {
             User user = UserContext.getUser();
             String ids = wxPayService.getRandomOrderId();
             Date now = new Date();
-            pay.getPayInfo().setDesc("交易订单内容描述");
-            pay.getPayInfo().setAttach("请转给小刘同学：13814516352");
-            pay.getPayInfo().setOrderNo(ids);
-            pay.getPayInfo().setTotalFee("1");
-            pay.getPayInfo().setRemoteIP("123.12.12.123");
-            pay.getPayInfo().setChannelId(1L);
-            pay.getPayInfo().setService("W1");
-            pay.getPayInfo().setSubAppid(appId);
-            pay.getPayInfo().setSubOpenid(user.getRegWay());
-            pay.getPayInfo().setPartnerId(111L);
-//            payInfo.setSecurityKey("");
-            pay.getPayInfo().setTradeName("交易订单名称");
-            pay.getPayInfo().setPartnerSign("商户验签");
-            pay.getPayInfo().setTradeType("交易方式");
-            pay.getPayInfo().setPayType("2");
-            pay.getPayInfo().setPayerAccId(8888l);
+            pay.setDesc("交易订单内容描述");
+            pay.setAttach("请转给小刘同学：13814516352");
+            pay.setOrderNo(ids);
+            pay.setTotalFee("1");
+            pay.setRemoteIP("123.12.12.123");
+            pay.setChannelId(1L);
+            pay.setService("W1");
+            pay.setSubAppid(appId);
+            pay.setSubOpenid(user.getRegWay());
+            pay.setPartnerId(111L);
+            pay.setSecurityKey(secret);
+            pay.setTradeName("交易订单名称");
+            pay.setPartnerSign("商户验签");
+            pay.setTradeType("交易方式");
+            pay.setPayType("2");
+            pay.setPayerAccId(8888l);
 //            payInfo.setShowUrl("服务URL");
-            pay.getPayInfo().setDeviceType("JSAPI");
-            pay.getPayInfo().setActiveIndate(now);
-            return ResponseEntity.ok(payService.prePay(pay.getPayInfo()));
+            pay.setDeviceType("JSAPI");
+            pay.setActiveIndate(now);
+            return ResponseEntity.ok(payService.prePay(pay));
         } catch (Exception e) {
             logger.error("prePay pay error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
