@@ -69,13 +69,13 @@ public class WxPayController {
             pay.setSubAppid(appId);
             pay.setPayItems(new ArrayList<PayItemInfo>());
             pay.setSubOpenid(user.getRegWay());
-            pay.setPartnerId(111L);
+            pay.setPartnerId(2L);
             pay.setSecurityKey(secret);
             pay.setTradeName("交易订单名称");
             pay.setPartnerSign("商户验签");
             pay.setTradeType("2");
             pay.setPayType("3");
-            pay.setPayerAccId(8888l);
+            pay.setPayerAccId(1L);
 //            payInfo.setShowUrl("服务URL");
             pay.setDeviceType("JSAPI");
             pay.setActiveIndate(now);
