@@ -2,10 +2,13 @@ package com.synapse.reading.service;
 
 import com.synapse.common.utils.JsonUtils;
 import com.synapse.reading.util.AESDecodeUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Random;
-
+@Service
+@Transactional
 public class WxPayService {
 
     //生成商户订单号
