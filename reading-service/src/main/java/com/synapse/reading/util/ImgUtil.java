@@ -56,7 +56,7 @@ public class ImgUtil {
 //            System.out.println(forName[i]);
 //        System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png","http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png","http://img.jssns.cn/SHILU/1/43022872422734077.png","用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd","嘿嘿嘿呵呵呵呵","哈哈哈"));
 //      System.out.println(DrawSuccessPosterByBook("http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
-        System.out.println( DrawSuccessPosterByLesson("http://img.jssns.cn/SHILU/1/51407101713306071.png","http://img.jssns.cn/SHILU/1/40168681985236551.png","智性阅读"));
+        System.out.println( DrawSuccessPosterByLesson("http://img.jssns.cn/SHILU/1/51410296903862188.png","http://img.jssns.cn/SHILU/1/51411069217550650.png","小李子，请扫码加我微信"));
     }
 
 
@@ -239,7 +239,7 @@ public class ImgUtil {
 //        int length = bookName.length();
 //       BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length * font28.getSize()) / 2, 230, font28, black1);
         String userName = wxNickName ;
-        BufferedImage  txt = ImgUtil.addTxtAtXy(new0, userName, 96, 68, font30, yellow);
+        BufferedImage  txt = ImgUtil.addTxtAtXy(new0, userName, 100, 68, font30, yellow);
 //        String name = "智性阅读";
 //
 //        String name2 = "扫码学习";
