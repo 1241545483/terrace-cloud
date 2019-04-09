@@ -89,6 +89,14 @@ public String getIntro() {
 		return lesson.getSimpleIntro();
 	}
 
+	public String getQrCode() {
+		return lesson.getQrCode();
+	}
+
+	public void setQrCode(String qrCode) {
+		lesson.setQrCode(qrCode);
+	}
+
 	public void setSimpleIntro(String simpleIntro) {
 		lesson.setSimpleIntro(simpleIntro);
 	}

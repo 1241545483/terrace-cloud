@@ -1,0 +1,6 @@
+
+
+ALTER TABLE lesson
+  ADD COLUMN  qr_code  VARCHAR(100) DEFAULT NULL
+COMMENT '二维码'
+  AFTER image;

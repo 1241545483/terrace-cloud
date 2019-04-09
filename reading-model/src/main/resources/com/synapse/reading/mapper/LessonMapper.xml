@@ -11,6 +11,7 @@
         <result column="audio_intro" property="audioIntro" />
         <result column="video_intro" property="videoIntro" />
         <result column="image" property="image" />
+        <result column="qr_code" property="qrCode" />
         <result column="banner" property="banner" />
         <result column="discount" property="discount" />
         <result column="tag" property="tag" />
@@ -29,7 +30,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`simple_intro`,`intro`,`audio_intro`,`video_intro`,`image`,`banner`,`discount`,`tag`,`original_price`,`present_price`,`expert_id`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`simple_intro`,`intro`,`audio_intro`,`video_intro`,`image`,`qr_code`,`banner`,`discount`,`tag`,`original_price`,`present_price`,`expert_id`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -44,7 +45,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Lesson">
         insert into `lesson`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{simpleIntro},#{intro},#{audioIntro},#{videoIntro},#{image},#{banner},#{discount},#{tag},#{originalPrice},#{presentPrice},#{expertId},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{simpleIntro},#{intro},#{audioIntro},#{videoIntro},#{image},#{qrCode},#{banner},#{discount},#{tag},#{originalPrice},#{presentPrice},#{expertId},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -76,6 +77,9 @@
                 </if>
                 <if test="image != null" >
                     `image`,
+                </if>
+                <if test="qrCode != null" >
+                    `qr_code`,
                 </if>
                 <if test="banner != null" >
                     `banner`,
@@ -141,6 +145,9 @@
                 </if>
                 <if test="image != null" >
 			        #{image},
+                </if>
+                <if test="qrCode != null" >
+			        #{qrCode},
                 </if>
                 <if test="banner != null" >
 			        #{banner},
@@ -211,6 +218,9 @@
 	            <if test="image != null" >
 		            `image` = #{image},
 	            </if>
+	            <if test="qrCode != null" >
+		            `qr_code` = #{qrCode},
+	            </if>
 	            <if test="banner != null" >
 		            `banner` = #{banner},
 	            </if>
@@ -259,7 +269,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Lesson" >
         update  `lesson` SET
-		    `rec_id`=#{recId},`name`=#{name},`simple_intro`=#{simpleIntro},`intro`=#{intro},`audio_intro`=#{audioIntro},`video_intro`=#{videoIntro},`image`=#{image},`banner`=#{banner},`discount`=#{discount},`tag`=#{tag},`original_price`=#{originalPrice},`present_price`=#{presentPrice},`expert_id`=#{expertId},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`simple_intro`=#{simpleIntro},`intro`=#{intro},`audio_intro`=#{audioIntro},`video_intro`=#{videoIntro},`image`=#{image},`qr_code`=#{qrCode},`banner`=#{banner},`discount`=#{discount},`tag`=#{tag},`original_price`=#{originalPrice},`present_price`=#{presentPrice},`expert_id`=#{expertId},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -322,6 +332,14 @@
                     </if>
                     <if test="image.indexOf('%') lt 0" >
                         AND `image` = #{image}
+                    </if>
+            </if>
+            <if test="qrCode != null" >
+                    <if test="qrCode.indexOf('%') >= 0" >
+                        AND `qr_code` like #{qrCode}
+                    </if>
+                    <if test="qrCode.indexOf('%') lt 0" >
+                        AND `qr_code` = #{qrCode}
                     </if>
             </if>
             <if test="banner != null" >
@@ -487,6 +505,14 @@
 	            </if>
                 <if test="image.indexOf('%') lt 0" >
                     AND `image` = #{image}
+                </if>
+            </if>
+            <if test="qrCode != null" >
+	            <if test="qrCode.indexOf('%') >= 0" >
+				    AND `qr_code` like #{qrCode}
+	            </if>
+                <if test="qrCode.indexOf('%') lt 0" >
+                    AND `qr_code` = #{qrCode}
                 </if>
             </if>
             <if test="banner != null" >

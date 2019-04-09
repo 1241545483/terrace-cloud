@@ -38,6 +38,9 @@ public class LessonBaseService {
         if (lessonParam.getImage() != null && !lessonParam.getImage().trim().equals("")) {
             params.put("image", lessonParam.getImage());
         }
+        if (lessonParam.getQrCode() != null && !lessonParam.getQrCode().trim().equals("")) {
+            params.put("qrCode", lessonParam.getQrCode());
+        }
         if (lessonParam.getBanner() != null && !lessonParam.getBanner().trim().equals("")) {
             params.put("banner", lessonParam.getBanner());
         }

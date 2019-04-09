@@ -49,14 +49,14 @@ public class ImgUtil {
     }
 
     public static void main(String[] args) throws IOException {
-
+//        DrawSuccessPosterByLesson("http://img.jssns.cn/SHILU/1/51404790711261348.png","http://img.jssns.cn/SHILU/1/40168681985236551.png","智性阅读");
 //        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment(); //返回本地 GraphicsEnvironment 。
 //        String [] forName = e.getAvailableFontFamilyNames(); //返回包含在此所有字体系列名称的数组， GraphicsEnvironment本地化为默认的语言环境，如返回 Locale.getDefault() 。
 //        for (int i = 0; i < forName.length; i++) //逐行输出
 //            System.out.println(forName[i]);
 //        System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png","http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png","http://img.jssns.cn/SHILU/1/43022872422734077.png","用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd","嘿嘿嘿呵呵呵呵","哈哈哈"));
-//        System.out.println(DrawSuccessPosterByBook("http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
-
+//      System.out.println(DrawSuccessPosterByBook("http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
+        System.out.println( DrawSuccessPosterByLesson("http://img.jssns.cn/SHILU/1/51407101713306071.png","http://img.jssns.cn/SHILU/1/40168681985236551.png","智性阅读"));
     }
 
 
@@ -165,6 +165,117 @@ public class ImgUtil {
         return tempPng;
 
     }
+
+
+    public static Path DrawSuccessPosterByLesson(String modelUrl,  String qrcodeUrl, String wxNickName) throws IOException {
+
+        //背景图片处理
+        //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
+
+        URL bg = new URL(modelUrl);
+        BufferedImage bgBuffer = ImageIO.read(bg);
+
+        int widthBg = bgBuffer.getWidth();
+        int heightBg = bgBuffer.getHeight();
+
+
+        //书籍图片处理
+//        URL BookRead = new URL(url);//url 头像的URL
+//
+//        BufferedImage goodsBuffer = ImageIO.read(BookRead);
+
+//        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
+//        BufferedImage goodsMinBuffer = ImgUtil.zoomInImage(goodsBuffer, 220, 280);
+//        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
+
+        Path tempPng = Files.createTempFile("", ".png");
+        ImageIO.write(bgBuffer, "png", tempPng.toFile());
+//
+//        ImageIO.write(goodsMinBuffer, "png", tempPng.toFile());
+
+
+//二维码图片处理
+        URL qrcodeUrlRead = new URL(qrcodeUrl);//url 为图片的URL// 二维码缩小处理
+        BufferedImage erBuffer = ImageIO.read(qrcodeUrlRead);
+
+        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 214), 214, 0);// 二维码缩小
+
+        ImageIO.write(erMinBuffer, "png", tempPng.toFile());
+
+        //背景图片处理
+//        URL backdropUrlRead = new URL(backdropUrl);//url 为图片的URL// 二维码缩小处理
+//        BufferedImage bdBuffer = ImageIO.read(backdropUrlRead);
+
+//        BufferedImage erbdBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(bdBuffer, 186), 186, 0);// 二维码缩小
+//        erbdBuffer = ImgUtil.zoomInImage(bdBuffer, 186, 186);
+//        ImageIO.write(erbdBuffer, "png", tempPng.toFile());
+
+
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 218, 314);// 二维码合并
+
+//        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 195, 250);// 二维码图合并
+//
+//        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 325, 595);// 背景图合并
+
+        ImageIO.write(new0, "png", tempPng.toFile());
+
+        Color yellow = new Color(184, 119, 14);
+        Color color = new Color(255, 255, 255); // 白色
+        Color black = new Color(51, 51, 51); // 黑色
+        Color hui = new Color(171, 171, 171); // 深灰
+        Color hui1 = new Color(153, 153, 153); // 蛋灰
+//        Color yellow = new Color(255, 255, 0); //黄色
+
+        Font font8 = new Font("思源黑体 CN", Font.BOLD, 8);
+        Font font12 = new Font("思源黑体 CN", Font.BOLD, 14);
+        Font font23 = new Font("思源黑体 CN", Font.BOLD, 23);
+//        Font font28 = new Font("思源黑体 CN", Font.BOLD, 28);
+        Font font30 = new Font("思源黑体 CN", Font.PLAIN, 30);
+        Font font24 = new Font("思源黑体 CN", Font.BOLD, 24);
+        Font font32 = new Font("思源黑体 CN", Font.BOLD, 32);
+        Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
+        Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
+
+//        int length = bookName.length();
+//       BufferedImage txt = ImgUtil.addTxtAtXy(new2, bookName, (594 - length * font28.getSize()) / 2, 230, font28, black1);
+        String userName = wxNickName ;
+        BufferedImage  txt = ImgUtil.addTxtAtXy(new0, userName, 96, 68, font30, yellow);
+//        String name = "智性阅读";
+//
+//        String name2 = "扫码学习";
+//        txt = ImgUtil.addTxtAtXy(txt, name, 30, 50, font32, black);
+//
+//        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length() * font28.getSize()) / 2, 830, font28, color);
+//
+//        String activityName = "";
+//        //换行处理
+//        int line = (solgan.length() / 12);
+//        if (solgan.length() > 12) {
+//            for (int i = 0; i < line; i++) {
+//                activityName = solgan.substring(0 + (i * 12), 12 + (i * 12));
+//                txt = ImgUtil.addTxtAtXy(txt, activityName, 140, 510 + (font28.getSize() + 4) * i, font28, black);
+//            }
+//            activityName = solgan.substring((line * 12));
+//            txt = ImgUtil.addTxtAtXy(txt, activityName, 140, 510 + (font28.getSize() + 4) * line, font28, black);
+//        } else {
+//            txt = ImgUtil.addTxtAtXy(txt, solgan, 140, 510, font28, black);
+//        }
+//        Path tempFile = Files.createTempFile("", ".png");
+        // Graphics2D gd = txt.createGraphics();
+        // gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        ImageIO.write(txt, "png", tempPng.toFile());
+        // 上传到服务器
+//        System.out.println(tempPng.toAbsolutePath());
+//        MiniQrcodeService miniQrcodeService = new MiniQrcodeService();
+//        FileInputStream fis = new FileInputStream(tempPng.toFile());
+//        String shareUrl = miniQrcodeService.inputStreamUpload(fis, "shareUrl");
+//        System.err.println(shareUrl);
+        return tempPng;
+
+    }
+
+
+
 
     public static Path DrawSuccessPosterByBook(BufferedImage bgBuffer, BufferedImage goodsBuffer, String qrcodeUrl, String wxNickName, String solgan, String bookName, BufferedImage bdBuffer) throws IOException {
 

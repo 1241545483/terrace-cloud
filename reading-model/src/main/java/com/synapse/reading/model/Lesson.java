@@ -45,6 +45,10 @@ public class Lesson implements Serializable {
      */
     private String image;
     /**
+     * 二维码
+     */
+    private String qrCode;
+    /**
      * banner
      */
     private String banner;
@@ -156,6 +160,14 @@ public class Lesson implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
     }
 
     public String getBanner() {

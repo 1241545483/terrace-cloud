@@ -6,10 +6,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.mapper.ShareImageMapper;
-import com.synapse.reading.model.Audio;
-import com.synapse.reading.model.Book;
-import com.synapse.reading.model.ShareImage;
-import com.synapse.reading.model.Video;
+import com.synapse.reading.model.*;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.respository.ShareImageRespository;
 import com.synapse.reading.util.ImgUtil;
@@ -64,7 +61,8 @@ public class ShareImageService extends ShareImageBaseService {
     private BookService bookService;
     @Autowired
     private IssueService issueService;
-
+    @Autowired
+    private LessonService lessonService;
     protected static org.slf4j.Logger logger = LoggerFactory.getLogger(ShareImageService.class);
 
     public ShareImage find(String recId) {
@@ -89,8 +87,9 @@ public class ShareImageService extends ShareImageBaseService {
     public Integer delete(String recId) {
         return shareImageRespository.deleteByPrimaryKey(recId);
     }
-    public Integer deleteByUserId(String userId,String belongToId) {
-        return shareImageRespository.deleteByUserId(userId,belongToId);
+
+    public Integer deleteByUserId(String userId, String belongToId) {
+        return shareImageRespository.deleteByUserId(userId, belongToId);
     }
 
     public List<ShareImage> list(ShareImage shareImageParam, PageInfo pageInfo) {
@@ -233,6 +232,45 @@ public class ShareImageService extends ShareImageBaseService {
 
     }
 
+    public String getLessonShareUrl(String id, User user, String shareType) throws IOException {
+        ShareImage shareImageParam = new ShareImage();
+        Map<String, Object> params = prepareParams(shareImageParam);
+        params.put("userId", user.getRecId());
+        params.put("shareType", shareType);
+        params.put("shareId", id);
+        if (shareImageRespository.count(params) > 0) {
+            return shareImageRespository.list(params).get(0).getUrl();
+        } else {
+            if ("lesson".equals(shareType)) {
+                Lesson lesson = lessonService.find(id);
+                String modelUrl = lesson.getImage();
+                String qrcodeUrl = lesson.getQrCode();
+                String wxNickName = user.getUsername();
+                Path tempPng = ImgUtil.DrawSuccessPosterByLesson(modelUrl,  qrcodeUrl, wxNickName);
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+                String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                ShareImage param = new ShareImage();
+                param.setRecId(idService.gen("ID"));
+                //    param.setRecId("66");
+                param.setCreateTime(now);
+                param.setShareId(id);
+                param.setShareType(shareType);
+                param.setUrl(shareUrl);
+                param.setUserId(user.getRecId());
+                param.setCreateId(user.getRecId());
+                shareImageMapper.insertSelective(param);
+            }
+            return shareImageRespository.list(params).get(0).getUrl();
+        }
+
+    }
+
     public String getIssueShareUrl(User user, String shareType, String belongTo, String belongToId) throws IOException {
         ShareImage shareImageParam = new ShareImage();
         Map<String, Object> params = prepareParams(shareImageParam);
@@ -251,12 +289,12 @@ public class ShareImageService extends ShareImageBaseService {
                 String qrcodeUrl = book.getQrCode();
                 String wxNickName = user.getUsername();
                 String bookName = book.getName();
-                int rightNum = issueService.selectCountByUserId(user,belongToId,belongTo);
-                int starNum = (int)issueService.selectScoreByUserId(user,belongToId,belongTo);
+                int rightNum = issueService.selectCountByUserId(user, belongToId, belongTo);
+                int starNum = (int) issueService.selectScoreByUserId(user, belongToId, belongTo);
 //                String slognName ="在"+bookName+"习题闯关中答对"+rightNum+"题，获取"+starNum+"颗星";
-                ClassPathResource classPathStarUrl = new ClassPathResource("/imgs/star/"+starNum+".png");
+                ClassPathResource classPathStarUrl = new ClassPathResource("/imgs/star/" + starNum + ".png");
                 BufferedImage starUrl = ImageIO.read(classPathStarUrl.getInputStream());
-                Path tempPng = ImgUtil.DrawSuccessPosterByIssue(modelUrl, logoUrl, qrcodeUrl,starUrl,wxNickName,bookName,rightNum,starNum);
+                Path tempPng = ImgUtil.DrawSuccessPosterByIssue(modelUrl, logoUrl, qrcodeUrl, starUrl, wxNickName, bookName, rightNum, starNum);
                 FileInputStream fis = new FileInputStream(tempPng.toFile());
                 String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
                 Gson gson = new Gson();
