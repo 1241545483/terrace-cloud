@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.PurchaseRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.PurchaseRecord">
+        <id column="rec_id" property="recId" />
+        <result column="user_id" property="userId" />
+        <result column="lesson_id" property="lessonId" />
+        <result column="price" property="price" />
+        <result column="pay_way" property="payWay" />
+        <result column="operations" property="operations" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`user_id`,`lesson_id`,`price`,`pay_way`,`operations`,`create_id`,`create_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `purchase_record`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.PurchaseRecord">
+        insert into `purchase_record`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{userId},#{lessonId},#{price},#{payWay},#{operations},#{createId},#{createTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `purchase_record`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.PurchaseRecord" >
+        insert into `purchase_record`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="userId != null" >
+                    `user_id`,
+                </if>
+                <if test="lessonId != null" >
+                    `lesson_id`,
+                </if>
+                <if test="price != null" >
+                    `price`,
+                </if>
+                <if test="payWay != null" >
+                    `pay_way`,
+                </if>
+                <if test="operations != null" >
+                    `operations`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="userId != null" >
+			        #{userId},
+                </if>
+                <if test="lessonId != null" >
+			        #{lessonId},
+                </if>
+                <if test="price != null" >
+			        #{price},
+                </if>
+                <if test="payWay != null" >
+			        #{payWay},
+                </if>
+                <if test="operations != null" >
+			        #{operations},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.PurchaseRecord" >
+        update `purchase_record`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="userId != null" >
+		            `user_id` = #{userId},
+	            </if>
+	            <if test="lessonId != null" >
+		            `lesson_id` = #{lessonId},
+	            </if>
+	            <if test="price != null" >
+		            `price` = #{price},
+	            </if>
+	            <if test="payWay != null" >
+		            `pay_way` = #{payWay},
+	            </if>
+	            <if test="operations != null" >
+		            `operations` = #{operations},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.PurchaseRecord" >
+        update  `purchase_record` SET
+		    `rec_id`=#{recId},`user_id`=#{userId},`lesson_id`=#{lessonId},`price`=#{price},`pay_way`=#{payWay},`operations`=#{operations},`create_id`=#{createId},`create_time`=#{createTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `purchase_record`
+        where 1 = 1
+            <if test="recId != null" >
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
+            </if>
+            <if test="userId != null" >
+                    <if test="userId.indexOf('%') >= 0" >
+                        AND `user_id` like #{userId}
+                    </if>
+                    <if test="userId.indexOf('%') lt 0" >
+                        AND `user_id` = #{userId}
+                    </if>
+            </if>
+            <if test="lessonId != null" >
+                    <if test="lessonId.indexOf('%') >= 0" >
+                        AND `lesson_id` like #{lessonId}
+                    </if>
+                    <if test="lessonId.indexOf('%') lt 0" >
+                        AND `lesson_id` = #{lessonId}
+                    </if>
+            </if>
+            <if test="price != null" >
+                    <if test="price.indexOf('%') >= 0" >
+                        AND `price` like #{price}
+                    </if>
+                    <if test="price.indexOf('%') lt 0" >
+                        AND `price` = #{price}
+                    </if>
+            </if>
+            <if test="payWay != null" >
+                    <if test="payWay.indexOf('%') >= 0" >
+                        AND `pay_way` like #{payWay}
+                    </if>
+                    <if test="payWay.indexOf('%') lt 0" >
+                        AND `pay_way` = #{payWay}
+                    </if>
+            </if>
+            <if test="operations != null" >
+                    <if test="operations.indexOf('%') >= 0" >
+                        AND `operations` like #{operations}
+                    </if>
+                    <if test="operations.indexOf('%') lt 0" >
+                        AND `operations` = #{operations}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `purchase_record`
+        where 1 = 1
+            <if test="recId != null" >
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
+            </if>
+            <if test="userId != null" >
+	            <if test="userId.indexOf('%') >= 0" >
+				    AND `user_id` like #{userId}
+	            </if>
+                <if test="userId.indexOf('%') lt 0" >
+                    AND `user_id` = #{userId}
+                </if>
+            </if>
+            <if test="lessonId != null" >
+	            <if test="lessonId.indexOf('%') >= 0" >
+				    AND `lesson_id` like #{lessonId}
+	            </if>
+                <if test="lessonId.indexOf('%') lt 0" >
+                    AND `lesson_id` = #{lessonId}
+                </if>
+            </if>
+            <if test="price != null" >
+	            <if test="price.indexOf('%') >= 0" >
+				    AND `price` like #{price}
+	            </if>
+                <if test="price.indexOf('%') lt 0" >
+                    AND `price` = #{price}
+                </if>
+            </if>
+            <if test="payWay != null" >
+	            <if test="payWay.indexOf('%') >= 0" >
+				    AND `pay_way` like #{payWay}
+	            </if>
+                <if test="payWay.indexOf('%') lt 0" >
+                    AND `pay_way` = #{payWay}
+                </if>
+            </if>
+            <if test="operations != null" >
+	            <if test="operations.indexOf('%') >= 0" >
+				    AND `operations` like #{operations}
+	            </if>
+                <if test="operations.indexOf('%') lt 0" >
+                    AND `operations` = #{operations}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

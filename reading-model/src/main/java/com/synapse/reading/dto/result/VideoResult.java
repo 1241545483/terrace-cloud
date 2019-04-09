@@ -16,6 +16,13 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(value = "VideoResult对象", description = "视频")
 public class VideoResult {
+    public String getFree() {
+        return video.getFree();
+    }
+
+    public void setFree(String free) {
+        video.setFree(free);
+    }
 
     public String getTag() {
         return video.getTag();

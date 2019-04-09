@@ -89,16 +89,71 @@ public String getIntro() {
 		lesson.setIntro(intro);
 	}
 
-        @ApiModelProperty(value = "课程视频介绍")
-public String getPresentation() {
-    return lesson.getPresentation();
-}
-
-	public void setPresentation(String presentation) {
-		lesson.setPresentation(presentation);
+	public String getSimpleIntro() {
+		return lesson.getSimpleIntro();
 	}
 
-        @ApiModelProperty(value = "图片URL")
+	public void setSimpleIntro(String simpleIntro) {
+		lesson.setSimpleIntro(simpleIntro);
+	}
+
+	public String getAudioIntro() {
+		return lesson.getAudioIntro();
+	}
+
+	public void setAudioIntro(String audioIntro) {
+		lesson.setAudioIntro(audioIntro);
+	}
+
+	public String getVideoIntro() {
+		return lesson.getVideoIntro();
+	}
+
+	public void setVideoIntro(String videoIntro) {
+		lesson.setVideoIntro(videoIntro);
+	}
+
+	public String getDiscount() {
+		return lesson.getDiscount();
+	}
+
+	public void setDiscount(String discount) {
+		lesson.setDiscount(discount);
+	}
+
+	public String getTag() {
+		return lesson.getTag();
+	}
+
+	public void setTag(String tag) {
+		lesson.setTag(tag);
+	}
+
+	public String getOriginalPrice() {
+		return lesson.getOriginalPrice();
+	}
+
+	public void setOriginalPrice(String originalPrice) {
+		lesson.setOriginalPrice(originalPrice);
+	}
+
+	public String getPresentPrice() {
+		return lesson.getPresentPrice();
+	}
+
+	public void setPresentPrice(String presentPrice) {
+		lesson.setPresentPrice(presentPrice);
+	}
+
+	public String getExpertId() {
+		return lesson.getExpertId();
+	}
+
+	public void setExpertId(String expertId) {
+		lesson.setExpertId(expertId);
+	}
+
+	@ApiModelProperty(value = "图片URL")
 public String getImage() {
     return lesson.getImage();
 }

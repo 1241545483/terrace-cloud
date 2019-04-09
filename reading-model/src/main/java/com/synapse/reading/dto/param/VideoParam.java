@@ -31,6 +31,14 @@ public class VideoParam {
 
     private Video video = new Video();
 
+    public String getFree() {
+        return video.getFree();
+    }
+
+    public void setFree(String free) {
+        video.setFree(free);
+    }
+
     public String getPcCover() {
         return video.getPcCover();
     }

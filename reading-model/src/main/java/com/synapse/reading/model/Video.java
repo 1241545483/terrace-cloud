@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-28
+ * @since 2019-04-09
  */
 public class Video implements Serializable {
 
@@ -56,6 +56,10 @@ public class Video implements Serializable {
      * 属于哪个栏目ID(专辑或书籍主键)
      */
     private String belongToId;
+    /**
+     * 免费观看
+     */
+    private String free;
     /**
      * 播放完成总数
      */
@@ -164,6 +168,14 @@ public class Video implements Serializable {
 
     public void setBelongToId(String belongToId) {
         this.belongToId = belongToId;
+    }
+
+    public String getFree() {
+        return free;
+    }
+
+    public void setFree(String free) {
+        this.free = free;
     }
 
     public Long getFinishNum() {

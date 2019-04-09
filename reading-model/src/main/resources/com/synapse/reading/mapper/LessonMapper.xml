@@ -6,10 +6,17 @@
     <resultMap id="BaseResultMap" type="com.synapse.reading.model.Lesson">
         <id column="rec_id" property="recId" />
         <result column="name" property="name" />
+        <result column="simple_intro" property="simpleIntro" />
         <result column="intro" property="intro" />
-        <result column="presentation" property="presentation" />
+        <result column="audio_intro" property="audioIntro" />
+        <result column="video_intro" property="videoIntro" />
         <result column="image" property="image" />
         <result column="banner" property="banner" />
+        <result column="discount" property="discount" />
+        <result column="tag" property="tag" />
+        <result column="original_price" property="originalPrice" />
+        <result column="present_price" property="presentPrice" />
+        <result column="expert_id" property="expertId" />
         <result column="publish_status" property="publishStatus" />
         <result column="status" property="status" />
         <result column="order_num" property="orderNum" />
@@ -22,7 +29,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`presentation`,`image`,`banner`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`simple_intro`,`intro`,`audio_intro`,`video_intro`,`image`,`banner`,`discount`,`tag`,`original_price`,`present_price`,`expert_id`,`publish_status`,`status`,`order_num`,`visit_num`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -37,7 +44,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Lesson">
         insert into `lesson`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{presentation},#{image},#{banner},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{simpleIntro},#{intro},#{audioIntro},#{videoIntro},#{image},#{banner},#{discount},#{tag},#{originalPrice},#{presentPrice},#{expertId},#{publishStatus},#{status},#{orderNum},#{visitNum},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -55,17 +62,38 @@
                 <if test="name != null" >
                     `name`,
                 </if>
+                <if test="simpleIntro != null" >
+                    `simple_intro`,
+                </if>
                 <if test="intro != null" >
                     `intro`,
                 </if>
-                <if test="presentation != null" >
-                    `presentation`,
+                <if test="audioIntro != null" >
+                    `audio_intro`,
+                </if>
+                <if test="videoIntro != null" >
+                    `video_intro`,
                 </if>
                 <if test="image != null" >
                     `image`,
                 </if>
                 <if test="banner != null" >
                     `banner`,
+                </if>
+                <if test="discount != null" >
+                    `discount`,
+                </if>
+                <if test="tag != null" >
+                    `tag`,
+                </if>
+                <if test="originalPrice != null" >
+                    `original_price`,
+                </if>
+                <if test="presentPrice != null" >
+                    `present_price`,
+                </if>
+                <if test="expertId != null" >
+                    `expert_id`,
                 </if>
                 <if test="publishStatus != null" >
                     `publish_status`,
@@ -99,17 +127,38 @@
                 <if test="name != null" >
 			        #{name},
                 </if>
+                <if test="simpleIntro != null" >
+			        #{simpleIntro},
+                </if>
                 <if test="intro != null" >
 			        #{intro},
                 </if>
-                <if test="presentation != null" >
-			        #{presentation},
+                <if test="audioIntro != null" >
+			        #{audioIntro},
+                </if>
+                <if test="videoIntro != null" >
+			        #{videoIntro},
                 </if>
                 <if test="image != null" >
 			        #{image},
                 </if>
                 <if test="banner != null" >
 			        #{banner},
+                </if>
+                <if test="discount != null" >
+			        #{discount},
+                </if>
+                <if test="tag != null" >
+			        #{tag},
+                </if>
+                <if test="originalPrice != null" >
+			        #{originalPrice},
+                </if>
+                <if test="presentPrice != null" >
+			        #{presentPrice},
+                </if>
+                <if test="expertId != null" >
+			        #{expertId},
                 </if>
                 <if test="publishStatus != null" >
 			        #{publishStatus},
@@ -147,17 +196,38 @@
 	            <if test="name != null" >
 		            `name` = #{name},
 	            </if>
+	            <if test="simpleIntro != null" >
+		            `simple_intro` = #{simpleIntro},
+	            </if>
 	            <if test="intro != null" >
 		            `intro` = #{intro},
 	            </if>
-	            <if test="presentation != null" >
-		            `presentation` = #{presentation},
+	            <if test="audioIntro != null" >
+		            `audio_intro` = #{audioIntro},
+	            </if>
+	            <if test="videoIntro != null" >
+		            `video_intro` = #{videoIntro},
 	            </if>
 	            <if test="image != null" >
 		            `image` = #{image},
 	            </if>
 	            <if test="banner != null" >
 		            `banner` = #{banner},
+	            </if>
+	            <if test="discount != null" >
+		            `discount` = #{discount},
+	            </if>
+	            <if test="tag != null" >
+		            `tag` = #{tag},
+	            </if>
+	            <if test="originalPrice != null" >
+		            `original_price` = #{originalPrice},
+	            </if>
+	            <if test="presentPrice != null" >
+		            `present_price` = #{presentPrice},
+	            </if>
+	            <if test="expertId != null" >
+		            `expert_id` = #{expertId},
 	            </if>
 	            <if test="publishStatus != null" >
 		            `publish_status` = #{publishStatus},
@@ -189,7 +259,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Lesson" >
         update  `lesson` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`presentation`=#{presentation},`image`=#{image},`banner`=#{banner},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`simple_intro`=#{simpleIntro},`intro`=#{intro},`audio_intro`=#{audioIntro},`video_intro`=#{videoIntro},`image`=#{image},`banner`=#{banner},`discount`=#{discount},`tag`=#{tag},`original_price`=#{originalPrice},`present_price`=#{presentPrice},`expert_id`=#{expertId},`publish_status`=#{publishStatus},`status`=#{status},`order_num`=#{orderNum},`visit_num`=#{visitNum},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -214,6 +284,14 @@
                         AND `name` = #{name}
                     </if>
             </if>
+            <if test="simpleIntro != null" >
+                    <if test="simpleIntro.indexOf('%') >= 0" >
+                        AND `simple_intro` like #{simpleIntro}
+                    </if>
+                    <if test="simpleIntro.indexOf('%') lt 0" >
+                        AND `simple_intro` = #{simpleIntro}
+                    </if>
+            </if>
             <if test="intro != null" >
                     <if test="intro.indexOf('%') >= 0" >
                         AND `intro` like #{intro}
@@ -222,12 +300,20 @@
                         AND `intro` = #{intro}
                     </if>
             </if>
-            <if test="presentation != null" >
-                    <if test="presentation.indexOf('%') >= 0" >
-                        AND `presentation` like #{presentation}
+            <if test="audioIntro != null" >
+                    <if test="audioIntro.indexOf('%') >= 0" >
+                        AND `audio_intro` like #{audioIntro}
                     </if>
-                    <if test="presentation.indexOf('%') lt 0" >
-                        AND `presentation` = #{presentation}
+                    <if test="audioIntro.indexOf('%') lt 0" >
+                        AND `audio_intro` = #{audioIntro}
+                    </if>
+            </if>
+            <if test="videoIntro != null" >
+                    <if test="videoIntro.indexOf('%') >= 0" >
+                        AND `video_intro` like #{videoIntro}
+                    </if>
+                    <if test="videoIntro.indexOf('%') lt 0" >
+                        AND `video_intro` = #{videoIntro}
                     </if>
             </if>
             <if test="image != null" >
@@ -244,6 +330,46 @@
                     </if>
                     <if test="banner.indexOf('%') lt 0" >
                         AND `banner` = #{banner}
+                    </if>
+            </if>
+            <if test="discount != null" >
+                    <if test="discount.indexOf('%') >= 0" >
+                        AND `discount` like #{discount}
+                    </if>
+                    <if test="discount.indexOf('%') lt 0" >
+                        AND `discount` = #{discount}
+                    </if>
+            </if>
+            <if test="tag != null" >
+                    <if test="tag.indexOf('%') >= 0" >
+                        AND `tag` like #{tag}
+                    </if>
+                    <if test="tag.indexOf('%') lt 0" >
+                        AND `tag` = #{tag}
+                    </if>
+            </if>
+            <if test="originalPrice != null" >
+                    <if test="originalPrice.indexOf('%') >= 0" >
+                        AND `original_price` like #{originalPrice}
+                    </if>
+                    <if test="originalPrice.indexOf('%') lt 0" >
+                        AND `original_price` = #{originalPrice}
+                    </if>
+            </if>
+            <if test="presentPrice != null" >
+                    <if test="presentPrice.indexOf('%') >= 0" >
+                        AND `present_price` like #{presentPrice}
+                    </if>
+                    <if test="presentPrice.indexOf('%') lt 0" >
+                        AND `present_price` = #{presentPrice}
+                    </if>
+            </if>
+            <if test="expertId != null" >
+                    <if test="expertId.indexOf('%') >= 0" >
+                        AND `expert_id` like #{expertId}
+                    </if>
+                    <if test="expertId.indexOf('%') lt 0" >
+                        AND `expert_id` = #{expertId}
                     </if>
             </if>
             <if test="publishStatus != null" >
@@ -323,6 +449,14 @@
                     AND `name` = #{name}
                 </if>
             </if>
+            <if test="simpleIntro != null" >
+	            <if test="simpleIntro.indexOf('%') >= 0" >
+				    AND `simple_intro` like #{simpleIntro}
+	            </if>
+                <if test="simpleIntro.indexOf('%') lt 0" >
+                    AND `simple_intro` = #{simpleIntro}
+                </if>
+            </if>
             <if test="intro != null" >
 	            <if test="intro.indexOf('%') >= 0" >
 				    AND `intro` like #{intro}
@@ -331,12 +465,20 @@
                     AND `intro` = #{intro}
                 </if>
             </if>
-            <if test="presentation != null" >
-	            <if test="presentation.indexOf('%') >= 0" >
-				    AND `presentation` like #{presentation}
+            <if test="audioIntro != null" >
+	            <if test="audioIntro.indexOf('%') >= 0" >
+				    AND `audio_intro` like #{audioIntro}
 	            </if>
-                <if test="presentation.indexOf('%') lt 0" >
-                    AND `presentation` = #{presentation}
+                <if test="audioIntro.indexOf('%') lt 0" >
+                    AND `audio_intro` = #{audioIntro}
+                </if>
+            </if>
+            <if test="videoIntro != null" >
+	            <if test="videoIntro.indexOf('%') >= 0" >
+				    AND `video_intro` like #{videoIntro}
+	            </if>
+                <if test="videoIntro.indexOf('%') lt 0" >
+                    AND `video_intro` = #{videoIntro}
                 </if>
             </if>
             <if test="image != null" >
@@ -353,6 +495,46 @@
 	            </if>
                 <if test="banner.indexOf('%') lt 0" >
                     AND `banner` = #{banner}
+                </if>
+            </if>
+            <if test="discount != null" >
+	            <if test="discount.indexOf('%') >= 0" >
+				    AND `discount` like #{discount}
+	            </if>
+                <if test="discount.indexOf('%') lt 0" >
+                    AND `discount` = #{discount}
+                </if>
+            </if>
+            <if test="tag != null" >
+	            <if test="tag.indexOf('%') >= 0" >
+				    AND `tag` like #{tag}
+	            </if>
+                <if test="tag.indexOf('%') lt 0" >
+                    AND `tag` = #{tag}
+                </if>
+            </if>
+            <if test="originalPrice != null" >
+	            <if test="originalPrice.indexOf('%') >= 0" >
+				    AND `original_price` like #{originalPrice}
+	            </if>
+                <if test="originalPrice.indexOf('%') lt 0" >
+                    AND `original_price` = #{originalPrice}
+                </if>
+            </if>
+            <if test="presentPrice != null" >
+	            <if test="presentPrice.indexOf('%') >= 0" >
+				    AND `present_price` like #{presentPrice}
+	            </if>
+                <if test="presentPrice.indexOf('%') lt 0" >
+                    AND `present_price` = #{presentPrice}
+                </if>
+            </if>
+            <if test="expertId != null" >
+	            <if test="expertId.indexOf('%') >= 0" >
+				    AND `expert_id` like #{expertId}
+	            </if>
+                <if test="expertId.indexOf('%') lt 0" >
+                    AND `expert_id` = #{expertId}
                 </if>
             </if>
             <if test="publishStatus != null" >

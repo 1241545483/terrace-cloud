@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-02-15
+ * @since 2019-04-09
  */
 public class Lesson implements Serializable {
 
@@ -25,13 +25,21 @@ public class Lesson implements Serializable {
      */
     private String name;
     /**
+     * 课程名称
+     */
+    private String simpleIntro;
+    /**
      * 课程描述
      */
     private String intro;
     /**
+     * 课程音频介绍
+     */
+    private String audioIntro;
+    /**
      * 课程视频介绍
      */
-    private String presentation;
+    private String videoIntro;
     /**
      * 图片URL
      */
@@ -40,6 +48,26 @@ public class Lesson implements Serializable {
      * banner
      */
     private String banner;
+    /**
+     * 折扣
+     */
+    private String discount;
+    /**
+     * 标签
+     */
+    private String tag;
+    /**
+     * 原价
+     */
+    private String originalPrice;
+    /**
+     * 现价
+     */
+    private String presentPrice;
+    /**
+     * 专家id
+     */
+    private String expertId;
     /**
      * 发布状态(0 未发布，1已发布)
      */
@@ -90,6 +118,14 @@ public class Lesson implements Serializable {
         this.name = name;
     }
 
+    public String getSimpleIntro() {
+        return simpleIntro;
+    }
+
+    public void setSimpleIntro(String simpleIntro) {
+        this.simpleIntro = simpleIntro;
+    }
+
     public String getIntro() {
         return intro;
     }
@@ -98,12 +134,20 @@ public class Lesson implements Serializable {
         this.intro = intro;
     }
 
-    public String getPresentation() {
-        return presentation;
+    public String getAudioIntro() {
+        return audioIntro;
     }
 
-    public void setPresentation(String presentation) {
-        this.presentation = presentation;
+    public void setAudioIntro(String audioIntro) {
+        this.audioIntro = audioIntro;
+    }
+
+    public String getVideoIntro() {
+        return videoIntro;
+    }
+
+    public void setVideoIntro(String videoIntro) {
+        this.videoIntro = videoIntro;
     }
 
     public String getImage() {
@@ -120,6 +164,46 @@ public class Lesson implements Serializable {
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(String originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+    public String getPresentPrice() {
+        return presentPrice;
+    }
+
+    public void setPresentPrice(String presentPrice) {
+        this.presentPrice = presentPrice;
+    }
+
+    public String getExpertId() {
+        return expertId;
+    }
+
+    public void setExpertId(String expertId) {
+        this.expertId = expertId;
     }
 
     public String getPublishStatus() {
