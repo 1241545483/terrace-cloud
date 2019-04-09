@@ -1,14 +1,19 @@
 package com.synapse.reading.service;
 
+import com.google.gson.Gson;
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.trans.Result;
 import com.synapse.reading.constants.VideoConstants;
+import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.dto.param.SectionParam;
 import com.synapse.reading.dto.param.VideoParam;
 import com.synapse.reading.dto.result.SectionResult;
 import com.synapse.reading.dto.result.VideoResult;
+import com.synapse.reading.model.Book;
 import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.Section;
 import com.synapse.reading.model.Video;
+import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.LessonRespository;
 import com.synapse.reading.dto.param.LessonParam;
 import com.synapse.reading.dto.result.LessonResult;
@@ -58,6 +63,15 @@ public class LessonService extends LessonBaseService {
     @Autowired
     private  VideoBaseService videoBaseService;
 
+    @Autowired
+    private ShortLinkApiService shortLinkApiService;
+
+    @Autowired
+    private MiniQrcodeService miniQrcodeService;
+
+    @Autowired
+    private Gson gson;
+
     public Lesson find(String recId){
 	    return lessonRespository.selectByPrimaryKey(recId);
     }
@@ -74,9 +88,38 @@ public class LessonService extends LessonBaseService {
 		param.setCreateTime(now);
 		param.setUpdateTime(now);
 		param.setStatus(LessonConstants.STATUS.OK.num());
+        getVidaoQrCode(param);
         lessonRespository.insert(param);
         return param.getRecId();
     }
+
+
+    public Lesson getVidaoQrCode(Lesson param) {
+        MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
+        miniQrcodeParam.setPage("pages/lesson/index");
+        Map<String, String> params = new HashMap<>();
+        params.put("lessonId", param.getRecId());
+        Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
+        if (result != null && result.getCode() == 200) {
+            String body = (String) result.getBody();
+            String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
+            miniQrcodeParam.setScene(scene);
+        } else {
+            throw new RuntimeException(result.getMsg());
+        }
+        miniQrcodeParam.setWidth("110");
+        try {
+            Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
+            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
+            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
+            Map<String, Object> url = (Map<String, Object>) models.get(0);
+            param.setQrCode(String.valueOf(url.get("url")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return param;
+    }
+
 
     /*
      * 1.保存和保存并发布时，前台需要传递是否发布字段(发布为1，不发布为0)
