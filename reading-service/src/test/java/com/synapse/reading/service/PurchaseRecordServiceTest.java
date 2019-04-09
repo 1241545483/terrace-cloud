@@ -1,11 +1,10 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
-import com.synapse.reading.model.Lesson;
-import com.synapse.reading.respository.LessonRespository;
-import com.synapse.reading.dto.param.LessonParam;
-import com.synapse.reading.dto.result.LessonResult;
-import com.synapse.reading.constants.LessonConstants;
+import com.synapse.reading.model.PurchaseRecord;
+import com.synapse.reading.respository.PurchaseRecordRespository;
+import com.synapse.reading.dto.param.PurchaseRecordParam;
+import com.synapse.reading.dto.result.PurchaseRecordResult;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,16 +28,16 @@ import static org.junit.Assert.*;
 
 /**
  * <p>
- * 课程 服务测试类
+ * 购买记录 服务测试类
  * </p>
  *
  * @author liuguangfu
- * @since 2019-02-15
+ * @since 2019-04-09
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestConfig.class)
 @Transactional
-public class LessonServiceTest {
+public class PurchaseRecordServiceTest {
 
     private final String createVal = "A";
     private final String updateVal = "B";
@@ -47,12 +46,12 @@ public class LessonServiceTest {
     private IdService idService;
 
     @Autowired
-    private LessonService lessonService;
+    private PurchaseRecordService purchaseRecordService;
 
     @Test
     public void testFind(){
         String recId = doCreate();
-	    Lesson result = lessonService.find(recId);
+	    PurchaseRecord result = purchaseRecordService.find(recId);
         assertNotNull(result);
     }
 
@@ -65,15 +64,13 @@ public class LessonServiceTest {
     }
 
     private void checkField(String recId, String val){
-		Lesson result = lessonService.find(recId);
-        assertEquals(val,result.getName());
-        assertEquals(val,result.getIntro());
-
-        assertEquals(val,result.getImage());
-        assertEquals(val,result.getBanner());
-        assertEquals(val,result.getPublishStatus());
+		PurchaseRecord result = purchaseRecordService.find(recId);
+        assertEquals(val,result.getUserId());
+        assertEquals(val,result.getLessonId());
+        assertEquals(val,result.getPrice());
+        assertEquals(val,result.getPayWay());
+        assertEquals(val,result.getOperations());
         assertEquals(val,result.getCreateId());
-        assertEquals(val,result.getUpdateId());
     }
 
     @Test
@@ -84,76 +81,63 @@ public class LessonServiceTest {
 
     public String doCreate(){
             Mockito.when(idService.gen(Mockito.anyString())).thenReturn(System.nanoTime() + "");
-		    Lesson param = new Lesson();
-            param.setName(createVal);
-            param.setIntro(createVal);
-
-            param.setImage(createVal);
-            param.setBanner(createVal);
-            param.setPublishStatus(createVal);
-            param.setStatus(createVal);
-            param.setOrderNum(-1);
-            param.setVisitNum(-1L);
+		    PurchaseRecord param = new PurchaseRecord();
+            param.setUserId(createVal);
+            param.setLessonId(createVal);
+            param.setPrice(createVal);
+            param.setPayWay(createVal);
+            param.setOperations(createVal);
             param.setCreateId(createVal);
             param.setCreateTime(createVal);
-            param.setUpdateId(createVal);
-            param.setUpdateTime(createVal);
-		    return lessonService.create(param);
+		    return purchaseRecordService.create(param);
     }
 
     public void doUpdate(String recId){
-			Lesson param = new Lesson();
+			PurchaseRecord param = new PurchaseRecord();
 	        param.setRecId(recId);
-	        param.setName(updateVal);
-	        param.setIntro(updateVal);
-
-	        param.setImage(updateVal);
-	        param.setBanner(updateVal);
-	        param.setPublishStatus(updateVal);
-	        param.setStatus(updateVal);
-	        param.setOrderNum(-2);
-	        param.setVisitNum(-2L);
+	        param.setUserId(updateVal);
+	        param.setLessonId(updateVal);
+	        param.setPrice(updateVal);
+	        param.setPayWay(updateVal);
+	        param.setOperations(updateVal);
 	        param.setCreateId(updateVal);
 	        param.setCreateTime(updateVal);
-	        param.setUpdateId(updateVal);
-	        param.setUpdateTime(updateVal);
-            lessonService.update(param);
+            purchaseRecordService.update(param);
     }
 
     @Test
 	public void delete(){
-		    Lesson param = new Lesson();
-            param.setStatus(LessonConstants.STATUS.OK.num());
-            int num = lessonService.count(param);
+		    PurchaseRecord param = new PurchaseRecord();
+            int num = purchaseRecordService.count(param);
 	        String recId = doCreate();
-	        int num2 = lessonService.count(param);
+	        int num2 = purchaseRecordService.count(param);
 	        assertEquals(num + 1, num2);
-			lessonService.delete(recId, "-1");
-            int num3 = lessonService.count(param);
+		    purchaseRecordService.delete(recId);
+            int num3 = purchaseRecordService.count(param);
             assertEquals(num, num3);
 	}
 
     @Test
 	public void testList() {
-		Lesson param = new Lesson();
+		PurchaseRecord param = new PurchaseRecord();
         PageInfo pageInfo = new PageInfo();
         pageInfo.setPerPageNum(1000000);
         pageInfo.setCurrentPageIndex(1);
         pageInfo.setTotalNum(100000);
-		List<Lesson> results = lessonService.list(param,pageInfo);
+		List<PurchaseRecord> results = purchaseRecordService.list(param,pageInfo);
 		int num = results.size();
         String recId = doCreate();
-        List<Lesson> results2 = lessonService.list(param,pageInfo);
+        List<PurchaseRecord> results2 = purchaseRecordService.list(param,pageInfo);
         int num2 = results2.size();
         assertEquals(num + 1, num2);
 	}
 
     @Test
 	public void testCount() {
-		    Lesson param = new Lesson();
-            int num = lessonService.count(param);
+		    PurchaseRecord param = new PurchaseRecord();
+            int num = purchaseRecordService.count(param);
             doCreate();
-            int num2 = lessonService.count(param);
+            int num2 = purchaseRecordService.count(param);
 	        assertEquals(num + 1, num2);
     }
 
