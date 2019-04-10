@@ -1,6 +1,8 @@
 package com.synapse.reading.model;
 
 import com.synapse.pay.dto.PayTransInfo;
+import com.synapse.reading.dto.param.TradeOrderParam;
+import org.springframework.aop.TargetSource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +16,7 @@ public class Pay {
 
     private PayTransInfo payInfo = new PayTransInfo();
 
-    private Map<String,String> param = new HashMap<>();
+private TradeOrderParam tradeOrderParam =new TradeOrderParam();
 
     public PayTransInfo getPayInfo() {
         return payInfo;
@@ -24,11 +26,11 @@ public class Pay {
         this.payInfo = payInfo;
     }
 
-    public Map<String, String> getParam() {
-        return param;
+    public TradeOrderParam getTradeOrderParam() {
+        return tradeOrderParam;
     }
 
-    public void setParam(Map<String, String> param) {
-        this.param = param;
+    public void setTradeOrderParam(TradeOrderParam tradeOrderParam) {
+        this.tradeOrderParam = tradeOrderParam;
     }
 }

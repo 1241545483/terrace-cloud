@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.TradeOrderDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.TradeOrderDetail">
+        <id column="rec_id" property="recId" />
+        <result column="trate_order_id" property="trateOrderId" />
+        <result column="original_price" property="originalPrice" />
+        <result column="present_price" property="presentPrice" />
+        <result column="name" property="name" />
+        <result column="prod_type" property="prodType" />
+        <result column="prod_id" property="prodId" />
+        <result column="intro" property="intro" />
+        <result column="preferential_way" property="preferentialWay" />
+        <result column="status" property="status" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`trate_order_id`,`original_price`,`present_price`,`name`,`prod_type`,`prod_id`,`intro`,`preferential_way`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `trade_order_detail`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.TradeOrderDetail">
+        insert into `trade_order_detail`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{trateOrderId},#{originalPrice},#{presentPrice},#{name},#{prodType},#{prodId},#{intro},#{preferentialWay},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `trade_order_detail`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.TradeOrderDetail" >
+        insert into `trade_order_detail`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="trateOrderId != null" >
+                    `trate_order_id`,
+                </if>
+                <if test="originalPrice != null" >
+                    `original_price`,
+                </if>
+                <if test="presentPrice != null" >
+                    `present_price`,
+                </if>
+                <if test="name != null" >
+                    `name`,
+                </if>
+                <if test="prodType != null" >
+                    `prod_type`,
+                </if>
+                <if test="prodId != null" >
+                    `prod_id`,
+                </if>
+                <if test="intro != null" >
+                    `intro`,
+                </if>
+                <if test="preferentialWay != null" >
+                    `preferential_way`,
+                </if>
+                <if test="status != null" >
+                    `status`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="trateOrderId != null" >
+			        #{trateOrderId},
+                </if>
+                <if test="originalPrice != null" >
+			        #{originalPrice},
+                </if>
+                <if test="presentPrice != null" >
+			        #{presentPrice},
+                </if>
+                <if test="name != null" >
+			        #{name},
+                </if>
+                <if test="prodType != null" >
+			        #{prodType},
+                </if>
+                <if test="prodId != null" >
+			        #{prodId},
+                </if>
+                <if test="intro != null" >
+			        #{intro},
+                </if>
+                <if test="preferentialWay != null" >
+			        #{preferentialWay},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.TradeOrderDetail" >
+        update `trade_order_detail`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="trateOrderId != null" >
+		            `trate_order_id` = #{trateOrderId},
+	            </if>
+	            <if test="originalPrice != null" >
+		            `original_price` = #{originalPrice},
+	            </if>
+	            <if test="presentPrice != null" >
+		            `present_price` = #{presentPrice},
+	            </if>
+	            <if test="name != null" >
+		            `name` = #{name},
+	            </if>
+	            <if test="prodType != null" >
+		            `prod_type` = #{prodType},
+	            </if>
+	            <if test="prodId != null" >
+		            `prod_id` = #{prodId},
+	            </if>
+	            <if test="intro != null" >
+		            `intro` = #{intro},
+	            </if>
+	            <if test="preferentialWay != null" >
+		            `preferential_way` = #{preferentialWay},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.TradeOrderDetail" >
+        update  `trade_order_detail` SET
+		    `rec_id`=#{recId},`trate_order_id`=#{trateOrderId},`original_price`=#{originalPrice},`present_price`=#{presentPrice},`name`=#{name},`prod_type`=#{prodType},`prod_id`=#{prodId},`intro`=#{intro},`preferential_way`=#{preferentialWay},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `trade_order_detail`
+        where 1 = 1
+            <if test="recId != null" >
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
+            </if>
+            <if test="trateOrderId != null" >
+                    <if test="trateOrderId.indexOf('%') >= 0" >
+                        AND `trate_order_id` like #{trateOrderId}
+                    </if>
+                    <if test="trateOrderId.indexOf('%') lt 0" >
+                        AND `trate_order_id` = #{trateOrderId}
+                    </if>
+            </if>
+            <if test="originalPrice != null" >
+                    <if test="originalPrice.indexOf('%') >= 0" >
+                        AND `original_price` like #{originalPrice}
+                    </if>
+                    <if test="originalPrice.indexOf('%') lt 0" >
+                        AND `original_price` = #{originalPrice}
+                    </if>
+            </if>
+            <if test="presentPrice != null" >
+                    <if test="presentPrice.indexOf('%') >= 0" >
+                        AND `present_price` like #{presentPrice}
+                    </if>
+                    <if test="presentPrice.indexOf('%') lt 0" >
+                        AND `present_price` = #{presentPrice}
+                    </if>
+            </if>
+            <if test="name != null" >
+                    <if test="name.indexOf('%') >= 0" >
+                        AND `name` like #{name}
+                    </if>
+                    <if test="name.indexOf('%') lt 0" >
+                        AND `name` = #{name}
+                    </if>
+            </if>
+            <if test="prodType != null" >
+                    <if test="prodType.indexOf('%') >= 0" >
+                        AND `prod_type` like #{prodType}
+                    </if>
+                    <if test="prodType.indexOf('%') lt 0" >
+                        AND `prod_type` = #{prodType}
+                    </if>
+            </if>
+            <if test="prodId != null" >
+                    <if test="prodId.indexOf('%') >= 0" >
+                        AND `prod_id` like #{prodId}
+                    </if>
+                    <if test="prodId.indexOf('%') lt 0" >
+                        AND `prod_id` = #{prodId}
+                    </if>
+            </if>
+            <if test="intro != null" >
+                    <if test="intro.indexOf('%') >= 0" >
+                        AND `intro` like #{intro}
+                    </if>
+                    <if test="intro.indexOf('%') lt 0" >
+                        AND `intro` = #{intro}
+                    </if>
+            </if>
+            <if test="preferentialWay != null" >
+                    <if test="preferentialWay.indexOf('%') >= 0" >
+                        AND `preferential_way` like #{preferentialWay}
+                    </if>
+                    <if test="preferentialWay.indexOf('%') lt 0" >
+                        AND `preferential_way` = #{preferentialWay}
+                    </if>
+            </if>
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="updateId != null" >
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="updateTime != null" >
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `trade_order_detail`
+        where 1 = 1
+            <if test="recId != null" >
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
+            </if>
+            <if test="trateOrderId != null" >
+	            <if test="trateOrderId.indexOf('%') >= 0" >
+				    AND `trate_order_id` like #{trateOrderId}
+	            </if>
+                <if test="trateOrderId.indexOf('%') lt 0" >
+                    AND `trate_order_id` = #{trateOrderId}
+                </if>
+            </if>
+            <if test="originalPrice != null" >
+	            <if test="originalPrice.indexOf('%') >= 0" >
+				    AND `original_price` like #{originalPrice}
+	            </if>
+                <if test="originalPrice.indexOf('%') lt 0" >
+                    AND `original_price` = #{originalPrice}
+                </if>
+            </if>
+            <if test="presentPrice != null" >
+	            <if test="presentPrice.indexOf('%') >= 0" >
+				    AND `present_price` like #{presentPrice}
+	            </if>
+                <if test="presentPrice.indexOf('%') lt 0" >
+                    AND `present_price` = #{presentPrice}
+                </if>
+            </if>
+            <if test="name != null" >
+	            <if test="name.indexOf('%') >= 0" >
+				    AND `name` like #{name}
+	            </if>
+                <if test="name.indexOf('%') lt 0" >
+                    AND `name` = #{name}
+                </if>
+            </if>
+            <if test="prodType != null" >
+	            <if test="prodType.indexOf('%') >= 0" >
+				    AND `prod_type` like #{prodType}
+	            </if>
+                <if test="prodType.indexOf('%') lt 0" >
+                    AND `prod_type` = #{prodType}
+                </if>
+            </if>
+            <if test="prodId != null" >
+	            <if test="prodId.indexOf('%') >= 0" >
+				    AND `prod_id` like #{prodId}
+	            </if>
+                <if test="prodId.indexOf('%') lt 0" >
+                    AND `prod_id` = #{prodId}
+                </if>
+            </if>
+            <if test="intro != null" >
+	            <if test="intro.indexOf('%') >= 0" >
+				    AND `intro` like #{intro}
+	            </if>
+                <if test="intro.indexOf('%') lt 0" >
+                    AND `intro` = #{intro}
+                </if>
+            </if>
+            <if test="preferentialWay != null" >
+	            <if test="preferentialWay.indexOf('%') >= 0" >
+				    AND `preferential_way` like #{preferentialWay}
+	            </if>
+                <if test="preferentialWay.indexOf('%') lt 0" >
+                    AND `preferential_way` = #{preferentialWay}
+                </if>
+            </if>
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="updateId != null" >
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="updateTime != null" >
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>
