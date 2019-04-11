@@ -432,7 +432,7 @@ public class ImgUtil {
 
 //        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 244, 160);// 二维码图合并
 
-        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new0, erbdBuffer, 175, 295);// 背景图合并
+        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new0, erbdBuffer, 175, 315);// 背景图合并
 
         ImageIO.write(new2, "png", tempPng.toFile());
 
@@ -454,8 +454,8 @@ public class ImgUtil {
         Font font42 = new Font("思源黑体 CN", Font.BOLD, 42);
 
 
-        wxNickName = wxNickName+"";
-//        String name2 = "让孩子知道自己有多优秀!";
+//        wxNickName = wxNickName+"";
+       String name2 = "";
         String name3 = "恭喜您在";
         String name4 ="习题闯关中";
         String name5 = "恭喜您在"+bookName+"习题闯关中";
@@ -466,20 +466,20 @@ public class ImgUtil {
         String name8 ="题，获取";
         String name9 ="颗星";
 
-       BufferedImage txt =  ImgUtil.addTxtAtXy(new2, wxNickName, (650 - wxNickName.length() * font30.getSize()) / 2, 290, font30, hui);
+       BufferedImage txt =  ImgUtil.addTxtAtXy(new2, name2, 1, 1, font30, hui);
         Graphics2D g2d = txt.createGraphics();
         FontMetrics metrics = g2d.getFontMetrics(font28);
         // Determine the Y coordinate for the text (note we add the ascent, as
-
+        txt =  ImgUtil.addTxtAtXy(new2, wxNickName, (650 - wxNickName.length() * font30.getSize()) / 2, 290, font30, hui);
 //        txt = ImgUtil.addTxtAtXy(txt, name2, (650 - metrics.stringWidth(name2)) / 2, 820, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name3, (650 - metrics.stringWidth(name5)) / 2, 422, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, bookName, (650 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3), 422, font28, yellow);
-        txt = ImgUtil.addTxtAtXy(txt, name4, (650 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3)+metrics.stringWidth(bookName), 422, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name7, (650 - metrics.stringWidth(name6)) / 2, 422 + (font30.getSize() + 4), font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, rightNums, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7), 422 + (font30.getSize() + 4), font28, yellow);
-        txt = ImgUtil.addTxtAtXy(txt, name8, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums), 422 + (font30.getSize() + 4), font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, starNums, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8), 422 + (font30.getSize() + 4), font28, yellow);
-        txt = ImgUtil.addTxtAtXy(txt, name9, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8)+metrics.stringWidth(starNums), 422 + (font30.getSize() + 4), font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name3, (650 - metrics.stringWidth(name5)) / 2, 442, font28, hui);
+        txt = ImgUtil.addTxtAtXy(txt, bookName, (650 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3), 442, font28, red);
+        txt = ImgUtil.addTxtAtXy(txt, name4, (650 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3)+metrics.stringWidth(bookName), 442, font28, hui);
+        txt = ImgUtil.addTxtAtXy(txt, name7, (650 - metrics.stringWidth(name6)) / 2, 442 + (font30.getSize() + 4), font28, hui);
+        txt = ImgUtil.addTxtAtXy(txt, rightNums, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7), 442 + (font30.getSize() + 4), font28, red);
+        txt = ImgUtil.addTxtAtXy(txt, name8, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums), 442 + (font30.getSize() + 4), font28, hui);
+        txt = ImgUtil.addTxtAtXy(txt, starNums, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8), 442 + (font30.getSize() + 4), font28, hui);
+        txt = ImgUtil.addTxtAtXy(txt, name9, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8)+metrics.stringWidth(starNums), 442 + (font30.getSize() + 4), font28, hui);
 //        String activityName = "";
         //换行处理
 
