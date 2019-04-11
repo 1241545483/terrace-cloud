@@ -432,7 +432,7 @@ public class ImgUtil {
 
 //        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 244, 160);// 二维码图合并
 
-        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new0, erbdBuffer, 175, 315);// 背景图合并
+        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new0, erbdBuffer, 175, 325);// 背景图合并
 
         ImageIO.write(new2, "png", tempPng.toFile());
 
@@ -455,7 +455,7 @@ public class ImgUtil {
 
 
 //        wxNickName = wxNickName+"";
-       String name2 = "";
+       String name2 = " ";
         String name3 = "恭喜您在";
         String name4 ="习题闯关中";
         String name5 = "恭喜您在"+bookName+"习题闯关中";
@@ -470,7 +470,7 @@ public class ImgUtil {
         Graphics2D g2d = txt.createGraphics();
         FontMetrics metrics = g2d.getFontMetrics(font28);
         // Determine the Y coordinate for the text (note we add the ascent, as
-        txt =  ImgUtil.addTxtAtXy(new2, wxNickName, (650 - wxNickName.length() * font30.getSize()) / 2, 290, font30, hui);
+        txt =  ImgUtil.addTxtAtXy(new2, wxNickName, (650 - metrics.stringWidth(wxNickName))  / 2, 290, font30, hui);
 //        txt = ImgUtil.addTxtAtXy(txt, name2, (650 - metrics.stringWidth(name2)) / 2, 820, font28, color);
         txt = ImgUtil.addTxtAtXy(txt, name3, (650 - metrics.stringWidth(name5)) / 2, 442, font28, hui);
         txt = ImgUtil.addTxtAtXy(txt, bookName, (650 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3), 442, font28, red);
