@@ -114,7 +114,7 @@ public class ImgUtil {
         Font font23 = new Font("思源黑体 CN", Font.PLAIN, 23);
         Font font28B = new Font("思源黑体 CN", Font.BOLD, 28);
         Font font28 = new Font("思源黑体 CN", Font.PLAIN, 28);
-        Font font24 = new Font("思源黑体 CN", Font.PLAIN, 24);
+        Font font26 = new Font("思源黑体 CN", Font.PLAIN, 26);
         Font font34 = new Font("思源黑体 CN", Font.PLAIN, 34);
         Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
 
@@ -133,7 +133,7 @@ public class ImgUtil {
 //            txt = ImgUtil.addTxtAtXy(txt, audioName, 37, 150, font34, black);
 //        }
 //        String userName = "我是" + wxNickName;
-        txt = ImgUtil.addTxtAtXy(txt, wxNickName, 95, 705, font24, black1);
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, 92, 703, font26, black1);
 //        String name = "邀您一起读书";
 //        String name1 = "识别二维码，免费听好书";
 //        txt = ImgUtil.addTxtAtXy(txt, name, 42, 750, font28B, black1);
