@@ -54,9 +54,9 @@ public class ImgUtil {
 //        String [] forName = e.getAvailableFontFamilyNames(); //返回包含在此所有字体系列名称的数组， GraphicsEnvironment本地化为默认的语言环境，如返回 Locale.getDefault() 。
 //        for (int i = 0; i < forName.length; i++) //逐行输出
 //            System.out.println(forName[i]);
-//        System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png","http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png","http://img.jssns.cn/SHILU/1/43022872422734077.png","用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd","嘿嘿嘿呵呵呵呵","哈哈哈"));
+//       System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png","http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png","http://img.jssns.cn/SHILU/1/43022872422734077.png","用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd","嘿嘿嘿呵呵呵呵","哈哈哈"));
 //      System.out.println(DrawSuccessPosterByBook("http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
-        System.out.println( DrawSuccessPosterByLesson("http://img.jssns.cn/SHILU/1/51410296903862188.png","http://img.jssns.cn/SHILU/1/51411069217550650.png","小李子，请扫码加我微信"));
+//        System.out.println( DrawSuccessPosterByLesson("http://img.jssns.cn/SHILU/1/51410296903862188.png","http://img.jssns.cn/SHILU/1/51411069217550650.png","小李子，请扫码加我微信"));
     }
 
 
@@ -77,7 +77,7 @@ public class ImgUtil {
 
 //        BufferedImage goodsBuffer = ImageIO.read(url);
 
-        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 167), 182,
+        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 210), 210,
                 0);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
@@ -96,9 +96,9 @@ public class ImgUtil {
         ImageIO.write(erMinBuffer, "png", tempPng.toFile());
 
 
-        BufferedImage new1 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 395, 553);// 二维码合并
+        BufferedImage new1 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 406, 534);// 二维码合并
 
-        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, goodsMinBuffer, 44, 304);// 奖品图合并
+        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, goodsMinBuffer, 38, 296);// 奖品图合并
 
 
         ImageIO.write(new2, "png", tempPng.toFile());
@@ -118,25 +118,25 @@ public class ImgUtil {
         Font font34 = new Font("思源黑体 CN", Font.PLAIN, 34);
         Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
 
-        BufferedImage txt = ImgUtil.addTxtAtXy(new2, albumName, 30, 65, font50, black);
+        BufferedImage txt = ImgUtil.addTxtAtXy(new2, albumName, 30, 90, font50, black);
         String audioNameAll = "";
         int lines = (audioName.length() / 8);
         if (audioName.length() > 8) {
             for (int i = 0; i < lines; i++) {
                 audioNameAll = audioName.substring(0 + (i * 8), 8 + (i * 8));
-                txt = ImgUtil.addTxtAtXy(txt, audioNameAll, 37, 120 + (font34.getSize() + 4) * i, font34, black);
+                txt = ImgUtil.addTxtAtXy(txt, audioNameAll, 37, 150 + (font34.getSize() + 4) * i, font34, black);
             }
             audioNameAll = audioName.substring((lines * 8));
-            txt = ImgUtil.addTxtAtXy(txt, audioNameAll, 37, 120 + (font34.getSize() + 4) * lines, font34, black);
+            txt = ImgUtil.addTxtAtXy(txt, audioNameAll, 37, 150 + (font34.getSize() + 4) * lines, font34, black);
         } else {
-            txt = ImgUtil.addTxtAtXy(txt, audioName, 37, 120, font34, black);
+            txt = ImgUtil.addTxtAtXy(txt, audioName, 37, 150, font34, black);
         }
-        String userName = "我是" + wxNickName;
-        txt = ImgUtil.addTxtAtXy(txt, userName, 42, 696, font24, black1);
-        String name = "邀您一起读书";
-        String name1 = "识别二维码，免费听好书";
-        txt = ImgUtil.addTxtAtXy(txt, name, 42, 750, font28B, black1);
-        txt = ImgUtil.addTxtAtXy(txt, name1, 42, 800, font23, black1);
+//        String userName = "我是" + wxNickName;
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, 90, 684, font24, black1);
+//        String name = "邀您一起读书";
+//        String name1 = "识别二维码，免费听好书";
+//        txt = ImgUtil.addTxtAtXy(txt, name, 42, 750, font28B, black1);
+//        txt = ImgUtil.addTxtAtXy(txt, name1, 42, 800, font23, black1);
 
 
         String activityName = "";
