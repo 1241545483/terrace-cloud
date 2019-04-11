@@ -119,18 +119,19 @@ public class ImgUtil {
         Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
 
         BufferedImage txt = ImgUtil.addTxtAtXy(new2, albumName, 30, 90, font50, black);
-        String audioNameAll = "";
-        int lines = (audioName.length() / 8);
-        if (audioName.length() > 8) {
-            for (int i = 0; i < lines; i++) {
-                audioNameAll = audioName.substring(0 + (i * 8), 8 + (i * 8));
-                txt = ImgUtil.addTxtAtXy(txt, audioNameAll, 37, 150 + (font34.getSize() + 4) * i, font34, black);
-            }
-            audioNameAll = audioName.substring((lines * 8));
-            txt = ImgUtil.addTxtAtXy(txt, audioNameAll, 37, 150 + (font34.getSize() + 4) * lines, font34, black);
-        } else {
-            txt = ImgUtil.addTxtAtXy(txt, audioName, 37, 150, font34, black);
-        }
+        txt = ImgUtil.addTxtAtXy(txt, audioName, 37, 150, font34, black);
+//        String audioNameAll = "";
+//        int lines = (audioName.length() / 8);
+//        if (audioName.length() > 8) {
+//            for (int i = 0; i < lines; i++) {
+//                audioNameAll = audioName.substring(0 + (i * 8), 8 + (i * 8));
+//                txt = ImgUtil.addTxtAtXy(txt, audioNameAll, 37, 150 + (font34.getSize() + 4) * i, font34, black);
+//            }
+//            audioNameAll = audioName.substring((lines * 8));
+//            txt = ImgUtil.addTxtAtXy(txt, audioNameAll, 37, 150 + (font34.getSize() + 4) * lines, font34, black);
+//        } else {
+//            txt = ImgUtil.addTxtAtXy(txt, audioName, 37, 150, font34, black);
+//        }
 //        String userName = "我是" + wxNickName;
         txt = ImgUtil.addTxtAtXy(txt, wxNickName, 90, 684, font24, black1);
 //        String name = "邀您一起读书";
@@ -141,16 +142,16 @@ public class ImgUtil {
 
         String activityName = "";
         //换行处理
-        int line = (solgan.length() / 8);
-        if (solgan.length() > 8) {
+        int line = (solgan.length() / 11);
+        if (solgan.length() > 11) {
             for (int i = 0; i < line; i++) {
-                activityName = solgan.substring(0 + (i * 8), 8 + (i * 8));
-                txt = ImgUtil.addTxtAtXy(txt, activityName, 273, 294 + (font28.getSize() + 4) * i, font28, black);
+                activityName = solgan.substring(0 + (i * 11), 11 + (i * 11));
+                txt = ImgUtil.addTxtAtXy(txt, activityName, 273, 325 + (font28.getSize() + 4) * i, font28, black);
             }
             activityName = solgan.substring((line * 8));
-            txt = ImgUtil.addTxtAtXy(txt, activityName, 273, 294 + (font28.getSize() + 4) * line, font28, black);
+            txt = ImgUtil.addTxtAtXy(txt, activityName, 273, 325 + (font28.getSize() + 4) * line, font28, black);
         } else {
-            txt = ImgUtil.addTxtAtXy(txt, solgan, 273, 294, font28, black);
+            txt = ImgUtil.addTxtAtXy(txt, solgan, 273, 325, font28, black);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
         //  Graphics2D gd = txt.createGraphics();
