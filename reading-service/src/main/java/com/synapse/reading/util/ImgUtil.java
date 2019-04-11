@@ -309,7 +309,7 @@ public class ImgUtil {
         URL qrcodeUrlRead = new URL(qrcodeUrl);//url 为图片的URL// 二维码缩小处理
         BufferedImage erBuffer = ImageIO.read(qrcodeUrlRead);
 
-        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 186), 186, 0);// 二维码缩小
+        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 210), 210, 0);// 二维码缩小
 
         ImageIO.write(erMinBuffer, "png", tempPng.toFile());
 
@@ -322,7 +322,7 @@ public class ImgUtil {
         ImageIO.write(erbdBuffer, "png", tempPng.toFile());
 
 
-        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 100, 595);// 二维码合并
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 94, 589);// 二维码合并
 
         BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 195, 250);// 二维码图合并
 
@@ -354,7 +354,7 @@ public class ImgUtil {
         String name = "智性阅读";
 
         String name2 = "扫码学习";
-        txt = ImgUtil.addTxtAtXy(txt, name, 30, 50, font32, black);
+        txt = ImgUtil.addTxtAtXy(txt, name, 30, 30, font32, black);
 
         txt = ImgUtil.addTxtAtXy(txt, name2, (594 - name2.length() * font28.getSize()) / 2, 830, font28, color);
 
