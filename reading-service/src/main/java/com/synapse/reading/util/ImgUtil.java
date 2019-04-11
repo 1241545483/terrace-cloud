@@ -133,7 +133,7 @@ public class ImgUtil {
 //            txt = ImgUtil.addTxtAtXy(txt, audioName, 37, 150, font34, black);
 //        }
 //        String userName = "我是" + wxNickName;
-        txt = ImgUtil.addTxtAtXy(txt, wxNickName, 90, 684, font24, black1);
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, 95, 725, font24, black1);
 //        String name = "邀您一起读书";
 //        String name1 = "识别二维码，免费听好书";
 //        txt = ImgUtil.addTxtAtXy(txt, name, 42, 750, font28B, black1);
@@ -146,12 +146,12 @@ public class ImgUtil {
         if (solgan.length() > 11) {
             for (int i = 0; i < line; i++) {
                 activityName = solgan.substring(0 + (i * 11), 11 + (i * 11));
-                txt = ImgUtil.addTxtAtXy(txt, activityName, 273, 325 + (font28.getSize() + 4) * i, font28, black);
+                txt = ImgUtil.addTxtAtXy(txt, activityName, 273, 320 + (font28.getSize() + 8) * i, font28, black);
             }
             activityName = solgan.substring((line * 8));
-            txt = ImgUtil.addTxtAtXy(txt, activityName, 273, 325 + (font28.getSize() + 4) * line, font28, black);
+            txt = ImgUtil.addTxtAtXy(txt, activityName, 273, 320 + (font28.getSize() + 8) * line, font28, black);
         } else {
-            txt = ImgUtil.addTxtAtXy(txt, solgan, 273, 325, font28, black);
+            txt = ImgUtil.addTxtAtXy(txt, solgan, 273, 320, font28, black);
         }
 //        Path tempFile = Files.createTempFile("", ".png");
         //  Graphics2D gd = txt.createGraphics();
