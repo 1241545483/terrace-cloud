@@ -415,7 +415,7 @@ public class ImgUtil {
         URL qrcodeUrlRead = new URL(qrcodeUrl);//url 为图片的URL// 二维码缩小处理
         BufferedImage erBuffer = ImageIO.read(qrcodeUrlRead);
 
-        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 128), 128, 0);// 二维码缩小
+        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 186), 186, 0);// 二维码缩小
 
         ImageIO.write(erMinBuffer, "png", tempPng.toFile());
 
@@ -428,7 +428,7 @@ public class ImgUtil {
         ImageIO.write(erbdBuffer, "png", tempPng.toFile());
 
 
-        BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 234, 615);// 二维码合并
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 215, 596);// 二维码合并
 
         BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 244, 160);// 二维码图合并
 
@@ -466,7 +466,7 @@ public class ImgUtil {
         String name8 ="题，获取";
         String name9 ="颗星";
 
-        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 84, font34, black);
+        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 64, font34, black);
         Graphics2D g2d = txt.createGraphics();
         FontMetrics metrics = g2d.getFontMetrics(font28);
         // Determine the Y coordinate for the text (note we add the ascent, as
