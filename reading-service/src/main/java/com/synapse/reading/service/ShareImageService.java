@@ -284,8 +284,8 @@ public class ShareImageService extends ShareImageBaseService {
                 Book book = bookService.find(belongToId);
                 ClassPathResource classPath = new ClassPathResource("/imgs/issueModelUrl.png");
                 BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
-                ClassPathResource classPathDropUrl = new ClassPathResource("/imgs/logo.png");
-                BufferedImage logoUrl = ImageIO.read(classPathDropUrl.getInputStream());
+//                ClassPathResource classPathDropUrl = new ClassPathResource("/imgs/logo.png");
+//                BufferedImage logoUrl = ImageIO.read(classPathDropUrl.getInputStream());
                 String qrcodeUrl = book.getQrCode();
                 String wxNickName = user.getUsername();
                 String bookName = book.getName();
@@ -294,7 +294,7 @@ public class ShareImageService extends ShareImageBaseService {
 //                String slognName ="在"+bookName+"习题闯关中答对"+rightNum+"题，获取"+starNum+"颗星";
                 ClassPathResource classPathStarUrl = new ClassPathResource("/imgs/star/" + starNum + ".png");
                 BufferedImage starUrl = ImageIO.read(classPathStarUrl.getInputStream());
-                Path tempPng = ImgUtil.DrawSuccessPosterByIssue(modelUrl, logoUrl, qrcodeUrl, starUrl, wxNickName, bookName, rightNum, starNum);
+                Path tempPng = ImgUtil.DrawSuccessPosterByIssue(modelUrl, qrcodeUrl, starUrl, wxNickName, bookName, rightNum, starNum);
                 FileInputStream fis = new FileInputStream(tempPng.toFile());
                 String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
                 Gson gson = new Gson();

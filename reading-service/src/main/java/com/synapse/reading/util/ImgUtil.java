@@ -385,7 +385,7 @@ public class ImgUtil {
 
     }
 
-    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, BufferedImage logoUrl, String qrcodeUrl, BufferedImage starUrl, String wxNickName, String bookName, int rightNum, int starNum) throws IOException {
+    public static Path DrawSuccessPosterByIssue(BufferedImage modelUrl, String qrcodeUrl, BufferedImage starUrl, String wxNickName, String bookName, int rightNum, int starNum) throws IOException {
 
         //背景图片处理
         //    File bg = new File("E:\\backup\\succesBackground.png");// 奖品图缩小
@@ -402,13 +402,13 @@ public class ImgUtil {
 //        BufferedImage goodsBuffer = ImageIO.read(BookRead);
 
 //        BufferedImage goodsMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(goodsBuffer, 280), 220,0);
-        BufferedImage goodsMinBuffer = ImgUtil.zoomInImages(logoUrl, 120,120);
+//        BufferedImage goodsMinBuffer = ImgUtil.zoomInImages(logoUrl, 120,120);
 //        FileOutputStream outImgStream =new FileOutputStream(modelUrl);
 
         Path tempPng = Files.createTempFile("", ".png");
         ImageIO.write(modelUrl, "png", tempPng.toFile());
 
-        ImageIO.write(goodsMinBuffer, "png", tempPng.toFile());
+//        ImageIO.write(goodsMinBuffer, "png", tempPng.toFile());
 
 
 //二维码图片处理
@@ -430,18 +430,18 @@ public class ImgUtil {
 
         BufferedImage new0 = ImgUtil.synthesisPicAtXy(modelUrl, erMinBuffer, 215, 596);// 二维码合并
 
-        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 244, 160);// 二维码图合并
+//        BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 244, 160);// 二维码图合并
 
-        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new1, erbdBuffer, 147, 470);// 背景图合并
+        BufferedImage new2 = ImgUtil.synthesisPicAtXy(new0, erbdBuffer, 175, 338);// 背景图合并
 
         ImageIO.write(new2, "png", tempPng.toFile());
 
         Color yellow = new Color(251,212,35);
         Color color = new Color(255, 255, 255); // 白色
         Color black = new Color(51, 51, 51); // 黑色
-        Color hui = new Color(171, 171, 171); // 深灰
+        Color hui = new Color(67, 32, 32); // 深灰
         Color hui1 = new Color(153, 153, 153); // 蛋灰
-//        Color yellow = new Color(255, 255, 0); //黄色
+        Color red = new Color(249, 84, 108); //红色
 
         Font font8 = new Font("思源黑体 CN", Font.BOLD, 8);
         Font font12 = new Font("思源黑体 CN", Font.BOLD, 14);
@@ -451,14 +451,14 @@ public class ImgUtil {
         Font font24 = new Font("思源黑体 CN", Font.BOLD, 24);
         Font font30 = new Font("思源黑体 CN", Font.PLAIN, 30);
         Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
-        Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
+        Font font42 = new Font("思源黑体 CN", Font.BOLD, 42);
 
 
         String name = "智性阅读";
-        String name2 = "让孩子知道自己有多优秀!";
-        String name3 = "在";
+//        String name2 = "让孩子知道自己有多优秀!";
+        String name3 = "恭喜您在";
         String name4 ="习题闯关中";
-        String name5 = "在"+bookName+"习题闯关中";
+        String name5 = "恭喜您在"+bookName+"习题闯关中";
         String rightNums =rightNum+"";
         String starNums = starNum+"";
         String name6 ="答对"+rightNum+"题，获取"+starNum+"颗星";
@@ -466,20 +466,20 @@ public class ImgUtil {
         String name8 ="题，获取";
         String name9 ="颗星";
 
-        BufferedImage txt =  txt = ImgUtil.addTxtAtXy(new2, name, (594 - name.length() * font34.getSize()) / 2, 64, font34, black);
+       BufferedImage txt =  ImgUtil.addTxtAtXy(new2, wxNickName, (650 - wxNickName.length() * font30.getSize()) / 2, 278, font30, hui);
         Graphics2D g2d = txt.createGraphics();
         FontMetrics metrics = g2d.getFontMetrics(font28);
         // Determine the Y coordinate for the text (note we add the ascent, as
-        txt = ImgUtil.addTxtAtXy(txt, wxNickName, (594 - metrics.stringWidth(wxNickName)) / 2, 310, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name2, (594 - metrics.stringWidth(name2)) / 2, 820, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name3, (594 - metrics.stringWidth(name5)) / 2, 376, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, bookName, (594 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3), 376, font28, yellow);
-        txt = ImgUtil.addTxtAtXy(txt, name4, (594 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3)+metrics.stringWidth(bookName), 376, font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, name7, (594 - metrics.stringWidth(name6)) / 2, 376 + (font30.getSize() + 4), font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, rightNums, (594 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7), 376 + (font30.getSize() + 4), font28, yellow);
-        txt = ImgUtil.addTxtAtXy(txt, name8, (594 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums), 376 + (font30.getSize() + 4), font28, color);
-        txt = ImgUtil.addTxtAtXy(txt, starNums, (594 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8), 376 + (font30.getSize() + 4), font28, yellow);
-        txt = ImgUtil.addTxtAtXy(txt, name9, (594 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8)+metrics.stringWidth(starNums), 376 + (font30.getSize() + 4), font28, color);
+
+//        txt = ImgUtil.addTxtAtXy(txt, name2, (650 - metrics.stringWidth(name2)) / 2, 820, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name3, (650 - metrics.stringWidth(name5)) / 2, 422, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, bookName, (650 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3), 422, font28, yellow);
+        txt = ImgUtil.addTxtAtXy(txt, name4, (650 - metrics.stringWidth(name5)) / 2+metrics.stringWidth(name3)+metrics.stringWidth(bookName), 376, font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, name7, (650 - metrics.stringWidth(name6)) / 2, 422 + (font30.getSize() + 4), font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, rightNums, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7), 422 + (font30.getSize() + 4), font28, yellow);
+        txt = ImgUtil.addTxtAtXy(txt, name8, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums), 422 + (font30.getSize() + 4), font28, color);
+        txt = ImgUtil.addTxtAtXy(txt, starNums, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8), 422 + (font30.getSize() + 4), font28, yellow);
+        txt = ImgUtil.addTxtAtXy(txt, name9, (650 - metrics.stringWidth(name6)) / 2+ metrics.stringWidth(name7)+metrics.stringWidth(rightNums)+metrics.stringWidth(name8)+metrics.stringWidth(starNums), 422 + (font30.getSize() + 4), font28, color);
 //        String activityName = "";
         //换行处理
 
