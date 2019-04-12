@@ -15,19 +15,37 @@
 
     <select id="selectByRecommendType" resultMap="com.synapse.reading.mapper.BookMapper.BaseResultMap"
             parameterType="map">
-        SELECT
-        b.rec_id,
-        b.banner,
-        b.name,
-        b.cover
-        FROM `book` b
-        LEFT JOIN recommend r ON b.rec_id = r.recommend_id
-        WHERE
-        r.recommend_type = #{recommendType}
-        <if test="menu != null">
-            AND r.`menu`= #{menu}
+     <if test="recommendType == 'book'">
+            SELECT
+            b.rec_id,
+            b.banner,
+            b.name,
+            b.cover
+            FROM `book` b
+            LEFT JOIN recommend r ON b.rec_id = r.recommend_id
+            WHERE
+            r.recommend_type = #{recommendType}
+            <if test="menu != null">
+                AND r.`menu`= #{menu}
+            </if>
+            ORDER BY r.create_time DESC
         </if>
-        ORDER BY r.create_time DESC
+        <if test="recommendType == 'lesson'">
+            SELECT
+            b.rec_id,
+            b.banner,
+            b.name,
+            '' cover
+            FROM `lesson` b
+            LEFT JOIN recommend r ON b.rec_id = r.recommend_id
+            WHERE
+            r.recommend_type = #{recommendType}
+            <if test="menu != null">
+                AND r.`menu`= #{menu}
+            </if>
+            ORDER BY r.create_time DESC
+        </if>
+
 
     </select>
 
