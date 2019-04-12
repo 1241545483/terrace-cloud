@@ -1,6 +1,7 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.PurchaseRecordMapper;
+import com.synapse.reading.model.PurchaseRecord;
 
 /**
  * <p>
@@ -11,5 +12,5 @@ import com.synapse.reading.mapper.PurchaseRecordMapper;
  * @since 2019-04-09
  */
 public interface PurchaseRecordRespository extends PurchaseRecordMapper {
-
+    PurchaseRecord selectByPay(PurchaseRecord model);
 }
