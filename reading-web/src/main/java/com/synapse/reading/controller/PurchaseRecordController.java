@@ -110,6 +110,29 @@ public class PurchaseRecordController extends BaseController{
         }
     }
 
+
+    @ApiOperation(value = "根据课程id和用户判断出是否购买过该课程")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = PurchaseRecordResult.class, message = "PurchaseRecord对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/purchaseRecord/pay/{lessonId}",method = RequestMethod.GET)
+    public ResponseEntity getPurchaseRecord(@PathVariable("lessonId") String lessonId){
+        try {
+            User user = UserContext.getUser();
+            PurchaseRecord purchaseRecord = purchaseRecordService.findPay(lessonId,user);
+            return ResponseEntity.ok(new PurchaseRecordResult(purchaseRecord));
+        } catch (BusinessException e) {
+            logger.error("get PurchaseRecord Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get PurchaseRecord Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
 	@ApiOperation(value = "创建PurchaseRecord")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-04-10
+ * @since 2019-04-12
  */
 public class TradeOrder implements Serializable {
 
@@ -28,6 +28,10 @@ public class TradeOrder implements Serializable {
      * 订单描述
      */
     private String intro;
+    /**
+     * 支付订单号
+     */
+    private String payNo;
     /**
      * 支付页方式
      */
@@ -80,6 +84,14 @@ public class TradeOrder implements Serializable {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public String getPayNo() {
+        return payNo;
+    }
+
+    public void setPayNo(String payNo) {
+        this.payNo = payNo;
     }
 
     public String getPayWay() {

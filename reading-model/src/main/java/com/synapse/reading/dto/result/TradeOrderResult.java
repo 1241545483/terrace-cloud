@@ -32,6 +32,13 @@ public class TradeOrderResult {
 		this.tradeOrderDetailParamArrayList = tradeOrderDetailParamArrayList;
 	}
 
+	public String getPayNo() {
+		return tradeOrder.getPayNo();
+	}
+
+	public void setPayNo(String payNo) {
+		tradeOrder.setPayNo(payNo);
+	}
 
 	public TradeOrderResult(){}
 

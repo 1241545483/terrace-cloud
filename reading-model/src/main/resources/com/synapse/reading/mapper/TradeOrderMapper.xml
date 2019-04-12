@@ -7,6 +7,7 @@
         <id column="rec_id" property="recId" />
         <result column="name" property="name" />
         <result column="intro" property="intro" />
+        <result column="pay_no" property="payNo" />
         <result column="pay_way" property="payWay" />
         <result column="price" property="price" />
         <result column="status" property="status" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`pay_way`,`price`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`intro`,`pay_no`,`pay_way`,`price`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -33,7 +34,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.TradeOrder">
         insert into `trade_order`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{payWay},#{price},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{intro},#{payNo},#{payWay},#{price},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -53,6 +54,9 @@
                 </if>
                 <if test="intro != null" >
                     `intro`,
+                </if>
+                <if test="payNo != null" >
+                    `pay_no`,
                 </if>
                 <if test="payWay != null" >
                     `pay_way`,
@@ -85,6 +89,9 @@
                 </if>
                 <if test="intro != null" >
 			        #{intro},
+                </if>
+                <if test="payNo != null" >
+			        #{payNo},
                 </if>
                 <if test="payWay != null" >
 			        #{payWay},
@@ -122,6 +129,9 @@
 	            <if test="intro != null" >
 		            `intro` = #{intro},
 	            </if>
+	            <if test="payNo != null" >
+		            `pay_no` = #{payNo},
+	            </if>
 	            <if test="payWay != null" >
 		            `pay_way` = #{payWay},
 	            </if>
@@ -149,7 +159,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.TradeOrder" >
         update  `trade_order` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`pay_way`=#{payWay},`price`=#{price},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`pay_no`=#{payNo},`pay_way`=#{payWay},`price`=#{price},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -180,6 +190,14 @@
                     </if>
                     <if test="intro.indexOf('%') lt 0" >
                         AND `intro` = #{intro}
+                    </if>
+            </if>
+            <if test="payNo != null" >
+                    <if test="payNo.indexOf('%') >= 0" >
+                        AND `pay_no` like #{payNo}
+                    </if>
+                    <if test="payNo.indexOf('%') lt 0" >
+                        AND `pay_no` = #{payNo}
                     </if>
             </if>
             <if test="payWay != null" >
@@ -267,6 +285,14 @@
 	            </if>
                 <if test="intro.indexOf('%') lt 0" >
                     AND `intro` = #{intro}
+                </if>
+            </if>
+            <if test="payNo != null" >
+	            <if test="payNo.indexOf('%') >= 0" >
+				    AND `pay_no` like #{payNo}
+	            </if>
+                <if test="payNo.indexOf('%') lt 0" >
+                    AND `pay_no` = #{payNo}
                 </if>
             </if>
             <if test="payWay != null" >

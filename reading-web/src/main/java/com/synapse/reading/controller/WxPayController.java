@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -57,9 +58,10 @@ public class WxPayController {
     @RequestMapping(value = "/v1/pay", method = RequestMethod.POST)
     public ResponseEntity pay(@RequestBody Pay pay) {
         try {
-            String ids  =  wxPayService.create(pay.getTradeOrderParam());
             User user = UserContext.getUser();
             Date now = new Date();
+            pay.getTradeOrderParam().setCreateId(user.getRecId());
+            String ids = wxPayService.create(pay.getTradeOrderParam());
             pay.getPayInfo().setDesc("交易订单内容描述");
             pay.getPayInfo().setAttach("请转给小刘同学：13814516352");
             pay.getPayInfo().setOrderNo(ids);
@@ -89,4 +91,26 @@ public class WxPayController {
         }
     }
 
+
+    // 配置文件配置为该接口等待支付成功后回调 pay.service.contract.updateorder.url=http://SERVICE-CONTRACT/contract/api/v1/paysuccess
+    @ApiOperation(value = "pay后台回调")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新状态条数"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/payBack", method = RequestMethod.POST)
+    public ResponseEntity payBack(@RequestBody Map<String, String> map) {
+        try {
+            Integer num = wxPayService.updateOrder(map);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("update payBack Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update payBack Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 }

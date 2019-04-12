@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-04-10
+ * @since 2019-04-12
  */
 public class TradeOrderBaseService {
 
@@ -25,6 +25,9 @@ public class TradeOrderBaseService {
         }
         if (tradeOrderParam.getIntro() != null && !tradeOrderParam.getIntro().trim().equals("")) {
             params.put("intro", tradeOrderParam.getIntro());
+        }
+        if (tradeOrderParam.getPayNo() != null && !tradeOrderParam.getPayNo().trim().equals("")) {
+            params.put("payNo", tradeOrderParam.getPayNo());
         }
         if (tradeOrderParam.getPayWay() != null && !tradeOrderParam.getPayWay().trim().equals("")) {
             params.put("payWay", tradeOrderParam.getPayWay());

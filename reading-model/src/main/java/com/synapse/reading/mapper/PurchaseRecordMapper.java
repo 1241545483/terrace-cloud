@@ -16,6 +16,8 @@ import java.util.Map;
 public interface PurchaseRecordMapper {
     PurchaseRecord selectByPrimaryKey(String recId);
 
+    PurchaseRecord selectByPay(PurchaseRecord model);
+
     Integer deleteByPrimaryKey(String recId);
 
     void insert(PurchaseRecord model);

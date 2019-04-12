@@ -74,7 +74,7 @@ public class WxPayService {
         param.setRecId(idService.gen("ID"));
         param.setCreateTime(now);
         param.setUpdateTime(now);
-        param.setStatus(TradeOrderConstants.STATUS.UNFINISHED.num());
+        param.setStatus(TradeOrderConstants.STATUS.UNPAID.num());
         tradeOrderRespository.insert(param.getModel());
         if(param.getTradeOrderDetailParamArrayList()!=null && !"".equals(param.getTradeOrderDetailParamArrayList())) {
             for (TradeOrderDetailParam tradeOrderDetail:param.getTradeOrderDetailParamArrayList()) {
@@ -86,6 +86,18 @@ public class WxPayService {
             }
         }
         return param.getRecId();
+    }
+
+    //todo 后台支付完成后，同步修改生成的订单状态，修改为已完成状态（订单分为待完成，完成，删除三个状态），
+    public Integer updateOrder(Map<String, String> map) {
+        TradeOrder tradeOrder =tradeOrderRespository.selectByPrimaryKey(map.get("orderNo"));
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        tradeOrder.setPayNo(map.get("serialNo"));
+        tradeOrder.setIntro(map.get("attach"));
+        tradeOrder.setPayWay(map.get("channel"));
+        tradeOrder.setUpdateTime(now);
+        tradeOrder.setStatus(TradeOrderConstants.STATUS.OK.num());
+        return  tradeOrderRespository.updateByPrimaryKeySelective(tradeOrder);
     }
 
 }

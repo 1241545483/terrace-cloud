@@ -55,7 +55,15 @@ public String getRecId() {
     return tradeOrder.getRecId();
 }
 
-	public void setRecId(String rec_id) {
+    public String getPayNo() {
+        return tradeOrder.getPayNo();
+    }
+
+    public void setPayNo(String payNo) {
+        tradeOrder.setPayNo(payNo);
+    }
+
+    public void setRecId(String rec_id) {
 		tradeOrder.setRecId(rec_id);
 	}
 

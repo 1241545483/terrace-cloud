@@ -14,7 +14,7 @@ public interface  TradeOrderConstants  {
      * 状态
      */
     enum STATUS {
-        DELETED("deleted", "0"), OK("ok", "1"), UNFINISHED("ok", "1");
+        DELETED("deleted", "0"), OK("ok", "1"), UNPAID("unpaid", "2");
 
         public final String code;
         public final String num;

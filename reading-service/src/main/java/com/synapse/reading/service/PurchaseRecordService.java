@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.reading.model.PurchaseRecord;
 import com.synapse.reading.respository.PurchaseRecordRespository;
 import com.synapse.reading.dto.param.PurchaseRecordParam;
@@ -36,6 +37,13 @@ public class PurchaseRecordService extends PurchaseRecordBaseService {
 
     public PurchaseRecord find(String recId){
 	    return purchaseRecordRespository.selectByPrimaryKey(recId);
+    }
+
+    public PurchaseRecord findPay(String lessonId,User user){
+        PurchaseRecord purchaseRecord = new PurchaseRecord();
+        purchaseRecord.setLessonId(lessonId);
+        purchaseRecord.setUserId(user.getRecId());
+        return purchaseRecordRespository.selectByPay(purchaseRecord);
     }
 
 	public Integer update(PurchaseRecord param){
