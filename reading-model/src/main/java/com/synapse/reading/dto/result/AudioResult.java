@@ -25,7 +25,9 @@ public class AudioResult {
     }
 
     public void setIsCollect(String isCollect) {
-        this.isCollect = isCollect;
+        if (isCollect != null) {
+            this.isCollect = isCollect;
+        }
     }
 
     public AudioResult() {

@@ -16,13 +16,17 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "MediaCountsResult对象", description = "统计播放量")
 public class MediaCountsResult {
 
-    private MediaCounts  mediaCounts = new MediaCounts();
+    private MediaCounts mediaCounts = new MediaCounts();
 
-    public MediaCountsResult(){}
-
-    public MediaCountsResult(MediaCounts  mediaCounts){
-        this.mediaCounts = mediaCounts;
+    public MediaCountsResult() {
     }
+
+    public MediaCountsResult(MediaCounts mediaCounts) {
+        if (mediaCounts != null) {
+            this.mediaCounts = mediaCounts;
+        }
+    }
+
 
     @JsonIgnore
     public MediaCounts getModel() {
@@ -33,61 +37,60 @@ public class MediaCountsResult {
         this.mediaCounts = mediaCounts;
     }
 
-@ApiModelProperty(value = "主键")
-public String getRecId() {
-    return mediaCounts.getRecId();
-}
+    @ApiModelProperty(value = "主键")
+    public String getRecId() {
+        return mediaCounts.getRecId();
+    }
 
-	public void setRecId(String rec_id) {
-		mediaCounts.setRecId(rec_id);
-	}
+    public void setRecId(String rec_id) {
+        mediaCounts.setRecId(rec_id);
+    }
 
-		@ApiModelProperty(value = "被播放ID")
-public String getMediaId() {
-    return mediaCounts.getMediaId();
-}
+    @ApiModelProperty(value = "被播放ID")
+    public String getMediaId() {
+        return mediaCounts.getMediaId();
+    }
 
-	public void setMediaId(String media_id) {
-		mediaCounts.setMediaId(media_id);
-	}
+    public void setMediaId(String media_id) {
+        mediaCounts.setMediaId(media_id);
+    }
 
-		@ApiModelProperty(value = "播放类型")
-public String getMediaType() {
-    return mediaCounts.getMediaType();
-}
+    @ApiModelProperty(value = "播放类型")
+    public String getMediaType() {
+        return mediaCounts.getMediaType();
+    }
 
-	public void setMediaType(String media_type) {
-		mediaCounts.setMediaType(media_type);
-	}
+    public void setMediaType(String media_type) {
+        mediaCounts.setMediaType(media_type);
+    }
 
-		@ApiModelProperty(value = "点击音频，未播放完成")
-public String getClicked() {
-    return mediaCounts.getClicked();
-}
+    @ApiModelProperty(value = "点击音频，未播放完成")
+    public String getClicked() {
+        return mediaCounts.getClicked();
+    }
 
-	public void setClicked(String clicked) {
-		mediaCounts.setClicked(clicked);
-	}
+    public void setClicked(String clicked) {
+        mediaCounts.setClicked(clicked);
+    }
 
-		@ApiModelProperty(value = "音频播放完成")
-public String getFinished() {
-    return mediaCounts.getFinished();
-}
+    @ApiModelProperty(value = "音频播放完成")
+    public String getFinished() {
+        return mediaCounts.getFinished();
+    }
 
-	public void setFinished(String finished) {
-		mediaCounts.setFinished(finished);
-	}
+    public void setFinished(String finished) {
+        mediaCounts.setFinished(finished);
+    }
 
 
+    @ApiModelProperty(value = "创建时间")
+    public String getCreateTime() {
+        return mediaCounts.getCreateTime();
+    }
 
-		@ApiModelProperty(value = "创建时间")
-public String getCreateTime() {
-    return mediaCounts.getCreateTime();
-}
+    public void setCreateTime(String create_time) {
+        mediaCounts.setCreateTime(create_time);
+    }
 
-	public void setCreateTime(String create_time) {
-		mediaCounts.setCreateTime(create_time);
-	}
 
-		
 }

@@ -16,12 +16,15 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "TradeOrderDetailResult对象", description = "订单详情")
 public class TradeOrderDetailResult {
 
-    private TradeOrderDetail  tradeOrderDetail = new TradeOrderDetail();
+    private TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
 
-    public TradeOrderDetailResult(){}
+    public TradeOrderDetailResult() {
+    }
 
-    public TradeOrderDetailResult(TradeOrderDetail  tradeOrderDetail){
-        this.tradeOrderDetail = tradeOrderDetail;
+    public TradeOrderDetailResult(TradeOrderDetail tradeOrderDetail) {
+        if (tradeOrderDetail != null) {
+            this.tradeOrderDetail = tradeOrderDetail;
+        }
     }
 
     @JsonIgnore
@@ -33,131 +36,131 @@ public class TradeOrderDetailResult {
         this.tradeOrderDetail = tradeOrderDetail;
     }
 
-@ApiModelProperty(value = "主键")
-public String getRecId() {
-    return tradeOrderDetail.getRecId();
-}
+    @ApiModelProperty(value = "主键")
+    public String getRecId() {
+        return tradeOrderDetail.getRecId();
+    }
 
-	public void setRecId(String rec_id) {
-		tradeOrderDetail.setRecId(rec_id);
-	}
+    public void setRecId(String rec_id) {
+        tradeOrderDetail.setRecId(rec_id);
+    }
 
-		@ApiModelProperty(value = "订单名称")
-public String getTrateOrderId() {
-    return tradeOrderDetail.getTrateOrderId();
-}
+    @ApiModelProperty(value = "订单名称")
+    public String getTrateOrderId() {
+        return tradeOrderDetail.getTrateOrderId();
+    }
 
-	public void setTrateOrderId(String trate_order_id) {
-		tradeOrderDetail.setTrateOrderId(trate_order_id);
-	}
+    public void setTrateOrderId(String trate_order_id) {
+        tradeOrderDetail.setTrateOrderId(trate_order_id);
+    }
 
-		@ApiModelProperty(value = "原价")
-public String getOriginalPrice() {
-    return tradeOrderDetail.getOriginalPrice();
-}
+    @ApiModelProperty(value = "原价")
+    public String getOriginalPrice() {
+        return tradeOrderDetail.getOriginalPrice();
+    }
 
-	public void setOriginalPrice(String original_price) {
-		tradeOrderDetail.setOriginalPrice(original_price);
-	}
+    public void setOriginalPrice(String original_price) {
+        tradeOrderDetail.setOriginalPrice(original_price);
+    }
 
-		@ApiModelProperty(value = "购买金额")
-public String getPresentPrice() {
-    return tradeOrderDetail.getPresentPrice();
-}
+    @ApiModelProperty(value = "购买金额")
+    public String getPresentPrice() {
+        return tradeOrderDetail.getPresentPrice();
+    }
 
-	public void setPresentPrice(String present_price) {
-		tradeOrderDetail.setPresentPrice(present_price);
-	}
+    public void setPresentPrice(String present_price) {
+        tradeOrderDetail.setPresentPrice(present_price);
+    }
 
-		@ApiModelProperty(value = "商品名称")
-public String getName() {
-    return tradeOrderDetail.getName();
-}
+    @ApiModelProperty(value = "商品名称")
+    public String getName() {
+        return tradeOrderDetail.getName();
+    }
 
-	public void setName(String name) {
-		tradeOrderDetail.setName(name);
-	}
+    public void setName(String name) {
+        tradeOrderDetail.setName(name);
+    }
 
-		@ApiModelProperty(value = "商品类型")
-public String getProdType() {
-    return tradeOrderDetail.getProdType();
-}
+    @ApiModelProperty(value = "商品类型")
+    public String getProdType() {
+        return tradeOrderDetail.getProdType();
+    }
 
-	public void setProdType(String prod_type) {
-		tradeOrderDetail.setProdType(prod_type);
-	}
+    public void setProdType(String prod_type) {
+        tradeOrderDetail.setProdType(prod_type);
+    }
 
-		@ApiModelProperty(value = "商品id")
-public String getProdId() {
-    return tradeOrderDetail.getProdId();
-}
+    @ApiModelProperty(value = "商品id")
+    public String getProdId() {
+        return tradeOrderDetail.getProdId();
+    }
 
-	public void setProdId(String prod_id) {
-		tradeOrderDetail.setProdId(prod_id);
-	}
+    public void setProdId(String prod_id) {
+        tradeOrderDetail.setProdId(prod_id);
+    }
 
-		@ApiModelProperty(value = "商品描述")
-public String getIntro() {
-    return tradeOrderDetail.getIntro();
-}
+    @ApiModelProperty(value = "商品描述")
+    public String getIntro() {
+        return tradeOrderDetail.getIntro();
+    }
 
-	public void setIntro(String intro) {
-		tradeOrderDetail.setIntro(intro);
-	}
+    public void setIntro(String intro) {
+        tradeOrderDetail.setIntro(intro);
+    }
 
-		@ApiModelProperty(value = "优惠方式")
-public String getPreferentialWay() {
-    return tradeOrderDetail.getPreferentialWay();
-}
+    @ApiModelProperty(value = "优惠方式")
+    public String getPreferentialWay() {
+        return tradeOrderDetail.getPreferentialWay();
+    }
 
-	public void setPreferentialWay(String preferential_way) {
-		tradeOrderDetail.setPreferentialWay(preferential_way);
-	}
+    public void setPreferentialWay(String preferential_way) {
+        tradeOrderDetail.setPreferentialWay(preferential_way);
+    }
 
-		@ApiModelProperty(value = "状态(0 删除，1正常)")
-public String getStatus() {
-    return tradeOrderDetail.getStatus();
-}
+    @ApiModelProperty(value = "状态(0 删除，1正常)")
+    public String getStatus() {
+        return tradeOrderDetail.getStatus();
+    }
 
-	public void setStatus(String status) {
-		tradeOrderDetail.setStatus(status);
-	}
+    public void setStatus(String status) {
+        tradeOrderDetail.setStatus(status);
+    }
 
-		@ApiModelProperty(value = "创建人")
-public String getCreateId() {
-    return tradeOrderDetail.getCreateId();
-}
+    @ApiModelProperty(value = "创建人")
+    public String getCreateId() {
+        return tradeOrderDetail.getCreateId();
+    }
 
-	public void setCreateId(String create_id) {
-		tradeOrderDetail.setCreateId(create_id);
-	}
+    public void setCreateId(String create_id) {
+        tradeOrderDetail.setCreateId(create_id);
+    }
 
-		@ApiModelProperty(value = "创建时间")
-public String getCreateTime() {
-    return tradeOrderDetail.getCreateTime();
-}
+    @ApiModelProperty(value = "创建时间")
+    public String getCreateTime() {
+        return tradeOrderDetail.getCreateTime();
+    }
 
-	public void setCreateTime(String create_time) {
-		tradeOrderDetail.setCreateTime(create_time);
-	}
+    public void setCreateTime(String create_time) {
+        tradeOrderDetail.setCreateTime(create_time);
+    }
 
-		@ApiModelProperty(value = "更新人")
-public String getUpdateId() {
-    return tradeOrderDetail.getUpdateId();
-}
+    @ApiModelProperty(value = "更新人")
+    public String getUpdateId() {
+        return tradeOrderDetail.getUpdateId();
+    }
 
-	public void setUpdateId(String update_id) {
-		tradeOrderDetail.setUpdateId(update_id);
-	}
+    public void setUpdateId(String update_id) {
+        tradeOrderDetail.setUpdateId(update_id);
+    }
 
-		@ApiModelProperty(value = "更新时间")
-public String getUpdateTime() {
-    return tradeOrderDetail.getUpdateTime();
-}
+    @ApiModelProperty(value = "更新时间")
+    public String getUpdateTime() {
+        return tradeOrderDetail.getUpdateTime();
+    }
 
-	public void setUpdateTime(String update_time) {
-		tradeOrderDetail.setUpdateTime(update_time);
-	}
+    public void setUpdateTime(String update_time) {
+        tradeOrderDetail.setUpdateTime(update_time);
+    }
 
-		
+
 }

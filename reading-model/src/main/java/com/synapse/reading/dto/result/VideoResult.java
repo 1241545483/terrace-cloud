@@ -54,7 +54,9 @@ public class VideoResult {
     }
 
     public VideoResult(Video video) {
-        this.video = video;
+        if (video != null) {
+            this.video = video;
+        }
     }
 
     @JsonIgnore

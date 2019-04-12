@@ -28,7 +28,10 @@ public class IssueResult {
     }
 
     public IssueResult(Issue issue) {
-        this.issue = issue;
+
+        if (issue != null) {
+            this.issue = issue;
+        }
     }
 
     @JsonIgnore

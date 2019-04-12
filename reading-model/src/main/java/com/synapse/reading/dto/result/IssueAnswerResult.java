@@ -21,7 +21,9 @@ public class IssueAnswerResult {
     public IssueAnswerResult(){}
 
     public IssueAnswerResult(IssueAnswer  issueAnswer){
-        this.issueAnswer = issueAnswer;
+		if (issueAnswer != null) {
+			this.issueAnswer = issueAnswer;
+		}
     }
 
     @JsonIgnore

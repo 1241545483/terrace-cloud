@@ -21,7 +21,9 @@ public class FeedbackResult {
     public FeedbackResult(){}
 
     public FeedbackResult(Feedback  feedback){
-        this.feedback = feedback;
+        if (feedback != null) {
+            this.feedback = feedback;
+        }
     }
 
     @JsonIgnore

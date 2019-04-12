@@ -21,7 +21,9 @@ public class CategoryResult {
     public CategoryResult(){}
 
     public CategoryResult(Category  category){
-        this.category = category;
+		if (category != null) {
+			this.category = category;
+		}
     }
 
     @JsonIgnore

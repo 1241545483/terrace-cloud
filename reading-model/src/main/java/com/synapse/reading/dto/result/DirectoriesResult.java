@@ -13,7 +13,10 @@ public class DirectoriesResult {
 
     public DirectoriesResult(){}
     public DirectoriesResult(Directories  directories){
-        this.directories = directories;
+
+        if (directories != null) {
+            this.directories = directories;
+        }
     }
 
 

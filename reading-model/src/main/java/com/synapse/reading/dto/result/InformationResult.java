@@ -23,7 +23,9 @@ public class InformationResult {
     public InformationResult(){}
 
     public InformationResult(Information  information){
-        this.information = information;
+		if (information != null) {
+			this.information = information;
+		}
     }
 
     @JsonIgnore

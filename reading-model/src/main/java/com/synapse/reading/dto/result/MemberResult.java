@@ -20,9 +20,12 @@ public class MemberResult {
 
     public MemberResult(){}
 
-    public MemberResult(Member  member){
-        this.member = member;
-    }
+    public MemberResult(Member  member) {
+		if (member != null) {
+			this.member = member;
+		}
+	}
+
 
     @JsonIgnore
     public Member getModel() {

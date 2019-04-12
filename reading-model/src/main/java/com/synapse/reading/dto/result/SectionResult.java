@@ -34,10 +34,11 @@ public class SectionResult {
 
 	public SectionResult(){}
 
-    public SectionResult(Section  section){
-        this.section = section;
-    }
-
+    public SectionResult(Section  section) {
+		if (section != null) {
+			this.section = section;
+		}
+	}
     @JsonIgnore
     public Section getModel() {
         return section;

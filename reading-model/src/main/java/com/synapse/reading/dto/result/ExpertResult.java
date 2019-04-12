@@ -21,7 +21,9 @@ public class ExpertResult {
     public ExpertResult(){}
 
     public ExpertResult(Expert  expert){
-        this.expert = expert;
+		if (expert != null) {
+			this.expert = expert;
+		}
     }
 
     @JsonIgnore

@@ -46,7 +46,9 @@ public class AlbumResult {
     }
 
     public AlbumResult(Album album) {
-        this.album = album;
+        if (album != null) {
+            this.album = album;
+        }
     }
 
     @JsonIgnore

@@ -20,9 +20,11 @@ public class IssueItemResult {
 
     public IssueItemResult(){}
 
-    public IssueItemResult(IssueItem  issueItem){
-        this.issueItem = issueItem;
-    }
+    public IssueItemResult(IssueItem  issueItem) {
+		if (issueItem != null) {
+			this.issueItem = issueItem;
+		}
+	}
 
     @JsonIgnore
     public IssueItem getModel() {

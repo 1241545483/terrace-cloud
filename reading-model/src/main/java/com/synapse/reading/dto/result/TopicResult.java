@@ -21,97 +21,101 @@ import java.util.List;
 @ApiModel(value = "TopicResult对象", description = "主题，关联专辑")
 public class TopicResult {
 
-	private List<AlbumResult> albumResultList = new ArrayList<>();// 子列表
+    private List<AlbumResult> albumResultList = new ArrayList<>();// 子列表
 
-	public List<AlbumResult> getAlbumResultList() {
-		return albumResultList;
-	}
-
-	public void setAlbumResultList(List<AlbumResult> albumResultList) {
-		this.albumResultList = albumResultList;
-	}
-
-	private Topic  topic = new Topic();
-
-    public TopicResult(){}
-
-    public TopicResult(Topic  topic){
-        this.topic = topic;
+    public List<AlbumResult> getAlbumResultList() {
+        return albumResultList;
     }
 
-	public String getPresentation() {
-		return topic.getPresentation();
-	}
+    public void setAlbumResultList(List<AlbumResult> albumResultList) {
+        this.albumResultList = albumResultList;
+    }
 
-	public void setPresentation(String presentation) {
-		topic.setPresentation(presentation);
-	}
+    private Topic topic = new Topic();
 
-	public String getCover() {
-		return topic.getCover();
-	}
+    public TopicResult() {
+    }
 
-	public void setCover(String cover) {
-		topic.setCover(cover);
-	}
+    public TopicResult(Topic topic) {
 
-	public String getPcCover() {
-		return topic.getPcCover();
-	}
+        if (topic != null) {
+            this.topic = topic;
+        }
+    }
 
-	public void setPcCover(String pcCover) {
-		topic.setPcCover(pcCover);
-	}
+    public String getPresentation() {
+        return topic.getPresentation();
+    }
 
-	public String getPcBanner() {
-		return topic.getPcBanner();
-	}
+    public void setPresentation(String presentation) {
+        topic.setPresentation(presentation);
+    }
 
-	public void setPcBanner(String pcBanner) {
-		topic.setPcBanner(pcBanner);
-	}
+    public String getCover() {
+        return topic.getCover();
+    }
 
-	public String getIntro() {
-		return topic.getIntro();
-	}
+    public void setCover(String cover) {
+        topic.setCover(cover);
+    }
 
-	public void setIntro(String intro) {
-		topic.setIntro(intro);
-	}
+    public String getPcCover() {
+        return topic.getPcCover();
+    }
 
-	public String getSlogan() {
-		return topic.getSlogan();
-	}
+    public void setPcCover(String pcCover) {
+        topic.setPcCover(pcCover);
+    }
 
-	public void setSlogan(String slogan) {
-		topic.setSlogan(slogan);
-	}
+    public String getPcBanner() {
+        return topic.getPcBanner();
+    }
 
-	public String getPublishStatus() {
-		return topic.getPublishStatus();
-	}
+    public void setPcBanner(String pcBanner) {
+        topic.setPcBanner(pcBanner);
+    }
 
-	public void setPublishStatus(String publishStatus) {
-		topic.setPublishStatus(publishStatus);
-	}
+    public String getIntro() {
+        return topic.getIntro();
+    }
 
-	public String getStatus() {
-		return topic.getStatus();
-	}
+    public void setIntro(String intro) {
+        topic.setIntro(intro);
+    }
 
-	public void setStatus(String status) {
-		topic.setStatus(status);
-	}
+    public String getSlogan() {
+        return topic.getSlogan();
+    }
 
-	public String getDetail() {
-		return topic.getDetail();
-	}
+    public void setSlogan(String slogan) {
+        topic.setSlogan(slogan);
+    }
 
-	public void setDetail(String detail) {
-		topic.setDetail(detail);
-	}
+    public String getPublishStatus() {
+        return topic.getPublishStatus();
+    }
 
-	@JsonIgnore
+    public void setPublishStatus(String publishStatus) {
+        topic.setPublishStatus(publishStatus);
+    }
+
+    public String getStatus() {
+        return topic.getStatus();
+    }
+
+    public void setStatus(String status) {
+        topic.setStatus(status);
+    }
+
+    public String getDetail() {
+        return topic.getDetail();
+    }
+
+    public void setDetail(String detail) {
+        topic.setDetail(detail);
+    }
+
+    @JsonIgnore
     public Topic getModel() {
         return topic;
     }
@@ -120,77 +124,77 @@ public class TopicResult {
         this.topic = topic;
     }
 
-@ApiModelProperty(value = "主键")
-public String getRecId() {
-    return topic.getRecId();
-}
+    @ApiModelProperty(value = "主键")
+    public String getRecId() {
+        return topic.getRecId();
+    }
 
-	public void setRecId(String rec_id) {
-		topic.setRecId(rec_id);
-	}
+    public void setRecId(String rec_id) {
+        topic.setRecId(rec_id);
+    }
 
-		@ApiModelProperty(value = "目录名字")
-public String getName() {
-    return topic.getName();
-}
+    @ApiModelProperty(value = "目录名字")
+    public String getName() {
+        return topic.getName();
+    }
 
-	public void setName(String name) {
-		topic.setName(name);
-	}
+    public void setName(String name) {
+        topic.setName(name);
+    }
 
-		@ApiModelProperty(value = "封面url")
-public String getBanner() {
-    return topic.getBanner();
-}
+    @ApiModelProperty(value = "封面url")
+    public String getBanner() {
+        return topic.getBanner();
+    }
 
-	public void setBanner(String banner) {
-		topic.setBanner(banner);
-	}
+    public void setBanner(String banner) {
+        topic.setBanner(banner);
+    }
 
-		@ApiModelProperty(value = "排序")
-public Integer getOrderNum() {
-    return topic.getOrderNum();
-}
+    @ApiModelProperty(value = "排序")
+    public Integer getOrderNum() {
+        return topic.getOrderNum();
+    }
 
-	public void setOrderNum(Integer order_num) {
-		topic.setOrderNum(order_num);
-	}
+    public void setOrderNum(Integer order_num) {
+        topic.setOrderNum(order_num);
+    }
 
-		@ApiModelProperty(value = "创建人")
-public String getCreateId() {
-    return topic.getCreateId();
-}
+    @ApiModelProperty(value = "创建人")
+    public String getCreateId() {
+        return topic.getCreateId();
+    }
 
-	public void setCreateId(String create_id) {
-		topic.setCreateId(create_id);
-	}
+    public void setCreateId(String create_id) {
+        topic.setCreateId(create_id);
+    }
 
-		@ApiModelProperty(value = "创建时间")
-public String getCreateTime() {
-    return topic.getCreateTime();
-}
+    @ApiModelProperty(value = "创建时间")
+    public String getCreateTime() {
+        return topic.getCreateTime();
+    }
 
-	public void setCreateTime(String create_time) {
-		topic.setCreateTime(create_time);
-	}
+    public void setCreateTime(String create_time) {
+        topic.setCreateTime(create_time);
+    }
 
-		@ApiModelProperty(value = "更新人")
-public String getUpdateId() {
-    return topic.getUpdateId();
-}
+    @ApiModelProperty(value = "更新人")
+    public String getUpdateId() {
+        return topic.getUpdateId();
+    }
 
-	public void setUpdateId(String update_id) {
-		topic.setUpdateId(update_id);
-	}
+    public void setUpdateId(String update_id) {
+        topic.setUpdateId(update_id);
+    }
 
-		@ApiModelProperty(value = "更新时间")
-public String getUpdateTime() {
-    return topic.getUpdateTime();
-}
+    @ApiModelProperty(value = "更新时间")
+    public String getUpdateTime() {
+        return topic.getUpdateTime();
+    }
 
-	public void setUpdateTime(String update_time) {
-		topic.setUpdateTime(update_time);
-	}
+    public void setUpdateTime(String update_time) {
+        topic.setUpdateTime(update_time);
+    }
 
-		
+
 }

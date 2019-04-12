@@ -20,10 +20,11 @@ public class ShareImageResult {
 
     public ShareImageResult(){}
 
-    public ShareImageResult(ShareImage  shareImage){
-        this.shareImage = shareImage;
-    }
-
+    public ShareImageResult(ShareImage  shareImage) {
+		if (shareImage != null) {
+			this.shareImage = shareImage;
+		}
+	}
     @JsonIgnore
     public ShareImage getModel() {
         return shareImage;

@@ -16,12 +16,15 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "MySigninResult对象", description = "我的签到")
 public class MySigninResult {
 
-    private MySignin  mySignin = new MySignin();
+    private MySignin mySignin = new MySignin();
 
-    public MySigninResult(){}
+    public MySigninResult() {
+    }
 
-    public MySigninResult(MySignin  mySignin){
-        this.mySignin = mySignin;
+    public MySigninResult(MySignin mySignin) {
+        if (mySignin != null) {
+            this.mySignin = mySignin;
+        }
     }
 
     @JsonIgnore
@@ -33,41 +36,41 @@ public class MySigninResult {
         this.mySignin = mySignin;
     }
 
-@ApiModelProperty(value = "主键")
-public String getRecId() {
-    return mySignin.getRecId();
-}
+    @ApiModelProperty(value = "主键")
+    public String getRecId() {
+        return mySignin.getRecId();
+    }
 
-	public void setRecId(String rec_id) {
-		mySignin.setRecId(rec_id);
-	}
+    public void setRecId(String rec_id) {
+        mySignin.setRecId(rec_id);
+    }
 
-		@ApiModelProperty(value = "签到获得的积分")
-public Integer getPoint() {
-    return mySignin.getPoint();
-}
+    @ApiModelProperty(value = "签到获得的积分")
+    public Integer getPoint() {
+        return mySignin.getPoint();
+    }
 
-	public void setPoint(Integer point) {
-		mySignin.setPoint(point);
-	}
+    public void setPoint(Integer point) {
+        mySignin.setPoint(point);
+    }
 
-		@ApiModelProperty(value = "签到人")
-public String getCreateId() {
-    return mySignin.getCreateId();
-}
+    @ApiModelProperty(value = "签到人")
+    public String getCreateId() {
+        return mySignin.getCreateId();
+    }
 
-	public void setCreateId(String create_id) {
-		mySignin.setCreateId(create_id);
-	}
+    public void setCreateId(String create_id) {
+        mySignin.setCreateId(create_id);
+    }
 
-		@ApiModelProperty(value = "签到时间")
-public String getCreateTime() {
-    return mySignin.getCreateTime();
-}
+    @ApiModelProperty(value = "签到时间")
+    public String getCreateTime() {
+        return mySignin.getCreateTime();
+    }
 
-	public void setCreateTime(String create_time) {
-		mySignin.setCreateTime(create_time);
-	}
+    public void setCreateTime(String create_time) {
+        mySignin.setCreateTime(create_time);
+    }
 
-		
+
 }

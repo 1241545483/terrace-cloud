@@ -36,7 +36,9 @@ public class BookResult {
 	}
 
 	public void setAudioList(List<Audio> audioList) {
-		this.audioList = audioList;
+		if (audioList != null) {
+			this.audioList = audioList;
+		}
 	}
 
 	public List<Video> getVideoList() {
