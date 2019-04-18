@@ -305,6 +305,7 @@ public class MemberService extends MemberBaseService {
         params.put("loginAlais", params.get("loginAlais"));
         params.put("registFlag", params.get("registFlag"));
         BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist(params);
+        logger.info("11111111111111111111111111111111>>>>>>>>"+bizTrans.getTransInfo());
         Object o = BizTransUtils.parseBizTrans(bizTrans);
         if(! (o instanceof String)) {
             return "";
