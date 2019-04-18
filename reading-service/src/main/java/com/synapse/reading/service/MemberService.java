@@ -150,7 +150,7 @@ public class MemberService extends MemberBaseService {
             Map<String, Object> registParams = new HashMap<String, Object>();
             registParams.put("userName", excelRowModel.getUserName());
             registParams.put("subject", excelRowModel.getSubject());
-            registParams.put("organization", organization);
+//            registParams.put("organization", organization);
             registParams.put("mobilePhone", excelRowModel.getPhone());
             registParams.put("loginAlais", excelRowModel.getPhone());
             registParams.put("idCard", excelRowModel.getIdCard());
@@ -304,6 +304,7 @@ public class MemberService extends MemberBaseService {
         params.put("userName", params.get("userName"));
         params.put("loginAlais", params.get("loginAlais"));
         params.put("registFlag", params.get("registFlag"));
+        logger.info("11111111111111111111111111111111>>>>>>>>"+params.get("loginPass"));
         BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist(params);
         logger.info("11111111111111111111111111111111>>>>>>>>"+bizTrans.getTransInfo());
         Object o = BizTransUtils.parseBizTrans(bizTrans);
