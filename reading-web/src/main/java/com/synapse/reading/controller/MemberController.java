@@ -332,6 +332,12 @@ public class MemberController extends BaseController {
      * @param excelUrl
      * @return
      */
+    @ApiOperation(value = "excel导入学员信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
     @RequestMapping(value = "/v1/import_members", method = RequestMethod.GET)
     public ResponseEntity addMembers(String excelUrl) {
         if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
@@ -387,6 +393,12 @@ public class MemberController extends BaseController {
      *
      * @return
      */
+    @ApiOperation(value = "新增一个学员信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
     @RequestMapping(value = "/v1/member/add_one", method = RequestMethod.POST)
     public ResponseEntity addMember(@Validated(Search.class) MemberParam param, BindingResult bindingResult, String type) {
         User user = UserContext.getUser();
@@ -485,6 +497,12 @@ public class MemberController extends BaseController {
      * @param
      * @return
      */
+    @ApiOperation(value = "更新学员信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新学员信息"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
     @RequestMapping(value = "/v1/member/add_one", method = RequestMethod.PUT)
     public ResponseEntity updateMember(@Validated(Search.class) MemberParam param, BindingResult bindingResult) {
         Gson gson = new Gson();
