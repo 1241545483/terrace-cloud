@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.TradeOrderRespository">
 
+    <select id="findByBuyId" resultMap="com.synapse.reading.mapper.TradeOrderMapper.BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="com.synapse.reading.mapper.TradeOrderMapper.Base_Column_List" />
+        from `trade_order`
+        where
+        `buy_id` = #{buyId}
+    </select>
+
 </mapper>

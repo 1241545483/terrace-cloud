@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-04-12
+ * @since 2019-04-17
  */
 public class TradeOrder implements Serializable {
 
@@ -20,6 +20,18 @@ public class TradeOrder implements Serializable {
      * 主键
      */
     private String recId;
+    /**
+     * 是否为导入数据
+     */
+    private String importData;
+    /**
+     * 卖方id
+     */
+    private String sellId;
+    /**
+     * 买方id
+     */
+    private String buyId;
     /**
      * 订单名称
      */
@@ -68,6 +80,30 @@ public class TradeOrder implements Serializable {
 
     public void setRecId(String recId) {
         this.recId = recId;
+    }
+
+    public String getImportData() {
+        return importData;
+    }
+
+    public void setImportData(String importData) {
+        this.importData = importData;
+    }
+
+    public String getSellId() {
+        return sellId;
+    }
+
+    public void setSellId(String sellId) {
+        this.sellId = sellId;
+    }
+
+    public String getBuyId() {
+        return buyId;
+    }
+
+    public void setBuyId(String buyId) {
+        this.buyId = buyId;
     }
 
     public String getName() {

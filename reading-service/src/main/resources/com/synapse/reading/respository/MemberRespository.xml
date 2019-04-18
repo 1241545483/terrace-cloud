@@ -10,4 +10,17 @@
         `user_id` = #{userId}
     </update>
 
+    <select id="selectByIdCard" parameterType="map" resultMap="com.synapse.reading.mapper.MemberMapper.BaseResultMap">
+        select *
+        from member
+        where status = 1 and id_card = #{idCard, jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="selectByUserId" parameterType="map" resultMap="com.synapse.reading.mapper.MemberMapper.BaseResultMap">
+        select *
+        from member
+        where status = 1 and user_id = #{userId, jdbcType=VARCHAR}
+    </select>
+
 </mapper>

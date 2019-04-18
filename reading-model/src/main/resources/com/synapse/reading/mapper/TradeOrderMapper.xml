@@ -5,6 +5,9 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.synapse.reading.model.TradeOrder">
         <id column="rec_id" property="recId" />
+        <result column="import_data" property="importData" />
+        <result column="sell_id" property="sellId" />
+        <result column="buy_id" property="buyId" />
         <result column="name" property="name" />
         <result column="intro" property="intro" />
         <result column="pay_no" property="payNo" />
@@ -19,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`pay_no`,`pay_way`,`price`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`import_data`,`sell_id`,`buy_id`,`name`,`intro`,`pay_no`,`pay_way`,`price`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -34,7 +37,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.TradeOrder">
         insert into `trade_order`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{payNo},#{payWay},#{price},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{importData},#{sellId},#{buyId},#{name},#{intro},#{payNo},#{payWay},#{price},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -48,6 +51,15 @@
         <trim prefix="(" suffix=")" suffixOverrides="," >
                 <if test="recId != null" >
                     `rec_id`,
+                </if>
+                <if test="importData != null" >
+                    `import_data`,
+                </if>
+                <if test="sellId != null" >
+                    `sell_id`,
+                </if>
+                <if test="buyId != null" >
+                    `buy_id`,
                 </if>
                 <if test="name != null" >
                     `name`,
@@ -83,6 +95,15 @@
         <trim prefix="values (" suffix=")" suffixOverrides="," >
                 <if test="recId != null" >
 			        #{recId},
+                </if>
+                <if test="importData != null" >
+			        #{importData},
+                </if>
+                <if test="sellId != null" >
+			        #{sellId},
+                </if>
+                <if test="buyId != null" >
+			        #{buyId},
                 </if>
                 <if test="name != null" >
 			        #{name},
@@ -123,6 +144,15 @@
 	            <if test="recId != null" >
 		            `rec_id` = #{recId},
 	            </if>
+	            <if test="importData != null" >
+		            `import_data` = #{importData},
+	            </if>
+	            <if test="sellId != null" >
+		            `sell_id` = #{sellId},
+	            </if>
+	            <if test="buyId != null" >
+		            `buy_id` = #{buyId},
+	            </if>
 	            <if test="name != null" >
 		            `name` = #{name},
 	            </if>
@@ -159,7 +189,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.TradeOrder" >
         update  `trade_order` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`pay_no`=#{payNo},`pay_way`=#{payWay},`price`=#{price},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`import_data`=#{importData},`sell_id`=#{sellId},`buy_id`=#{buyId},`name`=#{name},`intro`=#{intro},`pay_no`=#{payNo},`pay_way`=#{payWay},`price`=#{price},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -174,6 +204,30 @@
                     </if>
                     <if test="recId.indexOf('%') lt 0" >
                         AND `rec_id` = #{recId}
+                    </if>
+            </if>
+            <if test="importData != null" >
+                    <if test="importData.indexOf('%') >= 0" >
+                        AND `import_data` like #{importData}
+                    </if>
+                    <if test="importData.indexOf('%') lt 0" >
+                        AND `import_data` = #{importData}
+                    </if>
+            </if>
+            <if test="sellId != null" >
+                    <if test="sellId.indexOf('%') >= 0" >
+                        AND `sell_id` like #{sellId}
+                    </if>
+                    <if test="sellId.indexOf('%') lt 0" >
+                        AND `sell_id` = #{sellId}
+                    </if>
+            </if>
+            <if test="buyId != null" >
+                    <if test="buyId.indexOf('%') >= 0" >
+                        AND `buy_id` like #{buyId}
+                    </if>
+                    <if test="buyId.indexOf('%') lt 0" >
+                        AND `buy_id` = #{buyId}
                     </if>
             </if>
             <if test="name != null" >
@@ -269,6 +323,30 @@
 	            </if>
                 <if test="recId.indexOf('%') lt 0" >
                     AND `rec_id` = #{recId}
+                </if>
+            </if>
+            <if test="importData != null" >
+	            <if test="importData.indexOf('%') >= 0" >
+				    AND `import_data` like #{importData}
+	            </if>
+                <if test="importData.indexOf('%') lt 0" >
+                    AND `import_data` = #{importData}
+                </if>
+            </if>
+            <if test="sellId != null" >
+	            <if test="sellId.indexOf('%') >= 0" >
+				    AND `sell_id` like #{sellId}
+	            </if>
+                <if test="sellId.indexOf('%') lt 0" >
+                    AND `sell_id` = #{sellId}
+                </if>
+            </if>
+            <if test="buyId != null" >
+	            <if test="buyId.indexOf('%') >= 0" >
+				    AND `buy_id` like #{buyId}
+	            </if>
+                <if test="buyId.indexOf('%') lt 0" >
+                    AND `buy_id` = #{buyId}
                 </if>
             </if>
             <if test="name != null" >

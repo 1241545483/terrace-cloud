@@ -28,6 +28,86 @@ public class MemberParam  {
         this.member = member;
     }
 
+    public String getImportData() {
+        return member.getImportData();
+    }
+
+    public void setImportData(String importData) {
+        member.setImportData(importData);
+    }
+
+    public String getMobile() {
+        return member.getMobile();
+    }
+
+    public void setMobile(String mobile) {
+        member.setMobile(mobile);
+    }
+
+    public String getOfficeStatus() {
+        return member.getOfficeStatus();
+    }
+
+    public void setOfficeStatus(String officeStatus) {
+        member.setOfficeStatus(officeStatus);
+    }
+
+    public String getOrganization() {
+        return member.getOrganization();
+    }
+
+    public void setOrganization(String organization) {
+        member.setOrganization(organization);
+    }
+
+    public String getIdCard() {
+        return member.getIdCard();
+    }
+
+    public void setIdCard(String idCard) {
+        member.setIdCard(idCard);
+    }
+
+    public String getRole() {
+        return member.getRole();
+    }
+
+    public void setRole(String role) {
+        member.setRole(role);
+    }
+
+    public String getStatus() {
+        return member.getStatus();
+    }
+
+    public void setStatus(String status) {
+        member.setStatus(status);
+    }
+
+    public String getPhase() {
+        return member.getPhase();
+    }
+
+    public void setPhase(String phase) {
+        member.setPhase(phase);
+    }
+
+    public String getSubject() {
+        return member.getSubject();
+    }
+
+    public void setSubject(String subject) {
+        member.setSubject(subject);
+    }
+
+    public String getName() {
+        return member.getName();
+    }
+
+    public void setName(String name) {
+        member.setName(name);
+    }
+
     @JsonIgnore
     public Member getModel() {
         return member;

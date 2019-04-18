@@ -5,6 +5,16 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.synapse.reading.model.Member">
         <id column="user_id" property="userId" />
+        <result column="ROLE" property="role" />
+        <result column="import_data" property="importData" />
+        <result column="mobile" property="mobile" />
+        <result column="office_status" property="officeStatus" />
+        <result column="ORGANIZATION" property="organization" />
+        <result column="ID_CARD" property="idCard" />
+        <result column="STATUS" property="status" />
+        <result column="PHASE" property="phase" />
+        <result column="SUBJECT" property="subject" />
+        <result column="NAME" property="name" />
         <result column="point" property="point" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
@@ -14,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `user_id`,`point`,`create_id`,`create_time`,`update_id`,`update_time`
+      `user_id`,`ROLE`,`import_data`,`mobile`,`office_status`,`ORGANIZATION`,`ID_CARD`,`STATUS`,`PHASE`,`SUBJECT`,`NAME`,`point`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -29,7 +39,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Member">
         insert into `member`
         (<include refid="Base_Column_List" />)
-        values (#{userId},#{point},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{userId},#{role},#{importData},#{mobile},#{officeStatus},#{organization},#{idCard},#{status},#{phase},#{subject},#{name},#{point},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -43,6 +53,36 @@
         <trim prefix="(" suffix=")" suffixOverrides="," >
                 <if test="userId != null" >
                     `user_id`,
+                </if>
+                <if test="role != null" >
+                    `ROLE`,
+                </if>
+                <if test="importData != null" >
+                    `import_data`,
+                </if>
+                <if test="mobile != null" >
+                    `mobile`,
+                </if>
+                <if test="officeStatus != null" >
+                    `office_status`,
+                </if>
+                <if test="organization != null" >
+                    `ORGANIZATION`,
+                </if>
+                <if test="idCard != null" >
+                    `ID_CARD`,
+                </if>
+                <if test="status != null" >
+                    `STATUS`,
+                </if>
+                <if test="phase != null" >
+                    `PHASE`,
+                </if>
+                <if test="subject != null" >
+                    `SUBJECT`,
+                </if>
+                <if test="name != null" >
+                    `NAME`,
                 </if>
                 <if test="point != null" >
                     `point`,
@@ -63,6 +103,36 @@
         <trim prefix="values (" suffix=")" suffixOverrides="," >
                 <if test="userId != null" >
 			        #{userId},
+                </if>
+                <if test="role != null" >
+			        #{role},
+                </if>
+                <if test="importData != null" >
+			        #{importData},
+                </if>
+                <if test="mobile != null" >
+			        #{mobile},
+                </if>
+                <if test="officeStatus != null" >
+			        #{officeStatus},
+                </if>
+                <if test="organization != null" >
+			        #{organization},
+                </if>
+                <if test="idCard != null" >
+			        #{idCard},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="phase != null" >
+			        #{phase},
+                </if>
+                <if test="subject != null" >
+			        #{subject},
+                </if>
+                <if test="name != null" >
+			        #{name},
                 </if>
                 <if test="point != null" >
 			        #{point},
@@ -88,6 +158,36 @@
 	            <if test="userId != null" >
 		            `user_id` = #{userId},
 	            </if>
+	            <if test="role != null" >
+		            `ROLE` = #{role},
+	            </if>
+	            <if test="importData != null" >
+		            `import_data` = #{importData},
+	            </if>
+	            <if test="mobile != null" >
+		            `mobile` = #{mobile},
+	            </if>
+	            <if test="officeStatus != null" >
+		            `office_status` = #{officeStatus},
+	            </if>
+	            <if test="organization != null" >
+		            `ORGANIZATION` = #{organization},
+	            </if>
+	            <if test="idCard != null" >
+		            `ID_CARD` = #{idCard},
+	            </if>
+	            <if test="status != null" >
+		            `STATUS` = #{status},
+	            </if>
+	            <if test="phase != null" >
+		            `PHASE` = #{phase},
+	            </if>
+	            <if test="subject != null" >
+		            `SUBJECT` = #{subject},
+	            </if>
+	            <if test="name != null" >
+		            `NAME` = #{name},
+	            </if>
 	            <if test="point != null" >
 		            `point` = #{point},
 	            </if>
@@ -109,7 +209,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Member" >
         update  `member` SET
-		    `user_id`=#{userId},`point`=#{point},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `user_id`=#{userId},`ROLE`=#{role},`import_data`=#{importData},`mobile`=#{mobile},`office_status`=#{officeStatus},`ORGANIZATION`=#{organization},`ID_CARD`=#{idCard},`STATUS`=#{status},`PHASE`=#{phase},`SUBJECT`=#{subject},`NAME`=#{name},`point`=#{point},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `user_id` = #{userId}
     </update>
@@ -124,6 +224,86 @@
                     </if>
                     <if test="userId.indexOf('%') lt 0" >
                         AND `user_id` = #{userId}
+                    </if>
+            </if>
+            <if test="role != null" >
+                    <if test="role.indexOf('%') >= 0" >
+                        AND `ROLE` like #{role}
+                    </if>
+                    <if test="role.indexOf('%') lt 0" >
+                        AND `ROLE` = #{role}
+                    </if>
+            </if>
+            <if test="importData != null" >
+                    <if test="importData.indexOf('%') >= 0" >
+                        AND `import_data` like #{importData}
+                    </if>
+                    <if test="importData.indexOf('%') lt 0" >
+                        AND `import_data` = #{importData}
+                    </if>
+            </if>
+            <if test="mobile != null" >
+                    <if test="mobile.indexOf('%') >= 0" >
+                        AND `mobile` like #{mobile}
+                    </if>
+                    <if test="mobile.indexOf('%') lt 0" >
+                        AND `mobile` = #{mobile}
+                    </if>
+            </if>
+            <if test="officeStatus != null" >
+                    <if test="officeStatus.indexOf('%') >= 0" >
+                        AND `office_status` like #{officeStatus}
+                    </if>
+                    <if test="officeStatus.indexOf('%') lt 0" >
+                        AND `office_status` = #{officeStatus}
+                    </if>
+            </if>
+            <if test="organization != null" >
+                    <if test="organization.indexOf('%') >= 0" >
+                        AND `ORGANIZATION` like #{organization}
+                    </if>
+                    <if test="organization.indexOf('%') lt 0" >
+                        AND `ORGANIZATION` = #{organization}
+                    </if>
+            </if>
+            <if test="idCard != null" >
+                    <if test="idCard.indexOf('%') >= 0" >
+                        AND `ID_CARD` like #{idCard}
+                    </if>
+                    <if test="idCard.indexOf('%') lt 0" >
+                        AND `ID_CARD` = #{idCard}
+                    </if>
+            </if>
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `STATUS` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `STATUS` = #{status}
+                    </if>
+            </if>
+            <if test="phase != null" >
+                    <if test="phase.indexOf('%') >= 0" >
+                        AND `PHASE` like #{phase}
+                    </if>
+                    <if test="phase.indexOf('%') lt 0" >
+                        AND `PHASE` = #{phase}
+                    </if>
+            </if>
+            <if test="subject != null" >
+                    <if test="subject.indexOf('%') >= 0" >
+                        AND `SUBJECT` like #{subject}
+                    </if>
+                    <if test="subject.indexOf('%') lt 0" >
+                        AND `SUBJECT` = #{subject}
+                    </if>
+            </if>
+            <if test="name != null" >
+                    <if test="name.indexOf('%') >= 0" >
+                        AND `NAME` like #{name}
+                    </if>
+                    <if test="name.indexOf('%') lt 0" >
+                        AND `NAME` = #{name}
                     </if>
             </if>
             <if test="point != null" >
@@ -174,6 +354,86 @@
 	            </if>
                 <if test="userId.indexOf('%') lt 0" >
                     AND `user_id` = #{userId}
+                </if>
+            </if>
+            <if test="role != null" >
+	            <if test="role.indexOf('%') >= 0" >
+				    AND `ROLE` like #{role}
+	            </if>
+                <if test="role.indexOf('%') lt 0" >
+                    AND `ROLE` = #{role}
+                </if>
+            </if>
+            <if test="importData != null" >
+	            <if test="importData.indexOf('%') >= 0" >
+				    AND `import_data` like #{importData}
+	            </if>
+                <if test="importData.indexOf('%') lt 0" >
+                    AND `import_data` = #{importData}
+                </if>
+            </if>
+            <if test="mobile != null" >
+	            <if test="mobile.indexOf('%') >= 0" >
+				    AND `mobile` like #{mobile}
+	            </if>
+                <if test="mobile.indexOf('%') lt 0" >
+                    AND `mobile` = #{mobile}
+                </if>
+            </if>
+            <if test="officeStatus != null" >
+	            <if test="officeStatus.indexOf('%') >= 0" >
+				    AND `office_status` like #{officeStatus}
+	            </if>
+                <if test="officeStatus.indexOf('%') lt 0" >
+                    AND `office_status` = #{officeStatus}
+                </if>
+            </if>
+            <if test="organization != null" >
+	            <if test="organization.indexOf('%') >= 0" >
+				    AND `ORGANIZATION` like #{organization}
+	            </if>
+                <if test="organization.indexOf('%') lt 0" >
+                    AND `ORGANIZATION` = #{organization}
+                </if>
+            </if>
+            <if test="idCard != null" >
+	            <if test="idCard.indexOf('%') >= 0" >
+				    AND `ID_CARD` like #{idCard}
+	            </if>
+                <if test="idCard.indexOf('%') lt 0" >
+                    AND `ID_CARD` = #{idCard}
+                </if>
+            </if>
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `STATUS` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `STATUS` = #{status}
+                </if>
+            </if>
+            <if test="phase != null" >
+	            <if test="phase.indexOf('%') >= 0" >
+				    AND `PHASE` like #{phase}
+	            </if>
+                <if test="phase.indexOf('%') lt 0" >
+                    AND `PHASE` = #{phase}
+                </if>
+            </if>
+            <if test="subject != null" >
+	            <if test="subject.indexOf('%') >= 0" >
+				    AND `SUBJECT` like #{subject}
+	            </if>
+                <if test="subject.indexOf('%') lt 0" >
+                    AND `SUBJECT` = #{subject}
+                </if>
+            </if>
+            <if test="name != null" >
+	            <if test="name.indexOf('%') >= 0" >
+				    AND `NAME` like #{name}
+	            </if>
+                <if test="name.indexOf('%') lt 0" >
+                    AND `NAME` = #{name}
                 </if>
             </if>
             <if test="point != null" >

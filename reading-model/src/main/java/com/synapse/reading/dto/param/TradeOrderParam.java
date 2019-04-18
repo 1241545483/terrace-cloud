@@ -41,6 +41,30 @@ public class TradeOrderParam  {
         this.tradeOrder = tradeOrder;
     }
 
+    public String getSellId() {
+        return tradeOrder.getSellId();
+    }
+
+    public void setSellId(String sellId) {
+        tradeOrder.setSellId(sellId);
+    }
+
+    public String getImportData() {
+        return tradeOrder.getImportData();
+    }
+
+    public void setImportData(String importData) {
+        tradeOrder.setImportData(importData);
+    }
+
+    public String getBuyId() {
+        return tradeOrder.getBuyId();
+    }
+
+    public void setBuyId(String buyId) {
+        tradeOrder.setBuyId(buyId);
+    }
+
     @JsonIgnore
     public TradeOrder getModel() {
         return tradeOrder;

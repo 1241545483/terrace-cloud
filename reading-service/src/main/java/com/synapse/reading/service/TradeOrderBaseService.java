@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-04-12
+ * @since 2019-04-17
  */
 public class TradeOrderBaseService {
 
@@ -19,6 +19,15 @@ public class TradeOrderBaseService {
         Map<String,Object> params = new HashMap<>();
         if (tradeOrderParam.getRecId() != null && !tradeOrderParam.getRecId().trim().equals("")) {
             params.put("recId", tradeOrderParam.getRecId());
+        }
+        if (tradeOrderParam.getImportData() != null && !tradeOrderParam.getImportData().trim().equals("")) {
+            params.put("importData", tradeOrderParam.getImportData());
+        }
+        if (tradeOrderParam.getSellId() != null && !tradeOrderParam.getSellId().trim().equals("")) {
+            params.put("sellId", tradeOrderParam.getSellId());
+        }
+        if (tradeOrderParam.getBuyId() != null && !tradeOrderParam.getBuyId().trim().equals("")) {
+            params.put("buyId", tradeOrderParam.getBuyId());
         }
         if (tradeOrderParam.getName() != null && !tradeOrderParam.getName().trim().equals("")) {
             params.put("name", tradeOrderParam.getName());

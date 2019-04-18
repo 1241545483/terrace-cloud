@@ -76,6 +76,30 @@ public class TradeOrderResult {
         tradeOrder.setName(name);
     }
 
+    public String getSellId() {
+        return tradeOrder.getSellId();
+    }
+
+    public void setSellId(String sellId) {
+        tradeOrder.setSellId(sellId);
+    }
+
+    public String getImportData() {
+        return tradeOrder.getImportData();
+    }
+
+    public void setImportData(String importData) {
+        tradeOrder.setImportData(importData);
+    }
+
+    public String getBuyId() {
+        return tradeOrder.getBuyId();
+    }
+
+    public void setBuyId(String buyId) {
+        tradeOrder.setBuyId(buyId);
+    }
+
     @ApiModelProperty(value = "订单描述")
     public String getIntro() {
         return tradeOrder.getIntro();

@@ -39,6 +39,10 @@ public class TradeOrderDetailService extends TradeOrderDetailBaseService {
 	    return tradeOrderDetailRespository.selectByPrimaryKey(recId);
     }
 
+    public TradeOrderDetail findByTradeOrder(String tradeOrderId){
+        return tradeOrderDetailRespository.findByTradeOrder(tradeOrderId);
+    }
+
 	public Integer update(TradeOrderDetail param){
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);

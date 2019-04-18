@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-04-12
+ * @since 2019-04-17
  */
 public interface TradeOrderMapper {
     TradeOrder selectByPrimaryKey(String recId);

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-29
+ * @since 2019-04-18
  */
 public class Member implements Serializable {
 
@@ -20,6 +20,46 @@ public class Member implements Serializable {
      * 用户（当前登录的用户信息）
      */
     private String userId;
+    /**
+     * 身份
+     */
+    private String role;
+    /**
+     * 是否为导入数据
+     */
+    private String importData;
+    /**
+     * 手机
+     */
+    private String mobile;
+    /**
+     * 在职状态
+     */
+    private String officeStatus;
+    /**
+     * 学校
+     */
+    private String organization;
+    /**
+     * 身份证
+     */
+    private String idCard;
+    /**
+     * 状态
+     */
+    private String status;
+    /**
+     * 学段
+     */
+    private String phase;
+    /**
+     * 学科
+     */
+    private String subject;
+    /**
+     * 姓名
+     */
+    private String name;
     /**
      * 积分
      */
@@ -48,6 +88,86 @@ public class Member implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getImportData() {
+        return importData;
+    }
+
+    public void setImportData(String importData) {
+        this.importData = importData;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getOfficeStatus() {
+        return officeStatus;
+    }
+
+    public void setOfficeStatus(String officeStatus) {
+        this.officeStatus = officeStatus;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPhase() {
+        return phase;
+    }
+
+    public void setPhase(String phase) {
+        this.phase = phase;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getPoint() {

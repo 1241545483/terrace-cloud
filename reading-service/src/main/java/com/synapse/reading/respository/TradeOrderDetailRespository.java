@@ -1,6 +1,7 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.TradeOrderDetailMapper;
+import com.synapse.reading.model.TradeOrderDetail;
 
 /**
  * <p>
@@ -11,5 +12,7 @@ import com.synapse.reading.mapper.TradeOrderDetailMapper;
  * @since 2019-04-10
  */
 public interface TradeOrderDetailRespository extends TradeOrderDetailMapper {
+
+    TradeOrderDetail findByTradeOrder(String tradeOrderId);
 
 }

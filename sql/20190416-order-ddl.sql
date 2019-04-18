@@ -1,0 +1,5 @@
+
+
+ALTER TABLE trade_order ADD COLUMN  buy_id   VARCHAR(100) DEFAULT NULL COMMENT '买方id' AFTER rec_id;
+ALTER TABLE trade_order ADD COLUMN  sell_id  VARCHAR(100) DEFAULT NULL COMMENT '卖方id' AFTER rec_id;
+
