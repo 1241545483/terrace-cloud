@@ -79,6 +79,30 @@ public interface  MemberConstants  {
         }
     }
 
+    /**
+     * 状态
+     */
+    enum REGWAY {
+        READING_IMPORT("READING_IMPORT", "1"), READING("READING", "2");
+
+        public final String code;
+        public final String num;
+
+        REGWAY(String code, String num) {
+            this.code = code;
+            this.num = num;
+        }
+
+        public String value() {
+            return code;
+        }
+
+        public String num() {
+            return num;
+        }
+    }
+
+
 
     /**
      * 组织

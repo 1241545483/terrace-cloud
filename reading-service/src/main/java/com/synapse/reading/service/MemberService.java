@@ -206,6 +206,8 @@ public class MemberService extends MemberBaseService {
             member.setOrganization(organization);
             member.setMobile(excelRowModel.getPhone());
             String nowStr = DateUtils.getNowStr("yyyy-MM-dd HH:mm:ss");
+            member.setCreateId(userId);
+            member.setRole(MemberConstants.ROLE.TEACHER.num());
             member.setCreateTime(nowStr);
             member.setUpdateTime(nowStr);
             member.setStatus(MemberConstants.STATUS.OK.num());
@@ -305,7 +307,9 @@ public class MemberService extends MemberBaseService {
         params.put("userName", params.get("userName"));
         params.put("loginAlais", params.get("loginAlais"));
         params.put("registFlag", params.get("registFlag"));
+        params.put("regWay", MemberConstants.REGWAY.READING_IMPORT.value());
         logger.info("11111111111111111111111111111111>>>>>>>>"+params.get("loginPass"));
+
         BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist(params);
         logger.info("11111111111111111111111111111111>>>>>>>>"+bizTrans.getTransInfo());
         Object o = BizTransUtils.parseBizTrans(bizTrans);

@@ -28,7 +28,7 @@ public interface UserService {
 
     @RequestMapping(value = "/user/v1/shilurepetition", method = RequestMethod.GET
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    boolean userNameIsExist(String loginName) ;
+    boolean userNameIsExist(@RequestParam("loginName")String loginName) ;
 
     @RequestMapping(value = "/user/v1/shiluregist", method = RequestMethod.GET
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
@@ -36,7 +36,7 @@ public interface UserService {
 
     @RequestMapping(value = "/user/v1/user_id", method = RequestMethod.GET
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    public BizTrans getUserIdByLoginName(String loginName);
+    public BizTrans getUserIdByLoginName(@RequestParam("loginName")String loginName);
 
 
     @RequestMapping(value ="/api/v1/modifyUserOrg",method = RequestMethod.GET
