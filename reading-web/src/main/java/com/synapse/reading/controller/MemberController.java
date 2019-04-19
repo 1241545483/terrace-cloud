@@ -338,7 +338,7 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/import_members", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/teacher/import_members", method = RequestMethod.GET)
     public ResponseEntity addTeacherMembers(String excelUrl) {
         if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
             excelUrl = excelUrl.split(".tmp")[0];
@@ -399,7 +399,7 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/import_members", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/student/import_members", method = RequestMethod.GET)
     public ResponseEntity addStudentMembers(String excelUrl) {
         if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
             excelUrl = excelUrl.split(".tmp")[0];
