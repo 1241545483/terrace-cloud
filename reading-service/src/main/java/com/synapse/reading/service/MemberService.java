@@ -218,19 +218,19 @@ public class MemberService extends MemberBaseService {
                 create(member);
             }
             successImport.add(member);
-            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-            TradeOrder tradeOrder = tradeOrderService.findByBuyId(currentUser.getRecId());
-            tradeOrder.setRecId(idService.gen("ID"));
-            tradeOrder.setBuyId(userId);
-            tradeOrder.setCreateTime(now);
-            tradeOrder.setCreateId(currentUser.getRecId());
-            tradeOrderService.create(tradeOrder);
-            TradeOrderDetail tradeOrderDetail =tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
-            tradeOrderDetail.setRecId(idService.gen("ID"));
-            tradeOrderDetail.setTrateOrderId(tradeOrder.getRecId());
-            tradeOrderDetail.setCreateTime(now);
-            tradeOrderDetail.setCreateId(currentUser.getRecId());
-            tradeOrderDetailService.create(tradeOrderDetail);
+//            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+//            TradeOrder tradeOrder = tradeOrderService.findByBuyId(currentUser.getRecId());
+//            tradeOrder.setRecId(idService.gen("ID"));
+//            tradeOrder.setBuyId(userId);
+//            tradeOrder.setCreateTime(now);
+//            tradeOrder.setCreateId(currentUser.getRecId());
+//            tradeOrderService.create(tradeOrder);
+//            TradeOrderDetail tradeOrderDetail =tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
+//            tradeOrderDetail.setRecId(idService.gen("ID"));
+//            tradeOrderDetail.setTrateOrderId(tradeOrder.getRecId());
+//            tradeOrderDetail.setCreateTime(now);
+//            tradeOrderDetail.setCreateId(currentUser.getRecId());
+//            tradeOrderDetailService.create(tradeOrderDetail);
 
         }
     }
