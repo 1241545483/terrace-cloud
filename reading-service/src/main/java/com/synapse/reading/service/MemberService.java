@@ -144,7 +144,7 @@ public class MemberService extends MemberBaseService {
     }
 
 
-    public void doExcelImport(List<Member> successImport, User currentUser, String organization, Map<String, List<ExcelRowModel>> result) {
+    public void doExcelImport(List<Member> successImport, User currentUser, String organization, Map<String, List<ExcelRowModel>> result,String role) {
         List<ExcelRowModel> excelRowModels = result.get("excel_members");
         for (ExcelRowModel excelRowModel : excelRowModels) {
             Map<String, Object> registParams = new HashMap<String, Object>();
@@ -207,7 +207,7 @@ public class MemberService extends MemberBaseService {
             member.setMobile(excelRowModel.getPhone());
             String nowStr = DateUtils.getNowStr("yyyy-MM-dd HH:mm:ss");
             member.setCreateId(userId);
-            member.setRole(MemberConstants.ROLE.TEACHER.num());
+            member.setRole(role);
             member.setCreateTime(nowStr);
             member.setUpdateTime(nowStr);
             member.setStatus(MemberConstants.STATUS.OK.num());

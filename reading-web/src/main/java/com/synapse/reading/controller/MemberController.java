@@ -327,19 +327,19 @@ public class MemberController extends BaseController {
     }
 
     /**
-     * excel导入学员信息
+     * excel导入老师信息
      *
      * @param excelUrl
      * @return
      */
-    @ApiOperation(value = "excel导入学员信息")
+    @ApiOperation(value = "excel导入老师信息")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/import_members", method = RequestMethod.GET)
-    public ResponseEntity addMembers(String excelUrl) {
+    public ResponseEntity addTeacherMembers(String excelUrl) {
         if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
             excelUrl = excelUrl.split(".tmp")[0];
         }
@@ -370,7 +370,7 @@ public class MemberController extends BaseController {
             errorInfo = result.get("error_info");
 
             //执行导入用户的操作
-            memberService.doExcelImport(successImport, currentUser, organization, result);
+            memberService.doExcelImport(successImport, currentUser, organization, result,MemberConstants.ROLE.TEACHER.num());
 
         } catch (Exception e) {
             logger.error("导入数据失败!", e);
@@ -384,6 +384,66 @@ public class MemberController extends BaseController {
         importResult.put("failureList", errorInfo);
         return ResponseEntity.ok(importResult);
 
+    }
+
+
+    /**
+     * excel导入学生信息
+     *
+     * @param excelUrl
+     * @return
+     */
+    @ApiOperation(value = "excel导入学生信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/import_members", method = RequestMethod.GET)
+    public ResponseEntity addStudentMembers(String excelUrl) {
+        if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
+            excelUrl = excelUrl.split(".tmp")[0];
+        }
+        Map<String, Object> importResult = new HashMap<String, Object>();
+        List<Member> successImport = new ArrayList<>();
+
+        List<ExcelRowModel> errorInfo = new ArrayList<>();
+
+        try {
+            //获取登录的学校负责人的学校信息
+            User currentUser = UserContext.getUser();
+            if (currentUser == null || StringUtils.trimToEmpty(currentUser.getRecId()).equals("")) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
+            }
+            //登录人为校方负责人，他为学员导入报名，这些学员的学校就和校方负责人的学校一致
+//            Long schoolLeaderId = Long.parseLong(currentUser.getRecId());
+            Member schoolLeaderMember = memberService.find(currentUser.getRecId());
+            if (schoolLeaderMember == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("导入权限的管理员无组织信息");
+            }
+
+            String organization = currentUser.getGroupId();
+
+            Map<String, List<ExcelRowModel>> result = excelImportService.excelAnalysis(excelUrl);
+            if (result == null) {
+                return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取异常", excelUrl));
+            }
+            errorInfo = result.get("error_info");
+
+            //执行导入用户的操作
+            memberService.doExcelImport(successImport, currentUser, organization, result,MemberConstants.ROLE.STUDENT.num());
+
+        } catch (Exception e) {
+            logger.error("导入数据失败!", e);
+            return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取失败", e.getMessage()));
+        }
+        List<MemberResult> successImportModels = successImport.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
+//        List<MemberResult> successImportModels = Converter.convert(successImport, Member.class);
+        importResult.put("successNum", successImport.size());
+        importResult.put("successList", successImportModels);
+        importResult.put("failureNum", errorInfo.size());
+        importResult.put("failureList", errorInfo);
+        return ResponseEntity.ok(importResult);
 
     }
 
@@ -424,6 +484,7 @@ public class MemberController extends BaseController {
         registParams.put("idCard", StringUtils.trimToEmpty(member.getIdCard()));
         registParams.put("orgId", user.getGroupId());
         registParams.put("registFlag", 1);
+        registParams.put("regRoletype","teacher");
         String mobile = org.apache.commons.lang.StringUtils.trimToEmpty(member.getMobile());
         String lName = "";
         //如果手机号和电话都为空则直接新增用户名, 用名称去判断 且是专家
