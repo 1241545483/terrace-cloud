@@ -460,7 +460,7 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/add_one", method = RequestMethod.POST)
-    public ResponseEntity addMember(@Validated(Search.class) MemberParam param, BindingResult bindingResult, String type) {
+    public ResponseEntity addMember(@Validated(Create.class) @RequestBody MemberParam param, BindingResult bindingResult, String type) {
         User user = UserContext.getUser();
         if (user == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
@@ -567,7 +567,7 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/add_one", method = RequestMethod.PUT)
-    public ResponseEntity updateMember(@Validated(Search.class) MemberParam param, BindingResult bindingResult) {
+    public ResponseEntity updateMember(@RequestBody @Validated(Search.class) MemberParam param, BindingResult bindingResult) {
         Gson gson = new Gson();
         User user = UserContext.getUser();
         if (user == null) {
