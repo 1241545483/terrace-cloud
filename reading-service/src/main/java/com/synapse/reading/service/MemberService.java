@@ -209,7 +209,8 @@ public class MemberService extends MemberBaseService {
             member.setCreateTime(nowStr);
             member.setUpdateTime(nowStr);
             member.setStatus(MemberConstants.STATUS.OK.num());
-            Member isExist = find(userId);
+            logger.info("userId is 6666666666666666666666666666666"+userId);
+            Member isExist =memberRespository.selectByUserId(userId);
             if (isExist != null) {
                 logger.info("member {} userId is {} exists!", idCard, userId);
                 update(member);
