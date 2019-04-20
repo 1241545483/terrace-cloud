@@ -249,10 +249,10 @@ public class MemberController extends BaseController {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-           Member member= memberService.getMember(recId);
+            Member member = memberService.getMember(recId);
             member.setOrganization(MemberConstants.ORG.DEFAULT.num());
             memberService.update(member);
-            userService.modifyUserOrg(recId,MemberConstants.ORG.DEFAULT.num(),member.getName(),member.getMobile(),member.getMobile(),member.getIdCard(),member.getIdCard());
+            userService.modifyUserOrg(recId, MemberConstants.ORG.DEFAULT.num(), member.getName(), member.getMobile(), member.getMobile(), member.getIdCard(), member.getIdCard());
             TradeOrder tradeOrder = tradeOrderService.findByBuyId(recId);
             TradeOrderDetail tradeOrderDetail = tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
             tradeOrder.setStatus(TradeOrderConstants.STATUS.DELETED.num());
@@ -370,7 +370,7 @@ public class MemberController extends BaseController {
             errorInfo = result.get("error_info");
 
             //执行导入用户的操作
-            memberService.doExcelImport(successImport, currentUser, organization, result,MemberConstants.ROLE.TEACHER.num());
+            memberService.doExcelImport(successImport, currentUser, organization, result, MemberConstants.ROLE.TEACHER.num());
 
         } catch (Exception e) {
             logger.error("导入数据失败!", e);
@@ -431,7 +431,7 @@ public class MemberController extends BaseController {
             errorInfo = result.get("error_info");
 
             //执行导入用户的操作
-            memberService.doExcelImport(successImport, currentUser, organization, result,MemberConstants.ROLE.STUDENT.num());
+            memberService.doExcelImport(successImport, currentUser, organization, result, MemberConstants.ROLE.STUDENT.num());
 
         } catch (Exception e) {
             logger.error("导入数据失败!", e);
@@ -449,18 +449,18 @@ public class MemberController extends BaseController {
 
 
     /**
-     * 新增一个学员信息
+     * 新增一个老师信息
      *
      * @return
      */
-    @ApiOperation(value = "新增一个学员信息")
+    @ApiOperation(value = "新增一个老师信息")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
+            @ApiResponse(code = 200, response = Integer.class, message = "导入教师"),
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/member/add_one", method = RequestMethod.POST)
-    public ResponseEntity addMember(@Validated(Create.class) @RequestBody MemberParam param, BindingResult bindingResult, String type) {
+    @RequestMapping(value = "/v1/member/teacher/add_one", method = RequestMethod.POST)
+    public ResponseEntity addTeacherMember(@Validated(Create.class) @RequestBody MemberParam param, BindingResult bindingResult, String type) {
         User user = UserContext.getUser();
         if (user == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
@@ -468,77 +468,8 @@ public class MemberController extends BaseController {
         if (param == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("缺少学员信息");
         }
-        type = StringUtils.trimToEmpty(type);
-        String organization = user.getGroupId();
-        Member member = param.getModel();
-        member.setStatus("1");
-        member.setOrganization(organization);
-        String memberId = null;
-        String idCard = StringUtils.trimToEmpty(member.getIdCard());
-        String idCard_6 = idCard.toUpperCase();
-        Map<String, Object> registParams = new HashMap<String, Object>();
-        registParams.put("userName", member.getName());
-        registParams.put("subject", member.getSubject());
-        registParams.put("organization", organization);
-        registParams.put("mobilePhone", StringUtils.trimToEmpty(member.getMobile()));
-        registParams.put("idCard", StringUtils.trimToEmpty(member.getIdCard()));
-        registParams.put("orgId", user.getGroupId());
-        registParams.put("registFlag", 1);
-        registParams.put("regRoletype","teacher");
-        String mobile = org.apache.commons.lang.StringUtils.trimToEmpty(member.getMobile());
-        String lName = "";
-        //如果手机号和电话都为空则直接新增用户名, 用名称去判断 且是专家
-        String name = StringUtils.trimToEmpty(param.getName());
-        if (idCard.length() == 0 && mobile.length() == 0 && type.length() > 0 && name.length() > 0 && !userService.userNameIsExist(name)) {
-            System.err.println("jinru 1111111111");
-            lName = name;
-            //查询name为用户名的客户是否存在
-            registParams.put("userName", name);
-            registParams.put("loginName", name);
-            //专家默认的密码为123456
-            registParams.put("loginPass", "123456");
-            //密码设置为123456
-            memberId = memberService.importregist(registParams);
-            member.setUserId(memberId);
-        } else if (idCard.length() == 0 && mobile.length() != 0 && type.length() > 0 && !userService.userNameIsExist(mobile)) {
-            lName = mobile;
-            registParams.put("userName", name);
-            registParams.put("loginName", mobile);
-            //专家默认的密码为123456
-            registParams.put("loginPass", "123456");
-            memberId = memberService.importregist(registParams);
-            member.setUserId(memberId);
-        } else if (idCard.length() != 0 && mobile.length() == 0 && type.length() > 0 && !userService.userNameIsExist(idCard)) {
-            lName = idCard_6;
-            registParams.put("userName", name);
-            registParams.put("loginName", idCard_6);
-            //专家默认的密码为123456
-            registParams.put("loginPass", "123456");
-            memberId = memberService.importregist(registParams);
-            member.setUserId(memberId);
-        } else if (!userService.userNameIsExist(idCard_6) && !userService.userNameIsExist(member.getMobile())) {
-            lName = idCard_6;
-            memberId = memberService.importregist(registParams);
-            member.setUserId(memberId);
-        } else {//存在这个用户，查询用户主键ID
-            lName = idCard_6;
-            memberId = memberService.getUserId(lName);
-            if (StringUtils.trim(memberId).equals("")) {
-                memberId = memberService.getUserId(member.getMobile());
-            }
-            Member existMember = memberService.getMember(memberId);
-            if (existMember == null) {
-                member.setUserId(memberId);
-                try {
-                    memberService.create(member);
-                } catch (Exception e) {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("新增失败");
-                }
-            }
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("已存在");
-        }
-
         try {
+            Member member = memberService.addMember(user, type, param,MemberConstants.ROLETYPE.READ_TEACHER.value());
             memberService.create(member);
             //如果是专家则增加专家的关系信息
 //            if (type.length() > 0) {
@@ -552,7 +483,40 @@ public class MemberController extends BaseController {
         }
     }
 
-
+    /**
+     * 新增一个学生信息
+     *
+     * @return
+     */
+    @ApiOperation(value = "新增一个学生信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "导入学生"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/student/add_one", method = RequestMethod.POST)
+    public ResponseEntity addStudentMember(@Validated(Create.class) @RequestBody MemberParam param, BindingResult bindingResult, String type) {
+        User user = UserContext.getUser();
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
+        }
+        if (param == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("缺少学员信息");
+        }
+        try {
+            Member member = memberService.addMember(user, type, param,MemberConstants.ROLETYPE.READ_STUDENT.value());
+            memberService.create(member);
+            //如果是专家则增加专家的关系信息
+//            if (type.length() > 0) {
+//                memberService.addMemberRelation(type, member.getUserId());
+//            }
+            Map<String, String> map = new HashMap<>();
+            map.put("memberId", member.getUserId() == null ? "" : String.valueOf(member.getUserId()));
+            return ResponseEntity.ok(map);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("新增失败");
+        }
+    }
 
     /**
      * 更新学员信息

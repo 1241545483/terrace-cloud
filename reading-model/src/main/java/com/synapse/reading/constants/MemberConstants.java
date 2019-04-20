@@ -79,6 +79,31 @@ public interface  MemberConstants  {
         }
     }
 
+
+    /**
+     * 状态
+     */
+    enum ROLETYPE {
+        READ_TEACHER("read_teacher", "1"), READ_STUDENT("read_student", "2");
+
+        public final String code;
+        public final String num;
+
+        ROLETYPE(String code, String num) {
+            this.code = code;
+            this.num = num;
+        }
+
+        public String value() {
+            return code;
+        }
+
+        public String num() {
+            return num;
+        }
+    }
+
+
     /**
      * 状态
      */

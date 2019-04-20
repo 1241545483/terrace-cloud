@@ -7,7 +7,9 @@ import com.synapse.common.sso.model.User;
 import com.synapse.reading.model.Lesson;
 import com.synapse.reading.dto.param.LessonParam;
 import com.synapse.reading.dto.result.LessonResult;
+import com.synapse.reading.model.Member;
 import com.synapse.reading.service.LessonService;
+import com.synapse.reading.service.MemberService;
 import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
@@ -49,6 +51,9 @@ public class LessonController extends BaseController{
 
     @Autowired
     private LessonService lessonService;
+
+    @Autowired
+    private MemberService memberService;
 
 	@ApiOperation(value = "查询Lesson列表(分页)")
     @ApiResponses({
@@ -302,6 +307,116 @@ public class LessonController extends BaseController{
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
             logger.error("get Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "判断Lesson是否已经购买")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = LessonResult.class, message = "是否查询到记录"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/lessonDetail/buy/{recId}",method = RequestMethod.GET)
+    public ResponseEntity LessonBuy(@PathVariable("recId") String recId){
+        try {
+            User user = UserContext.getUser();
+            Member member= memberService.getMember(user.getRecId());
+            int totalNum = lessonService.LessonBuy(recId,member);
+            return ResponseEntity.ok(totalNum);
+        } catch (BusinessException e) {
+            logger.error("get Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "查询Lesson列表(查询当前用户的可观看的课程)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = LessonResult.class, message = "Lesson列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "recId" , paramType = "query"),
+            @ApiImplicitParam(name = "name" , paramType = "query"),
+            @ApiImplicitParam(name = "intro" , paramType = "query"),
+            @ApiImplicitParam(name = "presentation" , paramType = "query"),
+            @ApiImplicitParam(name = "image" , paramType = "query"),
+            @ApiImplicitParam(name = "banner" , paramType = "query"),
+            @ApiImplicitParam(name = "publishStatus" , paramType = "query"),
+            @ApiImplicitParam(name = "status" , paramType = "query"),
+            @ApiImplicitParam(name = "orderNum" , paramType = "query"),
+            @ApiImplicitParam(name = "visitNum" , paramType = "query"),
+            @ApiImplicitParam(name = "createId" , paramType = "query"),
+            @ApiImplicitParam(name = "createTime" , paramType = "query"),
+            @ApiImplicitParam(name = "updateId" , paramType = "query"),
+            @ApiImplicitParam(name = "updateTime" , paramType = "query")    })
+    @RequestMapping(value = "/v1/lesson/buyOrg",method = RequestMethod.GET)
+    public ResponseEntity listLessonByOrg(PageInfo pageInfo) {
+        try {
+            User user = UserContext.getUser();
+           Member member= memberService.getMember(user.getRecId());
+            int totalNum = lessonService.countListLessonByOrg(member);
+            preparePageInfo(pageInfo, totalNum);
+            List<Lesson> models = lessonService.listLessonByOrg(member ,pageInfo);
+            List<LessonResult> results = models.stream().map(it -> new LessonResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
+            map.put("lessonList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "查询Lesson列表(查询当前用户的可观看的课程)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = LessonResult.class, message = "Lesson列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "recId" , paramType = "query"),
+            @ApiImplicitParam(name = "name" , paramType = "query"),
+            @ApiImplicitParam(name = "intro" , paramType = "query"),
+            @ApiImplicitParam(name = "presentation" , paramType = "query"),
+            @ApiImplicitParam(name = "image" , paramType = "query"),
+            @ApiImplicitParam(name = "banner" , paramType = "query"),
+            @ApiImplicitParam(name = "publishStatus" , paramType = "query"),
+            @ApiImplicitParam(name = "status" , paramType = "query"),
+            @ApiImplicitParam(name = "orderNum" , paramType = "query"),
+            @ApiImplicitParam(name = "visitNum" , paramType = "query"),
+            @ApiImplicitParam(name = "createId" , paramType = "query"),
+            @ApiImplicitParam(name = "createTime" , paramType = "query"),
+            @ApiImplicitParam(name = "updateId" , paramType = "query"),
+            @ApiImplicitParam(name = "updateTime" , paramType = "query")    })
+    @RequestMapping(value = "/v1/lesson/buyMyself",method = RequestMethod.GET)
+    public ResponseEntity listLessonByMyself(PageInfo pageInfo) {
+        try {
+            User user = UserContext.getUser();
+            Member member= memberService.getMember(user.getRecId());
+            int totalNum = lessonService.countListLessonByMyself(member);
+            preparePageInfo(pageInfo, totalNum);
+            List<Lesson> models = lessonService.listLessonByMyself(member ,pageInfo);
+            List<LessonResult> results = models.stream().map(it -> new LessonResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
+            map.put("lessonList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Lesson Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }

@@ -9,10 +9,7 @@ import com.synapse.reading.dto.param.SectionParam;
 import com.synapse.reading.dto.param.VideoParam;
 import com.synapse.reading.dto.result.SectionResult;
 import com.synapse.reading.dto.result.VideoResult;
-import com.synapse.reading.model.Book;
-import com.synapse.reading.model.Lesson;
-import com.synapse.reading.model.Section;
-import com.synapse.reading.model.Video;
+import com.synapse.reading.model.*;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.LessonRespository;
 import com.synapse.reading.dto.param.LessonParam;
@@ -71,6 +68,12 @@ public class LessonService extends LessonBaseService {
 
     @Autowired
     private Gson gson;
+
+    @Autowired
+    private  MemberBaseService memberBaseService;
+
+    @Autowired
+    private  TradeOrderService tradeOrderService;
 
     public Lesson find(String recId){
 	    return lessonRespository.selectByPrimaryKey(recId);
@@ -280,10 +283,43 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.list(params);
 	}
 
-	public Integer count(Lesson lessonParam) {
-		lessonParam.setStatus(LessonConstants.STATUS.OK.num());
+    public List<Lesson> listLessonByOrg( Member Param, PageInfo pageInfo) {
+
+        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return lessonRespository.listLessonByOrg(params);
+    }
+
+    public List<Lesson> listLessonByMyself( Member Param, PageInfo pageInfo) {
+
+        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return lessonRespository.listLessonByMyself(params);
+    }
+
+    public Integer LessonBuy( String lessonId ,Member Param) {
+
+        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        params.put("lessonId",lessonId );
+        return lessonRespository.LessonBuy(params);
+    }
+
+    public Integer count(Lesson lessonParam) {
+        lessonParam.setStatus(LessonConstants.STATUS.OK.num());
         Map<String,Object> params = prepareParams(lessonParam);
         return lessonRespository.count(params);
     }
+    public Integer countListLessonByMyself(Member Param) {
+        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        return lessonRespository.countListLessonByMyself(params);
+    }
+    public Integer countListLessonByOrg(Member Param) {
+        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        return lessonRespository.countListLessonByOrg(params);
+    }
+
+
 
 }

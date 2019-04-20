@@ -2,4 +2,77 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.LessonRespository">
 
+
+    <select id="listLessonByMyself" parameterType="map"
+            resultMap="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
+
+        SELECT a.* FROM lesson a
+        JOIN trade_order_detail b ON a.rec_id =b.prod_id
+        JOIN trade_order c on c.rec_id=b.trate_order_id and c.import_data='1'
+        JOIN member d on d.user_id=c.buy_id
+        WHERE d.user_id=#{userId, jdbcType=VARCHAR}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+
+    </select>
+
+    <select id="listLessonByOrg" parameterType="map" resultMap="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
+
+        SELECT a.* FROM lesson a
+        JOIN trade_order_detail b ON a.rec_id =b.prod_id
+        JOIN trade_order c on c.rec_id=b.trate_order_id and c.import_data='2'
+        JOIN member d on d.ORGANIZATION=c.buy_id
+        WHERE d.ORGANIZATION=#{ORGANIZATION, jdbcType=VARCHAR} AND d.user_id=#{userId, jdbcType=VARCHAR}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+
+    </select>
+
+    <select id="countListLessonByOrg" parameterType="map" resultType="int">
+
+        SELECT count(1)
+        FROM (
+              SELECT a.*
+              FROM lesson a
+                  JOIN trade_order_detail b ON a.rec_id = b.prod_id
+                  JOIN trade_order c ON c.rec_id = b.trate_order_id AND c.import_data = '2'
+                  JOIN member d ON d.ORGANIZATION = c.buy_id
+              WHERE d.ORGANIZATION = #{ORGANIZATION, jdbcType=VARCHAR} AND d.user_id = #{userId, jdbcType=VARCHAR}) s
+    </select>
+
+
+    <select id="countListLessonByMyself" parameterType="map" resultType="int">
+
+        SELECT count(1)
+        FROM (SELECT a.*
+        FROM lesson a
+        JOIN trade_order_detail b ON a.rec_id = b.prod_id
+        JOIN trade_order c ON c.rec_id = b.trate_order_id AND c.import_data = '1'
+        JOIN member d ON d.user_id = c.buy_id
+        WHERE d.user_id = #{userId, jdbcType=VARCHAR}
+         ) s
+    </select>
+
+
+    <select id="countListLessonByOrg" parameterType="map" resultType="int">
+
+        SELECT count(1)
+        FROM (
+                 SELECT * FROM trade_order a
+                     join trade_order_detail b ON  a.rec_id=b.trate_order_id  and a.import_data='1'
+                     JOIN lesson  c on c.rec_id =b.prod_id
+                     join member  d on d.user_id=a.buy_id
+                 where  d.user_id=#{userId, jdbcType=VARCHAR} and  c.rec_id=#{lessonId, jdbcType=VARCHAR}
+                 UNION
+                 SELECT * FROM trade_order a
+                     join trade_order_detail b ON  a.rec_id=b.trate_order_id  and a.import_data='2'
+                     JOIN lesson  c on c.rec_id =b.prod_id
+                     join member  d on d.ORGANIZATION=a.buy_id
+                 where d.ORGANIZATION=#{ORGANIZATION, jdbcType=VARCHAR} AND d.user_id=#{userId, jdbcType=VARCHAR} and  c.rec_id=#{lessonId, jdbcType=VARCHAR}
+
+             ) s
+    </select>
+
 </mapper>
