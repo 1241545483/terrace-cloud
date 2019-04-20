@@ -318,11 +318,11 @@ public class LessonController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/lessonDetail/buy/{recId}",method = RequestMethod.GET)
-    public ResponseEntity LessonBuy(@PathVariable("recId") String recId){
+    public ResponseEntity lessonBuy(@PathVariable("recId") String recId){
         try {
             User user = UserContext.getUser();
             Member member= memberService.getMember(user.getRecId());
-            int totalNum = lessonService.LessonBuy(recId,member);
+            int totalNum = lessonService.lessonBuy(recId,member);
             return ResponseEntity.ok(totalNum);
         } catch (BusinessException e) {
             logger.error("get Lesson Error!", e);

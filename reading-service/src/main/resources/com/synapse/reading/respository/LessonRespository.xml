@@ -56,7 +56,7 @@
     </select>
 
 
-    <select id="countListLessonByOrg" parameterType="map" resultType="int">
+    <select id="lessonBuy" parameterType="map" resultType="int">
 
         SELECT count(1)
         FROM (

@@ -299,11 +299,11 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.listLessonByMyself(params);
     }
 
-    public Integer LessonBuy( String lessonId ,Member Param) {
+    public Integer lessonBuy( String lessonId ,Member Param) {
 
         Map<String,Object> params =memberBaseService.prepareParams(Param);
         params.put("lessonId",lessonId );
-        return lessonRespository.LessonBuy(params);
+        return lessonRespository.lessonBuy(params);
     }
 
     public Integer count(Lesson lessonParam) {

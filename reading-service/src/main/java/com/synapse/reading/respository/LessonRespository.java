@@ -20,6 +20,6 @@ public interface LessonRespository extends LessonMapper {
     Integer countListLessonByOrg(Map<String, Object> params);
     List<Lesson> listLessonByMyself(Map<String, Object> params);
     Integer countListLessonByMyself(Map<String, Object> params);
-    Integer LessonBuy(Map<String, Object> params);
+    Integer lessonBuy(Map<String, Object> params);
 
 }
