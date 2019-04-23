@@ -18,7 +18,7 @@
      <if test="recommendType == 'book'">
             SELECT
             b.rec_id,
-            c.image,
+            r.image,
             b.name,
             b.cover
             FROM `book` b
