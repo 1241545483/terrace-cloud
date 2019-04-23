@@ -174,6 +174,9 @@ public class LessonService extends LessonBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
         param.setStatus(LessonConstants.STATUS.OK.num());
+        if (param.getQrCode() == null || "".equals(param.getQrCode().trim())) {
+            param = getVidaoQrCode(param);
+        }
         lessonRespository.updateByPrimaryKeySelective(param);
         if (sectionList != null && !sectionList.isEmpty()) {
             for (SectionParam section : sectionList) {
