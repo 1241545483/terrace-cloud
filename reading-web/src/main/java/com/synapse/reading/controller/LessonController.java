@@ -4,6 +4,8 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.event.EventBus;
+import com.synapse.reading.event.message.ClickLessonEvent;
 import com.synapse.reading.model.Lesson;
 import com.synapse.reading.dto.param.LessonParam;
 import com.synapse.reading.dto.result.LessonResult;
@@ -54,6 +56,8 @@ public class LessonController extends BaseController{
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private EventBus eventBus;
 
 	@ApiOperation(value = "查询Lesson列表(分页)")
     @ApiResponses({
@@ -301,6 +305,7 @@ public class LessonController extends BaseController{
     public ResponseEntity getLesson(@PathVariable("recId") String recId){
         try {
             LessonResult lesson = lessonService.getLesson(recId);
+            eventBus.add(new ClickLessonEvent(this, recId));
             return ResponseEntity.ok(lesson);
         } catch (BusinessException e) {
             logger.error("get Lesson Error!", e);
