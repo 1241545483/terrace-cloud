@@ -18,7 +18,7 @@
      <if test="recommendType == 'book'">
             SELECT
             b.rec_id,
-            ifnull(r.image ,b.banner),
+            ifnull(r.image ,b.banner) banner,
             b.name,
             b.cover
             FROM `book` b
@@ -33,7 +33,7 @@
         <if test="recommendType == 'lesson'">
             SELECT
             b.rec_id,
-            b.banner,
+            ifnull(r.image ,b.banner) banner,
             b.name,
             '' cover
             FROM `lesson` b
