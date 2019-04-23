@@ -98,7 +98,7 @@ public class LessonService extends LessonBaseService {
 
     public Lesson getVidaoQrCode(Lesson param) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/lesson/index");
+        miniQrcodeParam.setPage("pages/lesson/detail");
         Map<String, String> params = new HashMap<>();
         params.put("lessonId", param.getRecId());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
@@ -134,6 +134,7 @@ public class LessonService extends LessonBaseService {
         param.setCreateTime(now);
         param.setUpdateTime(now);
         param.setStatus(LessonConstants.STATUS.OK.num());
+        getVidaoQrCode(param);
         lessonRespository.insert(param);
         if (sectionList != null && !sectionList.isEmpty()) {
             for (SectionParam section : sectionList) {
