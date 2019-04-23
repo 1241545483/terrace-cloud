@@ -6,6 +6,7 @@ import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.event.EventBus;
 import com.synapse.reading.event.message.ClickLessonEvent;
+import com.synapse.reading.event.message.ClickVideoEvent;
 import com.synapse.reading.model.Video;
 import com.synapse.reading.dto.param.VideoParam;
 import com.synapse.reading.dto.result.VideoResult;
@@ -97,7 +98,7 @@ public class VideoController extends BaseController{
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
             Video video = videoService.find(recId);
-            eventBus.add(new ClickLessonEvent(this, recId));
+            eventBus.add(new ClickVideoEvent(this, recId));
             return ResponseEntity.ok(new VideoResult(video));
         } catch (BusinessException e) {
             logger.error("get Video Error!", e);
