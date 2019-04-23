@@ -159,7 +159,7 @@ public class MemberService extends MemberBaseService {
             registParams.put("orgId", currentUser.getGroupId());
             registParams.put("registFlag", 1);
             registParams.put("regRoletype", excelRowModel.getRegRoletype());
-
+            registParams.put("bizroleId", role);
             String userId = null;
             //登录账号为：身份证后六位
             String idCard = (String) registParams.get("idCard");

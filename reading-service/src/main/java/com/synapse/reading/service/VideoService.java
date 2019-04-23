@@ -114,6 +114,10 @@ public class VideoService extends VideoBaseService {
         return videoRespository.increasePlayNum(recId) > 0;
     }
 
+    public void addPlayNum(String recId) {
+         videoRespository.increasePlayNum(recId) ;
+    }
+
     public Video getVidaoQrCode(Video param) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
         miniQrcodeParam.setPage("pages/audio/audio");

@@ -2,6 +2,7 @@ package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.LessonMapper;
 import com.synapse.reading.model.Lesson;
+import feign.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -21,5 +22,5 @@ public interface LessonRespository extends LessonMapper {
     List<Lesson> listLessonByMyself(Map<String, Object> params);
     Integer countListLessonByMyself(Map<String, Object> params);
     Integer lessonBuy(Map<String, Object> params);
-
+    Integer  addNum(@Param("recId") String recId);
 }

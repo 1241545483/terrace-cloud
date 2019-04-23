@@ -19,10 +19,12 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -30,6 +32,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by ivaneye on 17-2-26.
@@ -52,6 +55,27 @@ public class Main extends WebMvcConfigurerAdapter {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
+
+    @Bean("eventThread")
+    public TaskExecutor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        // 设置核心线程数
+        executor.setCorePoolSize(4);
+        // 设置最大线程数
+        executor.setMaxPoolSize(8);
+        // 设置队列容量
+        executor.setQueueCapacity(100);
+        // 设置线程活跃时间（秒）
+        executor.setKeepAliveSeconds(60);
+        // 设置默认线程名称
+        executor.setThreadNamePrefix("home.bus.logThread-");
+        // 设置拒绝策略
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        // 等待所有任务结束后再关闭线程池
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        return executor;
+    }
+
 
     @Bean
     @LoadBalanced

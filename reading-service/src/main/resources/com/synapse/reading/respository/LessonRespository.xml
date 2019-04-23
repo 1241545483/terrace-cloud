@@ -43,6 +43,13 @@
     </select>
 
 
+    <update id="addNum" parameterType="map">
+        update  `lesson` SET
+        `visit_num`=visit_num + 1
+        where
+        `rec_id` = #{recId}
+    </update>
+
     <select id="countListLessonByMyself" parameterType="map" resultType="int">
 
         SELECT count(1)

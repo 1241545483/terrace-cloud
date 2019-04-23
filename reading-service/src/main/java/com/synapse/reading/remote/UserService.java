@@ -1,14 +1,13 @@
 package com.synapse.reading.remote;
 
 import com.synapse.common.trans.BizTrans;
+import com.synapse.common.trans.Result;
 import com.synapse.reading.model.RegistEntity;
 import com.synapse.user.model.UserInfo;
+import com.synapse.user.model.api.UserPwdUpdateModel;
 import io.swagger.client.model.User;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -43,4 +42,18 @@ public interface UserService {
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public Integer modifyUserOrg(@RequestParam("userId")String userId, @RequestParam("org")String org,@RequestParam("username")String username,@RequestParam("oldMobile")String oldMobile,@RequestParam("mobile")String mobile,@RequestParam("oldIdCard")String oldIdCard,@RequestParam("idCard")String idCard) ;
 
+
+    @RequestMapping(value = "/user/v1/user/findBy/{loginName}", method = RequestMethod.GET)
+    public Map<String,String> selectByUserNameOrAlais(@PathVariable("loginName") String loginName);
+
+
+        @RequestMapping(value = "/user/v1/home/mini/bind",method = RequestMethod.POST, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+    public Result miniHomeBind(@RequestBody Map<String,String> param);
+
+    @RequestMapping(value ="/user/v1//pwd/update",method = RequestMethod.PUT
+            , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+    public BizTrans updateUserPassword(UserPwdUpdateModel userPwdUpdateModel);
+
+
 }
+

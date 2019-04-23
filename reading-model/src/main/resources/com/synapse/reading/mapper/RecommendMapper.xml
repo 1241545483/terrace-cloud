@@ -7,6 +7,7 @@
         <id column="rec_id" property="recId" />
         <result column="recommend_type" property="recommendType" />
         <result column="recommend_id" property="recommendId" />
+        <result column="image" property="image" />
         <result column="level" property="level" />
         <result column="menu" property="menu" />
         <result column="create_id" property="createId" />
@@ -17,7 +18,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`recommend_type`,`recommend_id`,`level`,`menu`,`create_id`,`create_time`,`start_time`,`end_time`
+      `rec_id`,`recommend_type`,`recommend_id`,`image`,`level`,`menu`,`create_id`,`create_time`,`start_time`,`end_time`
     </sql>
 
 
@@ -32,7 +33,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Recommend">
         insert into `recommend`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{recommendType},#{recommendId},#{level},#{menu},#{createId},#{createTime},#{startTime},#{endTime})
+        values (#{recId},#{recommendType},#{recommendId},#{image},#{level},#{menu},#{createId},#{createTime},#{startTime},#{endTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -52,6 +53,9 @@
                 </if>
                 <if test="recommendId != null" >
                     `recommend_id`,
+                </if>
+                <if test="image != null" >
+                    `image`,
                 </if>
                 <if test="level != null" >
                     `level`,
@@ -81,6 +85,9 @@
                 </if>
                 <if test="recommendId != null" >
 			        #{recommendId},
+                </if>
+                <if test="image != null" >
+			        #{image},
                 </if>
                 <if test="level != null" >
 			        #{level},
@@ -115,6 +122,9 @@
 	            <if test="recommendId != null" >
 		            `recommend_id` = #{recommendId},
 	            </if>
+	            <if test="image != null" >
+		            `image` = #{image},
+	            </if>
 	            <if test="level != null" >
 		            `level` = #{level},
 	            </if>
@@ -139,7 +149,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Recommend" >
         update  `recommend` SET
-		    `rec_id`=#{recId},`recommend_type`=#{recommendType},`recommend_id`=#{recommendId},`level`=#{level},`menu`=#{menu},`create_id`=#{createId},`create_time`=#{createTime},`start_time`=#{startTime},`end_time`=#{endTime}
+		    `rec_id`=#{recId},`recommend_type`=#{recommendType},`recommend_id`=#{recommendId},`image`=#{image},`level`=#{level},`menu`=#{menu},`create_id`=#{createId},`create_time`=#{createTime},`start_time`=#{startTime},`end_time`=#{endTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -170,6 +180,14 @@
                     </if>
                     <if test="recommendId.indexOf('%') lt 0" >
                         AND `recommend_id` = #{recommendId}
+                    </if>
+            </if>
+            <if test="image != null" >
+                    <if test="image.indexOf('%') >= 0" >
+                        AND `image` like #{image}
+                    </if>
+                    <if test="image.indexOf('%') lt 0" >
+                        AND `image` = #{image}
                     </if>
             </if>
             <if test="level != null" >
@@ -249,6 +267,14 @@
 	            </if>
                 <if test="recommendId.indexOf('%') lt 0" >
                     AND `recommend_id` = #{recommendId}
+                </if>
+            </if>
+            <if test="image != null" >
+	            <if test="image.indexOf('%') >= 0" >
+				    AND `image` like #{image}
+	            </if>
+                <if test="image.indexOf('%') lt 0" >
+                    AND `image` = #{image}
                 </if>
             </if>
             <if test="level != null" >

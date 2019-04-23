@@ -46,6 +46,30 @@ public class RecommendResult {
         recommend.setRecId(rec_id);
     }
 
+    public String getImage() {
+        return recommend.getImage();
+    }
+
+    public void setImage(String image) {
+        recommend.setImage(image);
+    }
+
+    public String getLevel() {
+        return recommend.getLevel();
+    }
+
+    public void setLevel(String level) {
+        recommend.setLevel(level);
+    }
+
+    public String getMenu() {
+        return recommend.getMenu();
+    }
+
+    public void setMenu(String menu) {
+        recommend.setMenu(menu);
+    }
+
     public String getRecommendType() {
         return recommend.getRecommendType();
     }

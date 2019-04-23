@@ -84,7 +84,7 @@ public interface  MemberConstants  {
      * 状态
      */
     enum ROLETYPE {
-        READ_TEACHER("read_teacher", "1"), READ_STUDENT("read_student", "2");
+        READ_SCHOOL("read_school", "3"),  READ_TEACHER("read_teacher", "1"), READ_STUDENT("read_student", "2");
 
         public final String code;
         public final String num;

@@ -42,10 +42,10 @@ import java.util.stream.Stream;
 @Transactional
 public class LessonService extends LessonBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
-	@Autowired
+    @Autowired
     private SectionRespository sectionRespository;
 
     @Autowired
@@ -55,10 +55,10 @@ public class LessonService extends LessonBaseService {
     private VideoRespository videoRespository;
 
     @Autowired
-    private  SectionBaseService sectionBaseService;
+    private SectionBaseService sectionBaseService;
 
     @Autowired
-    private  VideoBaseService videoBaseService;
+    private VideoBaseService videoBaseService;
 
     @Autowired
     private ShortLinkApiService shortLinkApiService;
@@ -70,32 +70,31 @@ public class LessonService extends LessonBaseService {
     private Gson gson;
 
     @Autowired
-    private  MemberBaseService memberBaseService;
+    private MemberBaseService memberBaseService;
 
     @Autowired
-    private  TradeOrderService tradeOrderService;
+    private TradeOrderService tradeOrderService;
 
-    public Lesson find(String recId){
-	    return lessonRespository.selectByPrimaryKey(recId);
+    public Lesson find(String recId) {
+        return lessonRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(Lesson param){
+    public Integer update(Lesson param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return lessonRespository.updateByPrimaryKeySelective(param);
+        return lessonRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(Lesson param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
-		param.setStatus(LessonConstants.STATUS.OK.num());
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
+        param.setStatus(LessonConstants.STATUS.OK.num());
         getVidaoQrCode(param);
         lessonRespository.insert(param);
         return param.getRecId();
     }
-
 
     public Lesson getVidaoQrCode(Lesson param) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
@@ -129,14 +128,14 @@ public class LessonService extends LessonBaseService {
      * 2.创建课程时，视频是已经创建完成，此处只是之间添加进来，若有章节，则需要新建（章节中的视频也是添加进来）
      * 创建课程，若需要章节，则创建，视频是添加进章节或课程
      */
-    public String createLesson(Lesson param, List<SectionParam> sectionList,List<VideoParam> videoList ) {
+    public String createLesson(Lesson param, List<SectionParam> sectionList, List<VideoParam> videoList) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
         param.setCreateTime(now);
         param.setUpdateTime(now);
         param.setStatus(LessonConstants.STATUS.OK.num());
         lessonRespository.insert(param);
-        if (sectionList!=null && !sectionList.isEmpty()){
+        if (sectionList != null && !sectionList.isEmpty()) {
             for (SectionParam section : sectionList) {
                 section.setLessionId(param.getRecId());
                 section.setRecId(idService.gen("ID"));
@@ -145,8 +144,8 @@ public class LessonService extends LessonBaseService {
                 section.setStatus(LessonConstants.STATUS.OK.num());
                 section.setPublishStatus(param.getPublishStatus());
                 sectionRespository.insert(section.getModel());
-                if (section.getVideoList()!=null && !sectionList.isEmpty()){
-                    for (VideoParam video: section.getVideoList()) {
+                if (section.getVideoList() != null && !sectionList.isEmpty()) {
+                    for (VideoParam video : section.getVideoList()) {
                         video.setBelongTo(VideoConstants.BelongToType.SECTION.value());
                         video.setBelongToId(section.getRecId());
                         videoRespository.updateByPrimaryKeySelective(video.getModel());
@@ -154,12 +153,12 @@ public class LessonService extends LessonBaseService {
                 }
             }
         }
-        if (videoList!=null && !videoList.isEmpty()){
-                for (VideoParam video: videoList) {
-                    video.setBelongTo(VideoConstants.BelongToType.LESSON.value());
-                    video.setBelongToId(param.getRecId());
-                    videoRespository.updateByPrimaryKeySelective(video.getModel());
-                }
+        if (videoList != null && !videoList.isEmpty()) {
+            for (VideoParam video : videoList) {
+                video.setBelongTo(VideoConstants.BelongToType.LESSON.value());
+                video.setBelongToId(param.getRecId());
+                videoRespository.updateByPrimaryKeySelective(video.getModel());
+            }
         }
         return param.getRecId();
     }
@@ -170,26 +169,26 @@ public class LessonService extends LessonBaseService {
    * 2.创建课程时，视频是已经创建完成，此处只是之间添加进来，若有章节，则需要新建（章节中的视频也是添加进来）
    * 创建课程，若需要章节，则创建，视频是添加进章节或课程
    */
-    public String updateLesson(Lesson param, List<SectionParam> sectionList,List<VideoParam> videoList ) {
+    public String updateLesson(Lesson param, List<SectionParam> sectionList, List<VideoParam> videoList) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
         param.setStatus(LessonConstants.STATUS.OK.num());
         lessonRespository.updateByPrimaryKeySelective(param);
-        if (sectionList!=null && !sectionList.isEmpty()){
+        if (sectionList != null && !sectionList.isEmpty()) {
             for (SectionParam section : sectionList) {
                 section.setLessionId(param.getRecId());
                 section.setUpdateTime(now);
                 section.setStatus(LessonConstants.STATUS.OK.num());
                 section.setPublishStatus(param.getPublishStatus());
-                if (section.getModel().getRecId()!=null&&!"".equals(section.getModel().getRecId())){
+                if (section.getModel().getRecId() != null && !"".equals(section.getModel().getRecId())) {
                     sectionRespository.updateByPrimaryKeySelective(section.getModel());
-                }else {
+                } else {
                     section.setRecId(idService.gen("ID"));
                     section.setCreateTime(now);
                     sectionRespository.insert(section.getModel());
                 }
-                if (section.getVideoList()!=null && !sectionList.isEmpty()){
-                    for (VideoParam video: section.getVideoList()) {
+                if (section.getVideoList() != null && !sectionList.isEmpty()) {
+                    for (VideoParam video : section.getVideoList()) {
                         video.setBelongTo(VideoConstants.BelongToType.SECTION.value());
                         video.setBelongToId(section.getRecId());
                         videoRespository.updateByPrimaryKeySelective(video.getModel());
@@ -197,8 +196,8 @@ public class LessonService extends LessonBaseService {
                 }
             }
         }
-        if (videoList!=null && !videoList.isEmpty()){
-            for (VideoParam video: videoList) {
+        if (videoList != null && !videoList.isEmpty()) {
+            for (VideoParam video : videoList) {
                 video.setBelongTo(VideoConstants.BelongToType.LESSON.value());
                 video.setBelongToId(param.getRecId());
                 videoRespository.updateByPrimaryKeySelective(video.getModel());
@@ -207,31 +206,35 @@ public class LessonService extends LessonBaseService {
         return param.getRecId();
     }
 
+    // 增加访问数量
+    public void  addNum(String recId) {
+        lessonRespository.addNum(recId);
+    }
 
-    public LessonResult getLesson(String recId){
+    public LessonResult getLesson(String recId) {
         Section model = new Section();
         model.setLessionId(recId);
         model.setStatus("1");
-        Map<String,Object> params =sectionBaseService.prepareParams(model);
-        List<Section> sectionList= sectionRespository.list(params);
+        Map<String, Object> params = sectionBaseService.prepareParams(model);
+        List<Section> sectionList = sectionRespository.list(params);
         Video video = new Video();
         video.setBelongToId(recId);
-        Map<String,Object> videoParams1 =videoBaseService.prepareParams(video);
+        Map<String, Object> videoParams1 = videoBaseService.prepareParams(video);
         List<Video> videoList1 = videoRespository.list(videoParams1);
         LessonResult lessonResult = new LessonResult();
-        Lesson lesson =  lessonRespository.selectByPrimaryKey(recId);
+        Lesson lesson = lessonRespository.selectByPrimaryKey(recId);
         lessonResult.setModel(lesson);
-        if (sectionList!=null && !sectionList.isEmpty()){
+        if (sectionList != null && !sectionList.isEmpty()) {
             List<SectionResult> sectionResultList = sectionList.stream().map(sec -> new SectionResult(sec)).collect(Collectors.toList());
             for (SectionResult section : sectionResultList) {
                 video.setBelongToId(section.getRecId());
-                Map<String,Object> videoParams =videoBaseService.prepareParams(video);
+                Map<String, Object> videoParams = videoBaseService.prepareParams(video);
                 List<Video> videoList = videoRespository.list(videoParams);
                 section.setVideoList(videoList);
             }
             lessonResult.setSectionList(sectionList);
         }
-        if (videoList1!=null && !videoList1.isEmpty()){
+        if (videoList1 != null && !videoList1.isEmpty()) {
             lessonResult.setVideoList(videoList1);
         }
         return lessonResult;
@@ -247,9 +250,9 @@ public class LessonService extends LessonBaseService {
         videoRespository.changeBelongToIdAndBelongTo(recId);
         Section section1 = new Section();
         section1.setLessionId(recId);
-        Map<String,Object> params =sectionBaseService.prepareParams(section1);
-        List<Section> sectionList= sectionRespository.list(params);
-        if (sectionList!=null && !sectionList.isEmpty()){
+        Map<String, Object> params = sectionBaseService.prepareParams(section1);
+        List<Section> sectionList = sectionRespository.list(params);
+        if (sectionList != null && !sectionList.isEmpty()) {
             for (Section section : sectionList) {
                 videoRespository.changeBelongToIdAndBelongTo(section.getRecId());
                 section.setLessionId(recId);
@@ -263,9 +266,7 @@ public class LessonService extends LessonBaseService {
     }
 
 
-
-
-	public Integer delete(String recId, String updateId) {
+    public Integer delete(String recId, String updateId) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         Lesson model = new Lesson();
         model.setRecId(recId);
@@ -275,51 +276,52 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.updateByPrimaryKeySelective(model);
     }
 
-	public List<Lesson> list(Lesson lessonParam, PageInfo pageInfo) {
-		lessonParam.setStatus(LessonConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(lessonParam);
+    public List<Lesson> list(Lesson lessonParam, PageInfo pageInfo) {
+        lessonParam.setStatus(LessonConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(lessonParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return lessonRespository.list(params);
-	}
+    }
 
-    public List<Lesson> listLessonByOrg( Member Param, PageInfo pageInfo) {
+    public List<Lesson> listLessonByOrg(Member Param, PageInfo pageInfo) {
 
-        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        Map<String, Object> params = memberBaseService.prepareParams(Param);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return lessonRespository.listLessonByOrg(params);
     }
 
-    public List<Lesson> listLessonByMyself( Member Param, PageInfo pageInfo) {
+    public List<Lesson> listLessonByMyself(Member Param, PageInfo pageInfo) {
 
-        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        Map<String, Object> params = memberBaseService.prepareParams(Param);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return lessonRespository.listLessonByMyself(params);
     }
 
-    public Integer lessonBuy( String lessonId ,Member Param) {
+    public Integer lessonBuy(String lessonId, Member Param) {
 
-        Map<String,Object> params =memberBaseService.prepareParams(Param);
-        params.put("lessonId",lessonId );
+        Map<String, Object> params = memberBaseService.prepareParams(Param);
+        params.put("lessonId", lessonId);
         return lessonRespository.lessonBuy(params);
     }
 
     public Integer count(Lesson lessonParam) {
         lessonParam.setStatus(LessonConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(lessonParam);
+        Map<String, Object> params = prepareParams(lessonParam);
         return lessonRespository.count(params);
     }
+
     public Integer countListLessonByMyself(Member Param) {
-        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        Map<String, Object> params = memberBaseService.prepareParams(Param);
         return lessonRespository.countListLessonByMyself(params);
     }
+
     public Integer countListLessonByOrg(Member Param) {
-        Map<String,Object> params =memberBaseService.prepareParams(Param);
+        Map<String, Object> params = memberBaseService.prepareParams(Param);
         return lessonRespository.countListLessonByOrg(params);
     }
-
 
 
 }

@@ -6,6 +6,15 @@ public class CommonConstants {
     public static final int BAD_REQUEST = 400;
     public static final int UNAUTHORIZED_ERROR = 401;
     public static final int DEFAULT_CURRENTPAGE = 1;
+    //绑定错误
+    public static final int BIND_ERROR = 610;
+    //未输入密码
+    public static final int BIND_NOPASSWORD = 611;
+    //密码错误
+    public static final int BIND_WRONG_PASSWORD = 612;
+    //绑定成功
+    public static final int BIND_SUCCESS = 613;
+
 
     public static final int DEFAULT_PAGESIZE = 10;
 
