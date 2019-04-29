@@ -9,6 +9,7 @@ import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.model.BindUserModel;
 import com.synapse.reading.model.Member;
 import com.synapse.reading.model.TradeOrder;
+import com.synapse.reading.remote.BindService;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.TradeOrderDetailRespository;
@@ -40,6 +41,8 @@ public class WxUserBindService {
     private UserService userService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private BindService bindService;
 
     public Map<String, String> handleApply(BindUserModel param, String currentUserId) {
         try {
@@ -55,11 +58,10 @@ public class WxUserBindService {
                 } else if (!findUserId.equals(currentUserId) && !StringUtils.isEmpty(param.getPassword())) {
                     //有密码；去校验密码
                     Map<String, String> bindParam = new HashMap<>();
-                    bindParam.put("username", param.getPhone());
+                    bindParam.put("userId", currentUserId);
+                    bindParam.put("existUserId", findUserId);
                     bindParam.put("password", param.getPassword());
-                    bindParam.put("unionId", param.getUnionId());
-                    bindParam.put("openId", param.getOpenId());
-                    Result result = userService.miniHomeBind(bindParam);
+                    Result result = bindService.miniBind(bindParam);
                     if (result != null && (int) result.getBody() == 1) {
                         //校验并绑定成功
                         resultMap.put("flag", "6");
