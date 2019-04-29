@@ -91,6 +91,9 @@ public class WxUserBindService {
         Member member = memberService.getMember(currentUserId);
         logger.warn("=----------------==---=-=2222" + member.getUserId());
         logger.warn("=----------------==---=-=1111" + param.getName());
+        logger.warn("=----------------==---=-=1111" + param.getPhone());
+        logger.warn("=----------------==---=-=1111" + param.getPhase());
+        logger.warn("=----------------==---=-=1111" + param.getSubject());
         if (member != null) {
             if (param.getName() != null) {
                 member.setName(param.getName());
@@ -103,6 +106,9 @@ public class WxUserBindService {
             }
             if (param.getPhase() != null) {
                 member.setPhase(param.getPhase());
+            }
+            if (param.getPhone() != null) {
+                member.setMobile(param.getPhone());
             }
             return memberService.update(member);
         } else {
