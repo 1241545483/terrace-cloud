@@ -68,19 +68,19 @@ public class WxUserBindController {
                         .body(Result.error(CommonConstants.BIND_NOPASSWORD,"请输入密码"));
             } else if (handleApplyResult.get("flag").equals("7")) {
                 //密码错误
-                return ResponseEntity.status(CommonConstants.BIND_WRONG_PASSWORD)
-                        .body(Result.error(CommonConstants.BIND_WRONG_PASSWORD,"密码错误"));
+                return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                        .body(Result.error(CommonConstants.SERVER_ERROR,"密码错误"));
             } else if (handleApplyResult.get("flag").equals("8")) {
                 //同一用户，修改信息成功
-                return ResponseEntity.status(CommonConstants.BIND_SUCCESS)
-                        .body(Result.error(CommonConstants.BIND_SUCCESS,"绑定成功"));
+                return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                        .body(Result.error(CommonConstants.SERVER_ERROR,"绑定成功"));
             } else if (handleApplyResult.get("flag").equals("6")) {
                 //密码成功
                 return ResponseEntity.status(CommonConstants.BIND_SUCCESS)
                         .body(Result.error(CommonConstants.BIND_SUCCESS,"绑定成功"));
             }else {
-                return ResponseEntity.status(CommonConstants.BIND_ERROR)
-                        .body(Result.error(CommonConstants.BIND_ERROR,"绑定出错"));
+                return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                        .body(Result.error(CommonConstants.SERVER_ERROR,"绑定出错"));
             }
 //            return ResponseEntity.ok("");
         } catch (BusinessException e) {

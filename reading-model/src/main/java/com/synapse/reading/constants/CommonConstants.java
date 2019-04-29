@@ -9,11 +9,11 @@ public class CommonConstants {
     //绑定错误
     public static final int BIND_ERROR = 610;
     //未输入密码
-    public static final int BIND_NOPASSWORD = 611;
+    public static final int BIND_NOPASSWORD = 405;
     //密码错误
     public static final int BIND_WRONG_PASSWORD = 612;
     //绑定成功
-    public static final int BIND_SUCCESS = 613;
+    public static final int BIND_SUCCESS = 200;
 
 
     public static final int DEFAULT_PAGESIZE = 10;
