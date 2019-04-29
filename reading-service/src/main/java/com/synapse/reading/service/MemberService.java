@@ -71,6 +71,13 @@ public class MemberService extends MemberBaseService {
         return memberRespository.selectByPrimaryKey(recId);
     }
 
+    public Member selectByUserId(String recId) {
+        if (recId == null) {
+            return null;
+        }
+        return memberRespository.selectByUserId(recId);
+    }
+
     public Integer update(Member param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);

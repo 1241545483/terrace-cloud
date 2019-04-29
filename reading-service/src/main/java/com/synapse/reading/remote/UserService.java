@@ -55,5 +55,9 @@ public interface UserService {
     public BizTrans updateUserPassword(UserPwdUpdateModel userPwdUpdateModel);
 
 
+    @RequestMapping(value ="/user/v1//pwd/update",method = RequestMethod.PUT
+            , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+    public String resetPwd(String userId, String resetPwd);
+
 }
 

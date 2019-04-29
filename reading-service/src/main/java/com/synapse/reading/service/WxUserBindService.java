@@ -71,7 +71,7 @@ public class WxUserBindService {
                         return resultMap;
                     }
                 }
-                //是同一个用户走正常逻辑
+                //是同一个用户走正常逻辑.
                 resultMap.put("flag", "8");
                 updateUser(param, currentUserId);
                 return resultMap;

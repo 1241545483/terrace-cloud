@@ -110,6 +110,7 @@ public class MemberController extends BaseController {
         }
     }
 
+
     @ApiOperation(value = "根据主键查询Member详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = MemberResult.class, message = "Member对象"),
@@ -129,6 +130,28 @@ public class MemberController extends BaseController {
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+    @ApiOperation(value = "查询当前用户详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MemberResult.class, message = "Member对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/user", method = RequestMethod.GET)
+    public ResponseEntity getUser() {
+        try {
+            User user = UserContext.getUser();
+            Member member = memberService.selectByUserId(user.getRecId());
+            return ResponseEntity.ok(new MemberResult(member));
+        } catch (BusinessException e) {
+            logger.error("get Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
     @ApiOperation(value = "创建Member")
     @ApiResponses({
@@ -559,12 +582,15 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/teacher", method = RequestMethod.GET)
-    public ResponseEntity listTeacher(PageInfo pageInfo, @Validated(Search.class) MemberParam param, BindingResult bindingResult) {
+    public ResponseEntity listTeacher(PageInfo pageInfo, BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
+            MemberParam param =new MemberParam();
+            User user = UserContext.getUser();
+            param.getModel().setOrganization(user.getGroupId());
             param.getModel().setRole(MemberConstants.ROLE.TEACHER.num());
             int totalNum = memberService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
@@ -592,12 +618,15 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/student", method = RequestMethod.GET)
-    public ResponseEntity listStudent(PageInfo pageInfo, @Validated(Search.class) MemberParam param, BindingResult bindingResult) {
+    public ResponseEntity listStudent(PageInfo pageInfo,  BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
+            MemberParam param =new MemberParam();
+            User user = UserContext.getUser();
+            param.getModel().setOrganization(user.getGroupId());
             param.getModel().setRole(MemberConstants.ROLE.STUDENT.num());
             int totalNum = memberService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
@@ -616,6 +645,59 @@ public class MemberController extends BaseController {
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+
+
+
+    @ApiOperation(value = "重置学员密码(分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MemberResult.class, message = "重置密码"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/reset_pwd/{userId}", method = RequestMethod.GET)
+    public ResponseEntity resetPwd(@PathVariable String userId) {
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("userId: " + userId);
+        }
+        User currentUser = UserContext.getUser();
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录!");
+        }
+        if (!isAppointedAuth(MemberConstants.ROLETYPE.READ_SCHOOL.num)) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("您不是校管理员!");
+        }
+        //主题：校管理员重置学员的密码
+//        Long memberId = Converter.decrypt(userId);
+        Member member = memberService.getMember(userId);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("没有该学员的信息");
+        }
+        String idCard = member.getIdCard();
+//        if (StringUtils.trimToEmpty(idCard).equals("")) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("该学员身份证信息不正确,无法重置密码");
+//        }
+        String resetPwd;
+        if (idCard == null || idCard.length() == 0) {
+            resetPwd = "123456";//没有身份证，默认置为123456
+        } else {
+            //否则取身份证后6位
+            resetPwd = idCard.substring(idCard.length() - 6, idCard.length()).toUpperCase();
+        }
+        try {
+            if (userService.resetPwd(userId, resetPwd)=="") {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("重置密码失败");
+            }
+        } catch (Exception e) {
+            logger.error("重置密码失败!",e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("重置密码失败!" + e.getMessage());
+        }
+    }
+
+
+
 
 
 }
