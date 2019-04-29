@@ -6,12 +6,15 @@ import com.synapse.common.sso.model.User;
 import com.synapse.common.trans.Result;
 import com.synapse.reading.constants.CommonConstants;
 import com.synapse.reading.exception.common.NotLoginException;
+import com.synapse.reading.model.Member;
+import com.synapse.reading.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +29,9 @@ public class UserController {
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    @Autowired
+    private MemberService memberService;
+
     @ApiOperation("返回当前登录用户信息")
     @ApiResponses({
             @ApiResponse(code = 200, response = com.synapse.common.sso.model.User.class, message = "当前登录用户信息"),
@@ -36,6 +42,9 @@ public class UserController {
     public Result currentUser() {
         try {
             User user = UserContext.getUser();
+            Member member =memberService.getMember(user.getRecId());
+            user.setUsername(member.getName());
+//            user.setUserImg();
             if (user == null) {
                 throw new NotLoginException();
             }
