@@ -73,8 +73,8 @@ public class WxUserBindController {
 //                        .body(Result.error(CommonConstants.SERVER_ERROR,"密码错误"));
             } else if (handleApplyResult.get("flag").equals("8")) {
                 //同一用户，修改信息成功
-                return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-                        .body(Result.error(CommonConstants.SERVER_ERROR,"绑定成功"));
+                return ResponseEntity.status(CommonConstants.BIND_SUCCESS)
+                        .body(Result.error(CommonConstants.BIND_SUCCESS,"更新信息成功"));
 //            } else if (handleApplyResult.get("flag").equals("6")) {
 //                //密码成功
 //                return ResponseEntity.status(CommonConstants.BIND_SUCCESS)

@@ -89,6 +89,8 @@ public class WxUserBindService {
     public Integer updateUser(BindUserModel param, String currentUserId) {
 
         Member member = memberService.getMember(currentUserId);
+        logger.warn("=----------------==---=-=2222"+member.getUserId());
+        logger.warn("=----------------==---=-=1111"+param.getName());
         if (member != null) {
             if (param.getName() != null) {
                 member.setName(param.getName());
