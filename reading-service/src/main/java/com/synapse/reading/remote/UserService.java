@@ -44,7 +44,7 @@ public interface UserService {
 
 
     @RequestMapping(value = "/user/v1/user/findBy/{loginName}", method = RequestMethod.GET)
-    public Map<String,String> selectByUserNameOrAlais(@RequestParam("loginName") String loginName);
+    public Map<String,String> selectByUserNameOrAlais(@PathVariable("loginName") String loginName);
 
 
         @RequestMapping(value = "/user/v1/home/mini/bind",method = RequestMethod.POST, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
