@@ -59,5 +59,10 @@ public interface UserService {
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public String resetPwd(@PathVariable("userId")String userId,@PathVariable("resetPwd") String resetPwd);
 
+
+    @RequestMapping(value ="/org/v1/org/byId",method = RequestMethod.GET
+            , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+    public String getOrgNamebyId(@PathVariable("orgId")String orgId) ;
+
 }
 

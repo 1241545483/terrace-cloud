@@ -140,8 +140,14 @@ public class MemberController extends BaseController {
     public ResponseEntity getUser() {
         try {
             User user = UserContext.getUser();
+
             Member member = memberService.selectByUserId(user.getRecId());
-            return ResponseEntity.ok(new MemberResult(member));
+           MemberResult memberResult=  new MemberResult(member);
+            if(member.getOrganization()!=null &&!"".equals(member.getOrganization())){
+                String orgName =userService.getOrgNamebyId(member.getOrganization());
+                memberResult.setOrgName(orgName);
+            }
+            return ResponseEntity.ok(memberResult);
         } catch (BusinessException e) {
             logger.error("get Member Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

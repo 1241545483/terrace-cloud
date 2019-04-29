@@ -1,6 +1,7 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.common.ann.DictFormat;
 import com.synapse.reading.model.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,12 +19,22 @@ public class MemberResult {
 
     private Member  member = new Member();
 
+    private  String orgName;
+
     public MemberResult(){}
 
     public MemberResult(Member  member) {
 		if (member != null) {
 			this.member = member;
 		}
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
 
 	public String getRole() {
@@ -81,7 +92,7 @@ public class MemberResult {
 	public void setStatus(String status) {
 		member.setStatus(status);
 	}
-
+	@DictFormat(type = "PHASE_TYPE", field = "typeTxt")
 	public String getPhase() {
 		return member.getPhase();
 	}
@@ -89,7 +100,7 @@ public class MemberResult {
 	public void setPhase(String phase) {
 		member.setPhase(phase);
 	}
-
+	@DictFormat(type = "SUBJECT_TYPE", field = "typeTxt")
 	public String getSubject() {
 		return member.getSubject();
 	}
