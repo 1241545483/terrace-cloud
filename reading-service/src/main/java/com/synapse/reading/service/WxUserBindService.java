@@ -1,5 +1,6 @@
 package com.synapse.reading.service;
 
+import com.synapse.common.formatter.Encoder;
 import com.synapse.common.trans.Result;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.common.utils.JsonUtils;
@@ -16,6 +17,8 @@ import com.synapse.reading.respository.TradeOrderDetailRespository;
 import com.synapse.reading.respository.TradeOrderRespository;
 import com.synapse.reading.util.AESDecodeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,12 +40,16 @@ import java.util.Random;
 @Transactional
 public class WxUserBindService {
 
+    private Logger logger = LoggerFactory.getLogger(WxUserBindService.class);
+
     @Autowired
     private UserService userService;
     @Autowired
     private MemberService memberService;
     @Autowired
     private BindService bindService;
+    @Autowired
+    private Encoder encoder;
 
     public Map<String, String> handleApply(BindUserModel param, String currentUserId) {
         try {
@@ -58,10 +65,11 @@ public class WxUserBindService {
                 } else if (!findUserId.equals(currentUserId) && !StringUtils.isEmpty(param.getPassword())) {
                     //有密码；去校验密码
                     Map<String, String> bindParam = new HashMap<>();
-                    bindParam.put("userId", currentUserId);
-                    bindParam.put("existUserId", findUserId);
+                    bindParam.put("userId", encoder.encryptStr(currentUserId));
+                    bindParam.put("existUserId", encoder.encryptStr(findUserId));
                     bindParam.put("password", param.getPassword());
                     Result result = bindService.miniBind(bindParam);
+                    logger.warn("--------------------------------result="+result);
                     if (result != null && (int) result.getBody() == 1) {
                         //校验并绑定成功
                         resultMap.put("flag", "6");
@@ -94,15 +102,16 @@ public class WxUserBindService {
 
         Member member = memberService.getMember(currentUserId);
         if (member != null) {
-            if(param.getName()!=null){
+            if (param.getName() != null) {
                 member.setName(param.getName());
             }
-            if(param.getPhase()!=null){
+            if (param.getPhase() != null) {
                 member.setIdCard(param.getPhase());
             }
-            if(param.getPhase()!=null){
+            if (param.getPhase() != null) {
                 member.setSubject(param.getPhase());
-            } if(param.getPhase()!=null){
+            }
+            if (param.getPhase() != null) {
                 member.setPhase(param.getPhase());
             }
             return memberService.update(member);
