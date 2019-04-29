@@ -50,14 +50,14 @@ public interface UserService {
         @RequestMapping(value = "/user/v1/home/mini/bind",method = RequestMethod.POST, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public Result miniHomeBind(@RequestBody Map<String,String> param);
 
-    @RequestMapping(value ="/user/v1//pwd/update",method = RequestMethod.PUT
+    @RequestMapping(value ="/user/v1/pwd/update",method = RequestMethod.PUT
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public BizTrans updateUserPassword(UserPwdUpdateModel userPwdUpdateModel);
 
 
-    @RequestMapping(value ="/user/v1//pwd/update",method = RequestMethod.PUT
+    @RequestMapping(value ="/user/v1/pwd/update",method = RequestMethod.GET
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    public String resetPwd(String userId, String resetPwd);
+    public String resetPwd(@PathVariable("userId")String userId,@PathVariable("resetPwd") String resetPwd);
 
 }
 
