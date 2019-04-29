@@ -342,10 +342,7 @@ public class MemberService extends MemberBaseService {
             return null;
         }
         Member member = memberRespository.selectByUserId(userId);
-        if (null != member && member.getStatus() != null && MemberConstants.STATUS.OK.num() == member.getStatus()) {
-            return member;
-        }
-        return null;
+        return member;
     }
 
     public Member addMember(User user, String type, MemberParam param,String roletype) {
