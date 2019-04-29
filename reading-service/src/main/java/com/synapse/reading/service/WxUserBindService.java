@@ -58,28 +58,16 @@ public class WxUserBindService {
             if (findUser != null) {
                 String findUserId = findUser.get("userId");
                 //该手机号已提交信息没有密码；返回要求用户填写密码;
-                if (!findUserId.equals(currentUserId) && StringUtils.isEmpty(param.getPassword())) {
-                    //
-                    resultMap.put("flag", "5");
-                    return resultMap;
-                } else if (!findUserId.equals(currentUserId) && !StringUtils.isEmpty(param.getPassword())) {
+                if (!findUserId.equals(currentUserId)) {
                     //有密码；去校验密码
-                    Map<String, String> bindParam = new HashMap<>();
-                    bindParam.put("userId", encoder.encryptStr(currentUserId));
-                    bindParam.put("existUserId", encoder.encryptStr(findUserId));
-                    bindParam.put("password", param.getPassword());
-                    Result result = bindService.miniBind(bindParam);
-                    logger.warn("--------------------------------result="+result);
-                    if (result != null && (int) result.getBody() == 1) {
-                        //校验并绑定成功
-                        resultMap.put("flag", "6");
-                        updateUser(param, currentUserId);
-                        return resultMap;
-                    } else {
-                        //密码错误；
-                        resultMap.put("flag", "7");
-                        return resultMap;
-                    }
+//                    Map<String, String> bindParam = new HashMap<>();
+//                    bindParam.put("userId", encoder.encryptStr(currentUserId));
+//                    bindParam.put("existUserId", encoder.encryptStr(findUserId));
+                    resultMap.put("flag", "7");
+                    resultMap.put("userId", encoder.encryptStr(currentUserId));
+                    resultMap.put("existUserId", encoder.encryptStr(findUserId));
+//                    updateUser(param, currentUserId);
+                    return resultMap;
                 }
                 //是同一个用户走正常逻辑.
                 resultMap.put("flag", "8");

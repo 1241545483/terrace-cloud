@@ -62,22 +62,23 @@ public class WxUserBindController {
                 //绑定出错
                 return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                         .body(Result.error(CommonConstants.SERVER_ERROR,"绑定出错"));
-            } else if (handleApplyResult.get("flag").equals("5")) {
+            } else if (handleApplyResult.get("flag").equals("7")) {
                 //请输入密码
                 return ResponseEntity.status(CommonConstants.BIND_NOPASSWORD)
-                        .body(Result.error(CommonConstants.BIND_NOPASSWORD,"请输入密码"));
-            } else if (handleApplyResult.get("flag").equals("7")) {
-                //密码错误
-                return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-                        .body(Result.error(CommonConstants.SERVER_ERROR,"密码错误"));
+                        .body(handleApplyResult);
+//            } else if (handleApplyResult.get("flag").equals("7")) {
+//                //密码错误
+//                return ResponseEntity.ok(handleApplyResult);
+//                return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+//                        .body(Result.error(CommonConstants.SERVER_ERROR,"密码错误"));
             } else if (handleApplyResult.get("flag").equals("8")) {
                 //同一用户，修改信息成功
                 return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                         .body(Result.error(CommonConstants.SERVER_ERROR,"绑定成功"));
-            } else if (handleApplyResult.get("flag").equals("6")) {
-                //密码成功
-                return ResponseEntity.status(CommonConstants.BIND_SUCCESS)
-                        .body(Result.error(CommonConstants.BIND_SUCCESS,"绑定成功"));
+//            } else if (handleApplyResult.get("flag").equals("6")) {
+//                //密码成功
+//                return ResponseEntity.status(CommonConstants.BIND_SUCCESS)
+//                        .body(Result.error(CommonConstants.BIND_SUCCESS,"绑定成功"));
             }else {
                 return ResponseEntity.status(CommonConstants.SERVER_ERROR)
                         .body(Result.error(CommonConstants.SERVER_ERROR,"绑定出错"));
