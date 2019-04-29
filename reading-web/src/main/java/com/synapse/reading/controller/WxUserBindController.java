@@ -60,8 +60,8 @@ public class WxUserBindController {
             Map<String, String> handleApplyResult =  wxUserBindService.handleApply(param ,user.getRecId());
             if (handleApplyResult == null) {
                 //绑定出错
-                return ResponseEntity.status(CommonConstants.BIND_ERROR)
-                        .body(Result.error(CommonConstants.BIND_ERROR,"绑定出错"));
+                return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                        .body(Result.error(CommonConstants.SERVER_ERROR,"绑定出错"));
             } else if (handleApplyResult.get("flag").equals("5")) {
                 //请输入密码
                 return ResponseEntity.status(CommonConstants.BIND_NOPASSWORD)
