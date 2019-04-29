@@ -57,11 +57,11 @@ public interface UserService {
 
     @RequestMapping(value ="/user/v1/pwd/update",method = RequestMethod.GET
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    public String resetPwd(@PathVariable("userId")String userId,@PathVariable("resetPwd") String resetPwd);
+    public String resetPwd(@RequestParam("userId")String userId,@RequestParam("resetPwd") String resetPwd);
 
 
     @RequestMapping(value ="/org/v1/org/byId",method = RequestMethod.GET)
-    public String getOrgNamebyId(@PathVariable("orgId")String orgId) ;
+    public String getOrgNamebyId(@RequestParam("orgId")String orgId) ;
 
 }
 
