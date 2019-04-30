@@ -101,11 +101,8 @@ public class WxUserBindService {
             if (param.getPhase() != null) {
                 member.setIdCard(param.getPhase());
             }
-            if (param.getPhase() != null) {
-                member.setSubject(param.getPhase());
-            }
-            if (param.getPhase() != null) {
-                member.setPhase(param.getPhase());
+            if (param.getSubject() != null) {
+                member.setSubject(param.getSubject());
             }
             if (param.getPhone() != null) {
                 member.setMobile(param.getPhone());
