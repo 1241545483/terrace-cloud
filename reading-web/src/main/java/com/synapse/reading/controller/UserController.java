@@ -43,7 +43,9 @@ public class UserController {
         try {
             User user = UserContext.getUser();
             Member member =memberService.getMember(user.getRecId());
-            user.setUsername(member.getName());
+            if(member.getName()!=null&&!"".equals(member.getName())){
+                user.setUsername(member.getName());
+            }
 //            user.setUserImg();
             if (user == null) {
                 throw new NotLoginException();

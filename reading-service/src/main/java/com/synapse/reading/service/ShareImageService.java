@@ -63,6 +63,9 @@ public class ShareImageService extends ShareImageBaseService {
     private IssueService issueService;
     @Autowired
     private LessonService lessonService;
+    @Autowired
+    private  MemberService memberService;
+
     protected static org.slf4j.Logger logger = LoggerFactory.getLogger(ShareImageService.class);
 
     public ShareImage find(String recId) {
@@ -128,6 +131,10 @@ public class ShareImageService extends ShareImageBaseService {
                 }
                 String qrcodeUrl = audio.getQrCode();
                 String wxNickName = user.getUsername();
+                Member member= memberService.getMember(user.getRecId());
+                if(member.getName()!=null&&!"".equals(member.getName())){
+                    wxNickName = member.getName();
+                }
                 String solgan = albumService.find(audio.getBelongToId()).getSlogan();
                 String albumName = albumService.find(audio.getBelongToId()).getName();
                 String audioName = audio.getName();
@@ -166,6 +173,10 @@ public class ShareImageService extends ShareImageBaseService {
                 }
                 String qrcodeUrl = audio.getQrCode();
                 String wxNickName = user.getUsername();
+                Member member= memberService.getMember(user.getRecId());
+                if(member.getName()!=null&&!"".equals(member.getName())){
+                    wxNickName = member.getName();
+                }
                 String solgan = bookService.find(audio.getBelongToId()).getSlogan();
                 String albumName = bookService.find(audio.getBelongToId()).getName();
                 String audioName = audio.getName();
@@ -205,6 +216,10 @@ public class ShareImageService extends ShareImageBaseService {
                 }
                 String qrcodeUrl = book.getQrCode();
                 String wxNickName = user.getUsername();
+                Member member= memberService.getMember(user.getRecId());
+                if(member.getName()!=null&&!"".equals(member.getName())){
+                    wxNickName = member.getName();
+                }
                 String solgan = book.getSlogan();
                 String bookName = book.getName();
                 Path tempPng = ImgUtil.DrawSuccessPosterByBook(modelUrl, url, qrcodeUrl, wxNickName, solgan, bookName, backdropUrl);
@@ -245,7 +260,11 @@ public class ShareImageService extends ShareImageBaseService {
                 Lesson lesson = lessonService.find(id);
                 String modelUrl = lesson.getImage();
                 String qrcodeUrl = lesson.getQrCode();
+                Member member= memberService.getMember(user.getRecId());
                 String wxNickName = user.getUsername();
+                if(member.getName()!=null&&!"".equals(member.getName())){
+                    wxNickName = member.getName();
+                }
                 Path tempPng = ImgUtil.DrawSuccessPosterByLesson(modelUrl,  qrcodeUrl, wxNickName);
                 FileInputStream fis = new FileInputStream(tempPng.toFile());
                 String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
@@ -288,6 +307,10 @@ public class ShareImageService extends ShareImageBaseService {
 //                BufferedImage logoUrl = ImageIO.read(classPathDropUrl.getInputStream());
                 String qrcodeUrl = book.getQrCode();
                 String wxNickName = user.getUsername();
+                Member member= memberService.getMember(user.getRecId());
+                if(member.getName()!=null&&!"".equals(member.getName())){
+                    wxNickName = member.getName();
+                }
                 String bookName = book.getName();
                 int rightNum = issueService.selectCountByUserId(user, belongToId, belongTo);
                 int starNum = (int) issueService.selectScoreByUserId(user, belongToId, belongTo);
