@@ -11,7 +11,7 @@
     </select>
 
 
-    <select id="findTradeOrderProdId" resultMap="string" parameterType="java.lang.String" >
+    <select id="findTradeOrderProdId" resultType="string" parameterType="java.lang.String" >
         select
             a.prod_id
         from `trade_order_detail` a
