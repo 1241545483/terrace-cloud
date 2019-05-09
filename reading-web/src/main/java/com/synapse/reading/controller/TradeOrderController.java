@@ -4,7 +4,10 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.constants.TradeOrderConstants;
 import com.synapse.reading.dto.param.SchoolTradeOrderParam;
+import com.synapse.reading.model.Book;
+import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.TradeOrder;
 import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.dto.result.TradeOrderResult;
@@ -134,7 +137,59 @@ public class TradeOrderController extends BaseController{
         }
     }
 
-
+    @ApiOperation(value = "查询学校已购买课程或书籍)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TradeOrderResult.class, message = "TradeOrder列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "recId" , paramType = "query"),
+            @ApiImplicitParam(name = "name" , paramType = "query"),
+            @ApiImplicitParam(name = "intro" , paramType = "query"),
+            @ApiImplicitParam(name = "payWay" , paramType = "query"),
+            @ApiImplicitParam(name = "price" , paramType = "query"),
+            @ApiImplicitParam(name = "status" , paramType = "query"),
+            @ApiImplicitParam(name = "createId" , paramType = "query"),
+            @ApiImplicitParam(name = "createTime" , paramType = "query"),
+            @ApiImplicitParam(name = "updateId" , paramType = "query"),
+            @ApiImplicitParam(name = "updateTime" , paramType = "query")    })
+    @RequestMapping(value = "/v1/tradeOrder/school、buy",method = RequestMethod.GET)
+    public ResponseEntity listBuy(PageInfo pageInfo, @Validated(Search.class) SchoolTradeOrderParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = 0;
+            if (param.getType().equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
+                preparePageInfo(pageInfo, totalNum);
+                List<Lesson> results = tradeOrderService.listBuyLesson(param,pageInfo);
+                totalNum =results.size() ;
+                Map<String, Object> map = new HashMap();
+                map.put("ProdList", results);
+                map.put("totalNum", totalNum);
+                return ResponseEntity.ok(map);
+            }
+            if (param.getType().equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
+                preparePageInfo(pageInfo, totalNum);
+                List<Book> results = tradeOrderService.listBuyBook(param,pageInfo);
+                totalNum =results.size() ;
+                Map<String, Object> map = new HashMap();
+                map.put("ProdList", results);
+                map.put("totalNum", totalNum);
+                return ResponseEntity.ok(map);
+            }
+            return  ResponseEntity.ok(null);
+        } catch (BusinessException e) {
+            logger.error("list TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
     @ApiOperation(value = "根据主键查询TradeOrder详情")
     @ApiResponses({

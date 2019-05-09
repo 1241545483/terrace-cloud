@@ -11,4 +11,13 @@
     </select>
 
 
+    <select id="findTradeOrderProdId" resultMap="map" parameterType="java.lang.String" >
+        select
+            a.prod_id
+        from `trade_order_detail` a
+        where
+        `trate_order_id` = #{tradeOrderId} AND
+        `prod_type` = #{prodType}
+    </select>
+
 </mapper>

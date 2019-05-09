@@ -7,6 +7,7 @@ import com.synapse.reading.dto.param.LessonParam;
 import com.synapse.reading.dto.param.SchoolTradeOrderParam;
 import com.synapse.reading.dto.param.TradeOrderDetailParam;
 import com.synapse.reading.model.*;
+import com.synapse.reading.respository.TradeOrderDetailRespository;
 import com.synapse.reading.respository.TradeOrderRespository;
 import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.dto.result.TradeOrderResult;
@@ -48,12 +49,14 @@ public class TradeOrderService extends TradeOrderBaseService {
     private LessonService lessonService;
     @Autowired
     private BookService bookService;
+    @Autowired
+    private TradeOrderDetailRespository tradeOrderDetailRespository;
 
     public TradeOrder find(String recId) {
         return tradeOrderRespository.selectByPrimaryKey(recId);
     }
 
-    public TradeOrder findByBuyId(String BuyId) {
+    public List<TradeOrder> findByBuyId(String BuyId) {
         return tradeOrderRespository.findByBuyId(BuyId);
     }
 
@@ -120,7 +123,7 @@ public class TradeOrderService extends TradeOrderBaseService {
                     tradeOrderDetail.setCreateId(user.getRecId());
                     tradeOrderDetail.setCreateTime(now);
                     tradeOrderDetailService.create(tradeOrderDetail);
-                    if(lesson.getPresentPrice()!=null&&!"".equals(lesson.getPresentPrice())){
+                    if (lesson.getPresentPrice() != null && !"".equals(lesson.getPresentPrice())) {
                         price = price + Integer.parseInt(lesson.getPresentPrice());
                     }
 
@@ -183,8 +186,43 @@ public class TradeOrderService extends TradeOrderBaseService {
                 tradeOrder.setTradeOrderDetailParamArrayList(tradeOrderDetails);
             }
         }
-
         return results;
+    }
+
+    public List<Lesson> listBuyLesson(SchoolTradeOrderParam schoolTradeOrderParam, PageInfo pageInfo) {
+        List<TradeOrder> orders = tradeOrderRespository.findByBuyId(schoolTradeOrderParam.getSchoolUserId());
+        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
+        List<Lesson> lessons = null;
+        if (results.size() > 0 && results != null) {
+            for (TradeOrderResult tradeOrder : results) {
+                List<String> prodIds = tradeOrderDetailRespository.findTradeOrderProdId(tradeOrder.getRecId(), schoolTradeOrderParam.getType());
+                if (prodIds.size() > 0 && prodIds != null) {
+                    for (String prodId : prodIds) {
+                        Lesson lesson = lessonService.find(prodId);
+                        lessons.add(lesson);
+                    }
+                }
+            }
+        }
+        return lessons;
+    }
+
+    public List<Book> listBuyBook(SchoolTradeOrderParam schoolTradeOrderParam, PageInfo pageInfo) {
+        List<TradeOrder> orders = tradeOrderRespository.findByBuyId(schoolTradeOrderParam.getSchoolUserId());
+        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
+        List<Book> books = null;
+        if (results.size() > 0 && results != null) {
+            for (TradeOrderResult tradeOrder : results) {
+                List<String> prodIds = tradeOrderDetailRespository.findTradeOrderProdId(tradeOrder.getRecId(), schoolTradeOrderParam.getType());
+                if (prodIds.size() > 0 && prodIds != null) {
+                    for (String prodId : prodIds) {
+                        Book book = bookService.find(prodId);
+                        books.add(book);
+                    }
+                }
+            }
+        }
+        return books;
     }
 
     public Integer count(TradeOrder tradeOrderParam) {

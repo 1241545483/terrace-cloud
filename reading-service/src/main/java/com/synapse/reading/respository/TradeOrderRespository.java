@@ -3,6 +3,9 @@ package com.synapse.reading.respository;
 import com.synapse.reading.mapper.TradeOrderMapper;
 import com.synapse.reading.model.TradeOrder;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 订单 Respository 接口
@@ -13,5 +16,5 @@ import com.synapse.reading.model.TradeOrder;
  */
 public interface TradeOrderRespository extends TradeOrderMapper {
 
-    TradeOrder findByBuyId(String buyId);
+    List<TradeOrder>  findByBuyId(String buyId);
 }
