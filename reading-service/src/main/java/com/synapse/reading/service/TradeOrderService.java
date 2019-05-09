@@ -12,6 +12,8 @@ import com.synapse.reading.respository.TradeOrderRespository;
 import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.dto.result.TradeOrderResult;
 import com.synapse.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +37,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class TradeOrderService extends TradeOrderBaseService {
-
+    private Logger logger = LoggerFactory.getLogger(TradeOrderService.class);
     @Autowired
     private IdService idService;
 
@@ -200,7 +202,12 @@ public class TradeOrderService extends TradeOrderBaseService {
                 if (prodIds.size() > 0 && prodIds != null) {
                     for (String prodId : prodIds) {
                         Lesson lesson = lessonService.find(prodId);
-                        lessons.add(lesson);
+                        logger.warn("-----------------prodId" + prodId);
+                        logger.warn("-----------------lesson" + lesson.getRecId());
+                        if (lesson != null && !"".equals(lesson)) {
+                            lessons.add(lesson);
+                        }
+
                     }
                 }
             }
