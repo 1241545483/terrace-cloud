@@ -120,7 +120,10 @@ public class TradeOrderService extends TradeOrderBaseService {
                     tradeOrderDetail.setCreateId(user.getRecId());
                     tradeOrderDetail.setCreateTime(now);
                     tradeOrderDetailService.create(tradeOrderDetail);
-                    price = price + Integer.parseInt(lesson.getPresentPrice());
+                    if(lesson.getPresentPrice()!=null&&!"".equals(lesson.getPresentPrice())){
+                        price = price + Integer.parseInt(lesson.getPresentPrice());
+                    }
+
                 }
             }
         }
