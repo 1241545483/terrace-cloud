@@ -283,12 +283,12 @@ public class MemberController extends BaseController {
             member.setOrganization(MemberConstants.ORG.DEFAULT.num());
             memberService.update(member);
             userService.modifyUserOrg(recId, MemberConstants.ORG.DEFAULT.num(), member.getName(), member.getMobile(), member.getMobile(), member.getIdCard(), member.getIdCard());
-            List<TradeOrderResult> tradeOrders = tradeOrderService.findByBuyId(recId);
+            List<TradeOrder> tradeOrders = tradeOrderService.findByBuyId(recId);
             if (tradeOrders.size() > 0 && tradeOrders != null) {
-                for (TradeOrderResult tradeOrder : tradeOrders) {
+                for (TradeOrder tradeOrder : tradeOrders) {
                     List<TradeOrderDetail> tradeOrderDetails = tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
                     tradeOrder.setStatus(TradeOrderConstants.STATUS.DELETED.num());
-                    Integer num1 = tradeOrderService.update(tradeOrder.getModel());
+                    Integer num1 = tradeOrderService.update(tradeOrder);
                     if (tradeOrderDetails.size() > 0 && tradeOrderDetails != null) {
                         for (TradeOrderDetail tradeOrderDetail : tradeOrderDetails) {
                             tradeOrderDetail.setStatus(TradeOrderDetailConstants.STATUS.DELETED.num());

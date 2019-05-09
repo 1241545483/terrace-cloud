@@ -17,5 +17,5 @@ import java.util.Map;
  */
 public interface TradeOrderRespository extends TradeOrderMapper {
 
-    List<TradeOrderResult>  findByBuyId(String buyId);
+    List<TradeOrder>  findByBuyId(String buyId);
 }
