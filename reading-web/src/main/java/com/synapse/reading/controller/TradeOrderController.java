@@ -143,17 +143,6 @@ public class TradeOrderController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "recId" , paramType = "query"),
-            @ApiImplicitParam(name = "name" , paramType = "query"),
-            @ApiImplicitParam(name = "intro" , paramType = "query"),
-            @ApiImplicitParam(name = "payWay" , paramType = "query"),
-            @ApiImplicitParam(name = "price" , paramType = "query"),
-            @ApiImplicitParam(name = "status" , paramType = "query"),
-            @ApiImplicitParam(name = "createId" , paramType = "query"),
-            @ApiImplicitParam(name = "createTime" , paramType = "query"),
-            @ApiImplicitParam(name = "updateId" , paramType = "query"),
-            @ApiImplicitParam(name = "updateTime" , paramType = "query")    })
     @RequestMapping(value = "/v1/tradeOrder/school/buy",method = RequestMethod.GET)
     public ResponseEntity listBuy(PageInfo pageInfo, @Validated(Search.class) SchoolTradeOrderParam param, BindingResult bindingResult) {
         try {
