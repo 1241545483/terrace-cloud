@@ -1,5 +1,6 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.TradeOrderResult;
 import com.synapse.reading.mapper.TradeOrderMapper;
 import com.synapse.reading.model.TradeOrder;
 
@@ -16,5 +17,5 @@ import java.util.Map;
  */
 public interface TradeOrderRespository extends TradeOrderMapper {
 
-    List<TradeOrder>  findByBuyId(String buyId);
+    List<TradeOrderResult>  findByBuyId(String buyId);
 }

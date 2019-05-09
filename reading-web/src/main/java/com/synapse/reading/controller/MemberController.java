@@ -9,6 +9,7 @@ import com.synapse.reading.constants.MemberConstants;
 import com.synapse.reading.constants.TradeOrderConstants;
 import com.synapse.reading.constants.TradeOrderDetailConstants;
 import com.synapse.reading.dto.result.ApiResponseResult;
+import com.synapse.reading.dto.result.TradeOrderResult;
 import com.synapse.reading.model.ExcelRowModel;
 import com.synapse.reading.model.Member;
 import com.synapse.reading.dto.param.MemberParam;
@@ -282,12 +283,12 @@ public class MemberController extends BaseController {
             member.setOrganization(MemberConstants.ORG.DEFAULT.num());
             memberService.update(member);
             userService.modifyUserOrg(recId, MemberConstants.ORG.DEFAULT.num(), member.getName(), member.getMobile(), member.getMobile(), member.getIdCard(), member.getIdCard());
-            List<TradeOrder> tradeOrders = tradeOrderService.findByBuyId(recId);
+            List<TradeOrderResult> tradeOrders = tradeOrderService.findByBuyId(recId);
             if (tradeOrders.size() > 0 && tradeOrders != null) {
-                for (TradeOrder tradeOrder : tradeOrders) {
+                for (TradeOrderResult tradeOrder : tradeOrders) {
                     List<TradeOrderDetail> tradeOrderDetails = tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
                     tradeOrder.setStatus(TradeOrderConstants.STATUS.DELETED.num());
-                    Integer num1 = tradeOrderService.update(tradeOrder);
+                    Integer num1 = tradeOrderService.update(tradeOrder.getModel());
                     if (tradeOrderDetails.size() > 0 && tradeOrderDetails != null) {
                         for (TradeOrderDetail tradeOrderDetail : tradeOrderDetails) {
                             tradeOrderDetail.setStatus(TradeOrderDetailConstants.STATUS.DELETED.num());

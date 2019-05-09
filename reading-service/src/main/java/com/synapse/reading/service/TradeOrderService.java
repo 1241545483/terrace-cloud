@@ -56,7 +56,7 @@ public class TradeOrderService extends TradeOrderBaseService {
         return tradeOrderRespository.selectByPrimaryKey(recId);
     }
 
-    public List<TradeOrder> findByBuyId(String BuyId) {
+    public List<TradeOrderResult> findByBuyId(String BuyId) {
         return tradeOrderRespository.findByBuyId(BuyId);
     }
 
@@ -190,8 +190,9 @@ public class TradeOrderService extends TradeOrderBaseService {
     }
 
     public List<Lesson> listBuyLesson(SchoolTradeOrderParam schoolTradeOrderParam, PageInfo pageInfo) {
-        List<TradeOrder> orders = tradeOrderRespository.findByBuyId(schoolTradeOrderParam.getSchoolUserId());
-        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
+
+        List<TradeOrderResult> results = tradeOrderRespository.findByBuyId(schoolTradeOrderParam.getSchoolUserId());
+//        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
         List<Lesson> lessons = null;
         if (results.size() > 0 && results != null) {
             for (TradeOrderResult tradeOrder : results) {
@@ -208,8 +209,8 @@ public class TradeOrderService extends TradeOrderBaseService {
     }
 
     public List<Book> listBuyBook(SchoolTradeOrderParam schoolTradeOrderParam, PageInfo pageInfo) {
-        List<TradeOrder> orders = tradeOrderRespository.findByBuyId(schoolTradeOrderParam.getSchoolUserId());
-        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
+        List<TradeOrderResult> results = tradeOrderRespository.findByBuyId(schoolTradeOrderParam.getSchoolUserId());
+//        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
         List<Book> books = null;
         if (results.size() > 0 && results != null) {
             for (TradeOrderResult tradeOrder : results) {
