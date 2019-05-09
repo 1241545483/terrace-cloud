@@ -90,7 +90,7 @@ public class TradeOrderService extends TradeOrderBaseService {
         List<SchoolTradeOrder> schoolTradeOrderList = param.getSchoolTradeOrderList();
         if (schoolTradeOrderList.size() > 0 && schoolTradeOrderList != null) {
             for (SchoolTradeOrder schoolTradeOrder : schoolTradeOrderList) {
-                if (param.getType().equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
+                if (schoolTradeOrder.getType().equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
                     Book book = bookService.find(schoolTradeOrder.getRecId());
                     TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
                     tradeOrderDetail.setRecId(idService.gen("ID"));
