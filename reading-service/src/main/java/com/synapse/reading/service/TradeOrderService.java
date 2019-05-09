@@ -98,7 +98,7 @@ public class TradeOrderService extends TradeOrderBaseService {
 //                    tradeOrderDetail.setOriginalPrice(book.getOriginalPrice());
 //                    tradeOrderDetail.setPresentPrice(book.getPresentPrice());
                     tradeOrderDetail.setName(book.getName());
-                    tradeOrderDetail.setProdType(param.getType());
+                    tradeOrderDetail.setProdType(schoolTradeOrder.getType());
                     tradeOrderDetail.setProdId(book.getRecId());
                     tradeOrderDetail.setStatus(TradeOrderConstants.STATUS.OK.num());
                     tradeOrderDetail.setCreateId(user.getRecId());
@@ -106,7 +106,7 @@ public class TradeOrderService extends TradeOrderBaseService {
                     tradeOrderDetailService.create(tradeOrderDetail);
 //                    price=price+Integer.parseInt(book.getPresentPrice());
                 }
-                if (param.getType().equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
+                if (schoolTradeOrder.getType().equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
                     Lesson lesson = lessonService.find(schoolTradeOrder.getRecId());
                     TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
                     tradeOrderDetail.setRecId(idService.gen("ID"));
@@ -114,7 +114,7 @@ public class TradeOrderService extends TradeOrderBaseService {
                     tradeOrderDetail.setOriginalPrice(lesson.getOriginalPrice());
                     tradeOrderDetail.setPresentPrice(lesson.getPresentPrice());
                     tradeOrderDetail.setName(lesson.getName());
-                    tradeOrderDetail.setProdType(param.getType());
+                    tradeOrderDetail.setProdType(schoolTradeOrder.getType());
                     tradeOrderDetail.setProdId(lesson.getRecId());
                     tradeOrderDetail.setStatus(TradeOrderConstants.STATUS.OK.num());
                     tradeOrderDetail.setCreateId(user.getRecId());
