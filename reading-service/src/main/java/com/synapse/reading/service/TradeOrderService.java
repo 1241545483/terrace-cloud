@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.constants.TradeOrderConstants;
 import com.synapse.reading.remote.IdService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -195,7 +196,7 @@ public class TradeOrderService extends TradeOrderBaseService {
 
         List<TradeOrder> results = tradeOrderRespository.findByBuyId(schoolTradeOrderParam.getSchoolUserId());
 //        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
-        List<Lesson> lessons = null;
+        List<Lesson> lessons = new ArrayList<>();
         if (results.size() > 0 && results != null) {
             for (TradeOrder tradeOrder : results) {
                 List<String> prodIds = tradeOrderDetailRespository.findTradeOrderProdId(tradeOrder.getRecId(), schoolTradeOrderParam.getType());
