@@ -39,7 +39,7 @@ public class TradeOrderDetailService extends TradeOrderDetailBaseService {
 	    return tradeOrderDetailRespository.selectByPrimaryKey(recId);
     }
 
-    public TradeOrderDetail findByTradeOrder(String tradeOrderId){
+    public List<TradeOrderDetail> findByTradeOrder(String tradeOrderId){
         return tradeOrderDetailRespository.findByTradeOrder(tradeOrderId);
     }
 

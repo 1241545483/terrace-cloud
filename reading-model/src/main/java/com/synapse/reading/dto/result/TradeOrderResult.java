@@ -3,6 +3,7 @@ package com.synapse.reading.dto.result;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.synapse.reading.dto.param.TradeOrderDetailParam;
 import com.synapse.reading.model.TradeOrder;
+import com.synapse.reading.model.TradeOrderDetail;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -22,13 +23,13 @@ public class TradeOrderResult {
 
     private TradeOrder tradeOrder = new TradeOrder();
 
-    private List<TradeOrderDetailParam> tradeOrderDetailParamArrayList = new ArrayList<>();// 子列表
+    private List<TradeOrderDetail> tradeOrderDetailParamArrayList = new ArrayList<>();// 子列表
 
-    public List<TradeOrderDetailParam> getTradeOrderDetailParamArrayList() {
+    public List<TradeOrderDetail> getTradeOrderDetailParamArrayList() {
         return tradeOrderDetailParamArrayList;
     }
 
-    public void setTradeOrderDetailParamArrayList(List<TradeOrderDetailParam> tradeOrderDetailParamArrayList) {
+    public void setTradeOrderDetailParamArrayList(List<TradeOrderDetail> tradeOrderDetailParamArrayList) {
         this.tradeOrderDetailParamArrayList = tradeOrderDetailParamArrayList;
     }
 

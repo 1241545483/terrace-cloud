@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.dto.param.SchoolTradeOrderParam;
 import com.synapse.reading.model.TradeOrder;
 import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.dto.result.TradeOrderResult;
@@ -92,7 +93,50 @@ public class TradeOrderController extends BaseController{
         }
 	}
 
-	@ApiOperation(value = "根据主键查询TradeOrder详情")
+    @ApiOperation(value = "查询TradeOrder列表(分页，校管理员)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TradeOrderResult.class, message = "TradeOrder列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "recId" , paramType = "query"),
+            @ApiImplicitParam(name = "name" , paramType = "query"),
+            @ApiImplicitParam(name = "intro" , paramType = "query"),
+            @ApiImplicitParam(name = "payWay" , paramType = "query"),
+            @ApiImplicitParam(name = "price" , paramType = "query"),
+            @ApiImplicitParam(name = "status" , paramType = "query"),
+            @ApiImplicitParam(name = "createId" , paramType = "query"),
+            @ApiImplicitParam(name = "createTime" , paramType = "query"),
+            @ApiImplicitParam(name = "updateId" , paramType = "query"),
+            @ApiImplicitParam(name = "updateTime" , paramType = "query")    })
+    @RequestMapping(value = "/v1/tradeOrder/school",method = RequestMethod.GET)
+    public ResponseEntity listOrder(PageInfo pageInfo, @Validated(Search.class) TradeOrderParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = tradeOrderService.count(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            List<TradeOrderResult> results = tradeOrderService.listOrder(param.getModel(),pageInfo);
+            Map<String, Object> map = new HashMap();
+            map.put("tradeOrderList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
+    @ApiOperation(value = "根据主键查询TradeOrder详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = TradeOrderResult.class, message = "TradeOrder对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
@@ -143,6 +187,34 @@ public class TradeOrderController extends BaseController{
         }
     }
 
+
+    @ApiOperation(value = "创建TradeOrder,校管理员导入")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = String.class, message = "主键"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/tradeOrder/school", method = RequestMethod.POST)
+    public ResponseEntity createBySchool(@RequestBody @Validated(Create.class) SchoolTradeOrderParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            String recId = tradeOrderService.createBySchool(param,user);
+            return ResponseEntity.ok(recId);
+        } catch (BusinessException e) {
+            logger.error("create TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("create TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 	@ApiOperation(value = "根据主键删除TradeOrder")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
@@ -165,6 +237,30 @@ public class TradeOrderController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+    @ApiOperation(value = "根据主键删除TradeOrder,校管理员导入")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/tradeOrder/school/{recId}",method = RequestMethod.DELETE)
+    public ResponseEntity deleteBySchool(@PathVariable("recId") String recId){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Integer num = tradeOrderService.deleteBySchool(recId,user.getRecId());
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("delete TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("delete TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
 	@ApiOperation(value = "根据主键更新TradeOrder")
     @ApiResponses({
@@ -196,5 +292,7 @@ public class TradeOrderController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
+
+
 
 }

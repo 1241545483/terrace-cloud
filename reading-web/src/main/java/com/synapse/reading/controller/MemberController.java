@@ -142,9 +142,9 @@ public class MemberController extends BaseController {
             User user = UserContext.getUser();
 
             Member member = memberService.selectByUserId(user.getRecId());
-           MemberResult memberResult=  new MemberResult(member);
-            if(member.getOrganization()!=null &&!"".equals(member.getOrganization())){
-                String orgName =userService.getOrgNamebyId(member.getOrganization());
+            MemberResult memberResult = new MemberResult(member);
+            if (member.getOrganization() != null && !"".equals(member.getOrganization())) {
+                String orgName = userService.getOrgNamebyId(member.getOrganization());
                 memberResult.setOrgName(orgName);
             }
             return ResponseEntity.ok(memberResult);
@@ -283,12 +283,16 @@ public class MemberController extends BaseController {
             memberService.update(member);
             userService.modifyUserOrg(recId, MemberConstants.ORG.DEFAULT.num(), member.getName(), member.getMobile(), member.getMobile(), member.getIdCard(), member.getIdCard());
             TradeOrder tradeOrder = tradeOrderService.findByBuyId(recId);
-            TradeOrderDetail tradeOrderDetail = tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
+            List<TradeOrderDetail> tradeOrderDetails = tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
             tradeOrder.setStatus(TradeOrderConstants.STATUS.DELETED.num());
             Integer num1 = tradeOrderService.update(tradeOrder);
-            tradeOrderDetail.setStatus(TradeOrderDetailConstants.STATUS.DELETED.num());
-            Integer num2 = tradeOrderDetailService.update(tradeOrderDetail);
-            return ResponseEntity.ok(num2);
+            if (tradeOrderDetails.size() > 0&&tradeOrderDetails!=null) {
+                for (TradeOrderDetail tradeOrderDetail : tradeOrderDetails) {
+                    tradeOrderDetail.setStatus(TradeOrderDetailConstants.STATUS.DELETED.num());
+                    tradeOrderDetailService.update(tradeOrderDetail);
+                }
+            }
+            return ResponseEntity.ok(true);
         } catch (BusinessException e) {
             logger.error("delete Member Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
@@ -498,7 +502,7 @@ public class MemberController extends BaseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("缺少学员信息");
         }
         try {
-            Member member = memberService.addMember(user, type, param,MemberConstants.ROLETYPE.READ_TEACHER.value());
+            Member member = memberService.addMember(user, type, param, MemberConstants.ROLETYPE.READ_TEACHER.value());
             memberService.create(member);
             //如果是专家则增加专家的关系信息
 //            if (type.length() > 0) {
@@ -533,7 +537,7 @@ public class MemberController extends BaseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("缺少学员信息");
         }
         try {
-            Member member = memberService.addMember(user, type, param,MemberConstants.ROLETYPE.READ_STUDENT.value());
+            Member member = memberService.addMember(user, type, param, MemberConstants.ROLETYPE.READ_STUDENT.value());
             memberService.create(member);
             //如果是专家则增加专家的关系信息
 //            if (type.length() > 0) {
@@ -594,7 +598,7 @@ public class MemberController extends BaseController {
             if (bindingResult.hasErrors()) {
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
-            MemberParam param =new MemberParam();
+            MemberParam param = new MemberParam();
             User user = UserContext.getUser();
             param.getModel().setOrganization(user.getGroupId());
             param.getModel().setRole(MemberConstants.ROLE.TEACHER.num());
@@ -624,13 +628,13 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/student", method = RequestMethod.GET)
-    public ResponseEntity listStudent(PageInfo pageInfo,  BindingResult bindingResult) {
+    public ResponseEntity listStudent(PageInfo pageInfo, BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
-            MemberParam param =new MemberParam();
+            MemberParam param = new MemberParam();
             User user = UserContext.getUser();
             param.getModel().setOrganization(user.getGroupId());
             param.getModel().setRole(MemberConstants.ROLE.STUDENT.num());
@@ -651,8 +655,6 @@ public class MemberController extends BaseController {
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
-
-
 
 
     @ApiOperation(value = "重置学员密码(分页)")
@@ -691,19 +693,16 @@ public class MemberController extends BaseController {
             resetPwd = idCard.substring(idCard.length() - 6, idCard.length()).toUpperCase();
         }
         try {
-            if (userService.resetPwd(userId, resetPwd)=="") {
+            if (userService.resetPwd(userId, resetPwd) == "") {
                 return ResponseEntity.ok(true);
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("重置密码失败");
             }
         } catch (Exception e) {
-            logger.error("重置密码失败!",e);
+            logger.error("重置密码失败!", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("重置密码失败!" + e.getMessage());
         }
     }
-
-
-
 
 
 }

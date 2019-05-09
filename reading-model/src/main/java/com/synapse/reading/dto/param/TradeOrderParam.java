@@ -1,6 +1,7 @@
 package com.synapse.reading.dto.param;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.reading.model.SchoolTradeOrder;
 import com.synapse.reading.model.TradeOrder;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,6 +30,26 @@ public class TradeOrderParam  {
 
     public List<TradeOrderDetailParam> getTradeOrderDetailParamArrayList() {
         return tradeOrderDetailParamArrayList;
+    }
+
+    private List<SchoolTradeOrder> schoolTradeOrderList = new ArrayList<>();// 提交购买记录列表
+
+    private String  schoolUserId;
+
+    public List<SchoolTradeOrder> getSchoolTradeOrderList() {
+        return schoolTradeOrderList;
+    }
+
+    public void setSchoolTradeOrderList(List<SchoolTradeOrder> schoolTradeOrderList) {
+        this.schoolTradeOrderList = schoolTradeOrderList;
+    }
+
+    public String getSchoolUserId() {
+        return schoolUserId;
+    }
+
+    public void setSchoolUserId(String schoolUserId) {
+        this.schoolUserId = schoolUserId;
     }
 
     public void setTradeOrderDetailParamArrayList(List<TradeOrderDetailParam> tradeOrderDetailParamArrayList) {

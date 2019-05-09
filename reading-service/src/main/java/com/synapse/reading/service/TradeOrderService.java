@@ -1,7 +1,12 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
-import com.synapse.reading.model.TradeOrder;
+import com.synapse.common.sso.model.User;
+import com.synapse.reading.constants.TradeOrderDetailConstants;
+import com.synapse.reading.dto.param.LessonParam;
+import com.synapse.reading.dto.param.SchoolTradeOrderParam;
+import com.synapse.reading.dto.param.TradeOrderDetailParam;
+import com.synapse.reading.model.*;
 import com.synapse.reading.respository.TradeOrderRespository;
 import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.dto.result.TradeOrderResult;
@@ -15,6 +20,7 @@ import com.synapse.reading.remote.IdService;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 
 /**
@@ -29,37 +35,102 @@ import java.util.HashMap;
 @Transactional
 public class TradeOrderService extends TradeOrderBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private TradeOrderRespository tradeOrderRespository;
 
-    public TradeOrder find(String recId){
-	    return tradeOrderRespository.selectByPrimaryKey(recId);
+    @Autowired
+    private TradeOrderDetailService tradeOrderDetailService;
+
+    @Autowired
+    private LessonService lessonService;
+    @Autowired
+    private BookService bookService;
+
+    public TradeOrder find(String recId) {
+        return tradeOrderRespository.selectByPrimaryKey(recId);
     }
 
-    public TradeOrder findByBuyId(String BuyId){
+    public TradeOrder findByBuyId(String BuyId) {
         return tradeOrderRespository.findByBuyId(BuyId);
     }
 
-	public Integer update(TradeOrder param){
+    public Integer update(TradeOrder param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return tradeOrderRespository.updateByPrimaryKeySelective(param);
+        return tradeOrderRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(TradeOrder param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
-		param.setStatus(TradeOrderConstants.STATUS.OK.num());
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
+        param.setStatus(TradeOrderConstants.STATUS.OK.num());
         tradeOrderRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId, String updateId) {
+    public String createBySchool(SchoolTradeOrderParam param, User user) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        int price = 0;
+        TradeOrder tradeOrder = new TradeOrder();
+        tradeOrder.setRecId(idService.gen("ID"));
+        tradeOrder.setImportData("2");
+        tradeOrder.setName("后台创建");
+        tradeOrder.setBuyId(param.getSchoolUserId());
+        tradeOrder.setCreateTime(now);
+        tradeOrder.setPayNo("后台创建");
+        tradeOrder.setPayWay("后台创建");
+        tradeOrder.setUpdateTime(now);
+        tradeOrder.setCreateId(user.getRecId());
+        tradeOrder.setStatus(TradeOrderConstants.STATUS.OK.num());
+        List<SchoolTradeOrder> schoolTradeOrderList = param.getSchoolTradeOrderList();
+        if (schoolTradeOrderList.size() > 0 && schoolTradeOrderList != null) {
+            for (SchoolTradeOrder schoolTradeOrder : schoolTradeOrderList) {
+                if (param.getType().equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
+                    Book book = bookService.find(schoolTradeOrder.getRecId());
+                    TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
+                    tradeOrderDetail.setRecId(idService.gen("ID"));
+                    tradeOrderDetail.setTrateOrderId(tradeOrder.getRecId());
+//                    tradeOrderDetail.setOriginalPrice(book.getOriginalPrice());
+//                    tradeOrderDetail.setPresentPrice(book.getPresentPrice());
+                    tradeOrderDetail.setName(book.getName());
+                    tradeOrderDetail.setProdType(param.getType());
+                    tradeOrderDetail.setProdId(book.getRecId());
+                    tradeOrderDetail.setStatus(TradeOrderConstants.STATUS.OK.num());
+                    tradeOrderDetail.setCreateId(user.getRecId());
+                    tradeOrderDetail.setCreateTime(now);
+                    tradeOrderDetailService.create(tradeOrderDetail);
+//                    price=price+Integer.parseInt(book.getPresentPrice());
+                }
+                if (param.getType().equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
+                    Lesson lesson = lessonService.find(schoolTradeOrder.getRecId());
+                    TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
+                    tradeOrderDetail.setRecId(idService.gen("ID"));
+                    tradeOrderDetail.setTrateOrderId(tradeOrder.getRecId());
+                    tradeOrderDetail.setOriginalPrice(lesson.getOriginalPrice());
+                    tradeOrderDetail.setPresentPrice(lesson.getPresentPrice());
+                    tradeOrderDetail.setName(lesson.getName());
+                    tradeOrderDetail.setProdType(param.getType());
+                    tradeOrderDetail.setProdId(lesson.getRecId());
+                    tradeOrderDetail.setStatus(TradeOrderConstants.STATUS.OK.num());
+                    tradeOrderDetail.setCreateId(user.getRecId());
+                    tradeOrderDetail.setCreateTime(now);
+                    tradeOrderDetailService.create(tradeOrderDetail);
+                    price = price + Integer.parseInt(lesson.getPresentPrice());
+                }
+            }
+        }
+        tradeOrder.setPrice(price + "");
+        tradeOrderRespository.insert(tradeOrder);
+
+        return tradeOrder.getRecId();
+    }
+
+    public Integer delete(String recId, String updateId) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         TradeOrder model = new TradeOrder();
         model.setRecId(recId);
@@ -69,17 +140,53 @@ public class TradeOrderService extends TradeOrderBaseService {
         return tradeOrderRespository.updateByPrimaryKeySelective(model);
     }
 
-	public List<TradeOrder> list(TradeOrder tradeOrderParam, PageInfo pageInfo) {
-		tradeOrderParam.setStatus(TradeOrderConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(tradeOrderParam);
+    public Integer deleteBySchool(String recId, String updateId) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        TradeOrder model = new TradeOrder();
+        model.setRecId(recId);
+        model.setUpdateId(updateId);
+        model.setUpdateTime(now);
+        model.setStatus(TradeOrderConstants.STATUS.DELETED.num());
+        List<TradeOrderDetail> tradeOrderDetailList = tradeOrderDetailService.findByTradeOrder(recId);
+        if (tradeOrderDetailList != null && tradeOrderDetailList.size() > 0) {
+            for (TradeOrderDetail tradeOrderDetail : tradeOrderDetailList) {
+                tradeOrderDetail.setUpdateId(updateId);
+                tradeOrderDetail.setStatus(TradeOrderDetailConstants.STATUS.DELETED.num());
+                tradeOrderDetailService.update(tradeOrderDetail);
+            }
+        }
+        return tradeOrderRespository.updateByPrimaryKeySelective(model);
+    }
+
+
+    public List<TradeOrder> list(TradeOrder tradeOrderParam, PageInfo pageInfo) {
+        tradeOrderParam.setStatus(TradeOrderConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(tradeOrderParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return tradeOrderRespository.list(params);
-	}
+    }
 
-	public Integer count(TradeOrder tradeOrderParam) {
-		tradeOrderParam.setStatus(TradeOrderConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(tradeOrderParam);
+    public List<TradeOrderResult> listOrder(TradeOrder tradeOrderParam, PageInfo pageInfo) {
+        tradeOrderParam.setStatus(TradeOrderConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(tradeOrderParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        List<TradeOrder> orders = tradeOrderRespository.list(params);
+        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
+        if (results.size() > 0 && results != null) {
+            for (TradeOrderResult tradeOrder : results) {
+                List<TradeOrderDetail> tradeOrderDetails = tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
+                tradeOrder.setTradeOrderDetailParamArrayList(tradeOrderDetails);
+            }
+        }
+
+        return results;
+    }
+
+    public Integer count(TradeOrder tradeOrderParam) {
+        tradeOrderParam.setStatus(TradeOrderConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(tradeOrderParam);
         return tradeOrderRespository.count(params);
     }
 
