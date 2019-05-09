@@ -154,7 +154,7 @@ public class TradeOrderController extends BaseController{
             @ApiImplicitParam(name = "createTime" , paramType = "query"),
             @ApiImplicitParam(name = "updateId" , paramType = "query"),
             @ApiImplicitParam(name = "updateTime" , paramType = "query")    })
-    @RequestMapping(value = "/v1/tradeOrder/school、buy",method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/tradeOrder/school/buy",method = RequestMethod.GET)
     public ResponseEntity listBuy(PageInfo pageInfo, @Validated(Search.class) SchoolTradeOrderParam param, BindingResult bindingResult) {
         try {
             //验证失败
