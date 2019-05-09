@@ -203,8 +203,6 @@ public class TradeOrderService extends TradeOrderBaseService {
                 if (prodIds.size() > 0 && prodIds != null) {
                     for (String prodId : prodIds) {
                         Lesson lesson = lessonService.find(prodId);
-                        logger.warn("-----------------prodId" + prodId);
-                        logger.warn("-----------------lesson" + lesson.getRecId());
                         if (lesson != null && !"".equals(lesson)) {
                             lessons.add(lesson);
                         }
@@ -219,14 +217,16 @@ public class TradeOrderService extends TradeOrderBaseService {
     public List<Book> listBuyBook(SchoolTradeOrderParam schoolTradeOrderParam, PageInfo pageInfo) {
         List<TradeOrder> results = tradeOrderRespository.findByBuyId(schoolTradeOrderParam.getSchoolUserId());
 //        List<TradeOrderResult> results = orders.stream().map(it -> new TradeOrderResult(it)).collect(Collectors.toList());
-        List<Book> books = null;
+        List<Book> books = new ArrayList<>();
         if (results.size() > 0 && results != null) {
             for (TradeOrder tradeOrder : results) {
                 List<String> prodIds = tradeOrderDetailRespository.findTradeOrderProdId(tradeOrder.getRecId(), schoolTradeOrderParam.getType());
                 if (prodIds.size() > 0 && prodIds != null) {
                     for (String prodId : prodIds) {
                         Book book = bookService.find(prodId);
-                        books.add(book);
+                        if (book != null && !"".equals(book)) {
+                            books.add(book);
+                        }
                     }
                 }
             }
