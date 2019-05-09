@@ -151,6 +151,7 @@ public class TradeOrderController extends BaseController{
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
             int totalNum = 0;
+            logger.warn("----------------------------1111111SchoolUserId"+param.getSchoolUserId());
             if (param.getType().equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
                 preparePageInfo(pageInfo, totalNum);
                 List<Lesson> results = tradeOrderService.listBuyLesson(param,pageInfo);
