@@ -146,12 +146,9 @@ public class LessonController extends BaseController {
     })
 
     @RequestMapping(value = "/v1/lesson/expertAll", method = RequestMethod.GET)
-    public ResponseEntity listbyexpertAll(PageInfo pageInfo,@PathVariable("expertId") String expertId ,BindingResult bindingResult) {
+    public ResponseEntity listbyexpertAll(PageInfo pageInfo,@PathVariable("expertId") String expertId) {
         try {
             //验证失败
-            if (bindingResult.hasErrors()) {
-                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-            }
             int totalNum = lessonService.countListbyexpertAll(expertId);
             preparePageInfo(pageInfo, totalNum);
             List<Lesson> models = lessonService.listbyexpertAll(expertId,pageInfo);
