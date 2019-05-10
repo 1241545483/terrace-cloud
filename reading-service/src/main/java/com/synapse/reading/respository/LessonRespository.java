@@ -26,6 +26,6 @@ public interface LessonRespository extends LessonMapper {
     Integer lessonBuy(Map<String, Object> params);
     Integer  addNum(@Param("recId") String recId);
     List<Lesson> listbyexpertLessons(@Param("expertId")String expertId);
-
-
+    List<Lesson> listbyexpertAll(Map<String, Object> params);
+    Integer countListbyexpertAll(@Param("expertId")String expertId);
 }

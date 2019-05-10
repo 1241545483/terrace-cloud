@@ -138,6 +138,39 @@ public class LessonController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "查询专家的Lesson列表(目前查询专家所有课程分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = LessonResult.class, message = "Lesson列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+
+    @RequestMapping(value = "/v1/lesson/expertAll", method = RequestMethod.GET)
+    public ResponseEntity listbyexpertAll(PageInfo pageInfo,@PathVariable("expertId") String expertId ,BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = lessonService.countListbyexpertAll(expertId);
+            preparePageInfo(pageInfo, totalNum);
+            List<Lesson> models = lessonService.listbyexpertAll(expertId,pageInfo);
+            List<LessonResult> results = models.stream().map(it -> new LessonResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
+            map.put("lessonList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
     @ApiOperation(value = "根据主键查询Lesson详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = LessonResult.class, message = "Lesson对象"),

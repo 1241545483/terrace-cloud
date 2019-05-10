@@ -24,6 +24,20 @@
         limit 0, 2
     </select>
 
+    <select id="listbyexpertAll" parameterType="map" resultMap="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
+        SELECT * FROM lesson
+        where expert_id =#{expertId, jdbcType=VARCHAR}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="countListbyexpertAll" parameterType="map" resultType="int">
+        SELECT count(1) FROM lesson
+        where expert_id =#{expertId, jdbcType=VARCHAR}
+
+    </select>
+
     <select id="listLessonByOrg" parameterType="map" resultMap="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
 
         SELECT a.* FROM lesson a

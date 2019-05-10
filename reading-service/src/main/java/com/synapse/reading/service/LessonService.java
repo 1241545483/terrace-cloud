@@ -296,6 +296,19 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.list(params);
     }
 
+    public List<Lesson> listbyexpertAll(String  expertId, PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("expertId", expertId);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return lessonRespository.listbyexpertAll(params);
+    }
+
+    public Integer countListbyexpertAll(String  expertId) {
+
+        return lessonRespository.countListbyexpertAll(expertId);
+    }
+
 
     public List<MemberResult> listbyexpert( PageInfo pageInfo) {
         Map<String, Object> params = new HashMap<>();
