@@ -123,6 +123,7 @@ public class LessonController extends BaseController {
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
             logger.warn("-------------------------------pageInfo"+pageInfo.getCurrentPageIndex());
+            logger.warn("-------------------------------pageInfo"+pageInfo.getCurrentStartIndex());
             int totalNum = lessonService.countListbyexpert();
             preparePageInfo(pageInfo, totalNum);
             List<ExpertResult> results = lessonService.listbyexpert(pageInfo);
