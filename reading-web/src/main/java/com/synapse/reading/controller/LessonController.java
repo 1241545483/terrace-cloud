@@ -125,7 +125,7 @@ public class LessonController extends BaseController {
             preparePageInfo(pageInfo, totalNum);
             List<MemberResult> results = lessonService.listbyexpert(pageInfo);
             Map<String, Object> map = new HashMap();
-            map.put("lessonList", results);
+            map.put("memberList", results);
             map.put("totalNum", totalNum);
             return ResponseEntity.ok(map);
         } catch (BusinessException e) {
