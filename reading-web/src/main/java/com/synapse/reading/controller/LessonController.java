@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.dto.result.ExpertResult;
 import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.event.EventBus;
 import com.synapse.reading.event.message.ClickLessonEvent;
@@ -123,7 +124,7 @@ public class LessonController extends BaseController {
             }
             int totalNum = lessonService.countListbyexpert();
             preparePageInfo(pageInfo, totalNum);
-            List<MemberResult> results = lessonService.listbyexpert(pageInfo);
+            List<ExpertResult> results = lessonService.listbyexpert(pageInfo);
             Map<String, Object> map = new HashMap();
             map.put("memberList", results);
             map.put("totalNum", totalNum);

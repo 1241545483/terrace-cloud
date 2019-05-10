@@ -2,8 +2,12 @@ package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.synapse.reading.model.Expert;
+import com.synapse.reading.model.Lesson;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -18,6 +22,8 @@ public class ExpertResult {
 
     private Expert  expert = new Expert();
 
+	private List<Lesson> lessonList = new ArrayList<>();// 子列表
+
     public ExpertResult(){}
 
     public ExpertResult(Expert  expert){
@@ -26,7 +32,15 @@ public class ExpertResult {
 		}
     }
 
-    @JsonIgnore
+	public List<Lesson> getLessonList() {
+		return lessonList;
+	}
+
+	public void setLessonList(List<Lesson> lessonList) {
+		this.lessonList = lessonList;
+	}
+
+	@JsonIgnore
     public Expert getModel() {
         return expert;
     }

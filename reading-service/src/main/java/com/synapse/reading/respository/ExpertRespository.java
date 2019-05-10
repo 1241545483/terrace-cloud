@@ -12,4 +12,5 @@ import com.synapse.reading.mapper.ExpertMapper;
  */
 public interface ExpertRespository extends ExpertMapper {
 
+    Integer countListbyexpert();
 }

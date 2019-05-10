@@ -26,10 +26,6 @@
         </if>
     </select>
 
-    <select id="countListbyexpert" resultType="int">
-        SELECT count(1) from member m
-        where m.expert =1 and exists (select 1 from lesson l where m.user_id =l.expert_id)
-    </select>
 
     <select id="selectByUserId" parameterType="map" resultMap="com.synapse.reading.mapper.MemberMapper.BaseResultMap">
         select *

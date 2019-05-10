@@ -7,18 +7,12 @@ import com.synapse.reading.constants.VideoConstants;
 import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.dto.param.SectionParam;
 import com.synapse.reading.dto.param.VideoParam;
-import com.synapse.reading.dto.result.MemberResult;
-import com.synapse.reading.dto.result.SectionResult;
-import com.synapse.reading.dto.result.VideoResult;
+import com.synapse.reading.dto.result.*;
 import com.synapse.reading.model.*;
 import com.synapse.reading.remote.ShortLinkApiService;
-import com.synapse.reading.respository.LessonRespository;
+import com.synapse.reading.respository.*;
 import com.synapse.reading.dto.param.LessonParam;
-import com.synapse.reading.dto.result.LessonResult;
 import com.synapse.common.utils.DateUtils;
-import com.synapse.reading.respository.MemberRespository;
-import com.synapse.reading.respository.SectionRespository;
-import com.synapse.reading.respository.VideoRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,6 +76,9 @@ public class LessonService extends LessonBaseService {
 
     @Autowired
     private MemberRespository memberRespository;
+
+    @Autowired
+    private ExpertRespository expertRespository;
 
     public Lesson find(String recId) {
         return lessonRespository.selectByPrimaryKey(recId);
@@ -310,23 +307,23 @@ public class LessonService extends LessonBaseService {
     }
 
 
-    public List<MemberResult> listbyexpert( PageInfo pageInfo) {
+    public List<ExpertResult> listbyexpert( PageInfo pageInfo) {
         Map<String, Object> params = new HashMap<>();
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
-        List<Member> memberList = memberRespository.selectExpert(params);
-        List<MemberResult> results = memberList.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
+        List<Expert> expertList = expertRespository.list(params);
+        List<ExpertResult> results = expertList.stream().map(it -> new ExpertResult(it)).collect(Collectors.toList());
         if (results != null && results.size() > 0 ){
-            for (MemberResult memberResult:results) {
-                List<Lesson> lessons =   lessonRespository.listbyexpertLessons(memberResult.getUserId());
-                memberResult.setLessonList(lessons);
+            for (ExpertResult expertResult:results) {
+                List<Lesson> lessons =   lessonRespository.listbyexpertLessons(expertResult.getRecId());
+                expertResult.setLessonList(lessons);
             }
         }
         return results;
     }
 
     public Integer countListbyexpert() {
-        return memberRespository.countListbyexpert();
+        return expertRespository.countListbyexpert();
     }
 
     public List<Lesson> listLessonByOrg(Member Param, PageInfo pageInfo) {
