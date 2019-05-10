@@ -122,6 +122,7 @@ public class LessonController extends BaseController {
             if (bindingResult.hasErrors()) {
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
+            logger.warn("-------------------------------pageInfo"+pageInfo.getCurrentPageIndex());
             int totalNum = lessonService.countListbyexpert();
             preparePageInfo(pageInfo, totalNum);
             List<ExpertResult> results = lessonService.listbyexpert(pageInfo);
