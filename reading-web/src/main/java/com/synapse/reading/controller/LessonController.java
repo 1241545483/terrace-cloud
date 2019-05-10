@@ -115,7 +115,7 @@ public class LessonController extends BaseController {
     })
 
     @RequestMapping(value = "/v1/lesson/expert", method = RequestMethod.GET)
-    public ResponseEntity listbyexpert(PageInfo pageInfo, @Validated(Search.class) LessonParam param, BindingResult bindingResult) {
+    public ResponseEntity listbyexpert(PageInfo pageInfo,BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
