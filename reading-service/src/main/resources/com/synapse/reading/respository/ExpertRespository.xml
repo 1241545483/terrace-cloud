@@ -5,7 +5,7 @@
 
     <select id="countListbyexpert" resultType="int">
         SELECT count(1) from expert m
-        where m.rec_id =1 and exists (select 1 from lesson l where m.rec_id =l.expert_id)
+        where 1=1 and exists (select 1 from lesson l where m.rec_id =l.expert_id)
     </select>
 
 </mapper>
