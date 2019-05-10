@@ -313,7 +313,7 @@ public class LessonService extends LessonBaseService {
     }
 
     public Integer countListbyexpert() {
-        return memberRespository.countSelectExpert();
+        return memberRespository.countListbyexpert();
     }
 
     public List<Lesson> listLessonByOrg(Member Param, PageInfo pageInfo) {

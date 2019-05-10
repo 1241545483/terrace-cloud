@@ -28,5 +28,5 @@ public interface MemberRespository extends MemberMapper {
 
     List<Member> selectExpert(Map<String, Object> params);
 
-    Integer countSelectExpert();
+    Integer countListbyexpert();
 }
