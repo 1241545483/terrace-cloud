@@ -145,7 +145,7 @@ public class LessonController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
 
-    @RequestMapping(value = "/v1/lesson/expertAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/lesson/expertAll/{expertId}", method = RequestMethod.GET)
     public ResponseEntity listbyexpertAll(PageInfo pageInfo,@PathVariable("expertId") String expertId) {
         try {
             //验证失败
