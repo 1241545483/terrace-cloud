@@ -20,7 +20,7 @@
     <select id="listbyexpertLessons" parameterType="map"
             resultMap="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
         SELECT * FROM lesson
-        where export_id=#{exportId, jdbcType=VARCHAR}
+        where expert_id =#{expertId, jdbcType=VARCHAR}
         limit 0, 2
     </select>
 
