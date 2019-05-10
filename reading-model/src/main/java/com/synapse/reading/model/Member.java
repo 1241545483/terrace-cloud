@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-04-18
+ * @since 2019-05-09
  */
 public class Member implements Serializable {
 
@@ -32,6 +32,18 @@ public class Member implements Serializable {
      * 手机
      */
     private String mobile;
+    /**
+     * 头像
+     */
+    private String pic;
+    /**
+     * 音频介绍
+     */
+    private String audioIntro;
+    /**
+     * 是否是专家
+     */
+    private Integer expert;
     /**
      * 在职状态
      */
@@ -112,6 +124,30 @@ public class Member implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public String getAudioIntro() {
+        return audioIntro;
+    }
+
+    public void setAudioIntro(String audioIntro) {
+        this.audioIntro = audioIntro;
+    }
+
+    public Integer getExpert() {
+        return expert;
+    }
+
+    public void setExpert(Integer expert) {
+        this.expert = expert;
     }
 
     public String getOfficeStatus() {

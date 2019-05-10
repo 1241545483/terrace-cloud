@@ -1,10 +1,13 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.mapper.MemberMapper;
+import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.Member;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -22,4 +25,8 @@ public interface MemberRespository extends MemberMapper {
     public List<Member> selectByIdCard(@Param("idCard") String idCard);
 
     Member selectByUserId(String userId);
+
+    List<Member> selectExpert(Map<String, Object> params);
+
+    Integer countSelectExpert();
 }

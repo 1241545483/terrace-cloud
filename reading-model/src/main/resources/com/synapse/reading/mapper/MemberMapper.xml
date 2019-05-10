@@ -8,6 +8,9 @@
         <result column="ROLE" property="role" />
         <result column="import_data" property="importData" />
         <result column="mobile" property="mobile" />
+        <result column="pic" property="pic" />
+        <result column="audio_intro" property="audioIntro" />
+        <result column="expert" property="expert" />
         <result column="office_status" property="officeStatus" />
         <result column="ORGANIZATION" property="organization" />
         <result column="ID_CARD" property="idCard" />
@@ -24,7 +27,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `user_id`,`ROLE`,`import_data`,`mobile`,`office_status`,`ORGANIZATION`,`ID_CARD`,`STATUS`,`PHASE`,`SUBJECT`,`NAME`,`point`,`create_id`,`create_time`,`update_id`,`update_time`
+      `user_id`,`ROLE`,`import_data`,`mobile`,`pic`,`audio_intro`,`expert`,`office_status`,`ORGANIZATION`,`ID_CARD`,`STATUS`,`PHASE`,`SUBJECT`,`NAME`,`point`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -39,7 +42,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Member">
         insert into `member`
         (<include refid="Base_Column_List" />)
-        values (#{userId},#{role},#{importData},#{mobile},#{officeStatus},#{organization},#{idCard},#{status},#{phase},#{subject},#{name},#{point},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{userId},#{role},#{importData},#{mobile},#{pic},#{audioIntro},#{expert},#{officeStatus},#{organization},#{idCard},#{status},#{phase},#{subject},#{name},#{point},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -62,6 +65,15 @@
                 </if>
                 <if test="mobile != null" >
                     `mobile`,
+                </if>
+                <if test="pic != null" >
+                    `pic`,
+                </if>
+                <if test="audioIntro != null" >
+                    `audio_intro`,
+                </if>
+                <if test="expert != null" >
+                    `expert`,
                 </if>
                 <if test="officeStatus != null" >
                     `office_status`,
@@ -112,6 +124,15 @@
                 </if>
                 <if test="mobile != null" >
 			        #{mobile},
+                </if>
+                <if test="pic != null" >
+			        #{pic},
+                </if>
+                <if test="audioIntro != null" >
+			        #{audioIntro},
+                </if>
+                <if test="expert != null" >
+			        #{expert},
                 </if>
                 <if test="officeStatus != null" >
 			        #{officeStatus},
@@ -167,6 +188,15 @@
 	            <if test="mobile != null" >
 		            `mobile` = #{mobile},
 	            </if>
+	            <if test="pic != null" >
+		            `pic` = #{pic},
+	            </if>
+	            <if test="audioIntro != null" >
+		            `audio_intro` = #{audioIntro},
+	            </if>
+	            <if test="expert != null" >
+		            `expert` = #{expert},
+	            </if>
 	            <if test="officeStatus != null" >
 		            `office_status` = #{officeStatus},
 	            </if>
@@ -209,7 +239,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Member" >
         update  `member` SET
-		    `user_id`=#{userId},`ROLE`=#{role},`import_data`=#{importData},`mobile`=#{mobile},`office_status`=#{officeStatus},`ORGANIZATION`=#{organization},`ID_CARD`=#{idCard},`STATUS`=#{status},`PHASE`=#{phase},`SUBJECT`=#{subject},`NAME`=#{name},`point`=#{point},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `user_id`=#{userId},`ROLE`=#{role},`import_data`=#{importData},`mobile`=#{mobile},`pic`=#{pic},`audio_intro`=#{audioIntro},`expert`=#{expert},`office_status`=#{officeStatus},`ORGANIZATION`=#{organization},`ID_CARD`=#{idCard},`STATUS`=#{status},`PHASE`=#{phase},`SUBJECT`=#{subject},`NAME`=#{name},`point`=#{point},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `user_id` = #{userId}
     </update>
@@ -249,6 +279,25 @@
                     <if test="mobile.indexOf('%') lt 0" >
                         AND `mobile` = #{mobile}
                     </if>
+            </if>
+            <if test="pic != null" >
+                    <if test="pic.indexOf('%') >= 0" >
+                        AND `pic` like #{pic}
+                    </if>
+                    <if test="pic.indexOf('%') lt 0" >
+                        AND `pic` = #{pic}
+                    </if>
+            </if>
+            <if test="audioIntro != null" >
+                    <if test="audioIntro.indexOf('%') >= 0" >
+                        AND `audio_intro` like #{audioIntro}
+                    </if>
+                    <if test="audioIntro.indexOf('%') lt 0" >
+                        AND `audio_intro` = #{audioIntro}
+                    </if>
+            </if>
+            <if test="expert != null" >
+                    AND `expert` = #{expert}
             </if>
             <if test="officeStatus != null" >
                     <if test="officeStatus.indexOf('%') >= 0" >
@@ -379,6 +428,25 @@
                 <if test="mobile.indexOf('%') lt 0" >
                     AND `mobile` = #{mobile}
                 </if>
+            </if>
+            <if test="pic != null" >
+	            <if test="pic.indexOf('%') >= 0" >
+				    AND `pic` like #{pic}
+	            </if>
+                <if test="pic.indexOf('%') lt 0" >
+                    AND `pic` = #{pic}
+                </if>
+            </if>
+            <if test="audioIntro != null" >
+	            <if test="audioIntro.indexOf('%') >= 0" >
+				    AND `audio_intro` like #{audioIntro}
+	            </if>
+                <if test="audioIntro.indexOf('%') lt 0" >
+                    AND `audio_intro` = #{audioIntro}
+                </if>
+            </if>
+            <if test="expert != null" >
+                    AND `expert` = #{expert}
             </if>
             <if test="officeStatus != null" >
 	            <if test="officeStatus.indexOf('%') >= 0" >

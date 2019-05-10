@@ -2,9 +2,13 @@ package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.synapse.common.ann.DictFormat;
+import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -19,7 +23,17 @@ public class MemberResult {
 
     private Member  member = new Member();
 
-    private  String orgName;
+	private List<Lesson> lessonList = new ArrayList<>();// 子列表
+
+	public List<Lesson> getLessonList() {
+		return lessonList;
+	}
+
+	public void setLessonList(List<Lesson> lessonList) {
+		this.lessonList = lessonList;
+	}
+
+	private  String orgName;
 
     public MemberResult(){}
 
@@ -27,6 +41,30 @@ public class MemberResult {
 		if (member != null) {
 			this.member = member;
 		}
+	}
+
+	public String getPic() {
+		return member.getPic();
+	}
+
+	public void setPic(String pic) {
+		member.setPic(pic);
+	}
+
+	public String getAudioIntro() {
+		return member.getAudioIntro();
+	}
+
+	public void setAudioIntro(String audioIntro) {
+		member.setAudioIntro(audioIntro);
+	}
+
+	public Integer getExpert() {
+		return member.getExpert();
+	}
+
+	public void setExpert(Integer expert) {
+		member.setExpert(expert);
 	}
 
 	public String getOrgName() {

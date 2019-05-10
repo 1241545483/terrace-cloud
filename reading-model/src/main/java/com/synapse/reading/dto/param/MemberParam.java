@@ -28,6 +28,30 @@ public class MemberParam  {
         this.member = member;
     }
 
+    public String getPic() {
+        return member.getPic();
+    }
+
+    public void setPic(String pic) {
+        member.setPic(pic);
+    }
+
+    public String getAudioIntro() {
+        return member.getAudioIntro();
+    }
+
+    public void setAudioIntro(String audioIntro) {
+        member.setAudioIntro(audioIntro);
+    }
+
+    public Integer getExpert() {
+        return member.getExpert();
+    }
+
+    public void setExpert(Integer expert) {
+        member.setExpert(expert);
+    }
+
     public String getImportData() {
         return member.getImportData();
     }
