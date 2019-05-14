@@ -45,7 +45,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     private Gson gson = new Gson();
 
-    private Type type = new TypeToken<User<RestGrantedAuthority>>() {
+    private Type type = new TypeToken<User<SimpleGrantedAuthority>>() {
     }.getType();
 
     @Override
