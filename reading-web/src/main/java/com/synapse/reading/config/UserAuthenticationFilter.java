@@ -83,15 +83,13 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                         logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     } else {
-                        User userDetails = new User("-1000", "anonymity", "", true);
-                        UserContext.setUser(userDetails);
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-                        logger.info("authenticated user " + userDetails.getUsername() + ", setting security context");
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        createAnony(req);
                     }
+                } else {
+                    createAnony(req);
                 }
+            } else {
+                createAnony(req);
             }
         } catch (Exception e) {
             logger.error("TokenAuthentication Error!", e);
@@ -99,5 +97,15 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         logger.info("exit UserAuthenticationFilter!");
 
         chain.doFilter(req, resp);
+    }
+
+    private void createAnony(HttpServletRequest req) {
+        User userDetails = new User("-1000", "anonymity", "", true);
+        UserContext.setUser(userDetails);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+        logger.info("authenticated user " + userDetails.getUsername() + ", setting security context");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
