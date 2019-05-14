@@ -74,12 +74,19 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                         MDC.put("userName", loginUser.getUsername() + "");
                         MDC.put("token", loginUser.getToken() + "");
                         MDC.put("IP", NetUtils.getLocalHost());
-                        UserContext.setUser(loginUser);
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                 loginUser, null, loginUser.getAuthorities());
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
                                 req));
                         logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }else{
+                        User userDetails = new User("-1000", "anonymity", "", true);
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                                req));
+                        logger.info("authenticated user " + userDetails.getUsername() + ", setting security context");
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 }
