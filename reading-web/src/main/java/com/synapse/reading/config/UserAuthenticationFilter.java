@@ -71,21 +71,21 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                     Object data = redisTemplate.opsForValue().get(token);//从redis获取UserDetails
                     if (data != null) {
                         User loginUser = gson.fromJson((String) data, type);
-                        if (UserContext.getUser() == null || !UserContext.getUser().getRecId().equals(loginUser.getRecId())) {
-                            UserContext.setUser(loginUser);
-                            MDC.put("userId", loginUser.getRecId() + "");
-                            MDC.put("groupId", loginUser.getGroupId() + "");
-                            MDC.put("userName", loginUser.getUsername() + "");
-                            MDC.put("token", loginUser.getToken() + "");
-                            MDC.put("IP", NetUtils.getLocalHost());
-                            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                    loginUser, null, loginUser.getAuthorities());
-                            logger.info("_______________________loginUser.getAuthorities()" + loginUser.getAuthorities());
-                            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                                    req));
-                            logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
-                            SecurityContextHolder.getContext().setAuthentication(authentication);
-                        }
+//                        if (UserContext.getUser() == null || !UserContext.getUser().getRecId().equals(loginUser.getRecId())) {
+                        UserContext.setUser(loginUser);
+                        MDC.put("userId", loginUser.getRecId() + "");
+                        MDC.put("groupId", loginUser.getGroupId() + "");
+                        MDC.put("userName", loginUser.getUsername() + "");
+                        MDC.put("token", loginUser.getToken() + "");
+                        MDC.put("IP", NetUtils.getLocalHost());
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                loginUser, null, loginUser.getAuthorities());
+                        logger.info("_______________________loginUser.getAuthorities()" + loginUser.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                                req));
+                        logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+//                        }
                     } else {
                         createAnony(req);
                     }
