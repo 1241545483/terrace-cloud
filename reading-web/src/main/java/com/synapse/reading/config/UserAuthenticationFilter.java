@@ -54,10 +54,11 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse resp,
             FilterChain chain) throws ServletException, IOException {
 
-        logger.info("enter UserAuthenticationFilter!");
+
 
         try {
             String authToken = req.getHeader(TOKEN);
+            logger.info("authToken------------------!"+authToken);
             if (authToken != null) {
                 String token;
                 try {
