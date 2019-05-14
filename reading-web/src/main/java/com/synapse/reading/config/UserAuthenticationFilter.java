@@ -54,6 +54,8 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse resp,
             FilterChain chain) throws ServletException, IOException {
 
+        logger.info("enter UserAuthenticationFilter!");
+
         try {
             String authToken = req.getHeader(TOKEN);
             if (authToken != null) {
@@ -80,12 +82,12 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                                 req));
                         logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
                         SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }else{
+                    } else {
                         User userDetails = new User("-1000", "anonymity", "", true);
+                        UserContext.setUser(userDetails);
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                                req));
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
                         logger.info("authenticated user " + userDetails.getUsername() + ", setting security context");
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
@@ -94,6 +96,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             logger.error("TokenAuthentication Error!", e);
         }
+        logger.info("exit UserAuthenticationFilter!");
 
         chain.doFilter(req, resp);
     }
