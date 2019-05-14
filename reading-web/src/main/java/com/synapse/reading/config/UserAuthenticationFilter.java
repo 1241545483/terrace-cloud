@@ -55,10 +55,9 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             FilterChain chain) throws ServletException, IOException {
 
 
-
         try {
             String authToken = req.getHeader(TOKEN);
-            logger.info("authToken------------------!"+authToken);
+            logger.info("authToken------------------!" + authToken);
             if (authToken != null) {
                 String token;
                 try {
@@ -67,23 +66,26 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                     token = authToken;
                     // 如果是微信登录，token为openId，不需要解密
                 }
-                if (token != null && UserContext.getUser() == null) {
+                logger.info("token------------------!" + token);
+                if (token != null) {
                     Object data = redisTemplate.opsForValue().get(token);//从redis获取UserDetails
                     if (data != null) {
                         User loginUser = gson.fromJson((String) data, type);
-                        UserContext.setUser(loginUser);
-                        MDC.put("userId", loginUser.getRecId() + "");
-                        MDC.put("groupId", loginUser.getGroupId() + "");
-                        MDC.put("userName", loginUser.getUsername() + "");
-                        MDC.put("token", loginUser.getToken() + "");
-                        MDC.put("IP", NetUtils.getLocalHost());
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                loginUser, null, loginUser.getAuthorities());
-                        logger.info("_______________________loginUser.getAuthorities()"+loginUser.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                                req));
-                        logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        if (UserContext.getUser() == null || !UserContext.getUser().getRecId().equals(loginUser.getRecId())) {
+                            UserContext.setUser(loginUser);
+                            MDC.put("userId", loginUser.getRecId() + "");
+                            MDC.put("groupId", loginUser.getGroupId() + "");
+                            MDC.put("userName", loginUser.getUsername() + "");
+                            MDC.put("token", loginUser.getToken() + "");
+                            MDC.put("IP", NetUtils.getLocalHost());
+                            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                    loginUser, null, loginUser.getAuthorities());
+                            logger.info("_______________________loginUser.getAuthorities()" + loginUser.getAuthorities());
+                            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                                    req));
+                            logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }
                     } else {
                         createAnony(req);
                     }
