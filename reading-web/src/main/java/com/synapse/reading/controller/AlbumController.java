@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.synapse.common.exception.BusinessException;
 import com.synapse.reading.exception.common.ValidException;
@@ -61,6 +62,7 @@ public class AlbumController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/album", method = RequestMethod.GET)
+    @Secured("ROLE_CREATE_LESSON")
     public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) AlbumParam param, BindingResult bindingResult) {
         try {
             //验证失败

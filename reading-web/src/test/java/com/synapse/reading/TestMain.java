@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.synapse.common.formatter.Encoder;
+import com.synapse.common.formatter.IdFormatterFactory;
+import com.synapse.common.formatter.ResultSerializerIntrospector;
 import com.synapse.common.json.ObjectMappingCustomer;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
-import com.synapse.common.formatter.IdFormatterFactory;
-import com.synapse.common.formatter.ResultSerializerIntrospector;
-import com.synapse.reading.remote.IdService;
+import com.synapse.reading.config.SecurityConfig;
+import com.synapse.reading.config.UserAuthenticationFilter;
 import com.synapse.reading.web.formatter.ShiluDictFormatter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,11 +21,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -53,7 +51,8 @@ import java.util.Map;
 @SpringBootApplication
 @EnableTransactionManagement
 @MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository"})
-@ComponentScan({"com.synapse.reading.*", "com.synapse.common.json", "com.synapse.common.web", "com.synapse.common.api.doc"})
+@ComponentScan(value = {"com.synapse.reading.*", "com.synapse.common.json", "com.synapse.common.web", "com.synapse.common.api.doc"}
+        , excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {SecurityConfig.class})})
 @EnableAutoConfiguration(excludeName = {"org.springframework.boot.autoconfigure.session.SessionAutoConfiguration",
         "org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration"})
 @Transactional
@@ -66,6 +65,9 @@ public class TestMain extends WebMvcConfigurerAdapter {
 
     @Value("${salt}")
     private String salt;
+
+    @MockBean
+    private UserAuthenticationFilter userAuthenticationFilter;
 
     public static void main(String[] args) {
         SpringApplication.run(TestMain.class, args);
