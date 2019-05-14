@@ -78,6 +78,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                         MDC.put("IP", NetUtils.getLocalHost());
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                 loginUser, null, loginUser.getAuthorities());
+                        logger.info("_______________________loginUser.getAuthorities()"+loginUser.getAuthorities());
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
                                 req));
                         logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
