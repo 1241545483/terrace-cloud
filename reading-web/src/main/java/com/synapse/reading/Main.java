@@ -116,16 +116,16 @@ public class Main extends WebMvcConfigurerAdapter {
         return new RestTemplate();
     }
     /**
-     * 配置拦截器
+     * 配置拦截器，通过Filter过滤，此处不再需要
      *
      * @param registry
      * @author lance
      */
-    public void addInterceptors(InterceptorRegistry registry) {
-        //基于Token的验证
-        registry.addInterceptor(tokenUserInfoInterceptor()).addPathPatterns("/**");
-        registry.addInterceptor(new com.synapse.common.sso.interceptor.UserInfoInterceptor()).addPathPatterns("/**");
-    }
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        //基于Token的验证
+//        registry.addInterceptor(tokenUserInfoInterceptor()).addPathPatterns("/**");
+//        registry.addInterceptor(new com.synapse.common.sso.interceptor.UserInfoInterceptor()).addPathPatterns("/**");
+//    }
     @Bean
     public Encoder encoder() {
         return new Encoder(salt);
