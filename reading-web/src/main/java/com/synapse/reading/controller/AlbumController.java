@@ -62,7 +62,7 @@ public class AlbumController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/album", method = RequestMethod.GET)
-    @Secured("ROLE_CREATE_LESSON")
+//    @Secured("ROLE_CREATE_LESSON")
     public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) AlbumParam param, BindingResult bindingResult) {
         try {
             //验证失败
