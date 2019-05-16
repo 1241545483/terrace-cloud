@@ -42,8 +42,8 @@ public class UserController {
     public Result currentUser() {
         try {
             User user = UserContext.getUser();
-            Member member =memberService.getMember(user.getRecId());
-            if(member.getName()!=null&&!"".equals(member.getName())){
+            Member member = memberService.getMember(user.getRecId());
+            if (member != null && member.getName() != null && !"".equals(member.getName())) {
                 user.setUsername(member.getName());
             }
 //            user.setUserImg();
