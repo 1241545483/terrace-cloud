@@ -13,6 +13,7 @@ import com.synapse.reading.model.TradeOrder;
 import com.synapse.reading.remote.BindService;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.remote.UserService;
+import com.synapse.reading.respository.MemberRespository;
 import com.synapse.reading.respository.TradeOrderDetailRespository;
 import com.synapse.reading.respository.TradeOrderRespository;
 import com.synapse.reading.util.AESDecodeUtils;
@@ -50,6 +51,8 @@ public class WxUserBindService {
     private BindService bindService;
     @Autowired
     private Encoder encoder;
+    @Autowired
+    private MemberRespository memberRespository;
 
     public Map<String, String> handleApply(BindUserModel param, String currentUserId) {
         try {
@@ -87,13 +90,7 @@ public class WxUserBindService {
 
 
     public Integer updateUser(BindUserModel param, String currentUserId) {
-        logger.warn("=----------------==---=-=2222" + currentUserId);
         Member member = memberService.getMember(currentUserId);
-        logger.warn("=----------------==---=-=2222" + member.getUserId());
-        logger.warn("=----------------==---=-=1111" + param.getName());
-        logger.warn("=----------------==---=-=1111" + param.getPhone());
-        logger.warn("=----------------==---=-=1111" + param.getPhase());
-        logger.warn("=----------------==---=-=1111" + param.getSubject());
         if (member != null) {
             if (param.getName() != null) {
                 member.setName(param.getName());
@@ -109,7 +106,15 @@ public class WxUserBindService {
             }
             return memberService.update(member);
         } else {
-            return 0;
+            member = new Member();
+            member.setUserId(currentUserId);
+            member.setMobile(param.getPhone());
+            member.setOrganization(param.getOrganization());
+            member.setName(param.getName());
+            member.setPhase(param.getPhase());
+            member.setSubject(param.getSubject());
+            memberRespository.insert(member);
+            return 1;
         }
     }
 
