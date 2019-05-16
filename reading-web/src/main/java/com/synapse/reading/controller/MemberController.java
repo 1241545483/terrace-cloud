@@ -144,7 +144,7 @@ public class MemberController extends BaseController {
 
             Member member = memberService.selectByUserId(user.getRecId());
             MemberResult memberResult = new MemberResult(member);
-            if (member.getOrganization() != null && !"".equals(member.getOrganization())) {
+            if (member != null && member.getOrganization() != null && !"".equals(member.getOrganization())) {
                 String orgName = userService.getOrgNamebyId(member.getOrganization());
                 memberResult.setOrgName(orgName);
             }
