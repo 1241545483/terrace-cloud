@@ -91,6 +91,7 @@ public class WxUserBindService {
 
     public Integer updateUser(BindUserModel param, String currentUserId) {
         Member member = memberService.getMember(currentUserId);
+        logger.info("------------------------------member="+member.getUserId());
         if (member != null) {
             if (param.getName() != null) {
                 member.setName(param.getName());
