@@ -4,6 +4,7 @@ import com.synapse.common.formatter.Encoder;
 import com.synapse.common.trans.Result;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.common.utils.JsonUtils;
+import com.synapse.reading.constants.MemberConstants;
 import com.synapse.reading.constants.TradeOrderConstants;
 import com.synapse.reading.dto.param.TradeOrderDetailParam;
 import com.synapse.reading.dto.param.TradeOrderParam;
@@ -108,12 +109,16 @@ public class WxUserBindService {
             return memberService.update(member);
         } else {
             member = new Member();
+            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
             member.setUserId(currentUserId);
             member.setMobile(param.getPhone());
             member.setOrganization(param.getOrganization());
             member.setName(param.getName());
             member.setPhase(param.getPhase());
             member.setSubject(param.getSubject());
+            member.setCreateId(currentUserId);
+            member.setCreateTime(now);
+            member.setStatus(MemberConstants.STATUS.OK.num());
             memberRespository.insert(member);
             return 1;
         }
