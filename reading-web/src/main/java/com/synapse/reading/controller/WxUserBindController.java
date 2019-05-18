@@ -94,7 +94,26 @@ public class WxUserBindController {
         }
     }
 
+    @ApiOperation(value = "阅读修改个人信息绑定(账号，密码)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "绑定信息"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/user/mini/bind", method = RequestMethod.PUT)
+    public ResponseEntity bind(@RequestBody Map<String,String> param) {
 
+        try {
+            return ResponseEntity.ok(userService.miniBind(param));
+        } catch (BusinessException e) {
+            logger.error("bind Info Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("bind Info Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
     @ApiOperation(value = "修改个人信息(账号，密码)")
     @ApiResponses({

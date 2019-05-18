@@ -1,10 +1,12 @@
 package com.synapse.reading.remote;
 
+import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.BizTrans;
 import com.synapse.common.trans.Result;
 import com.synapse.reading.model.RegistEntity;
 import com.synapse.user.model.UserInfo;
 import com.synapse.user.model.api.UserPwdUpdateModel;
+import com.synapse.welcome.model.OrgModel;
 import io.swagger.client.model.User;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -61,7 +63,29 @@ public interface UserService {
 
 
     @RequestMapping(value ="/org/v1/org/byId",method = RequestMethod.GET)
-    public String getOrgNamebyId(@RequestParam("orgId")String orgId) ;
+        public String getOrgNamebyId(@RequestParam("orgId")String orgId) ;
 
+    @RequestMapping(value ="/org/v1/org/{orgId}",method = RequestMethod.GET)
+    public String getOrgnization(@PathVariable("orgId")String orgId);
+
+    @RequestMapping(value ="/org/v1/addorg",method = RequestMethod.GET)
+    public String addOrg(@RequestParam("pId")String pId,@RequestParam("name") String name, @RequestParam("phase")String phase);
+
+    @RequestMapping(value ="/org/v2/organization",method = RequestMethod.PUT)
+    public Integer update(@RequestBody OrgModel orgModel);
+
+    @RequestMapping(value ="/org/v1/search",method = RequestMethod.GET)
+    public List<OrgModel> searchGroups(@RequestParam("name")String name,@RequestParam("parentOrgId") String parentOrgId) ;
+
+
+    @RequestMapping(value="/schoolmanager", method = RequestMethod.GET)
+    public Map<String, Object> listSchoolManager(PageInfo page,@RequestParam("orgId")String orgId);
+
+    @RequestMapping(value="/modifyuserinfo/{userId}", method = RequestMethod.PUT)
+    public int modifyUserInfo(@RequestParam("loginname")String loginname, @RequestParam("passwd")String passwd, @PathVariable("userId") String userId);
+
+
+    @RequestMapping(value = "/mini/bind",method = RequestMethod.POST)
+    public Result miniBind(@RequestBody Map<String,String> param);
 }
 

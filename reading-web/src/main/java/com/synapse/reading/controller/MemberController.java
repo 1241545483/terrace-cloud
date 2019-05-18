@@ -5,9 +5,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
-import com.synapse.reading.constants.MemberConstants;
-import com.synapse.reading.constants.TradeOrderConstants;
-import com.synapse.reading.constants.TradeOrderDetailConstants;
+import com.synapse.reading.constants.*;
 import com.synapse.reading.dto.result.ApiResponseResult;
 import com.synapse.reading.dto.result.TradeOrderResult;
 import com.synapse.reading.model.ExcelRowModel;
@@ -30,6 +28,7 @@ import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.synapse.common.exception.BusinessException;
 import com.synapse.reading.exception.common.ValidException;
@@ -38,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import com.synapse.reading.constants.CommonConstants;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.synapse.reading.controller.BaseController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,6 +85,7 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+//    @Secured("code")
     @RequestMapping(value = "/v1/member", method = RequestMethod.GET)
     public ResponseEntity list(PageInfo pageInfo, @Validated(Search.class) MemberParam param, BindingResult bindingResult) {
         try {
@@ -708,6 +708,7 @@ public class MemberController extends BaseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("重置密码失败!" + e.getMessage());
         }
     }
+
 
 
 }

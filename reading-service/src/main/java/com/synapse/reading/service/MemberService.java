@@ -421,5 +421,25 @@ public class MemberService extends MemberBaseService {
         return member;
     }
 
+    public String regist(Map<String,Object> params) {
+        //登录账号：身份证后六位
+        //密码：身份证后六位
+        if(null != params && params.get("regRoletype") == null) {
+            params.put("regRoletype", "teacher");
+        }else {
+            params.put("regRoletype", params.get("regRoletype"));
+        }
+        params.put("registFlag", params.get("registFlag"));
+        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist(params);
+
+        Object o = BizTransUtils.parseBizTrans(bizTrans);
+        if(! (o instanceof String)) {
+            return "";
+        }
+        if(o instanceof String && ((String)o).length() == 0 ){
+            return "";
+        }
+        return (String)o;
+    }
 
 }

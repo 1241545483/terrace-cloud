@@ -70,6 +70,18 @@ public class WxUserBindService {
                     resultMap.put("flag", "7");
                     resultMap.put("userId", encoder.encryptStr(currentUserId));
                     resultMap.put("existUserId", encoder.encryptStr(findUserId));
+                    Member member = memberService.getMember(currentUserId);
+                    //todo 待修改成调用reading接口
+                    if(member==null){
+                        member = new Member();
+                        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                        member.setUserId(currentUserId);
+                        member.setCreateId(currentUserId);
+                        member.setCreateTime(now);
+                        member.setStatus(MemberConstants.STATUS.OK.num());
+                        memberRespository.insert(member);
+                    }
+
 //                    updateUser(param, currentUserId);
                     return resultMap;
                 }
