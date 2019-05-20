@@ -431,7 +431,7 @@ public class MemberService extends MemberBaseService {
         }
         params.put("registFlag", params.get("registFlag"));
         BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist(params);
-
+logger.info("---------------------bizTrans"+bizTrans);
         Object o = BizTransUtils.parseBizTrans(bizTrans);
         if(! (o instanceof String)) {
             return "";
