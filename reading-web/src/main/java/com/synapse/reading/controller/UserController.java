@@ -128,7 +128,7 @@ public class UserController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/organization", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody OrgModel orgModel) {
+    public ResponseEntity update(@RequestBody @Validated(Update.class)OrgModel orgModel) {
 
         try {
             Integer num = userService.update(orgModel);
