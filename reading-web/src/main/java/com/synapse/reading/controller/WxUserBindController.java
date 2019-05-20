@@ -9,6 +9,7 @@ import com.synapse.pay.dto.PayItemInfo;
 import com.synapse.reading.constants.CommonConstants;
 import com.synapse.reading.model.BindUserModel;
 import com.synapse.reading.model.Pay;
+import com.synapse.reading.remote.BindService;
 import com.synapse.reading.remote.PayService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.service.WxPayService;
@@ -45,6 +46,9 @@ public class WxUserBindController {
     private WxUserBindService wxUserBindService;
     @Autowired
     private  UserService userService;
+    @Autowired
+    private BindService bindService;
+
 
     @ApiOperation(value = "修改个人信息，如果已绑定则直接修改，如果没有就提醒用户进行修改")
     @ApiResponses({
@@ -106,7 +110,7 @@ public class WxUserBindController {
         try {
             logger.info("-----------------------20190520userId"+param.get("userId"));
             logger.info("-----------------------20190520existUserId"+param.get("existUserId"));
-            return ResponseEntity.ok(userService.miniBind(param));
+            return ResponseEntity.ok(bindService.miniBind(param));
         } catch (BusinessException e) {
             logger.error("bind Info Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

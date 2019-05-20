@@ -80,17 +80,15 @@ public interface UserService {
     public List<OrgModel> searchGroups(@RequestParam("name")String name,@RequestParam("parentOrgId") String parentOrgId) ;
 
 
-    @RequestMapping(value="/schoolmanager", method = RequestMethod.GET
+    @RequestMapping(value="/user/v1/schoolmanager", method = RequestMethod.GET
      ,produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public Map<String, Object> listSchoolManager(PageInfo page,@RequestParam("orgId")String orgId);
 
-    @RequestMapping(value="/modifyuserinfo/{userId}", method = RequestMethod.PUT
+    @RequestMapping(value="/user/v1/modifyuserinfo/{userId}", method = RequestMethod.PUT
      ,produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public int modifyUserInfo(@RequestParam("loginname")String loginname, @RequestParam("passwd")String passwd, @PathVariable("userId") String userId);
 
 
-    @RequestMapping(value = "/mini/bind",method = RequestMethod.POST
-     ,produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    public Result miniBind(@RequestBody Map<String,String> param);
+
 }
 
