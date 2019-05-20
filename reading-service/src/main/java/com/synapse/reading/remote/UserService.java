@@ -65,7 +65,8 @@ public interface UserService {
     @RequestMapping(value ="/org/v1/org/byId",method = RequestMethod.GET)
         public String getOrgNamebyId(@RequestParam("orgId")String orgId) ;
 
-    @RequestMapping(value ="/org/v1/org/{orgId}",method = RequestMethod.GET)
+    @RequestMapping(value ="/org/v1/org/{orgId}",method = RequestMethod.GET
+     ,produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public String getOrgnization(@PathVariable("orgId")String orgId);
 
     @RequestMapping(value ="/org/v1/addorg",method = RequestMethod.GET)
