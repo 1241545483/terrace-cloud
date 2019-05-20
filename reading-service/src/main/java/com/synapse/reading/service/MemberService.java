@@ -430,7 +430,7 @@ public class MemberService extends MemberBaseService {
             params.put("regRoletype", params.get("regRoletype"));
         }
         params.put("registFlag", params.get("registFlag"));
-        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist(params);
+        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist1( params.get("loginName").toString(),params.get("loginPass").toString(),params.get("regRoletype").toString(),params.get("userName").toString(),params.get("loginAlais").toString(),params.get("registFlag").toString(),params.get("regWay").toString());;
 logger.info("---------------------bizTrans"+bizTrans);
         Object o = BizTransUtils.parseBizTrans(bizTrans);
         if(! (o instanceof String)) {
