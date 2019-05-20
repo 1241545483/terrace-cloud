@@ -104,6 +104,8 @@ public class WxUserBindController {
     public ResponseEntity bind(@RequestBody Map<String,String> param) {
 
         try {
+            logger.info("-----------------------20190520userId"+param.get("userId"));
+            logger.info("-----------------------20190520existUserId"+param.get("existUserId"));
             return ResponseEntity.ok(userService.miniBind(param));
         } catch (BusinessException e) {
             logger.error("bind Info Error!", e);
