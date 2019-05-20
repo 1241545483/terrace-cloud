@@ -63,12 +63,12 @@ public class UserController {
         try {
             User user = UserContext.getUser();
             Member member = memberService.getMember(user.getRecId());
+            logger.info("---------------------20190520ueserId"+user.getRecId());
+            if (user == null||user.getRecId().equals(UserConstants.UNLOGINID.UNLOGIN.num())) {
+                throw new NotLoginException();
+            }
             if (member != null && member.getName() != null && !"".equals(member.getName())) {
                 user.setUsername(member.getName());
-            }
-//            user.setUserImg();
-            if (user == null) {
-                throw new NotLoginException();
             }
             return Result.ok(user);
         } catch (BusinessException e) {

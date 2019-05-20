@@ -1,9 +1,34 @@
 package com.synapse.reading.constants;
 
 /**
- * Created by wangyifan on 2017/8/28.
+ *
  */
 public interface UserConstants {
+
+    enum UNLOGINID {
+        UNLOGIN("unlogin", "-1000");
+
+        public final String code;
+        public final String num;
+
+        UNLOGINID(String code, String num) {
+            this.code = code;
+            this.num = num;
+        }
+
+        public String value() {
+            return code;
+        }
+
+        public String num() {
+            return num;
+        }
+    }
+
+
+
+
+
 
     enum FLAG {
         // 4为协同者
@@ -27,6 +52,12 @@ public interface UserConstants {
             return desc;
         }
     }
+
+
+
+
+
+
 
     enum ROLE {
         ADMIN("admin", "0"), CREATOR("creator", "1"), NOT_CREATOR("not_creator", "2"), ANONYMOUS("anonymous", "3"),
