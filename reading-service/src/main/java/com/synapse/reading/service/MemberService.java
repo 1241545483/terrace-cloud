@@ -321,7 +321,7 @@ public class MemberService extends MemberBaseService {
         params.put("regWay", MemberConstants.REGWAY.READING_IMPORT.value());
         logger.info("11111111111111111111111111111111>>>>>>>>" + params.get("loginPass"));
 
-        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans = userService.shiluregist1( params.get("loginName").toString(),params.get("loginPass").toString(),params.get("regRoletype").toString(),params.get("userName").toString(),params.get("loginAlais").toString(),params.get("registFlag").toString(),params.get("regWay").toString());
+        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans = userService.shiluregist1( params.get("loginName").toString(),params.get("loginPass").toString(),params.get("regRoletype").toString(),params.get("userName").toString(),params.get("loginAlais").toString(),Integer.parseInt(StringUtils.trimToEmpty(params.get("registFlag")+"")),params.get("regWay").toString());
         logger.info("11111111111111111111111111111111>>>>>>>>" + bizTrans.getTransInfo());
         Object o = BizTransUtils.parseBizTrans(bizTrans);
         if (!(o instanceof String)) {
@@ -430,7 +430,7 @@ public class MemberService extends MemberBaseService {
             params.put("regRoletype", params.get("regRoletype"));
         }
         params.put("registFlag", params.get("registFlag"));
-        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist1( StringUtils.trimToEmpty(params.get("loginName")+""),StringUtils.trimToEmpty(params.get("loginPass")+""),StringUtils.trimToEmpty(params.get("regRoletype")+""),StringUtils.trimToEmpty(params.get("userName")+""),StringUtils.trimToEmpty(params.get("loginAlais")+""),StringUtils.trimToEmpty(params.get("registFlag")+""),StringUtils.trimToEmpty(params.get("regWay")+""));;
+        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist1( StringUtils.trimToEmpty(params.get("loginName")+""),StringUtils.trimToEmpty(params.get("loginPass")+""),StringUtils.trimToEmpty(params.get("regRoletype")+""),StringUtils.trimToEmpty(params.get("userName")+""),StringUtils.trimToEmpty(params.get("loginAlais")+""),Integer.parseInt(StringUtils.trimToEmpty(params.get("registFlag")+"")),StringUtils.trimToEmpty(params.get("regWay")+""));;
 logger.info("---------------------bizTrans"+bizTrans);
         Object o = BizTransUtils.parseBizTrans(bizTrans);
         if(! (o instanceof String)) {

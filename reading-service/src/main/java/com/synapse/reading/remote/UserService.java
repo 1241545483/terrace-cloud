@@ -38,7 +38,7 @@ public interface UserService {
     @RequestMapping(value = "/user/v1/shiluregist", method = RequestMethod.GET)
     BizTrans shiluregist1(@RequestParam("loginName") String loginName,@RequestParam("loginPass") String loginPass,
                           @RequestParam("regRoletype") String regRoletype, @RequestParam("userName") String userName,@RequestParam("loginAlais")
-                                  String loginAlais,@RequestParam("registFlag") String registFlag,@RequestParam("regWay") String regWay);
+                                  String loginAlais,@RequestParam("registFlag") Integer registFlag,@RequestParam("regWay") String regWay);
 
     @RequestMapping(value = "/user/v1/user_id", method = RequestMethod.GET
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
