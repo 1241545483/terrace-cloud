@@ -321,7 +321,7 @@ public class MemberService extends MemberBaseService {
         params.put("regWay", MemberConstants.REGWAY.READING_IMPORT.value());
         logger.info("11111111111111111111111111111111>>>>>>>>" + params.get("loginPass"));
 
-        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans = userService.shiluregist(params);
+        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans = userService.shiluregist1( params.get("loginName").toString(),params.get("loginPass").toString(),params.get("regRoletype").toString(),params.get("userName").toString(),params.get("loginAlais").toString(),params.get("registFlag").toString(),params.get("regWay").toString());
         logger.info("11111111111111111111111111111111>>>>>>>>" + bizTrans.getTransInfo());
         Object o = BizTransUtils.parseBizTrans(bizTrans);
         if (!(o instanceof String)) {
