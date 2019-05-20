@@ -71,7 +71,8 @@ public interface UserService {
     @RequestMapping(value ="/org/v1/addorg",method = RequestMethod.GET)
     public String addOrg(@RequestParam("pId")String pId,@RequestParam("name") String name, @RequestParam("phase")String phase);
 
-    @RequestMapping(value ="/org/v2/organization",method = RequestMethod.PUT)
+    @RequestMapping(value ="/org/v2/organization",method = RequestMethod.PUT,
+    produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public Integer update(@RequestBody OrgModel orgModel);
 
     @RequestMapping(value ="/org/v1/search",method = RequestMethod.GET)
