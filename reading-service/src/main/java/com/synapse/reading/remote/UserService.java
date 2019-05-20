@@ -31,8 +31,7 @@ public interface UserService {
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     boolean userNameIsExist(@RequestParam("loginName")String loginName) ;
 
-    @RequestMapping(value = "/user/v1/shiluregist", method = RequestMethod.GET
-            , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/user/v1/shiluregist", method = RequestMethod.GET)
     BizTrans shiluregist(@RequestParam Map<String,Object> params) ;
 
     @RequestMapping(value = "/user/v1/user_id", method = RequestMethod.GET
