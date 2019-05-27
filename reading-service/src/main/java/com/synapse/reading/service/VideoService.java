@@ -135,11 +135,11 @@ public class VideoService extends VideoBaseService {
         }
         miniQrcodeParam.setWidth("110");
         try {
-            Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
-            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
-            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
-            Map<String, Object> url = (Map<String, Object>) models.get(0);
-            param.setQrCode(String.valueOf(url.get("url")));
+            String generate = miniQrcodeService.generate(miniQrcodeParam);
+//            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
+//            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
+//            Map<String, Object> url = (Map<String, Object>) models.get(0);
+            param.setQrCode(generate);
         } catch (Exception e) {
             e.printStackTrace();
         }

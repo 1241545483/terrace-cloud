@@ -66,7 +66,7 @@ public class MiniQrcodeController {
     @RequestMapping(value = "/v1/miniQrcode/create",method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     public Result queryQr(@RequestBody MiniQrcodeParam param) {
         try {
-            Map<String, Object> map = miniQrcodeService.generate(param);
+            String map = miniQrcodeService.generate(param);
             return Result.ok(map);
         } catch (BusinessException e) {
             logger.error("list Action Error!", e);

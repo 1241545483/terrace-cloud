@@ -2,13 +2,13 @@ package com.synapse.reading.constants;
 
 /**
  * <p>
- * DiscussConstants
+ * LessonConstants
  * </p>
  *
  * @author liuguangfu
- * @since 2018-12-01
+ * @since 2019-02-15
  */
-public interface  DiscussConstants  {
+public interface DiscussConstants {
 
     /**
      * 状态

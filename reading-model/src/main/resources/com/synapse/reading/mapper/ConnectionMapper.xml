@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.ConnectionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Connection">
+        <id column="rec_id" property="recId" />
+        <result column="user_id" property="userId" />
+        <result column="privide" property="privide" />
+        <result column="open_id" property="openId" />
+        <result column="union_id" property="unionId" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`user_id`,`privide`,`open_id`,`union_id`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `connection`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.Connection">
+        insert into `connection`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{userId},#{privide},#{openId},#{unionId},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `connection`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Connection" >
+        insert into `connection`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="userId != null" >
+                    `user_id`,
+                </if>
+                <if test="privide != null" >
+                    `privide`,
+                </if>
+                <if test="openId != null" >
+                    `open_id`,
+                </if>
+                <if test="unionId != null" >
+                    `union_id`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="userId != null" >
+			        #{userId},
+                </if>
+                <if test="privide != null" >
+			        #{privide},
+                </if>
+                <if test="openId != null" >
+			        #{openId},
+                </if>
+                <if test="unionId != null" >
+			        #{unionId},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Connection" >
+        update `connection`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="userId != null" >
+		            `user_id` = #{userId},
+	            </if>
+	            <if test="privide != null" >
+		            `privide` = #{privide},
+	            </if>
+	            <if test="openId != null" >
+		            `open_id` = #{openId},
+	            </if>
+	            <if test="unionId != null" >
+		            `union_id` = #{unionId},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Connection" >
+        update  `connection` SET
+		    `rec_id`=#{recId},`user_id`=#{userId},`privide`=#{privide},`open_id`=#{openId},`union_id`=#{unionId},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `connection`
+        where 1 = 1
+            <if test="recId != null" >
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
+            </if>
+            <if test="userId != null" >
+                    <if test="userId.indexOf('%') >= 0" >
+                        AND `user_id` like #{userId}
+                    </if>
+                    <if test="userId.indexOf('%') lt 0" >
+                        AND `user_id` = #{userId}
+                    </if>
+            </if>
+            <if test="privide != null" >
+                    <if test="privide.indexOf('%') >= 0" >
+                        AND `privide` like #{privide}
+                    </if>
+                    <if test="privide.indexOf('%') lt 0" >
+                        AND `privide` = #{privide}
+                    </if>
+            </if>
+            <if test="openId != null" >
+                    <if test="openId.indexOf('%') >= 0" >
+                        AND `open_id` like #{openId}
+                    </if>
+                    <if test="openId.indexOf('%') lt 0" >
+                        AND `open_id` = #{openId}
+                    </if>
+            </if>
+            <if test="unionId != null" >
+                    <if test="unionId.indexOf('%') >= 0" >
+                        AND `union_id` like #{unionId}
+                    </if>
+                    <if test="unionId.indexOf('%') lt 0" >
+                        AND `union_id` = #{unionId}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="updateId != null" >
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="updateTime != null" >
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `connection`
+        where 1 = 1
+            <if test="recId != null" >
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
+            </if>
+            <if test="userId != null" >
+	            <if test="userId.indexOf('%') >= 0" >
+				    AND `user_id` like #{userId}
+	            </if>
+                <if test="userId.indexOf('%') lt 0" >
+                    AND `user_id` = #{userId}
+                </if>
+            </if>
+            <if test="privide != null" >
+	            <if test="privide.indexOf('%') >= 0" >
+				    AND `privide` like #{privide}
+	            </if>
+                <if test="privide.indexOf('%') lt 0" >
+                    AND `privide` = #{privide}
+                </if>
+            </if>
+            <if test="openId != null" >
+	            <if test="openId.indexOf('%') >= 0" >
+				    AND `open_id` like #{openId}
+	            </if>
+                <if test="openId.indexOf('%') lt 0" >
+                    AND `open_id` = #{openId}
+                </if>
+            </if>
+            <if test="unionId != null" >
+	            <if test="unionId.indexOf('%') >= 0" >
+				    AND `union_id` like #{unionId}
+	            </if>
+                <if test="unionId.indexOf('%') lt 0" >
+                    AND `union_id` = #{unionId}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="updateId != null" >
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="updateTime != null" >
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

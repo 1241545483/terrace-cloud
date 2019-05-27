@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.User">
+        <id column="user_id" property="userId" />
+        <result column="login_name" property="loginName" />
+        <result column="login_alais" property="loginAlais" />
+        <result column="login_pass" property="loginPass" />
+        <result column="reg_way" property="regWay" />
+        <result column="user_name" property="userName" />
+        <result column="status" property="status" />
+        <result column="last_logindttm" property="lastLogindttm" />
+        <result column="org_id" property="orgId" />
+        <result column="user_img" property="userImg" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `user_id`,`login_name`,`login_alais`,`login_pass`,`reg_way`,`user_name`,`status`,`last_logindttm`,`org_id`,`user_img`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `user`
+        where
+                `user_id` = #{userId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.User">
+        insert into `user`
+        (<include refid="Base_Column_List" />)
+        values (#{userId},#{loginName},#{loginAlais},#{loginPass},#{regWay},#{userName},#{status},#{lastLogindttm},#{orgId},#{userImg},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `user`
+        where
+			    `user_id` = #{userId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.User" >
+        insert into `user`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="userId != null" >
+                    `user_id`,
+                </if>
+                <if test="loginName != null" >
+                    `login_name`,
+                </if>
+                <if test="loginAlais != null" >
+                    `login_alais`,
+                </if>
+                <if test="loginPass != null" >
+                    `login_pass`,
+                </if>
+                <if test="regWay != null" >
+                    `reg_way`,
+                </if>
+                <if test="userName != null" >
+                    `user_name`,
+                </if>
+                <if test="status != null" >
+                    `status`,
+                </if>
+                <if test="lastLogindttm != null" >
+                    `last_logindttm`,
+                </if>
+                <if test="orgId != null" >
+                    `org_id`,
+                </if>
+                <if test="userImg != null" >
+                    `user_img`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="userId != null" >
+			        #{userId},
+                </if>
+                <if test="loginName != null" >
+			        #{loginName},
+                </if>
+                <if test="loginAlais != null" >
+			        #{loginAlais},
+                </if>
+                <if test="loginPass != null" >
+			        #{loginPass},
+                </if>
+                <if test="regWay != null" >
+			        #{regWay},
+                </if>
+                <if test="userName != null" >
+			        #{userName},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="lastLogindttm != null" >
+			        #{lastLogindttm},
+                </if>
+                <if test="orgId != null" >
+			        #{orgId},
+                </if>
+                <if test="userImg != null" >
+			        #{userImg},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.User" >
+        update `user`
+        <set >
+	            <if test="userId != null" >
+		            `user_id` = #{userId},
+	            </if>
+	            <if test="loginName != null" >
+		            `login_name` = #{loginName},
+	            </if>
+	            <if test="loginAlais != null" >
+		            `login_alais` = #{loginAlais},
+	            </if>
+	            <if test="loginPass != null" >
+		            `login_pass` = #{loginPass},
+	            </if>
+	            <if test="regWay != null" >
+		            `reg_way` = #{regWay},
+	            </if>
+	            <if test="userName != null" >
+		            `user_name` = #{userName},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
+	            </if>
+	            <if test="lastLogindttm != null" >
+		            `last_logindttm` = #{lastLogindttm},
+	            </if>
+	            <if test="orgId != null" >
+		            `org_id` = #{orgId},
+	            </if>
+	            <if test="userImg != null" >
+		            `user_img` = #{userImg},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `user_id` = #{userId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.User" >
+        update  `user` SET
+		    `user_id`=#{userId},`login_name`=#{loginName},`login_alais`=#{loginAlais},`login_pass`=#{loginPass},`reg_way`=#{regWay},`user_name`=#{userName},`status`=#{status},`last_logindttm`=#{lastLogindttm},`org_id`=#{orgId},`user_img`=#{userImg},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `user_id` = #{userId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `user`
+        where 1 = 1
+            <if test="userId != null" >
+                    <if test="userId.indexOf('%') >= 0" >
+                        AND `user_id` like #{userId}
+                    </if>
+                    <if test="userId.indexOf('%') lt 0" >
+                        AND `user_id` = #{userId}
+                    </if>
+            </if>
+            <if test="loginName != null" >
+                    <if test="loginName.indexOf('%') >= 0" >
+                        AND `login_name` like #{loginName}
+                    </if>
+                    <if test="loginName.indexOf('%') lt 0" >
+                        AND `login_name` = #{loginName}
+                    </if>
+            </if>
+            <if test="loginAlais != null" >
+                    <if test="loginAlais.indexOf('%') >= 0" >
+                        AND `login_alais` like #{loginAlais}
+                    </if>
+                    <if test="loginAlais.indexOf('%') lt 0" >
+                        AND `login_alais` = #{loginAlais}
+                    </if>
+            </if>
+            <if test="loginPass != null" >
+                    <if test="loginPass.indexOf('%') >= 0" >
+                        AND `login_pass` like #{loginPass}
+                    </if>
+                    <if test="loginPass.indexOf('%') lt 0" >
+                        AND `login_pass` = #{loginPass}
+                    </if>
+            </if>
+            <if test="regWay != null" >
+                    <if test="regWay.indexOf('%') >= 0" >
+                        AND `reg_way` like #{regWay}
+                    </if>
+                    <if test="regWay.indexOf('%') lt 0" >
+                        AND `reg_way` = #{regWay}
+                    </if>
+            </if>
+            <if test="userName != null" >
+                    <if test="userName.indexOf('%') >= 0" >
+                        AND `user_name` like #{userName}
+                    </if>
+                    <if test="userName.indexOf('%') lt 0" >
+                        AND `user_name` = #{userName}
+                    </if>
+            </if>
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
+                    </if>
+            </if>
+            <if test="lastLogindttm != null" >
+                    AND `last_logindttm` = #{lastLogindttm}
+            </if>
+            <if test="orgId != null" >
+                    <if test="orgId.indexOf('%') >= 0" >
+                        AND `org_id` like #{orgId}
+                    </if>
+                    <if test="orgId.indexOf('%') lt 0" >
+                        AND `org_id` = #{orgId}
+                    </if>
+            </if>
+            <if test="userImg != null" >
+                    <if test="userImg.indexOf('%') >= 0" >
+                        AND `user_img` like #{userImg}
+                    </if>
+                    <if test="userImg.indexOf('%') lt 0" >
+                        AND `user_img` = #{userImg}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="updateId != null" >
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="updateTime != null" >
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `user`
+        where 1 = 1
+            <if test="userId != null" >
+	            <if test="userId.indexOf('%') >= 0" >
+				    AND `user_id` like #{userId}
+	            </if>
+                <if test="userId.indexOf('%') lt 0" >
+                    AND `user_id` = #{userId}
+                </if>
+            </if>
+            <if test="loginName != null" >
+	            <if test="loginName.indexOf('%') >= 0" >
+				    AND `login_name` like #{loginName}
+	            </if>
+                <if test="loginName.indexOf('%') lt 0" >
+                    AND `login_name` = #{loginName}
+                </if>
+            </if>
+            <if test="loginAlais != null" >
+	            <if test="loginAlais.indexOf('%') >= 0" >
+				    AND `login_alais` like #{loginAlais}
+	            </if>
+                <if test="loginAlais.indexOf('%') lt 0" >
+                    AND `login_alais` = #{loginAlais}
+                </if>
+            </if>
+            <if test="loginPass != null" >
+	            <if test="loginPass.indexOf('%') >= 0" >
+				    AND `login_pass` like #{loginPass}
+	            </if>
+                <if test="loginPass.indexOf('%') lt 0" >
+                    AND `login_pass` = #{loginPass}
+                </if>
+            </if>
+            <if test="regWay != null" >
+	            <if test="regWay.indexOf('%') >= 0" >
+				    AND `reg_way` like #{regWay}
+	            </if>
+                <if test="regWay.indexOf('%') lt 0" >
+                    AND `reg_way` = #{regWay}
+                </if>
+            </if>
+            <if test="userName != null" >
+	            <if test="userName.indexOf('%') >= 0" >
+				    AND `user_name` like #{userName}
+	            </if>
+                <if test="userName.indexOf('%') lt 0" >
+                    AND `user_name` = #{userName}
+                </if>
+            </if>
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
+                </if>
+            </if>
+            <if test="lastLogindttm != null" >
+                    AND `last_logindttm` = #{lastLogindttm}
+            </if>
+            <if test="orgId != null" >
+	            <if test="orgId.indexOf('%') >= 0" >
+				    AND `org_id` like #{orgId}
+	            </if>
+                <if test="orgId.indexOf('%') lt 0" >
+                    AND `org_id` = #{orgId}
+                </if>
+            </if>
+            <if test="userImg != null" >
+	            <if test="userImg.indexOf('%') >= 0" >
+				    AND `user_img` like #{userImg}
+	            </if>
+                <if test="userImg.indexOf('%') lt 0" >
+                    AND `user_img` = #{userImg}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="updateId != null" >
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="updateTime != null" >
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

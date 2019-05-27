@@ -5,19 +5,16 @@ import com.synapse.common.sso.model.User;
 import com.synapse.common.trans.BizTrans;
 import com.synapse.common.trans.BizTransUtils;
 import com.synapse.reading.constants.MemberConstants;
+import com.synapse.reading.dto.param.RegistParam;
 import com.synapse.reading.model.*;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.MemberRespository;
 import com.synapse.reading.dto.param.MemberParam;
-import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.common.utils.DateUtils;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.remote.IdService;
@@ -282,6 +279,24 @@ public class MemberService extends MemberBaseService {
             return "";
         }
         return (String) o;
+
+    }
+
+    /**
+     * 组织member信息
+     *
+     * @param param
+     * @return
+     */
+    public Member buildMember(RegistParam param) {
+        Member member = new Member();
+        member.setIdCard(param.getIdCard());
+        member.setRole(MemberConstants.ROLE.STUDENT.num());
+        member.setMobile(param.getMobile());
+        member.setName(param.getUserName());
+        member.setOrganization(param.getOrganization());
+        member.setStatus(MemberConstants.STATUS.OK.num());
+        return member;
 
     }
 

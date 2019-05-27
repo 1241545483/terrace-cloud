@@ -13,6 +13,7 @@ import com.synapse.common.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.remote.IdService;
@@ -50,6 +51,7 @@ public class AudioService extends AudioBaseService {
     @Autowired
     private Gson gson;
 
+
     public Audio find(String recId) {
         return audioRespository.selectByPrimaryKey(recId);
     }
@@ -75,6 +77,7 @@ public class AudioService extends AudioBaseService {
     public String create(Audio param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
+//        param.setRecId("lgfwewew2232999");
         param.setCreateTime(now);
         param.setUpdateTime(now);
         getAudioQrCode(param);
@@ -135,11 +138,17 @@ public class AudioService extends AudioBaseService {
         }
         miniQrcodeParam.setWidth("110");
         try {
-            Map<String, Object> generate = miniQrcodeService.generate(miniQrcodeParam);
-            Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
-            List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
-            Map<String, Object> url = (Map<String, Object>) models.get(0);
-            param.setQrCode(String.valueOf(url.get("url")));
+            String generate = miniQrcodeService.generate(miniQrcodeParam);
+//            String url =null;
+//            if("OSS".equals(UploadType)) {
+//                url = String.valueOf(generate.get("url"));
+//            }else{
+//                Map<String, Object> bizInfo = (Map<String, Object>) generate.get("bizInfo");
+//                List<Map<String, Object>> models = (List<Map<String, Object>>) bizInfo.get("models");
+//                Map<String, Object> urlModel = (Map<String, Object>) models.get(0);
+//                url =String.valueOf(urlModel.get("url"));
+//            }
+            param.setQrCode(generate);
         } catch (Exception e) {
             e.printStackTrace();
         }

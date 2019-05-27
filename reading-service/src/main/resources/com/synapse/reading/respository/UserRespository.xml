@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.respository.UserRespository">
+
+    <resultMap id="userSimple" type="com.synapse.user.result.custom.UserSimple">
+        <result column="loginName" jdbcType="VARCHAR" property="loginName" />
+        <result column="userId" jdbcType="VARCHAR" property="userId" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+        <result column="orgId" jdbcType="VARCHAR" property="organization"/>
+        <result column="orgName" jdbcType="VARCHAR" property="orgName" />
+    </resultMap>
+
+
+    <select id="findByName" parameterType="java.lang.String" resultMap="com.synapse.reading.mapper.UserMapper.BaseResultMap">
+        select
+        <include refid="com.synapse.reading.mapper.UserMapper.Base_Column_List" />
+        from user
+        WHERE
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+        OR
+        login_alais= #{loginName,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="com.synapse.reading.mapper.UserMapper.BaseResultMap">
+        select
+        <include refid="com.synapse.reading.mapper.UserMapper.Base_Column_List" />
+        from user
+        WHERE
+        LOGIN_NAME = #{loginName ,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByUserIdList" parameterType="map" resultMap="com.synapse.reading.mapper.UserMapper.BaseResultMap">
+        select
+        <include refid="com.synapse.reading.mapper.UserMapper.Base_Column_List" />
+        from user
+        WHERE 1=1
+        AND USER_ID IN
+        <foreach close=")" collection="userIdList" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+
+    </select>
+
+
+    <select id="getSchoolManager" resultMap="userSimple">
+        select a.user_id as userId, a.login_name as loginName, a.org_id as orgId,
+        c.org_name as orgName , a.user_name as userName
+        from user a
+        join  user_role b on a.user_id = b.user_id
+        join organization c on c.org_id = a.group_id
+        where b.role_id = 'school_manager'
+        <if test="parentOrgId != null">
+            and c.parent_org_id = #{parentOrgId, jdbcType=VARCHAR}
+        </if>
+        <if test="orgId != null">
+            and a.org_id in (${orgId})
+        </if>
+        <if test="name != null">
+            and a.user_name like #{name, jdbcType=VARCHAR}
+        </if>
+        <if  test="pageStartIndex != null">
+            limit ${pageStartIndex}, ${pageSize}
+        </if>
+    </select>
+
+
+    <select id="countSchoolManager" resultType="java.lang.Integer">
+        select count(*)
+        from user a
+        join  user_role b on a.user_id = b.user_id
+        join organization c on c.org_id = a.group_id
+        where b.role_id = 'school_manager'
+        <if test="parentOrgId != null">
+            and c.parent_org_id = #{parentOrgId, jdbcType=VARCHAR}
+        </if>
+        <if test="orgId != null">
+            and a.rg_id in (${orgId})o
+        </if>
+        <if test="name != null">
+            and a.user_name like #{name, jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="getReadTeacher" resultMap="userSimple">
+        select a.user_id as userId, a.login_name as loginName, a.org_id as orgId,
+        c.org_name as orgName , a.user_name as userName
+        from user a
+        join  user_role b on a.user_id = b.user_id
+        join organization c on c.org_id = a.group_id
+        where b.role_id =  #{roleId, jdbcType=VARCHAR}
+        <if test="parentOrgId != null">
+            and c.parent_org_id = #{parentOrgId, jdbcType=VARCHAR}
+        </if>
+        <if test="orgId != null">
+            and a.org_id in (${orgId})
+        </if>
+        <if test="name != null">
+            and a.user_name like #{name, jdbcType=VARCHAR}
+        </if>
+        <if  test="pageStartIndex != null">
+            limit ${pageStartIndex}, ${pageSize}
+        </if>
+    </select>
+
+
+    <select id="countReadTeacher" resultType="java.lang.Integer">
+        select count(*)
+        from user a
+        join  user_role b on a.user_id = b.user_id
+        join organization c on c.org_id = a.org_id
+        where b.role_id = #{roleId, jdbcType=VARCHAR}
+        <if test="parentOrgId != null">
+            and c.parent_org_id = #{parentOrgId, jdbcType=VARCHAR}
+        </if>
+        <if test="orgId != null">
+            and a.org_id in (${orgId})
+        </if>
+        <if test="name != null">
+            and a.user_name like #{name, jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectByUserId" parameterType="java.lang.String"
+            resultMap="com.synapse.reading.mapper.UserMapper.BaseResultMap">
+        select
+        <include refid="com.synapse.reading.mapper.UserMapper.Base_Column_List"/>
+        from user
+        WHERE
+        USER_ID= #{userId,jdbcType=VARCHAR}
+    </select>
+
+
+
+</mapper>

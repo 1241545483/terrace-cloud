@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.respository.ConnectionRespository">
+
+    <select id="selectByOpenId"  parameterType="map" resultMap="com.synapse.reading.mapper.ConnectionMapper.BaseResultMap">
+        SELECT  * from connection where  open_id= #{openId}
+    </select>
+
+    <delete id="deleteByOpenId" parameterType="map" >
+        DELETE from connection where open_id= #{openId}
+    </delete>
+
+    <select id="selectByUnionId"  parameterType="map" resultMap="com.synapse.reading.mapper.ConnectionMapper.BaseResultMap">
+        SELECT  * from connection where  union_id= #{unionId}
+    </select>
+
+    <delete id="deleteByUnionId" parameterType="map" >
+        DELETE from connection where union_id= #{unionId}
+    </delete>
+
+    <select id="selectByUserIdAndOpenId" parameterType="map" resultMap="com.synapse.reading.mapper.ConnectionMapper.BaseResultMap">
+        SELECT  * from connection where 1=1
+        <if test="providerUserId != null">
+            AND  open_id = #{openId}
+        </if>
+        <if test="userId != null">
+            AND user_id= #{userId}
+        </if>
+    </select>
+
+</mapper>

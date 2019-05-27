@@ -1,17 +1,14 @@
 package com.synapse.reading.service;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.synapse.common.utils.JsonUtils;
-
 import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.remote.MiniQrcodeAPiService;
-import org.apache.commons.io.FileUtils;
+import com.synapse.reading.remote.Upload;
+import com.synapse.reading.util.ALiUpload;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -20,15 +17,16 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +34,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +44,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Transactional
-public class MiniQrcodeService {
+public class MiniQrcodeService implements ApplicationContextAware {
 
     private Logger logger = LoggerFactory.getLogger(MiniQrcodeService.class);
 
@@ -62,7 +59,11 @@ public class MiniQrcodeService {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private ALiUpload ossUtil;
 
+    @Value("${uploaderName}")
+    private String uploaderName;
 
     @Value("${imgUploadUrl}")
     private String imgUploadUrl;//"https://www.jssns.cn/upload/SHILU"
@@ -95,7 +96,7 @@ public class MiniQrcodeService {
         return map;
     }
 
-    public Map<String, Object> generate(MiniQrcodeParam params) throws Exception {
+    public String generate(MiniQrcodeParam params) throws Exception {
         Map<String, Object> param = new HashMap<>();
         logger.info("page = {}", params.getPage());
         param.put("page", params.getPage());
@@ -105,20 +106,25 @@ public class MiniQrcodeService {
         param.put("is_hyaline", false);
         String json = JsonUtils.toJson(param);
         String res = httpPostWithJson("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + getAccessToken(), json, params.getScene());
-
-        Gson gson = new Gson();
-        Type memberType = new TypeToken<Map<String, Object>>() {
-        }.getType();
-        Map<String, Object> map = gson.fromJson(res, memberType);
-        return map;
+//        Map<String, Object> map=null;
+        logger.warn("------------------------res:  " + res);
+//        if("OSS".equals(uploaderName)) {
+//         map.put("url",res);
+//        }else{
+//        Gson gson = new Gson();
+//        Type memberType = new TypeToken<Map<String, Object>>() {
+//        }.getType();
+//       map = gson.fromJson(res, memberType);
+//        }
+        return res;
     }
 
-        public String httpPostWithJson(String url, String json, String name) throws Exception {
+    public String httpPostWithJson(String url, String json, String name) throws Exception {
         String result = null;
         DefaultHttpClient httpClient = new DefaultHttpClient();
-      //  HttpClient httpClient = HttpClientBuilder.create().build();
+        //  HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(url);
-       httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+        httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
         StringEntity stringEntity = new StringEntity(json);
         stringEntity.setContentType("application/json");
         stringEntity.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "UTF-8"));
@@ -138,12 +144,24 @@ public class MiniQrcodeService {
 //                inputStream.close();
 //                return null;
                 String filName = System.currentTimeMillis() + "_" + "mini" + ".png";
-                result = inputStreamUpload(inputStream, filName);
+//                result = inputStreamUpload(inputStream, filName);
+                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
+                result = uploader.upload(inputStream, filName);
+//                if ("OSS".equals(uploaderName)) {
+//                    result = aLiUpload.upload(inputStream, "");
+//                } else {
+//                    Gson gson = new Gson();
+//                    Type memberType = new TypeToken<Map<String, Object>>() {
+//                    }.getType();
+//                    Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(inputStreamUpload(inputStream, filName), memberType);
+//                    result = map.get("bizInfo").get("models").get(0).get("url");
+//                }
+
+//            }
             }
         }
         return result;
     }
-
     public void getFile(InputStream is, String fileName) throws IOException {
         BufferedInputStream in = null;
         BufferedOutputStream out = null;
@@ -211,5 +229,10 @@ public class MiniQrcodeService {
         return null;
     }
 
+    private ApplicationContext applicationContext;
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 }

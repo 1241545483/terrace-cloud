@@ -14,6 +14,8 @@ import com.synapse.reading.remote.PayService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.service.WxPayService;
 import com.synapse.reading.service.WxUserBindService;
+
+
 import com.synapse.user.model.api.UserPwdUpdateModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

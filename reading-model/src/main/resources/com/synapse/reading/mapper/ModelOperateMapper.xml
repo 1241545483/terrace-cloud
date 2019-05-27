@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.ModelOperateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.ModelOperate">
+        <id column="rec_id" property="recId" />
+        <result column="model_id" property="modelId" />
+        <result column="code" property="code" />
+        <result column="desc" property="desc" />
+        <result column="status" property="status" />
+        <result column="create_id" property="createId" />
+        <result column="update_id" property="updateId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `rec_id`,`model_id`,`code`,`desc`,`status`,`create_id`,`update_id`,`create_time`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `model_operate`
+        where
+                `rec_id` = #{recId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.ModelOperate">
+        insert into `model_operate`
+        (<include refid="Base_Column_List" />)
+        values (#{recId},#{modelId},#{code},#{desc},#{status},#{createId},#{updateId},#{createTime},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `model_operate`
+        where
+			    `rec_id` = #{recId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.ModelOperate" >
+        insert into `model_operate`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+                    `rec_id`,
+                </if>
+                <if test="modelId != null" >
+                    `model_id`,
+                </if>
+                <if test="code != null" >
+                    `code`,
+                </if>
+                <if test="desc != null" >
+                    `desc`,
+                </if>
+                <if test="status != null" >
+                    `status`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="recId != null" >
+			        #{recId},
+                </if>
+                <if test="modelId != null" >
+			        #{modelId},
+                </if>
+                <if test="code != null" >
+			        #{code},
+                </if>
+                <if test="desc != null" >
+			        #{desc},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.ModelOperate" >
+        update `model_operate`
+        <set >
+	            <if test="recId != null" >
+		            `rec_id` = #{recId},
+	            </if>
+	            <if test="modelId != null" >
+		            `model_id` = #{modelId},
+	            </if>
+	            <if test="code != null" >
+		            `code` = #{code},
+	            </if>
+	            <if test="desc != null" >
+		            `desc` = #{desc},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `rec_id` = #{recId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.ModelOperate" >
+        update  `model_operate` SET
+		    `rec_id`=#{recId},`model_id`=#{modelId},`code`=#{code},`desc`=#{desc},`status`=#{status},`create_id`=#{createId},`update_id`=#{updateId},`create_time`=#{createTime},`update_time`=#{updateTime}
+        where
+		    `rec_id` = #{recId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `model_operate`
+        where 1 = 1
+            <if test="recId != null" >
+                    <if test="recId.indexOf('%') >= 0" >
+                        AND `rec_id` like #{recId}
+                    </if>
+                    <if test="recId.indexOf('%') lt 0" >
+                        AND `rec_id` = #{recId}
+                    </if>
+            </if>
+            <if test="modelId != null" >
+                    <if test="modelId.indexOf('%') >= 0" >
+                        AND `model_id` like #{modelId}
+                    </if>
+                    <if test="modelId.indexOf('%') lt 0" >
+                        AND `model_id` = #{modelId}
+                    </if>
+            </if>
+            <if test="code != null" >
+                    <if test="code.indexOf('%') >= 0" >
+                        AND `code` like #{code}
+                    </if>
+                    <if test="code.indexOf('%') lt 0" >
+                        AND `code` = #{code}
+                    </if>
+            </if>
+            <if test="desc != null" >
+                    <if test="desc.indexOf('%') >= 0" >
+                        AND `desc` like #{desc}
+                    </if>
+                    <if test="desc.indexOf('%') lt 0" >
+                        AND `desc` = #{desc}
+                    </if>
+            </if>
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="updateId != null" >
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="updateTime != null" >
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `model_operate`
+        where 1 = 1
+            <if test="recId != null" >
+	            <if test="recId.indexOf('%') >= 0" >
+				    AND `rec_id` like #{recId}
+	            </if>
+                <if test="recId.indexOf('%') lt 0" >
+                    AND `rec_id` = #{recId}
+                </if>
+            </if>
+            <if test="modelId != null" >
+	            <if test="modelId.indexOf('%') >= 0" >
+				    AND `model_id` like #{modelId}
+	            </if>
+                <if test="modelId.indexOf('%') lt 0" >
+                    AND `model_id` = #{modelId}
+                </if>
+            </if>
+            <if test="code != null" >
+	            <if test="code.indexOf('%') >= 0" >
+				    AND `code` like #{code}
+	            </if>
+                <if test="code.indexOf('%') lt 0" >
+                    AND `code` = #{code}
+                </if>
+            </if>
+            <if test="desc != null" >
+	            <if test="desc.indexOf('%') >= 0" >
+				    AND `desc` like #{desc}
+	            </if>
+                <if test="desc.indexOf('%') lt 0" >
+                    AND `desc` = #{desc}
+                </if>
+            </if>
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="updateId != null" >
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="updateTime != null" >
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

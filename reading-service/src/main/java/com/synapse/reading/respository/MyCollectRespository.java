@@ -21,6 +21,6 @@ public interface MyCollectRespository extends MyCollectMapper {
     Integer countIsCollectByAudio(@Param("recId") String recId, @Param("userId")String userId);
 
     List<MyCollect> listByMyCollect(@Param("collectType") String collectType, @Param("userId")String userId);
-   // Integer addByCreateId(@Param("recId") String recId, @Param("userId")String userId);
-   // Integer cancelByCreateId(@Param("recId") String recId, @Param("userId")String userId);
+   // Integer addByCreateId(@param("recId") String recId, @param("userId")String userId);
+   // Integer cancelByCreateId(@param("recId") String recId, @param("userId")String userId);
 }

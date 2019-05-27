@@ -50,8 +50,8 @@ import java.util.Map;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository"})
-@ComponentScan(value = {"com.synapse.reading.*", "com.synapse.common.json", "com.synapse.common.web", "com.synapse.common.api.doc"}
+@MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository","com.synapse.security.mapper", "com.synapse.security.respository"})
+@ComponentScan(value = {"com.synapse.reading.*","com.synapse.common.json", "com.synapse.common.web", "com.synapse.common.api.doc"}
         , excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {SecurityConfig.class})})
 @EnableAutoConfiguration(excludeName = {"org.springframework.boot.autoconfigure.session.SessionAutoConfiguration",
         "org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration"})
