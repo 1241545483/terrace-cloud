@@ -1,72 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.synapse.reading.mapper.ConnectionMapper">
+<mapper namespace="com.synapse.reading.mapper.ClassStudentMappingMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.synapse.reading.model.Connection">
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.ClassStudentMapping">
         <id column="rec_id" property="recId" />
-        <result column="user_id" property="userId" />
-        <result column="privide" property="privide" />
-        <result column="open_id" property="openId" />
-        <result column="union_id" property="unionId" />
+        <result column="class_id" property="classId" />
+        <result column="student_id" property="studentId" />
+        <result column="status" property="status" />
         <result column="create_id" property="createId" />
-        <result column="create_time" property="createTime" />
         <result column="update_id" property="updateId" />
+        <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`user_id`,`privide`,`open_id`,`union_id`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`class_id`,`student_id`,`status`,`create_id`,`update_id`,`create_time`,`update_time`
     </sql>
 
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
         <include refid="Base_Column_List" />
-        from `connection`
+        from `class_student_mapping`
         where
                 `rec_id` = #{recId}
     </select>
 
-    <insert id="insert"  parameterType="com.synapse.reading.model.Connection">
-        insert into `connection`
+    <insert id="insert"  parameterType="com.synapse.reading.model.ClassStudentMapping">
+        insert into `class_student_mapping`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{userId},#{privide},#{openId},#{unionId},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{classId},#{studentId},#{status},#{createId},#{updateId},#{createTime},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-        delete from `connection`
+        delete from `class_student_mapping`
         where
 			    `rec_id` = #{recId}
     </delete>
 
-    <insert id="insertSelective"  parameterType="com.synapse.reading.model.Connection" >
-        insert into `connection`
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.ClassStudentMapping" >
+        insert into `class_student_mapping`
         <trim prefix="(" suffix=")" suffixOverrides="," >
                 <if test="recId != null" >
                     `rec_id`,
                 </if>
-                <if test="userId != null" >
-                    `user_id`,
+                <if test="classId != null" >
+                    `class_id`,
                 </if>
-                <if test="privide != null" >
-                    `privide`,
+                <if test="studentId != null" >
+                    `student_id`,
                 </if>
-                <if test="openId != null" >
-                    `open_id`,
-                </if>
-                <if test="unionId != null" >
-                    `union_id`,
+                <if test="status != null" >
+                    `status`,
                 </if>
                 <if test="createId != null" >
                     `create_id`,
                 </if>
-                <if test="createTime != null" >
-                    `create_time`,
-                </if>
                 <if test="updateId != null" >
                     `update_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
                 </if>
                 <if test="updateTime != null" >
                     `update_time`,
@@ -76,26 +72,23 @@
                 <if test="recId != null" >
 			        #{recId},
                 </if>
-                <if test="userId != null" >
-			        #{userId},
+                <if test="classId != null" >
+			        #{classId},
                 </if>
-                <if test="privide != null" >
-			        #{privide},
+                <if test="studentId != null" >
+			        #{studentId},
                 </if>
-                <if test="openId != null" >
-			        #{openId},
-                </if>
-                <if test="unionId != null" >
-			        #{unionId},
+                <if test="status != null" >
+			        #{status},
                 </if>
                 <if test="createId != null" >
 			        #{createId},
                 </if>
-                <if test="createTime != null" >
-			        #{createTime},
-                </if>
                 <if test="updateId != null" >
 			        #{updateId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
                 </if>
                 <if test="updateTime != null" >
 			        #{updateTime},
@@ -103,32 +96,29 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.Connection" >
-        update `connection`
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.ClassStudentMapping" >
+        update `class_student_mapping`
         <set >
 	            <if test="recId != null" >
 		            `rec_id` = #{recId},
 	            </if>
-	            <if test="userId != null" >
-		            `user_id` = #{userId},
+	            <if test="classId != null" >
+		            `class_id` = #{classId},
 	            </if>
-	            <if test="privide != null" >
-		            `privide` = #{privide},
+	            <if test="studentId != null" >
+		            `student_id` = #{studentId},
 	            </if>
-	            <if test="openId != null" >
-		            `open_id` = #{openId},
-	            </if>
-	            <if test="unionId != null" >
-		            `union_id` = #{unionId},
+	            <if test="status != null" >
+		            `status` = #{status},
 	            </if>
 	            <if test="createId != null" >
 		            `create_id` = #{createId},
 	            </if>
-	            <if test="createTime != null" >
-		            `create_time` = #{createTime},
-	            </if>
 	            <if test="updateId != null" >
 		            `update_id` = #{updateId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
 	            </if>
 	            <if test="updateTime != null" >
 		            `update_time` = #{updateTime},
@@ -137,16 +127,16 @@
         where
 		    `rec_id` = #{recId}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Connection" >
-        update  `connection` SET
-		    `rec_id`=#{recId},`user_id`=#{userId},`privide`=#{privide},`open_id`=#{openId},`union_id`=#{unionId},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.ClassStudentMapping" >
+        update  `class_student_mapping` SET
+		    `rec_id`=#{recId},`class_id`=#{classId},`student_id`=#{studentId},`status`=#{status},`create_id`=#{createId},`update_id`=#{updateId},`create_time`=#{createTime},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
 
     <select id="count" parameterType="map" resultType="int">
         select count(1)
-	    from `connection`
+	    from `class_student_mapping`
         where 1 = 1
             <if test="recId != null" >
                     <if test="recId.indexOf('%') >= 0" >
@@ -156,36 +146,28 @@
                         AND `rec_id` = #{recId}
                     </if>
             </if>
-            <if test="userId != null" >
-                    <if test="userId.indexOf('%') >= 0" >
-                        AND `user_id` like #{userId}
+            <if test="classId != null" >
+                    <if test="classId.indexOf('%') >= 0" >
+                        AND `class_id` like #{classId}
                     </if>
-                    <if test="userId.indexOf('%') lt 0" >
-                        AND `user_id` = #{userId}
-                    </if>
-            </if>
-            <if test="privide != null" >
-                    <if test="privide.indexOf('%') >= 0" >
-                        AND `privide` like #{privide}
-                    </if>
-                    <if test="privide.indexOf('%') lt 0" >
-                        AND `privide` = #{privide}
+                    <if test="classId.indexOf('%') lt 0" >
+                        AND `class_id` = #{classId}
                     </if>
             </if>
-            <if test="openId != null" >
-                    <if test="openId.indexOf('%') >= 0" >
-                        AND `open_id` like #{openId}
+            <if test="studentId != null" >
+                    <if test="studentId.indexOf('%') >= 0" >
+                        AND `student_id` like #{studentId}
                     </if>
-                    <if test="openId.indexOf('%') lt 0" >
-                        AND `open_id` = #{openId}
+                    <if test="studentId.indexOf('%') lt 0" >
+                        AND `student_id` = #{studentId}
                     </if>
             </if>
-            <if test="unionId != null" >
-                    <if test="unionId.indexOf('%') >= 0" >
-                        AND `union_id` like #{unionId}
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
                     </if>
-                    <if test="unionId.indexOf('%') lt 0" >
-                        AND `union_id` = #{unionId}
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
                     </if>
             </if>
             <if test="createId != null" >
@@ -196,20 +178,20 @@
                         AND `create_id` = #{createId}
                     </if>
             </if>
-            <if test="createTime != null" >
-                    <if test="createTime.indexOf('%') >= 0" >
-                        AND `create_time` like #{createTime}
-                    </if>
-                    <if test="createTime.indexOf('%') lt 0" >
-                        AND `create_time` = #{createTime}
-                    </if>
-            </if>
             <if test="updateId != null" >
                     <if test="updateId.indexOf('%') >= 0" >
                         AND `update_id` like #{updateId}
                     </if>
                     <if test="updateId.indexOf('%') lt 0" >
                         AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
                     </if>
             </if>
             <if test="updateTime != null" >
@@ -225,7 +207,7 @@
     <select id="list" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from `connection`
+        from `class_student_mapping`
         where 1 = 1
             <if test="recId != null" >
 	            <if test="recId.indexOf('%') >= 0" >
@@ -235,36 +217,28 @@
                     AND `rec_id` = #{recId}
                 </if>
             </if>
-            <if test="userId != null" >
-	            <if test="userId.indexOf('%') >= 0" >
-				    AND `user_id` like #{userId}
+            <if test="classId != null" >
+	            <if test="classId.indexOf('%') >= 0" >
+				    AND `class_id` like #{classId}
 	            </if>
-                <if test="userId.indexOf('%') lt 0" >
-                    AND `user_id` = #{userId}
+                <if test="classId.indexOf('%') lt 0" >
+                    AND `class_id` = #{classId}
                 </if>
             </if>
-            <if test="privide != null" >
-	            <if test="privide.indexOf('%') >= 0" >
-				    AND `privide` like #{privide}
+            <if test="studentId != null" >
+	            <if test="studentId.indexOf('%') >= 0" >
+				    AND `student_id` like #{studentId}
 	            </if>
-                <if test="privide.indexOf('%') lt 0" >
-                    AND `privide` = #{privide}
+                <if test="studentId.indexOf('%') lt 0" >
+                    AND `student_id` = #{studentId}
                 </if>
             </if>
-            <if test="openId != null" >
-	            <if test="openId.indexOf('%') >= 0" >
-				    AND `open_id` like #{openId}
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
 	            </if>
-                <if test="openId.indexOf('%') lt 0" >
-                    AND `open_id` = #{openId}
-                </if>
-            </if>
-            <if test="unionId != null" >
-	            <if test="unionId.indexOf('%') >= 0" >
-				    AND `union_id` like #{unionId}
-	            </if>
-                <if test="unionId.indexOf('%') lt 0" >
-                    AND `union_id` = #{unionId}
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
                 </if>
             </if>
             <if test="createId != null" >
@@ -275,20 +249,20 @@
                     AND `create_id` = #{createId}
                 </if>
             </if>
-            <if test="createTime != null" >
-	            <if test="createTime.indexOf('%') >= 0" >
-				    AND `create_time` like #{createTime}
-	            </if>
-                <if test="createTime.indexOf('%') lt 0" >
-                    AND `create_time` = #{createTime}
-                </if>
-            </if>
             <if test="updateId != null" >
 	            <if test="updateId.indexOf('%') >= 0" >
 				    AND `update_id` like #{updateId}
 	            </if>
                 <if test="updateId.indexOf('%') lt 0" >
                     AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
                 </if>
             </if>
             <if test="updateTime != null" >

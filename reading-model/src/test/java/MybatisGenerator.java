@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class MybatisGenerator {
 
-    private static String[] tables = new String[]{"wx_login_state"};
+    private static String[] tables = new String[]{"class_student_mapping"};
     private static String BASE_PATH_ROOT = "/D:/program/reading";
     private static String AUTHOR = "liuguangfu";
 
@@ -154,7 +154,7 @@ public class MybatisGenerator {
         focList.add(new FileOutConfig("/templates/param.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return MODEL_PATH_ROOT + "/src/main/java/" + PKG.replaceAll("\\.","/") + "/dto/param/" + tableInfo.getEntityName() + "param.java";
+                return MODEL_PATH_ROOT + "/src/main/java/" + PKG.replaceAll("\\.","/") + "/dto/param/" + tableInfo.getEntityName() + "Param.java";
             }
 
             @Override

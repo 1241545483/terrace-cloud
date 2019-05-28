@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.synapse.reading.mapper.UserRoleMapper">
+<mapper namespace="com.synapse.reading.mapper.ClassInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.synapse.reading.model.UserRole">
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.ClassInfo">
         <id column="rec_id" property="recId" />
-        <result column="user_id" property="userId" />
-        <result column="role_id" property="roleId" />
-        <result column="app_key" property="appKey" />
-        <result column="org_id" property="orgId" />
+        <result column="class_code" property="classCode" />
+        <result column="intro" property="intro" />
+        <result column="qr_code" property="qrCode" />
+        <result column="cover" property="cover" />
+        <result column="status" property="status" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
         <result column="update_id" property="updateId" />
@@ -17,47 +18,50 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`user_id`,`role_id`,`app_key`,`org_id`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`class_code`,`intro`,`qr_code`,`cover`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
         <include refid="Base_Column_List" />
-        from `user_role`
+        from `class_info`
         where
                 `rec_id` = #{recId}
     </select>
 
-    <insert id="insert"  parameterType="com.synapse.reading.model.UserRole">
-        insert into `user_role`
+    <insert id="insert"  parameterType="com.synapse.reading.model.ClassInfo">
+        insert into `class_info`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{userId},#{roleId},#{appKey},#{orgId},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{classCode},#{intro},#{qrCode},#{cover},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-        delete from `user_role`
+        delete from `class_info`
         where
 			    `rec_id` = #{recId}
     </delete>
 
-    <insert id="insertSelective"  parameterType="com.synapse.reading.model.UserRole" >
-        insert into `user_role`
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.ClassInfo" >
+        insert into `class_info`
         <trim prefix="(" suffix=")" suffixOverrides="," >
                 <if test="recId != null" >
                     `rec_id`,
                 </if>
-                <if test="userId != null" >
-                    `user_id`,
+                <if test="classCode != null" >
+                    `class_code`,
                 </if>
-                <if test="roleId != null" >
-                    `role_id`,
+                <if test="intro != null" >
+                    `intro`,
                 </if>
-                <if test="appKey != null" >
-                    `app_key`,
+                <if test="qrCode != null" >
+                    `qr_code`,
                 </if>
-                <if test="orgId != null" >
-                    `org_id`,
+                <if test="cover != null" >
+                    `cover`,
+                </if>
+                <if test="status != null" >
+                    `status`,
                 </if>
                 <if test="createId != null" >
                     `create_id`,
@@ -76,17 +80,20 @@
                 <if test="recId != null" >
 			        #{recId},
                 </if>
-                <if test="userId != null" >
-			        #{userId},
+                <if test="classCode != null" >
+			        #{classCode},
                 </if>
-                <if test="roleId != null" >
-			        #{roleId},
+                <if test="intro != null" >
+			        #{intro},
                 </if>
-                <if test="appKey != null" >
-			        #{appKey},
+                <if test="qrCode != null" >
+			        #{qrCode},
                 </if>
-                <if test="orgId != null" >
-			        #{orgId},
+                <if test="cover != null" >
+			        #{cover},
+                </if>
+                <if test="status != null" >
+			        #{status},
                 </if>
                 <if test="createId != null" >
 			        #{createId},
@@ -103,23 +110,26 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.UserRole" >
-        update `user_role`
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.ClassInfo" >
+        update `class_info`
         <set >
 	            <if test="recId != null" >
 		            `rec_id` = #{recId},
 	            </if>
-	            <if test="userId != null" >
-		            `user_id` = #{userId},
+	            <if test="classCode != null" >
+		            `class_code` = #{classCode},
 	            </if>
-	            <if test="roleId != null" >
-		            `role_id` = #{roleId},
+	            <if test="intro != null" >
+		            `intro` = #{intro},
 	            </if>
-	            <if test="appKey != null" >
-		            `app_key` = #{appKey},
+	            <if test="qrCode != null" >
+		            `qr_code` = #{qrCode},
 	            </if>
-	            <if test="orgId != null" >
-		            `org_id` = #{orgId},
+	            <if test="cover != null" >
+		            `cover` = #{cover},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
 	            </if>
 	            <if test="createId != null" >
 		            `create_id` = #{createId},
@@ -137,16 +147,16 @@
         where
 		    `rec_id` = #{recId}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.UserRole" >
-        update  `user_role` SET
-		    `rec_id`=#{recId},`user_id`=#{userId},`role_id`=#{roleId},`app_key`=#{appKey},`org_id`=#{orgId},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.ClassInfo" >
+        update  `class_info` SET
+		    `rec_id`=#{recId},`class_code`=#{classCode},`intro`=#{intro},`qr_code`=#{qrCode},`cover`=#{cover},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
 
     <select id="count" parameterType="map" resultType="int">
         select count(1)
-	    from `user_role`
+	    from `class_info`
         where 1 = 1
             <if test="recId != null" >
                     <if test="recId.indexOf('%') >= 0" >
@@ -156,36 +166,44 @@
                         AND `rec_id` = #{recId}
                     </if>
             </if>
-            <if test="userId != null" >
-                    <if test="userId.indexOf('%') >= 0" >
-                        AND `user_id` like #{userId}
+            <if test="classCode != null" >
+                    <if test="classCode.indexOf('%') >= 0" >
+                        AND `class_code` like #{classCode}
                     </if>
-                    <if test="userId.indexOf('%') lt 0" >
-                        AND `user_id` = #{userId}
-                    </if>
-            </if>
-            <if test="roleId != null" >
-                    <if test="roleId.indexOf('%') >= 0" >
-                        AND `role_id` like #{roleId}
-                    </if>
-                    <if test="roleId.indexOf('%') lt 0" >
-                        AND `role_id` = #{roleId}
+                    <if test="classCode.indexOf('%') lt 0" >
+                        AND `class_code` = #{classCode}
                     </if>
             </if>
-            <if test="appKey != null" >
-                    <if test="appKey.indexOf('%') >= 0" >
-                        AND `app_key` like #{appKey}
+            <if test="intro != null" >
+                    <if test="intro.indexOf('%') >= 0" >
+                        AND `intro` like #{intro}
                     </if>
-                    <if test="appKey.indexOf('%') lt 0" >
-                        AND `app_key` = #{appKey}
+                    <if test="intro.indexOf('%') lt 0" >
+                        AND `intro` = #{intro}
                     </if>
             </if>
-            <if test="orgId != null" >
-                    <if test="orgId.indexOf('%') >= 0" >
-                        AND `org_id` like #{orgId}
+            <if test="qrCode != null" >
+                    <if test="qrCode.indexOf('%') >= 0" >
+                        AND `qr_code` like #{qrCode}
                     </if>
-                    <if test="orgId.indexOf('%') lt 0" >
-                        AND `org_id` = #{orgId}
+                    <if test="qrCode.indexOf('%') lt 0" >
+                        AND `qr_code` = #{qrCode}
+                    </if>
+            </if>
+            <if test="cover != null" >
+                    <if test="cover.indexOf('%') >= 0" >
+                        AND `cover` like #{cover}
+                    </if>
+                    <if test="cover.indexOf('%') lt 0" >
+                        AND `cover` = #{cover}
+                    </if>
+            </if>
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
                     </if>
             </if>
             <if test="createId != null" >
@@ -225,7 +243,7 @@
     <select id="list" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from `user_role`
+        from `class_info`
         where 1 = 1
             <if test="recId != null" >
 	            <if test="recId.indexOf('%') >= 0" >
@@ -235,36 +253,44 @@
                     AND `rec_id` = #{recId}
                 </if>
             </if>
-            <if test="userId != null" >
-	            <if test="userId.indexOf('%') >= 0" >
-				    AND `user_id` like #{userId}
+            <if test="classCode != null" >
+	            <if test="classCode.indexOf('%') >= 0" >
+				    AND `class_code` like #{classCode}
 	            </if>
-                <if test="userId.indexOf('%') lt 0" >
-                    AND `user_id` = #{userId}
+                <if test="classCode.indexOf('%') lt 0" >
+                    AND `class_code` = #{classCode}
                 </if>
             </if>
-            <if test="roleId != null" >
-	            <if test="roleId.indexOf('%') >= 0" >
-				    AND `role_id` like #{roleId}
+            <if test="intro != null" >
+	            <if test="intro.indexOf('%') >= 0" >
+				    AND `intro` like #{intro}
 	            </if>
-                <if test="roleId.indexOf('%') lt 0" >
-                    AND `role_id` = #{roleId}
+                <if test="intro.indexOf('%') lt 0" >
+                    AND `intro` = #{intro}
                 </if>
             </if>
-            <if test="appKey != null" >
-	            <if test="appKey.indexOf('%') >= 0" >
-				    AND `app_key` like #{appKey}
+            <if test="qrCode != null" >
+	            <if test="qrCode.indexOf('%') >= 0" >
+				    AND `qr_code` like #{qrCode}
 	            </if>
-                <if test="appKey.indexOf('%') lt 0" >
-                    AND `app_key` = #{appKey}
+                <if test="qrCode.indexOf('%') lt 0" >
+                    AND `qr_code` = #{qrCode}
                 </if>
             </if>
-            <if test="orgId != null" >
-	            <if test="orgId.indexOf('%') >= 0" >
-				    AND `org_id` like #{orgId}
+            <if test="cover != null" >
+	            <if test="cover.indexOf('%') >= 0" >
+				    AND `cover` like #{cover}
 	            </if>
-                <if test="orgId.indexOf('%') lt 0" >
-                    AND `org_id` = #{orgId}
+                <if test="cover.indexOf('%') lt 0" >
+                    AND `cover` = #{cover}
+                </if>
+            </if>
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
                 </if>
             </if>
             <if test="createId != null" >
