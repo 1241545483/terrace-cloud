@@ -18,52 +18,52 @@
 
     <select id="listSortByOrderNum" parameterType="map" resultMap="com.synapse.reading.mapper.VideoMapper.BaseResultMap">
         select
-        <include refid="com.synapse.reading.mapper.VideoMapper.Base_Column_List" />
-        from `video`
+        *
+        from `video` a
         where 1 = 1
         <if test="recId != null" >
-            AND `rec_id` = #{recId}
+            AND a.`rec_id` = #{recId}
         </if>
         <if test="name != null" >
-            AND `name` = #{name}
+            AND a.`name` = #{name}
         </if>
         <if test="url != null" >
-            AND `url` = #{url}
+            AND a.`url` = #{url}
         </if>
         <if test="intro != null" >
-            AND `intro` = #{intro}
+            AND a.`intro` = #{intro}
         </if>
         <if test="qrCode != null" >
-            AND `qr_code` = #{qrCode}
+            AND a.`qr_code` = #{qrCode}
         </if>
         <if test="cover != null" >
-            AND `cover` = #{cover}
+            AND a.`cover` = #{cover}
         </if>
         <if test="belongTo != null" >
-            AND `belong_to` = #{belongTo}
+            AND a.`belong_to` = #{belongTo}
         </if>
         <if test="belongToId != null" >
-            AND `belong_to_id` = #{belongToId}
+            AND a.`belong_to_id` = #{belongToId}
         </if>
         <if test="playNum != null" >
-            AND `play_num` = #{playNum}
+            AND a.`play_num` = #{playNum}
         </if>
         <if test="orderNum != null" >
             AND `order_num` = #{orderNum}
         </if>
         <if test="createId != null" >
-            AND `create_id` = #{createId}
+            AND a.`create_id` = #{createId}
         </if>
         <if test="createTime != null" >
-            AND `create_time` = #{createTime}
+            AND a.`create_time` = #{createTime}
         </if>
         <if test="updateId != null" >
-            AND `update_id` = #{updateId}
+            AND a.`update_id` = #{updateId}
         </if>
         <if test="updateTime != null" >
-            AND `update_time` = #{updateTime}
+            AND a.`update_time` = #{updateTime}
         </if>
-            ORDER BY `order_num`
+            ORDER BY a.`order_num` DESC
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
