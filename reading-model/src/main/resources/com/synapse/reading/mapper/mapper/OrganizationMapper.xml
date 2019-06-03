@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.mapper.OrganizationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.model.Organization">
+        <id column="org_id" property="orgId" />
+        <result column="org_name" property="orgName" />
+        <result column="status" property="status" />
+        <result column="org_nature" property="orgNature" />
+        <result column="parent_org_id" property="parentOrgId" />
+        <result column="org_location" property="orgLocation" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `org_id`,`org_name`,`status`,`org_nature`,`parent_org_id`,`org_location`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `organization`
+        where
+                `org_id` = #{orgId}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.model.Organization">
+        insert into `organization`
+        (<include refid="Base_Column_List" />)
+        values (#{orgId},#{orgName},#{status},#{orgNature},#{parentOrgId},#{orgLocation},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `organization`
+        where
+			    `org_id` = #{orgId}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.model.Organization" >
+        insert into `organization`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="orgId != null" >
+                    `org_id`,
+                </if>
+                <if test="orgName != null" >
+                    `org_name`,
+                </if>
+                <if test="status != null" >
+                    `status`,
+                </if>
+                <if test="orgNature != null" >
+                    `org_nature`,
+                </if>
+                <if test="parentOrgId != null" >
+                    `parent_org_id`,
+                </if>
+                <if test="orgLocation != null" >
+                    `org_location`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="orgId != null" >
+			        #{orgId},
+                </if>
+                <if test="orgName != null" >
+			        #{orgName},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="orgNature != null" >
+			        #{orgNature},
+                </if>
+                <if test="parentOrgId != null" >
+			        #{parentOrgId},
+                </if>
+                <if test="orgLocation != null" >
+			        #{orgLocation},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.model.Organization" >
+        update `organization`
+        <set >
+	            <if test="orgId != null" >
+		            `org_id` = #{orgId},
+	            </if>
+	            <if test="orgName != null" >
+		            `org_name` = #{orgName},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
+	            </if>
+	            <if test="orgNature != null" >
+		            `org_nature` = #{orgNature},
+	            </if>
+	            <if test="parentOrgId != null" >
+		            `parent_org_id` = #{parentOrgId},
+	            </if>
+	            <if test="orgLocation != null" >
+		            `org_location` = #{orgLocation},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `org_id` = #{orgId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.model.Organization" >
+        update  `organization` SET
+		    `org_id`=#{orgId},`org_name`=#{orgName},`status`=#{status},`org_nature`=#{orgNature},`parent_org_id`=#{parentOrgId},`org_location`=#{orgLocation},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `org_id` = #{orgId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `organization`
+        where 1 = 1
+            <if test="orgId != null" >
+                    <if test="orgId.indexOf('%') >= 0" >
+                        AND `org_id` like #{orgId}
+                    </if>
+                    <if test="orgId.indexOf('%') lt 0" >
+                        AND `org_id` = #{orgId}
+                    </if>
+            </if>
+            <if test="orgName != null" >
+                    <if test="orgName.indexOf('%') >= 0" >
+                        AND `org_name` like #{orgName}
+                    </if>
+                    <if test="orgName.indexOf('%') lt 0" >
+                        AND `org_name` = #{orgName}
+                    </if>
+            </if>
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
+                    </if>
+            </if>
+            <if test="orgNature != null" >
+                    <if test="orgNature.indexOf('%') >= 0" >
+                        AND `org_nature` like #{orgNature}
+                    </if>
+                    <if test="orgNature.indexOf('%') lt 0" >
+                        AND `org_nature` = #{orgNature}
+                    </if>
+            </if>
+            <if test="parentOrgId != null" >
+                    <if test="parentOrgId.indexOf('%') >= 0" >
+                        AND `parent_org_id` like #{parentOrgId}
+                    </if>
+                    <if test="parentOrgId.indexOf('%') lt 0" >
+                        AND `parent_org_id` = #{parentOrgId}
+                    </if>
+            </if>
+            <if test="orgLocation != null" >
+                    <if test="orgLocation.indexOf('%') >= 0" >
+                        AND `org_location` like #{orgLocation}
+                    </if>
+                    <if test="orgLocation.indexOf('%') lt 0" >
+                        AND `org_location` = #{orgLocation}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="updateId != null" >
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="updateTime != null" >
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `organization`
+        where 1 = 1
+            <if test="orgId != null" >
+	            <if test="orgId.indexOf('%') >= 0" >
+				    AND `org_id` like #{orgId}
+	            </if>
+                <if test="orgId.indexOf('%') lt 0" >
+                    AND `org_id` = #{orgId}
+                </if>
+            </if>
+            <if test="orgName != null" >
+	            <if test="orgName.indexOf('%') >= 0" >
+				    AND `org_name` like #{orgName}
+	            </if>
+                <if test="orgName.indexOf('%') lt 0" >
+                    AND `org_name` = #{orgName}
+                </if>
+            </if>
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
+                </if>
+            </if>
+            <if test="orgNature != null" >
+	            <if test="orgNature.indexOf('%') >= 0" >
+				    AND `org_nature` like #{orgNature}
+	            </if>
+                <if test="orgNature.indexOf('%') lt 0" >
+                    AND `org_nature` = #{orgNature}
+                </if>
+            </if>
+            <if test="parentOrgId != null" >
+	            <if test="parentOrgId.indexOf('%') >= 0" >
+				    AND `parent_org_id` like #{parentOrgId}
+	            </if>
+                <if test="parentOrgId.indexOf('%') lt 0" >
+                    AND `parent_org_id` = #{parentOrgId}
+                </if>
+            </if>
+            <if test="orgLocation != null" >
+	            <if test="orgLocation.indexOf('%') >= 0" >
+				    AND `org_location` like #{orgLocation}
+	            </if>
+                <if test="orgLocation.indexOf('%') lt 0" >
+                    AND `org_location` = #{orgLocation}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="updateId != null" >
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="updateTime != null" >
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

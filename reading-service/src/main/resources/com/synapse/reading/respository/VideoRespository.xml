@@ -3,70 +3,31 @@
 <mapper namespace="com.synapse.reading.respository.VideoRespository">
 
     <update id="changeBelongToIdAndBelongTo" parameterType="map">
-        update  `video` SET
-        `belong_to_id`='' , belong_to=''
-        where
-        `belong_to_id` = #{belongToId}
+        UPDATE `video`
+        SET
+            `belong_to_id` = '', belong_to = ''
+        WHERE
+            `belong_to_id` = #{belongToId}
     </update>
 
     <update id="increasePlayNum" parameterType="map">
-        update  `video` SET
-        `play_num`=play_num + 1
-        where
-        `rec_id` = #{recId}
+        UPDATE `video`
+        SET
+            `play_num` = play_num + 1
+        WHERE
+            `rec_id` = #{recId}
     </update>
 
-    <select id="listSortByOrderNum" parameterType="map" resultMap="com.synapse.reading.mapper.VideoMapper.BaseResultMap">
-        select
-        *
-        from `video` a
-        where 1 = 1
-        <if test="recId != null" >
-            AND a.`rec_id` = #{recId}
-        </if>
-        <if test="name != null" >
-            AND a.`name` = #{name}
-        </if>
-        <if test="url != null" >
-            AND a.`url` = #{url}
-        </if>
-        <if test="intro != null" >
-            AND a.`intro` = #{intro}
-        </if>
-        <if test="qrCode != null" >
-            AND a.`qr_code` = #{qrCode}
-        </if>
-        <if test="cover != null" >
-            AND a.`cover` = #{cover}
-        </if>
-        <if test="belongTo != null" >
-            AND a.`belong_to` = #{belongTo}
-        </if>
-        <if test="belongToId != null" >
-            AND a.`belong_to_id` = #{belongToId}
-        </if>
-        <if test="playNum != null" >
-            AND a.`play_num` = #{playNum}
-        </if>
-        <if test="orderNum != null" >
-            AND `order_num` = #{orderNum}
-        </if>
-        <if test="createId != null" >
-            AND a.`create_id` = #{createId}
-        </if>
-        <if test="createTime != null" >
-            AND a.`create_time` = #{createTime}
-        </if>
-        <if test="updateId != null" >
-            AND a.`update_id` = #{updateId}
-        </if>
-        <if test="updateTime != null" >
-            AND a.`update_time` = #{updateTime}
-        </if>
-            ORDER BY a.`order_num` DESC
-        <if test="startIndex != null">
-            limit ${startIndex}, ${pageSize}
-        </if>
+    <select id="listSortByOrderNum" parameterType="map"
+            resultMap="com.synapse.reading.mapper.VideoMapper.BaseResultMap">
+        SELECT *
+        FROM `video` a
+        WHERE 1 = 1
+              AND a.`belong_to` = #{belongTo}
+              AND a.`belong_to_id` = #{belongToId}
+        ORDER BY a.`order_num` DESC
+        LIMIT ${startIndex}, ${pageSize}
+
     </select>
 
 </mapper>

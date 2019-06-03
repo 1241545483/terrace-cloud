@@ -1,50 +1,7 @@
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `user_id`        VARCHAR(20)        PRIMARY KEY,
-  `login_name`     VARCHAR(50)          DEFAULT NULL,
-  `login_alais`    VARCHAR(50)          DEFAULT NULL
-  COMMENT '登录别名',
-  `login_pass`     VARCHAR(200)         DEFAULT NULL,
-  `reg_way`        VARCHAR(20)          DEFAULT NULL
-  COMMENT '目前小程序传递过来的 READING-WX标识',
-  `user_name`      VARCHAR(200)         DEFAULT NULL,
-  `status`         VARCHAR(20)          DEFAULT NULL
-  COMMENT '正常、受限、冻结',
-  `last_logindttm` DATETIME             DEFAULT NULL
-  COMMENT '基于日志判断，库表中不存相关数据信息了',
-  `org_id`       VARCHAR(20)          DEFAULT NULL,
-  `user_img`       VARCHAR(100)         DEFAULT NULL,
-  create_id   VARCHAR(30) COMMENT '创建人',
-  create_time VARCHAR(30) COMMENT '创建时间',
-  update_id   VARCHAR(30) COMMENT '更新人',
-  update_time VARCHAR(30) COMMENT '更新时间'
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COMMENT ='用户信息表(登录账户)';
 
 
-DROP TABLE IF EXISTS `user_role`;
-CREATE TABLE `user_role` (
-  rec_id      VARCHAR(30) PRIMARY KEY,
-  `user_id`   VARCHAR(20)  DEFAULT NULL,
-  `role_id`   VARCHAR(20)  DEFAULT NULL
-  COMMENT '具体某个角色',
-  `app_key`   VARCHAR(20)  DEFAULT NULL
-  COMMENT '业务系统的appkey',
-  `org_id`    VARCHAR(100) DEFAULT NULL COMMENT '不同组织中不同的角色使用到',
-  create_id   VARCHAR(30) COMMENT '创建人',
-  create_time VARCHAR(30) COMMENT '创建时间',
-  update_id   VARCHAR(30) COMMENT '更新人',
-  update_time VARCHAR(30) COMMENT '更新时间'
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COMMENT ='阅读这边目前就只有老师，学生';
-
-
-DROP TABLE IF EXISTS `connection`;
-CREATE TABLE `connection` (
+DROP TABLE IF EXISTS `bind`;
+CREATE TABLE `bind` (
   rec_id      VARCHAR(30) PRIMARY KEY,
   `user_id`   VARCHAR(255) DEFAULT NULL,
   `privide`   VARCHAR(255) DEFAULT NULL  COMMENT '来源，目前来WEIXIN',
@@ -131,4 +88,14 @@ CREATE TABLE `role_model_mapping` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COMMENT ='系统模块和角色的关系';
+
+DROP TABLE IF EXISTS `wx_login_state`;
+CREATE TABLE `wx_login_state` (
+  `rec_id` varchar(30) NOT NULL PRIMARY KEY,
+  `openId` varchar(100) DEFAULT NULL,
+  `unionId` varchar(100) DEFAULT NULL,
+  `token` varchar(50) DEFAULT NULL COMMENT '登陆成功token',
+  `status` varchar(10) DEFAULT NULL COMMENT '登陆状态',
+  `status_desc` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
