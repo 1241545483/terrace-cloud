@@ -74,7 +74,7 @@ public class RegistController extends BaseController {
     }.getType();
 
     @ApiOperation(value = "用户注册，微信端")
-    @RequestMapping(value = "/v1/membershow/wxregist", method = RequestMethod.POST)
+    @RequestMapping(value = "/view/v1/membershow/wxregist", method = RequestMethod.POST)
     public Result registByWX(HttpServletRequest request, HttpServletResponse response) {
 
         String header = request.getHeader("Authorization");
