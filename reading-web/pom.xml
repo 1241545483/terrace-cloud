@@ -4,9 +4,10 @@
     <parent>
         <groupId>com.synapse</groupId>
         <artifactId>reading</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>reading-web</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>org.jodconverter</groupId>
