@@ -179,11 +179,6 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>com.synapse.common</groupId>
-            <artifactId>common-mq-kafka</artifactId>
-            <version>${version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
