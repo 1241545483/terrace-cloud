@@ -183,7 +183,7 @@ public class OrganizationController extends BaseController {
             //todo 根据角色判断权限
 
 	        Organization model = param.getModel();
-	        model.setRecId(recId);
+	        model.setOrgId(recId);
             model.setUpdateId(user.getRecId());
 	        Integer num = organizationService.update(model);
 	        return ResponseEntity.ok(num);

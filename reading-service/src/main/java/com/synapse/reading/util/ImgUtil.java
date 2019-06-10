@@ -276,7 +276,46 @@ public class ImgUtil {
     }
 
 
+    public static Path DrawSuccessPosterByClass(String modelUrl,  String qrcodeUrl, String wxNickName, String className, String classCode) throws IOException {
 
+        URL bg = new URL(modelUrl);
+        BufferedImage bgBuffer = ImageIO.read(bg);
+        int widthBg = bgBuffer.getWidth();
+        int heightBg = bgBuffer.getHeight();
+        Path tempPng = Files.createTempFile("", ".png");
+        ImageIO.write(bgBuffer, "png", tempPng.toFile());
+//二维码图片处理
+        URL qrcodeUrlRead = new URL(qrcodeUrl);//url 为图片的URL// 二维码缩小处理
+        BufferedImage erBuffer = ImageIO.read(qrcodeUrlRead);
+        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 214), 214, 0);// 二维码缩小
+        ImageIO.write(erMinBuffer, "png", tempPng.toFile());
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 218, 314);// 二维码合并
+        ImageIO.write(new0, "png", tempPng.toFile());
+        Color yellow = new Color(184, 119, 14);
+        Color color = new Color(255, 255, 255); // 白色
+        Color black = new Color(51, 51, 51); // 黑色
+        Color hui = new Color(171, 171, 171); // 深灰
+        Color hui1 = new Color(153, 153, 153); // 蛋灰
+//        Color yellow = new Color(255, 255, 0); //黄色
+
+        Font font8 = new Font("思源黑体 CN", Font.BOLD, 8);
+        Font font12 = new Font("思源黑体 CN", Font.BOLD, 14);
+        Font font23 = new Font("思源黑体 CN", Font.BOLD, 23);
+//        Font font28 = new Font("思源黑体 CN", Font.BOLD, 28);
+        Font font30 = new Font("思源黑体 CN", Font.PLAIN, 30);
+        Font font24 = new Font("思源黑体 CN", Font.BOLD, 24);
+        Font font32 = new Font("思源黑体 CN", Font.PLAIN, 32);
+        Font font34 = new Font("思源黑体 CN", Font.BOLD, 34);
+        Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
+
+        int length = className.length();
+        BufferedImage txt = ImgUtil.addTxtAtXy(new0, className, (594 - length * font34.getSize()) / 2, 55, font34, black);
+         txt = ImgUtil.addTxtAtXy(new0, wxNickName, 297, 202, font32, black);
+        txt = ImgUtil.addTxtAtXy(new0, classCode, 297, 277, font32, black);
+        ImageIO.write(txt, "png", tempPng.toFile());
+        return tempPng;
+
+    }
 
     public static Path DrawSuccessPosterByBook(BufferedImage bgBuffer, BufferedImage goodsBuffer, String qrcodeUrl, String wxNickName, String solgan, String bookName, BufferedImage bdBuffer) throws IOException {
 

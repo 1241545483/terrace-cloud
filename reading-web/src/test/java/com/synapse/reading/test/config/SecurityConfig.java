@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         security.headers().frameOptions().sameOrigin().and() // 关闭iframe嵌套限制
                 .csrf().disable()  //CSRF（Cross-site request forgery）跨站请求伪造(关闭有风险)
                 .authorizeRequests()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
+//                .anyRequest().authenticated();
     }
 
     @Bean("testUserAuthenticationFilter")

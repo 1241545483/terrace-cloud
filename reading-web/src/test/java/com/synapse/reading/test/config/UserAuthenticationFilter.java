@@ -39,7 +39,9 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     private Gson gson = new Gson();
 
-    private Type type = new TypeToken<User<SimpleGrantedAuthority>>() {
+    public static final String TOKEN = "ACCESS-TOKEN";
+
+    private Type type = new TypeToken<User>() {
     }.getType();
 
     @Override
@@ -49,20 +51,76 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             FilterChain chain) throws ServletException, IOException {
 
         try {
-            ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_CREATE_LESSON"));
-            User userDetails = new User("159", "鞠九兵", "password", true, grantedAuthorities);
-            UserContext.setUser(userDetails);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                    req));
-            logger.info("authenticated user " + userDetails.getUsername() + ", setting security context");
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String authToken = req.getHeader(TOKEN);
+            logger.info("authToken------------------!" + authToken);
+            if (authToken != null) {
+                String token;
+                try {
+                    token = EncryptTool.decrypt(authToken, salt);
+                } catch (Exception e) {
+                    token = authToken;
+                    // 如果是微信登录，token为openId，不需要解密
+                }
+                logger.info("token------------------!" + token);
+                if (token != null) {
+                    Object data = redisTemplate.opsForValue().get(token);//从redis获取UserDetails
+                    if (data != null) {
+                        User loginUser = gson.fromJson((String) data, type);
+//                        if (UserContext.getUser() == null || !UserContext.getUser().getRecId().equals(loginUser.getRecId())) {
+                        UserContext.setUser(loginUser);
+                        MDC.put("userId", loginUser.getRecId() + "");
+                        MDC.put("userName", loginUser.getParams().get("userName") + "");
+                        MDC.put("userName", loginUser.getUsername() + "");
+//                        MDC.put("token", loginUser.getParams().get("userName") + "");
+                        MDC.put("IP", NetUtils.getLocalHost());
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                loginUser, null, loginUser.getAuthorities());
+                        logger.info("_______________________loginUser.getAuthorities()" + loginUser.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                                req));
+                        logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+//                        }
+                    } else {
+                        createAnony(req);
+                    }
+                } else {
+                    createAnony(req);
+                }
+            } else {
+                createAnony(req);
+            }
+
+
+
+
+
+//            ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+//            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_CREATE_LESSON"));
+//            User userDetails = new User("159", "鞠九兵", "password",  grantedAuthorities);
+//            UserContext.setUser(userDetails);
+//            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+//                    userDetails, null, userDetails.getAuthorities());
+//            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+//                    req));
+//            logger.info("authenticated user " + userDetails.getUsername() + ", setting security context");
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
             logger.error("TokenAuthentication Error!", e);
         }
 
         chain.doFilter(req, resp);
+    }
+
+
+    private void createAnony(HttpServletRequest req) {
+        User userDetails = new User("-1000", "anonymity", "");
+        UserContext.setUser(userDetails);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+        logger.info("authenticated user " + userDetails.getUsername() + ", setting security context");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

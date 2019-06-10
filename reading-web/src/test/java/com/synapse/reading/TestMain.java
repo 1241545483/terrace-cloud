@@ -11,6 +11,7 @@ import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.config.SecurityConfig;
 import com.synapse.reading.config.UserAuthenticationFilter;
+import com.synapse.reading.properties.SecurityProperties;
 import com.synapse.reading.web.formatter.ShiluDictFormatter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,9 +51,10 @@ import java.util.Map;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository","com.synapse.security.mapper", "com.synapse.security.respository"})
+@MapperScan({"com.synapse.reading.mapper", "com.synapse.reading.respository"})
 @ComponentScan(value = {"com.synapse.reading.*","com.synapse.common.json", "com.synapse.common.web", "com.synapse.common.api.doc"}
         , excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {SecurityConfig.class})})
+
 @EnableAutoConfiguration(excludeName = {"org.springframework.boot.autoconfigure.session.SessionAutoConfiguration",
         "org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration"})
 @Transactional
@@ -77,6 +79,7 @@ public class TestMain extends WebMvcConfigurerAdapter {
     RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
 
     @Bean
     public Encoder encoder() {
@@ -143,19 +146,7 @@ public class TestMain extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new HandlerInterceptorAdapter() {
             @Override
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                Map<String, List<Map<String, String>>> bizRoles = new HashMap<>();
-                List<Map<String, String>> userInfos = new ArrayList<>();
-                Map<String, String> roles = new HashMap<>();
-                roles.put("bizroleId", "school_manager");
-                userInfos.add(roles);
-                roles = new HashMap<>();
-                roles.put("bizroleId", "admin");
-                userInfos.add(roles);
-                roles = new HashMap<>();
-                roles.put("bizroleId", "area_manager");
-                userInfos.add(roles);
-                bizRoles.put("SHILU", userInfos);
-                UserContext.setUser(new User("516919611287928832", "鞠九兵", "password", true, "1000", "1", bizRoles, "1", null, null, null, "1"));
+                UserContext.setUser(new User("517349219414048768", "测试账号", "password"));
                 return super.preHandle(request, response, handler);
             }
 //            @Override

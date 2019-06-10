@@ -108,8 +108,13 @@ public class BaseSystemParameterController extends BaseController{
     @RequestMapping(value = "/v1/baseSystemParameter/type/{types}", method = RequestMethod.GET)
     public ResponseEntity listByType(@PathVariable("types") String types) {
         try {
-            List<BaseSystemParameter> result = baseSystemParameterService.getByType(types);
-            return ResponseEntity.ok(result);
+            String[] typeArr = types.split(",");
+            Map<String, List<BaseSystemParameter>> map = new HashMap<>();
+            for (String type : typeArr) {
+                List<BaseSystemParameter> result = baseSystemParameterService.getByType(type);
+                map.put(type,result);
+            }
+            return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("List BaseSystemParameter by type Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

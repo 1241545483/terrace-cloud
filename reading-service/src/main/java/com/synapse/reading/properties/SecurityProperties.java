@@ -1,4 +1,4 @@
-package com.synapse.gateway.properties;
+package com.synapse.reading.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

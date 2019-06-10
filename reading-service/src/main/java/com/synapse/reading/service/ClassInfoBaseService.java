@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-05-28
+ * @since 2019-06-05
  */
 public class ClassInfoBaseService {
 
@@ -19,6 +19,9 @@ public class ClassInfoBaseService {
         Map<String,Object> params = new HashMap<>();
         if (classInfoParam.getRecId() != null && !classInfoParam.getRecId().trim().equals("")) {
             params.put("recId", classInfoParam.getRecId());
+        }
+        if (classInfoParam.getName() != null && !classInfoParam.getName().trim().equals("")) {
+            params.put("name", classInfoParam.getName());
         }
         if (classInfoParam.getClassCode() != null && !classInfoParam.getClassCode().trim().equals("")) {
             params.put("classCode", classInfoParam.getClassCode());

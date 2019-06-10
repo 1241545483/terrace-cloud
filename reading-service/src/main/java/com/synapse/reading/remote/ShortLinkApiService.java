@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Author:zhanyang
  * @DATE: 2018/4/4
  */
-@FeignClient(name = "${feign.link.url}")
-//@FeignClient(name = "ST",url = "http://127.0.0.1:8080")
+//@FeignClient(name = "${feign.link.url}")
+@FeignClient(name = "ST",url = "http://127.0.0.1:8080")
 public interface ShortLinkApiService {
 
     @RequestMapping(value = "/api/link/v1/short", method = RequestMethod.POST

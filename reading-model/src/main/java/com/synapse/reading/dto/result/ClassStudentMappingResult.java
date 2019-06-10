@@ -105,5 +105,11 @@ public String getUpdateTime() {
 		classStudentMapping.setUpdateTime(update_time);
 	}
 
-		
+	public String getRealName() {
+		return classStudentMapping.getRealName();
+	}
+
+	public void setRealName(String realName) {
+		classStudentMapping.setRealName(realName);
+	}
 }

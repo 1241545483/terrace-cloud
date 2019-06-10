@@ -1,6 +1,6 @@
 package com.synapse.reading.mapper.mapper;
 
-import com.synapse.reading.model.Bind;
+import com.synapse.reading.model.model.Bind;
 
 import java.util.List;
 import java.util.Map;

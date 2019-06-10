@@ -1,26 +1,28 @@
 package com.synapse.reading.remote;
 
-import com.synapse.common.trans.BizTrans;
+import com.synapse.common.sso.model.User;
 import com.synapse.common.trans.Result;
-import com.synapse.user.model.UserInfo;
-import com.synapse.user.model.api.UserPwdUpdateModel;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * 绑定用户信息
  * Created by wangyifan on 18-4-14.
  */
-@FeignClient(name = "${gateway.url}")
-public interface BindService {
+//@FeignClient(name = "${gateway.url}")
+@FeignClient(name = "re",url =  "${gateway.url}")
+public interface GatwayService {
 
-    @RequestMapping(value = "/wx/mini/bind", method = RequestMethod.POST
+    @RequestMapping(value = "/user/v1/regist/server", method = RequestMethod.POST
             , produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    public Result miniBind(@RequestBody Map<String,String> param);
+    public String create(@RequestBody User user);
 
+
+    @RequestMapping(value = "/user/v1/userInfo/userName/{userName}", method = RequestMethod.GET)
+    public String findByUserName(@PathVariable("userName") String userName);
 
 }
 

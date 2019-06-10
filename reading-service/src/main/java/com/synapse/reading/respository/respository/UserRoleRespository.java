@@ -1,6 +1,7 @@
 package com.synapse.reading.respository.respository;
 
 import com.synapse.reading.mapper.mapper.UserRoleMapper;
+import com.synapse.reading.model.model.UserRole;
 
 /**
  * <p>
@@ -11,5 +12,7 @@ import com.synapse.reading.mapper.mapper.UserRoleMapper;
  * @since 2019-05-30
  */
 public interface UserRoleRespository extends UserRoleMapper {
+
+    UserRole listUserBizRoles(String userId);
 
 }

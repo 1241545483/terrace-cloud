@@ -18,6 +18,8 @@ public class ClassInfoResult {
 
     private ClassInfo  classInfo = new ClassInfo();
 
+	private  String  teacherName;
+
     public ClassInfoResult(){}
 
     public ClassInfoResult(ClassInfo  classInfo){
@@ -123,5 +125,19 @@ public String getUpdateTime() {
 		classInfo.setUpdateTime(update_time);
 	}
 
-		
+	public String getName() {
+		return classInfo.getName();
+	}
+
+	public void setName(String name) {
+		classInfo.setName(name);
+	}
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
 }

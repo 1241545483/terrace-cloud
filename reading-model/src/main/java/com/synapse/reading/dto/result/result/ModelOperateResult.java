@@ -1,7 +1,7 @@
 package com.synapse.reading.dto.result.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.synapse.reading.model.ModelOperate;
+import com.synapse.reading.model.model.ModelOperate;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

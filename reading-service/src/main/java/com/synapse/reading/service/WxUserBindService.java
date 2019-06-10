@@ -12,6 +12,7 @@ import com.synapse.reading.model.BindUserModel;
 import com.synapse.reading.model.Member;
 import com.synapse.reading.model.TradeOrder;
 import com.synapse.reading.remote.BindService;
+import com.synapse.reading.remote.GatwayService;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.MemberRespository;
@@ -54,22 +55,25 @@ public class WxUserBindService {
     private Encoder encoder;
     @Autowired
     private MemberRespository memberRespository;
+    @Autowired
+    private GatwayService gatwayService;
 
     public Map<String, String> handleApply(BindUserModel param, String currentUserId) {
         try {
             Map<String, String> resultMap = new HashMap<>();
-            Map<String, String> findUser = userService.selectByUserNameOrAlais(param.getPhone());
-            if (findUser != null) {
-                String findUserId = findUser.get("userId");
+
+            String UserId = gatwayService.findByUserName(param.getPhone());
+            if (UserId != null) {
+//                String findUserId = findUser.get("userId");
                 //该手机号已提交信息没有密码；返回要求用户填写密码;
-                if (!findUserId.equals(currentUserId)) {
+                if (!UserId.equals(currentUserId)) {
                     //有密码；去校验密码
 //                    Map<String, String> bindParam = new HashMap<>();
 //                    bindParam.put("userId", encoder.encryptStr(currentUserId));
 //                    bindParam.put("existUserId", encoder.encryptStr(findUserId));
                     resultMap.put("flag", "7");
                     resultMap.put("userId", encoder.encryptStr(currentUserId));
-                    resultMap.put("existUserId", encoder.encryptStr(findUserId));
+                    resultMap.put("existUserId", encoder.encryptStr(UserId));
                     Member member = memberService.getMember(currentUserId);
                     //todo 待修改成调用reading接口
                     if(member==null){
@@ -109,7 +113,7 @@ public class WxUserBindService {
                 member.setName(param.getName());
             }
             if (param.getPhase() != null) {
-                member.setIdCard(param.getPhase());
+                member.setPhase(param.getPhase());
             }
             if (param.getSubject() != null) {
                 member.setSubject(param.getSubject());

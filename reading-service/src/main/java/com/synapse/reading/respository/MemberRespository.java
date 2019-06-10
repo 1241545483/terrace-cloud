@@ -28,5 +28,9 @@ public interface MemberRespository extends MemberMapper {
 
     List<Member> selectExpert(Map<String, Object> params);
 
+    Integer countTeacher(String roleId);
+
+    List<Member> listTeacher(Map<String, Object> params);
+
 
 }

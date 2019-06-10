@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-05-28
+ * @since 2019-06-04
  */
 public interface ClassStudentMappingMapper {
     ClassStudentMapping selectByPrimaryKey(String recId);

@@ -71,7 +71,7 @@ public class WxPayController {
             pay.getPayInfo().setService("W1");
             pay.getPayInfo().setSubAppid(appId);
             pay.getPayInfo().setPayItems(new ArrayList<PayItemInfo>());
-            pay.getPayInfo().setSubOpenid(user.getRegWay());
+//            pay.getPayInfo().setSubOpenid(user.getRegWay());
             pay.getPayInfo().setPartnerId(2L);
             pay.getPayInfo().setSecurityKey(secret);
             pay.getPayInfo().setTradeName("交易订单名称");

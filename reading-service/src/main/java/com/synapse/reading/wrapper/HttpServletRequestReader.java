@@ -1,4 +1,4 @@
-package com.synapse.gateway.wrapper;
+package com.synapse.reading.wrapper;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;

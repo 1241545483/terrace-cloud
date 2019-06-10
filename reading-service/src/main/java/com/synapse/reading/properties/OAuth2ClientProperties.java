@@ -1,4 +1,4 @@
-package com.synapse.gateway.properties;
+package com.synapse.reading.properties;
 
 public class OAuth2ClientProperties {
     /**

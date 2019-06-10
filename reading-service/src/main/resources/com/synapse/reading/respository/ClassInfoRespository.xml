@@ -2,4 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.ClassInfoRespository">
 
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.ClassInfoResult"
+               extends="com.synapse.reading.mapper.ClassInfoMapper.BaseResultMap">
+        <id column="teacherName" property="teacherName"/>
+    </resultMap>
+
+
+    <select id="countByTeacherCreate" parameterType="java.lang.String" resultType="int">
+        SELECT count(1)
+        FROM `class_info`
+        WHERE 1 = 1
+              AND `status` = 1
+              AND `create_id` = #{userId}
+    </select>
+
+    <select id="listByTeacherCreate" parameterType="map" resultMap="simpleRow">
+        select
+        a.*,b.`NAME` teacherName
+        from `class_info` a
+        left join  member b  on a.create_id = b.user_id
+        where 1 = 1
+                AND a.`status` = 1
+                AND a.`create_id` = #{userId}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+
+    <select id="countByStudentJoin" parameterType="java.lang.String" resultType="int">
+        select
+            count(1)
+        from `class_info`a
+        join  class_student_mapping b on a.rec_id =b.class_id and b.student_id =#{userId}
+        where 1 = 1
+        AND a.`status` = 1
+
+    </select>
+
+    <select id="listByStudentJoin" parameterType="map" resultMap="simpleRow">
+        select
+        a.*,c.`NAME` teacherName
+        from `class_info` a
+        join  class_student_mapping b on a.rec_id =b.class_id and b.student_id =#{userId}
+        left join  member c  on a.create_id = c.user_id
+        where 1 = 1
+        AND a.`status` = 1
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="getByClassCode" resultMap="simpleRow" parameterType="java.lang.String" >
+        select
+            a.* , b.`NAME` teacherName
+        from `class_info` a
+        left join  member b  on a.create_id = b.user_id
+        where
+        `class_code` = #{classCode}
+    </select>
+
 </mapper>

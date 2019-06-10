@@ -1,6 +1,6 @@
 package com.synapse.reading.mapper.mapper;
 
-import com.synapse.reading.model.RoleModelMapping;
+import com.synapse.reading.model.model.RoleModelMapping;
 
 import java.util.List;
 import java.util.Map;

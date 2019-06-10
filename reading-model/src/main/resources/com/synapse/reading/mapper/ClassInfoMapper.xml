@@ -5,6 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.synapse.reading.model.ClassInfo">
         <id column="rec_id" property="recId" />
+        <result column="name" property="name" />
         <result column="class_code" property="classCode" />
         <result column="intro" property="intro" />
         <result column="qr_code" property="qrCode" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`class_code`,`intro`,`qr_code`,`cover`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`class_code`,`intro`,`qr_code`,`cover`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -33,7 +34,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.ClassInfo">
         insert into `class_info`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{classCode},#{intro},#{qrCode},#{cover},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{classCode},#{intro},#{qrCode},#{cover},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -47,6 +48,9 @@
         <trim prefix="(" suffix=")" suffixOverrides="," >
                 <if test="recId != null" >
                     `rec_id`,
+                </if>
+                <if test="name != null" >
+                    `name`,
                 </if>
                 <if test="classCode != null" >
                     `class_code`,
@@ -79,6 +83,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides="," >
                 <if test="recId != null" >
 			        #{recId},
+                </if>
+                <if test="name != null" >
+			        #{name},
                 </if>
                 <if test="classCode != null" >
 			        #{classCode},
@@ -116,6 +123,9 @@
 	            <if test="recId != null" >
 		            `rec_id` = #{recId},
 	            </if>
+	            <if test="name != null" >
+		            `name` = #{name},
+	            </if>
 	            <if test="classCode != null" >
 		            `class_code` = #{classCode},
 	            </if>
@@ -149,7 +159,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.ClassInfo" >
         update  `class_info` SET
-		    `rec_id`=#{recId},`class_code`=#{classCode},`intro`=#{intro},`qr_code`=#{qrCode},`cover`=#{cover},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`class_code`=#{classCode},`intro`=#{intro},`qr_code`=#{qrCode},`cover`=#{cover},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -164,6 +174,14 @@
                     </if>
                     <if test="recId.indexOf('%') lt 0" >
                         AND `rec_id` = #{recId}
+                    </if>
+            </if>
+            <if test="name != null" >
+                    <if test="name.indexOf('%') >= 0" >
+                        AND `name` like #{name}
+                    </if>
+                    <if test="name.indexOf('%') lt 0" >
+                        AND `name` = #{name}
                     </if>
             </if>
             <if test="classCode != null" >
@@ -251,6 +269,14 @@
 	            </if>
                 <if test="recId.indexOf('%') lt 0" >
                     AND `rec_id` = #{recId}
+                </if>
+            </if>
+            <if test="name != null" >
+	            <if test="name.indexOf('%') >= 0" >
+				    AND `name` like #{name}
+	            </if>
+                <if test="name.indexOf('%') lt 0" >
+                    AND `name` = #{name}
                 </if>
             </if>
             <if test="classCode != null" >

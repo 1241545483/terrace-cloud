@@ -45,7 +45,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     private Gson gson = new Gson();
 
-    private Type type = new TypeToken<User<SimpleGrantedAuthority>>() {
+    private Type type = new TypeToken<User>() {
     }.getType();
 
     @Override
@@ -74,9 +74,9 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 //                        if (UserContext.getUser() == null || !UserContext.getUser().getRecId().equals(loginUser.getRecId())) {
                         UserContext.setUser(loginUser);
                         MDC.put("userId", loginUser.getRecId() + "");
-                        MDC.put("groupId", loginUser.getGroupId() + "");
+                        MDC.put("userName", loginUser.getParams().get("userName") + "");
                         MDC.put("userName", loginUser.getUsername() + "");
-                        MDC.put("token", loginUser.getToken() + "");
+//                        MDC.put("token", loginUser.getParams().get("userName") + "");
                         MDC.put("IP", NetUtils.getLocalHost());
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                 loginUser, null, loginUser.getAuthorities());
@@ -104,7 +104,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void createAnony(HttpServletRequest req) {
-        User userDetails = new User("-1000", "anonymity", "", true);
+        User userDetails = new User("-1000", "anonymity", "");
         UserContext.setUser(userDetails);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());

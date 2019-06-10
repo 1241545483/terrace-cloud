@@ -14,6 +14,7 @@ import com.synapse.reading.dto.param.MemberParam;
 import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.model.TradeOrder;
 import com.synapse.reading.model.TradeOrderDetail;
+import com.synapse.reading.model.model.UserRole;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.service.ExcelImportService;
 import com.synapse.reading.service.MemberService;
@@ -141,13 +142,8 @@ public class MemberController extends BaseController {
     public ResponseEntity getUser() {
         try {
             User user = UserContext.getUser();
-
             Member member = memberService.selectByUserId(user.getRecId());
             MemberResult memberResult = new MemberResult(member);
-            if (member != null && member.getOrganization() != null && !"".equals(member.getOrganization())) {
-                String orgName = userService.getOrgNamebyId(member.getOrganization());
-                memberResult.setOrgName(orgName);
-            }
             return ResponseEntity.ok(memberResult);
         } catch (BusinessException e) {
             logger.error("get Member Error!", e);
@@ -364,65 +360,65 @@ public class MemberController extends BaseController {
         }
     }
 
-    /**
-     * excel导入老师信息
-     *
-     * @param excelUrl
-     * @return
-     */
-    @ApiOperation(value = "excel导入老师信息")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
-            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-    @RequestMapping(value = "/v1/teacher/import_members", method = RequestMethod.GET)
-    public ResponseEntity addTeacherMembers(String excelUrl) {
-        if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
-            excelUrl = excelUrl.split(".tmp")[0];
-        }
-        Map<String, Object> importResult = new HashMap<String, Object>();
-        List<Member> successImport = new ArrayList<>();
-
-        List<ExcelRowModel> errorInfo = new ArrayList<>();
-
-        try {
-            //获取登录的学校负责人的学校信息
-            User currentUser = UserContext.getUser();
-            if (currentUser == null || StringUtils.trimToEmpty(currentUser.getRecId()).equals("")) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
-            }
-            //登录人为校方负责人，他为学员导入报名，这些学员的学校就和校方负责人的学校一致
-//            Long schoolLeaderId = Long.parseLong(currentUser.getRecId());
-            Member schoolLeaderMember = memberService.find(currentUser.getRecId());
-            if (schoolLeaderMember == null) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("导入权限的管理员无组织信息");
-            }
-
-            String organization = currentUser.getGroupId();
-
-            Map<String, List<ExcelRowModel>> result = excelImportService.excelAnalysis(excelUrl);
-            if (result == null) {
-                return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取异常", excelUrl));
-            }
-            errorInfo = result.get("error_info");
-
-            //执行导入用户的操作
-            memberService.doExcelImport(successImport, currentUser, organization, result, MemberConstants.ROLE.TEACHER.num());
-
-        } catch (Exception e) {
-            logger.error("导入数据失败!", e);
-            return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取失败", e.getMessage()));
-        }
-        List<MemberResult> successImportModels = successImport.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
-//        List<MemberResult> successImportModels = Converter.convert(successImport, Member.class);
-        importResult.put("successNum", successImport.size());
-        importResult.put("successList", successImportModels);
-        importResult.put("failureNum", errorInfo.size());
-        importResult.put("failureList", errorInfo);
-        return ResponseEntity.ok(importResult);
-
-    }
+//    /**
+//     * excel导入老师信息
+//     *
+//     * @param excelUrl
+//     * @return
+//     */
+//    @ApiOperation(value = "excel导入老师信息")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
+//            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+//            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+//    })
+//    @RequestMapping(value = "/v1/teacher/import_members", method = RequestMethod.GET)
+//    public ResponseEntity addTeacherMembers(String excelUrl) {
+//        if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
+//            excelUrl = excelUrl.split(".tmp")[0];
+//        }
+//        Map<String, Object> importResult = new HashMap<String, Object>();
+//        List<Member> successImport = new ArrayList<>();
+//
+//        List<ExcelRowModel> errorInfo = new ArrayList<>();
+//
+//        try {
+//            //获取登录的学校负责人的学校信息
+//            User currentUser = UserContext.getUser();
+//            if (currentUser == null || StringUtils.trimToEmpty(currentUser.getRecId()).equals("")) {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
+//            }
+//            //登录人为校方负责人，他为学员导入报名，这些学员的学校就和校方负责人的学校一致
+////            Long schoolLeaderId = Long.parseLong(currentUser.getRecId());
+//            Member schoolLeaderMember = memberService.find(currentUser.getRecId());
+//            if (schoolLeaderMember == null) {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("导入权限的管理员无组织信息");
+//            }
+//
+//            String organization = currentUser.getGroupId();
+//
+//            Map<String, List<ExcelRowModel>> result = excelImportService.excelAnalysis(excelUrl);
+//            if (result == null) {
+//                return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取异常", excelUrl));
+//            }
+//            errorInfo = result.get("error_info");
+//
+//            //执行导入用户的操作
+//            memberService.doExcelImport(successImport, currentUser, organization, result, MemberConstants.ROLE.TEACHER.num());
+//
+//        } catch (Exception e) {
+//            logger.error("导入数据失败!", e);
+//            return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取失败", e.getMessage()));
+//        }
+//        List<MemberResult> successImportModels = successImport.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
+////        List<MemberResult> successImportModels = Converter.convert(successImport, Member.class);
+//        importResult.put("successNum", successImport.size());
+//        importResult.put("successList", successImportModels);
+//        importResult.put("failureNum", errorInfo.size());
+//        importResult.put("failureList", errorInfo);
+//        return ResponseEntity.ok(importResult);
+//
+//    }
 
 
     /**
@@ -431,59 +427,59 @@ public class MemberController extends BaseController {
      * @param excelUrl
      * @return
      */
-    @ApiOperation(value = "excel导入学生信息")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
-            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-    @RequestMapping(value = "/v1/student/import_members", method = RequestMethod.GET)
-    public ResponseEntity addStudentMembers(String excelUrl) {
-        if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
-            excelUrl = excelUrl.split(".tmp")[0];
-        }
-        Map<String, Object> importResult = new HashMap<String, Object>();
-        List<Member> successImport = new ArrayList<>();
-
-        List<ExcelRowModel> errorInfo = new ArrayList<>();
-
-        try {
-            //获取登录的学校负责人的学校信息
-            User currentUser = UserContext.getUser();
-            if (currentUser == null || StringUtils.trimToEmpty(currentUser.getRecId()).equals("")) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
-            }
-            //登录人为校方负责人，他为学员导入报名，这些学员的学校就和校方负责人的学校一致
-//            Long schoolLeaderId = Long.parseLong(currentUser.getRecId());
-            Member schoolLeaderMember = memberService.find(currentUser.getRecId());
-            if (schoolLeaderMember == null) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("导入权限的管理员无组织信息");
-            }
-
-            String organization = currentUser.getGroupId();
-
-            Map<String, List<ExcelRowModel>> result = excelImportService.excelAnalysis(excelUrl);
-            if (result == null) {
-                return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取异常", excelUrl));
-            }
-            errorInfo = result.get("error_info");
-
-            //执行导入用户的操作
-            memberService.doExcelImport(successImport, currentUser, organization, result, MemberConstants.ROLE.STUDENT.num());
-
-        } catch (Exception e) {
-            logger.error("导入数据失败!", e);
-            return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取失败", e.getMessage()));
-        }
-        List<MemberResult> successImportModels = successImport.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
-//        List<MemberResult> successImportModels = Converter.convert(successImport, Member.class);
-        importResult.put("successNum", successImport.size());
-        importResult.put("successList", successImportModels);
-        importResult.put("failureNum", errorInfo.size());
-        importResult.put("failureList", errorInfo);
-        return ResponseEntity.ok(importResult);
-
-    }
+//    @ApiOperation(value = "excel导入学生信息")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, response = Integer.class, message = "导入学员"),
+//            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+//            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+//    })
+//    @RequestMapping(value = "/v1/student/import_members", method = RequestMethod.GET)
+//    public ResponseEntity addStudentMembers(String excelUrl) {
+//        if (!org.apache.commons.lang3.StringUtils.isEmpty(excelUrl)) {
+//            excelUrl = excelUrl.split(".tmp")[0];
+//        }
+//        Map<String, Object> importResult = new HashMap<String, Object>();
+//        List<Member> successImport = new ArrayList<>();
+//
+//        List<ExcelRowModel> errorInfo = new ArrayList<>();
+//
+//        try {
+//            //获取登录的学校负责人的学校信息
+//            User currentUser = UserContext.getUser();
+//            if (currentUser == null || StringUtils.trimToEmpty(currentUser.getRecId()).equals("")) {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
+//            }
+//            //登录人为校方负责人，他为学员导入报名，这些学员的学校就和校方负责人的学校一致
+////            Long schoolLeaderId = Long.parseLong(currentUser.getRecId());
+//            Member schoolLeaderMember = memberService.find(currentUser.getRecId());
+//            if (schoolLeaderMember == null) {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("导入权限的管理员无组织信息");
+//            }
+//
+//            String organization = currentUser.getGroupId();
+//
+//            Map<String, List<ExcelRowModel>> result = excelImportService.excelAnalysis(excelUrl);
+//            if (result == null) {
+//                return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取异常", excelUrl));
+//            }
+//            errorInfo = result.get("error_info");
+//
+//            //执行导入用户的操作
+//            memberService.doExcelImport(successImport, currentUser, organization, result, MemberConstants.ROLE.STUDENT.num());
+//
+//        } catch (Exception e) {
+//            logger.error("导入数据失败!", e);
+//            return ResponseEntity.ok(new ApiResponseResult("1002", "excel读取失败", e.getMessage()));
+//        }
+//        List<MemberResult> successImportModels = successImport.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
+////        List<MemberResult> successImportModels = Converter.convert(successImport, Member.class);
+//        importResult.put("successNum", successImport.size());
+//        importResult.put("successList", successImportModels);
+//        importResult.put("failureNum", errorInfo.size());
+//        importResult.put("failureList", errorInfo);
+//        return ResponseEntity.ok(importResult);
+//
+//    }
 
 
     /**
@@ -491,70 +487,70 @@ public class MemberController extends BaseController {
      *
      * @return
      */
-    @ApiOperation(value = "新增一个老师信息")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "导入教师"),
-            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-    @RequestMapping(value = "/v1/member/teacher/add_one", method = RequestMethod.POST)
-    public ResponseEntity addTeacherMember(@Validated(Create.class) @RequestBody MemberParam param, BindingResult bindingResult, String type) {
-        User user = UserContext.getUser();
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
-        }
-        if (param == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("缺少学员信息");
-        }
-        try {
-            Member member = memberService.addMember(user, type, param, MemberConstants.ROLETYPE.READ_TEACHER.value());
-            memberService.create(member);
-            //如果是专家则增加专家的关系信息
-//            if (type.length() > 0) {
-//                memberService.addMemberRelation(type, member.getUserId());
-//            }
-            Map<String, String> map = new HashMap<>();
-            map.put("memberId", member.getUserId() == null ? "" : String.valueOf(member.getUserId()));
-            return ResponseEntity.ok(map);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("新增失败");
-        }
-    }
+//    @ApiOperation(value = "新增一个老师信息")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, response = Integer.class, message = "导入教师"),
+//            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+//            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+//    })
+//    @RequestMapping(value = "/v1/member/teacher/add_one", method = RequestMethod.POST)
+//    public ResponseEntity addTeacherMember(@Validated(Create.class) @RequestBody MemberParam param, BindingResult bindingResult, String type) {
+//        User user = UserContext.getUser();
+//        if (user == null) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
+//        }
+//        if (param == null) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("缺少学员信息");
+//        }
+//        try {
+//            Member member = memberService.addMember(user, type, param, MemberConstants.ROLETYPE.READ_TEACHER.value());
+//            memberService.create(member);
+//            //如果是专家则增加专家的关系信息
+////            if (type.length() > 0) {
+////                memberService.addMemberRelation(type, member.getUserId());
+////            }
+//            Map<String, String> map = new HashMap<>();
+//            map.put("memberId", member.getUserId() == null ? "" : String.valueOf(member.getUserId()));
+//            return ResponseEntity.ok(map);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("新增失败");
+//        }
+//    }
 
-    /**
-     * 新增一个学生信息
-     *
-     * @return
-     */
-    @ApiOperation(value = "新增一个学生信息")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "导入学生"),
-            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
-    })
-    @RequestMapping(value = "/v1/member/student/add_one", method = RequestMethod.POST)
-    public ResponseEntity addStudentMember(@Validated(Create.class) @RequestBody MemberParam param, BindingResult bindingResult, String type) {
-        User user = UserContext.getUser();
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
-        }
-        if (param == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("缺少学员信息");
-        }
-        try {
-            Member member = memberService.addMember(user, type, param, MemberConstants.ROLETYPE.READ_STUDENT.value());
-            memberService.create(member);
-            //如果是专家则增加专家的关系信息
-//            if (type.length() > 0) {
-//                memberService.addMemberRelation(type, member.getUserId());
-//            }
-            Map<String, String> map = new HashMap<>();
-            map.put("memberId", member.getUserId() == null ? "" : String.valueOf(member.getUserId()));
-            return ResponseEntity.ok(map);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("新增失败");
-        }
-    }
+//    /**
+//     * 新增一个学生信息
+//     *
+//     * @return
+//     */
+//    @ApiOperation(value = "新增一个学生信息")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, response = Integer.class, message = "导入学生"),
+//            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+//            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+//    })
+//    @RequestMapping(value = "/v1/member/student/add_one", method = RequestMethod.POST)
+//    public ResponseEntity addStudentMember(@Validated(Create.class) @RequestBody MemberParam param, BindingResult bindingResult, String type) {
+//        User user = UserContext.getUser();
+//        if (user == null) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录");
+//        }
+//        if (param == null) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("缺少学员信息");
+//        }
+//        try {
+//            Member member = memberService.addMember(user, type, param, MemberConstants.ROLETYPE.READ_STUDENT.value());
+//            memberService.create(member);
+//            //如果是专家则增加专家的关系信息
+////            if (type.length() > 0) {
+////                memberService.addMemberRelation(type, member.getUserId());
+////            }
+//            Map<String, String> map = new HashMap<>();
+//            map.put("memberId", member.getUserId() == null ? "" : String.valueOf(member.getUserId()));
+//            return ResponseEntity.ok(map);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("新增失败");
+//        }
+//    }
 
     /**
      * 更新学员信息
@@ -590,6 +586,33 @@ public class MemberController extends BaseController {
 
     }
 
+
+    /**
+     * 修改信息
+     *
+     * @param
+     * @return
+     */
+    @ApiOperation(value = "管理员修改信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新学员信息"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/byAdmin", method = RequestMethod.PUT)
+    public ResponseEntity updateByAdmin(@RequestBody @Validated(Search.class) MemberParam param, BindingResult bindingResult) {
+        User user = UserContext.getUser();
+        try {
+            memberService.update(param.getModel());
+            Map<String, String> map = new HashMap<>();
+            map.put("memberId", param.getModel().getUserId() == null ? "" : String.valueOf(param.getModel().getUserId()));
+            return ResponseEntity.ok(map);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("修改失败");
+        }
+
+    }
+
     @ApiOperation(value = "查询老师Member列表(分页)")
     @ApiResponses({
             @ApiResponse(code = 200, response = MemberResult.class, message = "Member列表"),
@@ -605,11 +628,12 @@ public class MemberController extends BaseController {
             }
             MemberParam param = new MemberParam();
             User user = UserContext.getUser();
-            param.getModel().setOrganization(user.getGroupId());
-            param.getModel().setRole(MemberConstants.ROLE.TEACHER.num());
-            int totalNum = memberService.count(param.getModel());
+//            param.getModel().setOrganization(user.getGroupId());
+            UserRole userRole = new UserRole();
+            userRole.setRoleId(MemberConstants.ROLE.TEACHER.value());
+            int totalNum = memberService.countTeacher(userRole.getRoleId());
             preparePageInfo(pageInfo, totalNum);
-            List<Member> models = memberService.list(param.getModel(), pageInfo);
+            List<Member> models = memberService.listTeacher(userRole.getRoleId(), pageInfo);
             List<MemberResult> results = models.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
             Map<String, Object> map = new HashMap();
             map.put("memberList", results);
@@ -641,7 +665,7 @@ public class MemberController extends BaseController {
             }
             MemberParam param = new MemberParam();
             User user = UserContext.getUser();
-            param.getModel().setOrganization(user.getGroupId());
+//            param.getModel().setOrganization(user.getGroupId());
             param.getModel().setRole(MemberConstants.ROLE.STUDENT.num());
             int totalNum = memberService.count(param.getModel());
             preparePageInfo(pageInfo, totalNum);
@@ -676,9 +700,6 @@ public class MemberController extends BaseController {
         User currentUser = UserContext.getUser();
         if (currentUser == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未登录!");
-        }
-        if (!isAppointedAuth(MemberConstants.ROLETYPE.READ_SCHOOL.num)) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("您不是校管理员!");
         }
         //主题：校管理员重置学员的密码
 //        Long memberId = Converter.decrypt(userId);

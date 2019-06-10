@@ -2,7 +2,7 @@ package com.synapse.reading.service.service;
 
 import com.synapse.common.constants.PageInfo;
 import com.synapse.reading.model.model.Organization;
-import com.synapse.reading.respository.OrganizationRespository;
+import com.synapse.reading.respository.respository.OrganizationRespository;
 import com.synapse.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

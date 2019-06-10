@@ -58,16 +58,21 @@ public class ClassInfoService extends ClassInfoBaseService {
         return classInfoRespository.selectByPrimaryKey(recId);
     }
 
+    public ClassInfoResult getByClassCode(String classCode) {
+        return classInfoRespository.getByClassCode(classCode);
+    }
+
     public Integer update(ClassInfo param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
         return classInfoRespository.updateByPrimaryKeySelective(param);
     }
 
-    public String createClassStudent(String classCode, String studentId) {
+    public String createClassStudent(String classCode, String studentId,String realName) {
         ClassStudentMapping param = new ClassStudentMapping();
         param.setClassId(classCode);
         param.setStudentId(studentId);
+        param.setRealName(realName);
         classStudentMappingService.create(param);
         return param.getRecId();
     }
@@ -82,7 +87,7 @@ public class ClassInfoService extends ClassInfoBaseService {
         classCode.setStatus(ClassCodeConstants.STATUS.OK.num());
         String code = classCodeService.create(classCode);
         param.setClassCode(code);
-        getClassQrCode(param);
+//        getClassQrCode(param);
         classInfoRespository.insert(param);
         return param.getRecId();
     }
@@ -128,10 +133,34 @@ public class ClassInfoService extends ClassInfoBaseService {
         return classInfoRespository.list(params);
     }
 
+    public List<ClassInfoResult> listByTeacherCreate(String userId, PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", userId);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return classInfoRespository.listByTeacherCreate(params);
+    }
+
+    public List<ClassInfoResult> listByStudentJoin(String userId, PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", userId);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return classInfoRespository.listByStudentJoin(params);
+    }
+
     public Integer count(ClassInfo classInfoParam) {
         classInfoParam.setStatus(ClassInfoConstants.STATUS.OK.num());
         Map<String, Object> params = prepareParams(classInfoParam);
         return classInfoRespository.count(params);
+    }
+
+    public Integer countByTeacherCreate(String userId) {
+        return classInfoRespository.countByTeacherCreate(userId);
+    }
+
+    public Integer countByStudentJoin(String userId) {
+        return classInfoRespository.countByStudentJoin(userId);
     }
 
 }

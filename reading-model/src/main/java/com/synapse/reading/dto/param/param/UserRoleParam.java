@@ -1,13 +1,9 @@
 package com.synapse.reading.dto.param.param;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.synapse.reading.model.UserRole;
+import com.synapse.reading.model.model.UserRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import javax.validation.constraints.NotNull;
-import com.synapse.reading.web.valid.group.Update;
-import com.synapse.reading.web.valid.group.Create;
-import com.synapse.reading.web.valid.group.Search;
 
 /**
  * <p>

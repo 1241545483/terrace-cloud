@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-05-28
+ * @since 2019-06-04
  */
 public class ClassStudentMapping implements Serializable {
 
@@ -19,6 +19,10 @@ public class ClassStudentMapping implements Serializable {
     private String recId;
     private String classId;
     private String studentId;
+    /**
+     * 学生真实姓名
+     */
+    private String realName;
     private String status;
     private String createId;
     private String updateId;
@@ -48,6 +52,14 @@ public class ClassStudentMapping implements Serializable {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getStatus() {

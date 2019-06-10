@@ -99,3 +99,17 @@ CREATE TABLE `wx_login_state` (
   `status_desc` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
+  `rec_id` varchar(30) NOT NULL,
+  `user_id` varchar(20) DEFAULT NULL,
+  `role_id` varchar(20) DEFAULT NULL COMMENT '具体某个角色',
+  `app_key` varchar(20) DEFAULT NULL COMMENT '业务系统的appkey',
+  `org_id` varchar(100) DEFAULT NULL COMMENT '不同组织中不同的角色使用到',
+  `create_id` varchar(30) DEFAULT NULL COMMENT '创建人',
+  `create_time` varchar(30) DEFAULT NULL COMMENT '创建时间',
+  `update_id` varchar(30) DEFAULT NULL COMMENT '更新人',
+  `update_time` varchar(30) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`rec_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='阅读这边目前就只有老师，学生';
+

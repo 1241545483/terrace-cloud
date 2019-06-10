@@ -6,6 +6,8 @@ import com.synapse.reading.respository.ClassCodeRespository;
 import com.synapse.reading.dto.param.ClassCodeParam;
 import com.synapse.reading.dto.result.ClassCodeResult;
 import com.synapse.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ import java.util.HashMap;
 @Transactional
 public class ClassCodeService extends ClassCodeBaseService {
 
+    private Logger logger = LoggerFactory.getLogger(ClassCodeService.class);
+
 	@Autowired
 	private IdService idService;
 
@@ -50,7 +54,8 @@ public class ClassCodeService extends ClassCodeBaseService {
 		param.setCreateTime(now);
 		param.setUpdateTime(now);
 		param.setStatus(ClassCodeConstants.STATUS.OK.num());
-        classCodeRespository.insert(param);
+        classCodeRespository.insertAndGet(param);
+logger.warn("-------------getClassCode="+param.getClassCode());
         return param.getClassCode().toString();
     }
 

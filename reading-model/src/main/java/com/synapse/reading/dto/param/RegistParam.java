@@ -9,6 +9,7 @@ import com.synapse.reading.web.valid.group.Update;
 import javax.validation.constraints.NotNull;
 
 public class RegistParam {
+	@NotNull(groups = {Create.class, Search.class, Update.class}, message = "登录名不能为空")
 	public String userName;
 	
     @NotNull(groups = {Create.class, Search.class, Update.class}, message = "密码不能为空")
@@ -17,12 +18,11 @@ public class RegistParam {
 	private String organization;
 	@NotNull(groups = {Create.class, Search.class, Update.class}, message = "确认密码不能为空")
 	private String passwordAgain;
-	
-	@NotNull(groups = {Create.class, Search.class, Update.class}, message = "手机号码不能为空")
+
 	private String mobile;
 	
 	private String nickName;
-	@NotNull(groups = {Create.class, Search.class, Update.class}, message = "身份证号码不能为空")
+
 	private String idCard;
 	
 	public String getIdCard() {

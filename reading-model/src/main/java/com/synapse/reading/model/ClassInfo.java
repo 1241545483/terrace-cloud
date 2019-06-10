@@ -10,13 +10,17 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-05-28
+ * @since 2019-06-05
  */
 public class ClassInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String recId;
+    /**
+     * 班级名称
+     */
+    private String name;
     /**
      * 班级码用于学生搜索班级码加入学生
      */
@@ -58,6 +62,14 @@ public class ClassInfo implements Serializable {
 
     public void setRecId(String recId) {
         this.recId = recId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getClassCode() {

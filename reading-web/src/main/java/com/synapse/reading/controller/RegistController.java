@@ -1,38 +1,199 @@
 package com.synapse.reading.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.synapse.common.codec.EncryptTool;
+import com.synapse.common.sso.model.User;
 import com.synapse.common.trans.Result;
+import com.synapse.common.utils.JsonUtils;
 import com.synapse.reading.constants.CommonConstants;
+import com.synapse.reading.constants.MemberConstants;
 import com.synapse.reading.dto.param.RegistParam;
 import com.synapse.reading.model.Member;
+import com.synapse.reading.model.model.UserRole;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.service.MemberService;
+import com.synapse.reading.service.service.BindService;
+import com.synapse.reading.service.service.UserRoleBaseService;
+import com.synapse.reading.service.service.UserRoleService;
+import com.synapse.reading.util.AESDecodeUtils;
 import com.synapse.reading.web.valid.group.Create;
 import io.swagger.annotations.ApiOperation;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping(value = "/regist")
+@RequestMapping(value = "/reading")
 public class RegistController extends BaseController {
 
     private static Logger logger = LoggerFactory.getLogger(RegistController.class);
+    @Value("${token.encrypt.salt}")
+    private String salt;
+    @Value("${appid}")
+    private String appId;
+    @Value("${secret}")
+    private String secret;
     @Autowired
     private UserService userService;
     @Autowired
     private MemberService memberService;
 
-    @ApiOperation(value = "用户注册")
-    @RequestMapping(value = "/v2/membershow/regist", method = RequestMethod.POST)
+    @Autowired
+    private BindService bindService;
+    @Autowired
+    private Gson gson;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private UserRoleService userRoleService;
+
+    private static Type type = new TypeToken<User>() {
+    }.getType();
+
+    @ApiOperation(value = "用户注册，微信端")
+    @RequestMapping(value = "/v1/membershow/wxregist", method = RequestMethod.POST)
+    public Result registByWX(HttpServletRequest request, HttpServletResponse response) {
+
+        String header = request.getHeader("Authorization");
+        String code = request.getParameter("code");
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        String encrypData = request.getParameter("encrypData");
+        String ivData = request.getParameter("ivData");
+        String regWay = request.getParameter("regWay");
+        String random = RandomStringUtils.randomNumeric(6);
+        String nickName = null;
+        Map<String,Object> result = new HashMap<String,Object>();
+        if (org.springframework.util.StringUtils.isEmpty(regWay)) {
+            nickName = "read" + random;
+        } else {
+            nickName = request.getParameter("nickName");
+        }
+        String avatarUrl = null;
+        //利用原始的request对象创建自己扩展的request对象并添加自定义参数
+//        RequestParameterWrapper requestParameterWrapper = new RequestParameterWrapper(request);
+//        if (header != null && header.startsWith("Basic ") && null != securityProperties.getOauth2Config().get(header)) {
+//            OAuth2ClientProperties oAuth2ClientProperties = securityProperties.getOauth2Config().get(header);
+//            String appId = oAuth2ClientProperties.getClientId();
+//            String secret = oAuth2ClientProperties.getClientSecret();
+            //走认证流程
+            //get miniApp userInfo
+//            logger.error("------------------------------------appId" + appId);
+//            logger.error("------------------------------------secret" + secret);
+            logger.error("------------------------------------code" + code);
+            String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appId + "&secret=" + secret + "&js_code=" + code + "&grant_type=authorization_code";
+            Map<String, String> userInfo = getRsp(url);
+            if (org.springframework.util.StringUtils.isEmpty(userInfo.get("unionid"))) {
+                String data = null;
+                try {
+                    data = AESDecodeUtils.decryptPre(encrypData, ivData, userInfo.get("session_key"));
+                    Map map = JsonUtils.toObject(data, Map.class);
+                    logger.warn("-------------" + JsonUtils.toJson(map));
+                    userInfo.put("unionid", (String) map.get("unionId"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            userInfo.put("userName", userName);
+            userInfo.put("nickName", nickName);
+            userInfo.put("avatarUrl", avatarUrl);
+            if (!org.springframework.util.StringUtils.isEmpty(regWay)) {
+                userInfo.put("regWay", regWay);
+            }
+            Map<String, String> judgeMap = bindService.judge4MiniApp(userInfo);
+            logger.info("--------------------------judgeMapuserId" + judgeMap.get("userId"));
+            //1没有unionId关联的user
+            if (judgeMap.get("code").equals("200")) {
+                String decryptToken = String.valueOf(System.currentTimeMillis());
+                String token = EncryptTool.encrypt(decryptToken, salt);
+                String userId = judgeMap.get("userId");
+                Member member = memberService.getMember(userId);
+                if (member == null ) {
+                    Member member1 =new Member();
+                    member1.setName(userInfo.get("nickName"));
+                    member1.setOrganization("-1");
+                    member1.setStatus("1");
+                    member1.setPoint(0);
+                    member1.setUserId(userId);
+                    memberService.create(member1);
+                    //todo 抽成一个方法，供注册端使用
+                    UserRole userRole =new UserRole();
+                    userRole.setUserId(userId);
+                    userRole.setRoleId(MemberConstants.ROLE.STUDENT.value());
+                    //todo appkey直接设置  不知道是否为appId  201906031958
+                    userRole.setAppKey(appId);
+                    userRole.setCreateId(userId);
+                    userRoleService.create(userRole);
+                }
+                Map<String, Object> memberMap = new HashMap<>();
+                User user = new User(userId, userName, "");
+                memberMap.put("userName", userInfo.get("nickName"));
+//               memberMap.put("getOrganization",member.getOrganization());
+                memberMap.put("avatarUrl", avatarUrl);
+                memberMap.put("regWay", regWay);
+                user.setParams(memberMap);
+                final UserDetails userDetails = user;
+                String data = gson.toJson(userDetails, type);
+                redisTemplate.opsForValue().set(decryptToken, data, 3000, TimeUnit.HOURS);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                        request));
+                logger.info("authenticated mini user " + userDetails.getUsername() + ", setting security context");
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                Map<String, Object> extraParams = new HashMap<String, Object>();
+                extraParams.put("token", token);
+                extraParams.put("openid", userInfo.get("openid"));
+                extraParams.put("unionid", userInfo.get("unionid"));
+//                requestParameterWrapper.addParameters(extraParams);
+                logger.info("authenticated mini token " + token + ", setting security context");
+                return Result.ok(extraParams);
+            }
+//        }
+        return Result.ok(result);
+    }
+
+
+    public Map<String, String> getRsp(String url) {
+        String result = null;
+        Map<String, String> map = new HashMap<String, String>();
+        RestTemplate restTemplate = new RestTemplate();
+        String forObject = restTemplate.getForObject(url, String.class);
+        try {
+            forObject = new String(forObject.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        map = JsonUtils.toObject(forObject, Map.class);
+        return map;
+    }
+
+
+    @ApiOperation(value = "用户注册，网页端")
+    @RequestMapping(value = "/v1/membershow/regist", method = RequestMethod.POST)
     public Result regist(@RequestBody @Validated(Create.class) RegistParam param) {
         try {
             //判断密码是否正确
@@ -43,41 +204,38 @@ public class RegistController extends BaseController {
             if (com.synapse.common.utils.StringUtils.trimToEmpty(param.getOrganization()).equals("")) {
                 param.setOrganization("-1");
             }
-            //注册时如果用户名为空，则默认为手机号
-            if (com.synapse.common.utils.StringUtils.trimToEmpty(param.getUserName()).equals("")) {
-                param.setUserName(StringUtils.trimToEmpty(param.getMobile()));
+            if (com.synapse.common.utils.StringUtils.trimToEmpty(param.getNickName()).equals("")) {
+                param.setNickName(param.getUserName());
             }
-            Map<String, Object> registParams = new HashMap<String, Object>();
-            registParams.put("userName", param.getUserName());
-            registParams.put("organization", param.getOrganization());
-            registParams.put("mobilePhone", StringUtils.trimToEmpty(param.getMobile()));
-            registParams.put("idCard", StringUtils.trimToEmpty(param.getIdCard()));
-            registParams.put("orgId", param.getOrganization());
-            registParams.put("password", param.getPassword());
-            registParams.put("loginPass", param.getPassword());// importregist获取的是loginPass,如果不存在则使用手机或身份证后六位
-            System.out.println("password is " + param.getPassword());
-            registParams.put("registFlag", 1);
-            registParams.put("loginAlais", param.getMobile());
+            String memberId = memberService.importregist(param);
             //判断是否存在
-            if (!StringUtils.isEmpty(param.getIdCard()) && userService.userNameIsExist(param.getIdCard())) {
-                return Result.error(CommonConstants.SERVER_ERROR, "身份证已经存在。");
+
+            Member member = memberService.getMember(memberId);
+            if (member != null && "".equals(member)) {
+                return Result.error(CommonConstants.SERVER_ERROR, "该账号已存在。");
             }
-            if (userService.userNameIsExist(param.getMobile())) {
-                return Result.error(CommonConstants.SERVER_ERROR, "手机号已经存在。");
-            }
-            String memberId = memberService.importregist(registParams);
             if (memberId == null || StringUtils.trimToEmpty(memberId).length() == 0) {
                 return Result.error(CommonConstants.SERVER_ERROR, "注册失败。");
             }
-            Member member = memberService.buildMember(param);
+            member = memberService.buildMember(param);
             member.setUserId(memberId);
             memberService.create(member);
+            UserRole userRole =new UserRole();
+            userRole.setUserId(memberId);
+            userRole.setRoleId(MemberConstants.ROLE.STUDENT.value());
+            //todo appkey直接设置  不知道是否为appId  201906031958
+            userRole.setAppKey(appId);
+            userRole.setCreateId(memberId);
+            userRoleService.create(userRole);
             return Result.ok("1");
         } catch (Exception e) {
             logger.error("regist error!", e);
             return Result.error(500, e.getMessage());
         }
     }
+
+
+
 
 
 }

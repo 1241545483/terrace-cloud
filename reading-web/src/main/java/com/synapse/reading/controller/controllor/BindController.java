@@ -117,7 +117,7 @@ public class BindController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/bind", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/bind/commom", method = RequestMethod.POST)
     public ResponseEntity create(@RequestBody @Validated(Create.class) BindParam param, BindingResult bindingResult) {
         try {
             //验证失败

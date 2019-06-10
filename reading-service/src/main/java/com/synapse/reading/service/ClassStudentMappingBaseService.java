@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-05-28
+ * @since 2019-06-04
  */
 public class ClassStudentMappingBaseService {
 
@@ -25,6 +25,9 @@ public class ClassStudentMappingBaseService {
         }
         if (classStudentMappingParam.getStudentId() != null && !classStudentMappingParam.getStudentId().trim().equals("")) {
             params.put("studentId", classStudentMappingParam.getStudentId());
+        }
+        if (classStudentMappingParam.getRealName() != null && !classStudentMappingParam.getRealName().trim().equals("")) {
+            params.put("realName", classStudentMappingParam.getRealName());
         }
         if (classStudentMappingParam.getStatus() != null && !classStudentMappingParam.getStatus().trim().equals("")) {
             params.put("status", classStudentMappingParam.getStatus());

@@ -7,6 +7,7 @@ import com.synapse.common.trans.BizTransUtils;
 import com.synapse.reading.constants.MemberConstants;
 import com.synapse.reading.dto.param.RegistParam;
 import com.synapse.reading.model.*;
+import com.synapse.reading.remote.GatwayService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.MemberRespository;
 import com.synapse.reading.dto.param.MemberParam;
@@ -15,15 +16,13 @@ import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.remote.IdService;
 import org.springframework.util.CollectionUtils;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 
 /**
@@ -51,6 +50,8 @@ public class MemberService extends MemberBaseService {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private  GatwayService gatwayService;
 
     @Autowired
     private BaseSystemParameterService baseSystemParameterService;
@@ -60,6 +61,7 @@ public class MemberService extends MemberBaseService {
 
     @Autowired
     private TradeOrderDetailService tradeOrderDetailService;
+
 
     public Member find(String recId) {
         if (recId == null) {
@@ -112,7 +114,7 @@ public class MemberService extends MemberBaseService {
 
     public String create(Member param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        if(param.getUserId()==null||"".equals(param.getUserId())){
+        if (param.getUserId() == null || "".equals(param.getUserId())) {
             param.setUserId(idService.gen("ID"));
         }
         param.setCreateTime(now);
@@ -146,105 +148,118 @@ public class MemberService extends MemberBaseService {
         return memberRespository.list(params);
     }
 
+    public List<Member> listTeacher(String roleId, PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("roleId", roleId);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return memberRespository.listTeacher(params);
+    }
+
+
     public Integer count(Member memberParam) {
         Map<String, Object> params = prepareParams(memberParam);
         return memberRespository.count(params);
     }
 
-
-    public void doExcelImport(List<Member> successImport, User currentUser, String organization, Map<String, List<ExcelRowModel>> result, String role) {
-        List<ExcelRowModel> excelRowModels = result.get("excel_members");
-        for (ExcelRowModel excelRowModel : excelRowModels) {
-            Map<String, Object> registParams = new HashMap<String, Object>();
-            registParams.put("userName", excelRowModel.getUserName());
-            registParams.put("subject", excelRowModel.getSubject());
-//            registParams.put("organization", organization);
-            registParams.put("mobilePhone", excelRowModel.getPhone());
-            registParams.put("loginAlais", excelRowModel.getPhone());
-            registParams.put("idCard", excelRowModel.getIdCard());
-            registParams.put("orgId", currentUser.getGroupId());
-            registParams.put("registFlag", 1);
-            registParams.put("regRoletype", excelRowModel.getRegRoletype());
-            registParams.put("bizroleId", role);
-            String userId = null;
-            //登录账号为：身份证后六位
-            String idCard = (String) registParams.get("idCard");
-//				String loginName = idCard.substring(idCard.length() - 6, idCard.length());
-            //登录帐号为身份证号
-            String loginName = idCard.toUpperCase();
-            String loginName_mobilePhone = excelRowModel.getPhone();
-
-            Member memberByIdCard = getMemberByIdCard(idCard);
-            if (memberByIdCard != null) {
-                userId = memberByIdCard.getUserId() + "";
-                logger.info("member {} is not exist!", idCard);
-            } else {
-                if (!userService.userNameIsExist(loginName) && !userService.userNameIsExist(loginName_mobilePhone)) {
-                    userId = importregist(registParams);
-                    logger.info("member {} is not exist remote!", idCard);
-                } else {
-                    //存在这个用户，查询用户主键ID
-                    userId = getUserId(loginName);
-                    if (StringUtils.trim(userId).equals("")) {
-                        userId = getUserId(loginName_mobilePhone);
-                    }
-                    //TODO 判断用户角色和是否是培训班的创建者？先放开
-                }
-                logger.info("member {} userId is {}!", idCard, userId);
-            }
-
-            Member member = new Member();
-            member.setUserId(userId);
-            member.setIdCard(excelRowModel.getIdCard());
-            //在职状态、教师性质查询对应key 在字段表里
-//            String office_status_type = "OFFICE_STATUS";
-//            String officeStatus = baseSystemParameterService.getKeyByTypeAndValue(office_status_type, StringUtils.trimToEmpty(excelRowModel.getOfficeStatus()));
-//            member.setOfficeStatus(officeStatus);
-//            String teacher_nature_type = "TEACHER_NATURE";
-//            String nature = baseSystemParameterService.getKeyByTypeAndValue(teacher_nature_type, StringUtils.trimToEmpty(excelRowModel.getTeacherNature()));
-//            member.setNature(nature);
-            String subject_type = "SUBJECT";
-            String subject = baseSystemParameterService.getKeyByTypeAndValue(subject_type, StringUtils.trimToEmpty(excelRowModel.getSubject()));
-            member.setSubject(subject);
-            String phase_type = "PHASE";
-            String phase = baseSystemParameterService.getKeyByTypeAndValue(phase_type, StringUtils.trimToEmpty(excelRowModel.getPhase()));
-            member.setPhase(phase);
-//            member.setMemberType(MemberConstants.TYPE.TEACHER.vlaue()); //学员类型 1-专家，2-老师
-            member.setName(excelRowModel.getUserName());
-            member.setOrganization(organization);
-            member.setMobile(excelRowModel.getPhone());
-            String nowStr = DateUtils.getNowStr("yyyy-MM-dd HH:mm:ss");
-            member.setCreateId(userId);
-            member.setRole(role);
-            member.setCreateTime(nowStr);
-            member.setUpdateTime(nowStr);
-            member.setStatus(MemberConstants.STATUS.OK.num());
-            logger.info("userId is 6666666666666666666666666666666" + userId);
-            Member isExist = memberRespository.selectByUserId(userId);
-            if (isExist != null) {
-                logger.info("member {} userId is {} exists!", idCard, userId);
-                update(member);
-            } else {
-                logger.info("member {} userId is {} not exists!", idCard, userId);
-                create(member);
-            }
-            successImport.add(member);
-//            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-//            TradeOrder tradeOrder = tradeOrderService.findByBuyId(currentUser.getRecId());
-//            tradeOrder.setRecId(idService.gen("ID"));
-//            tradeOrder.setBuyId(userId);
-//            tradeOrder.setCreateTime(now);
-//            tradeOrder.setCreateId(currentUser.getRecId());
-//            tradeOrderService.create(tradeOrder);
-//            TradeOrderDetail tradeOrderDetail =tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
-//            tradeOrderDetail.setRecId(idService.gen("ID"));
-//            tradeOrderDetail.setTrateOrderId(tradeOrder.getRecId());
-//            tradeOrderDetail.setCreateTime(now);
-//            tradeOrderDetail.setCreateId(currentUser.getRecId());
-//            tradeOrderDetailService.create(tradeOrderDetail);
-
-        }
+    public Integer countTeacher(String roleId) {
+        return memberRespository.countTeacher(roleId);
     }
+
+
+//    public void doExcelImport(List<Member> successImport, User currentUser, String organization, Map<String, List<ExcelRowModel>> result, String role) {
+//        List<ExcelRowModel> excelRowModels = result.get("excel_members");
+//        for (ExcelRowModel excelRowModel : excelRowModels) {
+//            Map<String, Object> registParams = new HashMap<String, Object>();
+//            registParams.put("userName", excelRowModel.getUserName());
+//            registParams.put("subject", excelRowModel.getSubject());
+////            registParams.put("organization", organization);
+//            registParams.put("mobilePhone", excelRowModel.getPhone());
+//            registParams.put("loginAlais", excelRowModel.getPhone());
+//            registParams.put("idCard", excelRowModel.getIdCard());
+//            registParams.put("orgId", organization);
+//            registParams.put("registFlag", 1);
+//            registParams.put("regRoletype", excelRowModel.getRegRoletype());
+//            registParams.put("bizroleId", role);
+//            String userId = null;
+//            //登录账号为：身份证后六位
+//            String idCard = (String) registParams.get("idCard");
+////				String loginName = idCard.substring(idCard.length() - 6, idCard.length());
+//            //登录帐号为身份证号
+//            String loginName = idCard.toUpperCase();
+//            String loginName_mobilePhone = excelRowModel.getPhone();
+//
+//            Member memberByIdCard = getMemberByIdCard(idCard);
+//            if (memberByIdCard != null) {
+//                userId = memberByIdCard.getUserId() + "";
+//                logger.info("member {} is not exist!", idCard);
+//            } else {
+//                if (!userService.userNameIsExist(loginName) && !userService.userNameIsExist(loginName_mobilePhone)) {
+//                    userId = importregist(registParams);
+//                    logger.info("member {} is not exist remote!", idCard);
+//                } else {
+//                    //存在这个用户，查询用户主键ID
+//                    userId = getUserId(loginName);
+//                    if (StringUtils.trim(userId).equals("")) {
+//                        userId = getUserId(loginName_mobilePhone);
+//                    }
+//                    //TODO 判断用户角色和是否是培训班的创建者？先放开
+//                }
+//                logger.info("member {} userId is {}!", idCard, userId);
+//            }
+//
+//            Member member = new Member();
+//            member.setUserId(userId);
+//            member.setIdCard(excelRowModel.getIdCard());
+//            //在职状态、教师性质查询对应key 在字段表里
+////            String office_status_type = "OFFICE_STATUS";
+////            String officeStatus = baseSystemParameterService.getKeyByTypeAndValue(office_status_type, StringUtils.trimToEmpty(excelRowModel.getOfficeStatus()));
+////            member.setOfficeStatus(officeStatus);
+////            String teacher_nature_type = "TEACHER_NATURE";
+////            String nature = baseSystemParameterService.getKeyByTypeAndValue(teacher_nature_type, StringUtils.trimToEmpty(excelRowModel.getTeacherNature()));
+////            member.setNature(nature);
+//            String subject_type = "SUBJECT";
+//            String subject = baseSystemParameterService.getKeyByTypeAndValue(subject_type, StringUtils.trimToEmpty(excelRowModel.getSubject()));
+//            member.setSubject(subject);
+//            String phase_type = "PHASE";
+//            String phase = baseSystemParameterService.getKeyByTypeAndValue(phase_type, StringUtils.trimToEmpty(excelRowModel.getPhase()));
+//            member.setPhase(phase);
+////            member.setMemberType(MemberConstants.TYPE.TEACHER.vlaue()); //学员类型 1-专家，2-老师
+//            member.setName(excelRowModel.getUserName());
+//            member.setOrganization(organization);
+//            member.setMobile(excelRowModel.getPhone());
+//            String nowStr = DateUtils.getNowStr("yyyy-MM-dd HH:mm:ss");
+//            member.setCreateId(userId);
+//            member.setRole(role);
+//            member.setCreateTime(nowStr);
+//            member.setUpdateTime(nowStr);
+//            member.setStatus(MemberConstants.STATUS.OK.num());
+//            logger.info("userId is 6666666666666666666666666666666" + userId);
+//            Member isExist = memberRespository.selectByUserId(userId);
+//            if (isExist != null) {
+//                logger.info("member {} userId is {} exists!", idCard, userId);
+//                update(member);
+//            } else {
+//                logger.info("member {} userId is {} not exists!", idCard, userId);
+//                create(member);
+//            }
+//            successImport.add(member);
+////            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+////            TradeOrder tradeOrder = tradeOrderService.findByBuyId(currentUser.getRecId());
+////            tradeOrder.setRecId(idService.gen("ID"));
+////            tradeOrder.setBuyId(userId);
+////            tradeOrder.setCreateTime(now);
+////            tradeOrder.setCreateId(currentUser.getRecId());
+////            tradeOrderService.create(tradeOrder);
+////            TradeOrderDetail tradeOrderDetail =tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
+////            tradeOrderDetail.setRecId(idService.gen("ID"));
+////            tradeOrderDetail.setTrateOrderId(tradeOrder.getRecId());
+////            tradeOrderDetail.setCreateTime(now);
+////            tradeOrderDetail.setCreateId(currentUser.getRecId());
+////            tradeOrderDetailService.create(tradeOrderDetail);
+//
+//        }
+//    }
 
     /**
      * 根据身份证查询学员信息
@@ -290,62 +305,35 @@ public class MemberService extends MemberBaseService {
      */
     public Member buildMember(RegistParam param) {
         Member member = new Member();
-        member.setIdCard(param.getIdCard());
+        if (param.getIdCard() != null) {
+            member.setIdCard(param.getIdCard());
+        }
         member.setRole(MemberConstants.ROLE.STUDENT.num());
-        member.setMobile(param.getMobile());
-        member.setName(param.getUserName());
-        member.setOrganization(param.getOrganization());
+        if (param.getMobile() != null) {
+            member.setMobile(param.getMobile());
+        }
+        if (param.getNickName() != null) {
+            member.setName(param.getNickName());
+        } else {
+            member.setName(param.getUserName());
+        }
+        if (param.getOrganization() != null) {
+            member.setOrganization(param.getOrganization());
+        }
         member.setStatus(MemberConstants.STATUS.OK.num());
         return member;
 
     }
 
 
-    public String importregist(Map<String, Object> params) {
-        //登录账号：身份证后六位
-        String idCard = (String) params.get("idCard");
-        String password = params.get("loginPass") == null ? "" : org.apache.commons.lang.StringUtils.trimToEmpty((String) params.get("loginPass"));
-        idCard = org.apache.commons.lang.StringUtils.trimToEmpty(idCard);
-        //如果身份证为空，则使用手机号作为登录名，手机后六位作为密码
-        if (idCard.length() == 0) {
-            if (password.length() > 0) {
-            } else {
-                String loginName = (String) params.get("mobilePhone");
-                String loginPass = loginName.substring(loginName.length() - 6, loginName.length()).toUpperCase();
-                params.put("loginName", loginName);
-                params.put("loginPass", loginPass);
-                System.out.println("loginPass is " + loginPass);
-            }
-        } else if (idCard.length() > 0 && password.length() == 0) {
-            String loginName = idCard.toUpperCase();
-            String loginPass = idCard.substring(idCard.length() - 6, idCard.length()).toUpperCase();
-            params.put("loginName", loginName);
-            params.put("loginPass", loginPass);
-            System.out.println("loginPass is " + loginPass);
-        } else {
-            String loginName = idCard.toUpperCase();
-            params.put("loginName", loginName);
-            params.put("loginPass", password);
-            System.out.println("loginPass 1111 is " + password);
-        }
-        //密码：身份证后六位
-        params.put("regRoletype", params.get("regRoletype"));
-        params.put("userName", params.get("userName"));
-        params.put("loginAlais", params.get("loginAlais"));
-        params.put("registFlag", params.get("registFlag"));
-        params.put("regWay", MemberConstants.REGWAY.READING_IMPORT.value());
-        logger.info("11111111111111111111111111111111>>>>>>>>" + params.get("loginPass"));
-
-        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans = userService.shiluregist1( params.get("loginName").toString(),params.get("loginPass").toString(),params.get("regRoletype").toString(),params.get("userName").toString(),params.get("loginAlais").toString(),params.get("regWay").toString());
-        logger.info("11111111111111111111111111111111>>>>>>>>" + bizTrans.getTransInfo());
-        Object o = BizTransUtils.parseBizTrans(bizTrans);
-        if (!(o instanceof String)) {
-            return "";
-        }
-        if (o instanceof String && ((String) o).length() == 0) {
-            return "";
-        }
-        return (String) o;
+    public String importregist(RegistParam params) {
+        User user = new User("", params.getUserName(), params.getPassword());
+        Map<String, Object> param = new HashMap();
+        param.put("regWay", MemberConstants.REGWAY.READING.value());
+        user.setParams(param);
+        String userid = gatwayService.create(user);
+        logger.warn("--------------------userid+" + userid);
+        return userid;
     }
 
     /**
@@ -362,99 +350,110 @@ public class MemberService extends MemberBaseService {
         return member;
     }
 
-    public Member addMember(User user, String type, MemberParam param,String roletype) {
+//    public Member addMember(User user, String type, MemberParam param, String roletype) {
+//
+//        type = StringUtils.trimToEmpty(type);
+//        String organization = param.getOrganization();
+//        Member member = param.getModel();
+//        member.setStatus("1");
+//        member.setOrganization(organization);
+//        String memberId = null;
+//        String idCard = StringUtils.trimToEmpty(member.getIdCard());
+//        String idCard_6 = idCard.toUpperCase();
+//        Map<String, Object> registParams = new HashMap<String, Object>();
+//
+//
+//        private String password;
+//        private String passwordAgain;
+//        private String nickName;
+//
+//        registParams.put("userName", member.getName());
+//        registParams.put("organization", organization);
+//        registParams.put("mobile", StringUtils.trimToEmpty(member.getMobile()));
+//        registParams.put("idCard", StringUtils.trimToEmpty(member.getIdCard()));
+//        registParams.put("orgId", param.getOrganization());
+//        registParams.put("regRoletype", roletype);
+//        String mobile = org.apache.commons.lang.StringUtils.trimToEmpty(member.getMobile());
+//        String lName = "";
+//        //如果手机号和电话都为空则直接新增用户名, 用名称去判断 且是专家
+//        String name = StringUtils.trimToEmpty(param.getName());
+//        User userInfo= new User();
+//        userInfo.setUsername(param.getName());
+//        userInfo.setPassword();
+//
+//
+//        importregist(registParams);
+//        if (idCard.length() == 0 && mobile.length() == 0 && type.length() > 0 && name.length() > 0 && !userService.userNameIsExist(name)) {
+//            System.err.println("jinru 1111111111");
+//            lName = name;
+//            //查询name为用户名的客户是否存在
+//            registParams.put("userName", name);
+//            registParams.put("loginName", name);
+//            //专家默认的密码为123456
+//            registParams.put("loginPass", "123456");
+//            //密码设置为123456
+//            memberId = importregist(registParams);
+//            member.setUserId(memberId);
+//        } else if (idCard.length() == 0 && mobile.length() != 0 && type.length() > 0 && !userService.userNameIsExist(mobile)) {
+//            lName = mobile;
+//            registParams.put("userName", name);
+//            registParams.put("loginName", mobile);
+//            //专家默认的密码为123456
+//            registParams.put("loginPass", "123456");
+//            memberId = importregist(registParams);
+//            member.setUserId(memberId);
+//        } else if (idCard.length() != 0 && mobile.length() == 0 && type.length() > 0 && !userService.userNameIsExist(idCard)) {
+//            lName = idCard_6;
+//            registParams.put("userName", name);
+//            registParams.put("loginName", idCard_6);
+//            //专家默认的密码为123456
+//            registParams.put("loginPass", "123456");
+//            memberId = importregist(registParams);
+//            member.setUserId(memberId);
+//        } else if (!userService.userNameIsExist(idCard_6) && !userService.userNameIsExist(member.getMobile())) {
+//            lName = idCard_6;
+//            memberId = importregist(registParams);
+//            member.setUserId(memberId);
+//        } else {//存在这个用户，查询用户主键ID
+//            lName = idCard_6;
+//            memberId = getUserId(lName);
+//            if (StringUtils.trim(memberId).equals("")) {
+//                memberId = getUserId(member.getMobile());
+//            }
+//            member = getMember(memberId);
+//            if (member == null) {
+//                member.setUserId(memberId);
+//                try {
+//                    create(member);
+//                } catch (Exception e) {
+//                    throw new RuntimeException("新增失败");
+//                }
+//            }
+////            throw new RuntimeException("已存在");
+//        }
+//        return member;
+//    }
 
-        type = StringUtils.trimToEmpty(type);
-        String organization = user.getGroupId();
-        Member member = param.getModel();
-        member.setStatus("1");
-        member.setOrganization(organization);
-        String memberId = null;
-        String idCard = StringUtils.trimToEmpty(member.getIdCard());
-        String idCard_6 = idCard.toUpperCase();
-        Map<String, Object> registParams = new HashMap<String, Object>();
-        registParams.put("userName", member.getName());
-        registParams.put("subject", member.getSubject());
-        registParams.put("organization", organization);
-        registParams.put("mobilePhone", StringUtils.trimToEmpty(member.getMobile()));
-        registParams.put("idCard", StringUtils.trimToEmpty(member.getIdCard()));
-        registParams.put("orgId", user.getGroupId());
-        registParams.put("registFlag", 1);
-        registParams.put("regRoletype", roletype);
-        String mobile = org.apache.commons.lang.StringUtils.trimToEmpty(member.getMobile());
-        String lName = "";
-        //如果手机号和电话都为空则直接新增用户名, 用名称去判断 且是专家
-        String name = StringUtils.trimToEmpty(param.getName());
-        if (idCard.length() == 0 && mobile.length() == 0 && type.length() > 0 && name.length() > 0 && !userService.userNameIsExist(name)) {
-            System.err.println("jinru 1111111111");
-            lName = name;
-            //查询name为用户名的客户是否存在
-            registParams.put("userName", name);
-            registParams.put("loginName", name);
-            //专家默认的密码为123456
-            registParams.put("loginPass", "123456");
-            //密码设置为123456
-            memberId = importregist(registParams);
-            member.setUserId(memberId);
-        } else if (idCard.length() == 0 && mobile.length() != 0 && type.length() > 0 && !userService.userNameIsExist(mobile)) {
-            lName = mobile;
-            registParams.put("userName", name);
-            registParams.put("loginName", mobile);
-            //专家默认的密码为123456
-            registParams.put("loginPass", "123456");
-            memberId = importregist(registParams);
-            member.setUserId(memberId);
-        } else if (idCard.length() != 0 && mobile.length() == 0 && type.length() > 0 && !userService.userNameIsExist(idCard)) {
-            lName = idCard_6;
-            registParams.put("userName", name);
-            registParams.put("loginName", idCard_6);
-            //专家默认的密码为123456
-            registParams.put("loginPass", "123456");
-            memberId = importregist(registParams);
-            member.setUserId(memberId);
-        } else if (!userService.userNameIsExist(idCard_6) && !userService.userNameIsExist(member.getMobile())) {
-            lName = idCard_6;
-            memberId = importregist(registParams);
-            member.setUserId(memberId);
-        } else {//存在这个用户，查询用户主键ID
-            lName = idCard_6;
-            memberId = getUserId(lName);
-            if (StringUtils.trim(memberId).equals("")) {
-                memberId = getUserId(member.getMobile());
-            }
-            member = getMember(memberId);
-            if (member == null) {
-                member.setUserId(memberId);
-                try {
-                    create(member);
-                } catch (Exception e) {
-                    throw new RuntimeException("新增失败");
-                }
-            }
-//            throw new RuntimeException("已存在");
-        }
-        return member;
-    }
-
-    public String regist(Map<String,Object> params) {
+    public String regist(Map<String, Object> params) {
         //登录账号：身份证后六位
         //密码：身份证后六位
-        if(null != params && params.get("regRoletype") == null) {
+        if (null != params && params.get("regRoletype") == null) {
             params.put("regRoletype", "teacher");
-        }else {
+        } else {
             params.put("regRoletype", params.get("regRoletype"));
         }
         params.put("registFlag", params.get("registFlag"));
-        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans =userService.shiluregist1( StringUtils.trimToEmpty(params.get("loginName")+""),StringUtils.trimToEmpty(params.get("loginPass")+""),StringUtils.trimToEmpty(params.get("regRoletype")+""),StringUtils.trimToEmpty(params.get("userName")+""),StringUtils.trimToEmpty(params.get("loginAlais")+""),StringUtils.trimToEmpty(params.get("regWay")+""));;
-logger.info("---------------------bizTrans"+bizTrans);
+        BizTrans<List<LinkedHashMap<String, Object>>> bizTrans = userService.shiluregist1(StringUtils.trimToEmpty(params.get("loginName") + ""), StringUtils.trimToEmpty(params.get("loginPass") + ""), StringUtils.trimToEmpty(params.get("regRoletype") + ""), StringUtils.trimToEmpty(params.get("userName") + ""), StringUtils.trimToEmpty(params.get("loginAlais") + ""), StringUtils.trimToEmpty(params.get("regWay") + ""));
+        ;
+        logger.info("---------------------bizTrans" + bizTrans);
         Object o = BizTransUtils.parseBizTrans(bizTrans);
-        if(! (o instanceof String)) {
+        if (!(o instanceof String)) {
             return "";
         }
-        if(o instanceof String && ((String)o).length() == 0 ){
+        if (o instanceof String && ((String) o).length() == 0) {
             return "";
         }
-        return (String)o;
+        return (String) o;
     }
 
 }

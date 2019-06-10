@@ -33,4 +33,25 @@
         where status = 1 and user_id = #{userId, jdbcType=VARCHAR}
     </select>
 
+
+    <select id="countTeacher" parameterType="java.lang.String" resultType="int">
+        select count(1)
+        from `member` a
+            join user_role b on a.user_id = b.user_id
+        where 1 = 1
+              AND b.role_id = #{roleId}
+    </select>
+
+
+    <select id="listTeacher"  parameterType="map" resultMap="com.synapse.reading.mapper.MemberMapper.BaseResultMap">
+        select a.*
+        from `member` a
+        join user_role b on a.user_id = b.user_id
+        where 1 = 1
+        AND b.role_id = #{roleId}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
 </mapper>

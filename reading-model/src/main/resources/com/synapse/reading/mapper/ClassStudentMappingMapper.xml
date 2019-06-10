@@ -7,6 +7,7 @@
         <id column="rec_id" property="recId" />
         <result column="class_id" property="classId" />
         <result column="student_id" property="studentId" />
+        <result column="real_name" property="realName" />
         <result column="status" property="status" />
         <result column="create_id" property="createId" />
         <result column="update_id" property="updateId" />
@@ -16,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`class_id`,`student_id`,`status`,`create_id`,`update_id`,`create_time`,`update_time`
+      `rec_id`,`class_id`,`student_id`,`real_name`,`status`,`create_id`,`update_id`,`create_time`,`update_time`
     </sql>
 
 
@@ -31,7 +32,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.ClassStudentMapping">
         insert into `class_student_mapping`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{classId},#{studentId},#{status},#{createId},#{updateId},#{createTime},#{updateTime})
+        values (#{recId},#{classId},#{studentId},#{realName},#{status},#{createId},#{updateId},#{createTime},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -51,6 +52,9 @@
                 </if>
                 <if test="studentId != null" >
                     `student_id`,
+                </if>
+                <if test="realName != null" >
+                    `real_name`,
                 </if>
                 <if test="status != null" >
                     `status`,
@@ -77,6 +81,9 @@
                 </if>
                 <if test="studentId != null" >
 			        #{studentId},
+                </if>
+                <if test="realName != null" >
+			        #{realName},
                 </if>
                 <if test="status != null" >
 			        #{status},
@@ -108,6 +115,9 @@
 	            <if test="studentId != null" >
 		            `student_id` = #{studentId},
 	            </if>
+	            <if test="realName != null" >
+		            `real_name` = #{realName},
+	            </if>
 	            <if test="status != null" >
 		            `status` = #{status},
 	            </if>
@@ -129,7 +139,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.ClassStudentMapping" >
         update  `class_student_mapping` SET
-		    `rec_id`=#{recId},`class_id`=#{classId},`student_id`=#{studentId},`status`=#{status},`create_id`=#{createId},`update_id`=#{updateId},`create_time`=#{createTime},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`class_id`=#{classId},`student_id`=#{studentId},`real_name`=#{realName},`status`=#{status},`create_id`=#{createId},`update_id`=#{updateId},`create_time`=#{createTime},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -160,6 +170,14 @@
                     </if>
                     <if test="studentId.indexOf('%') lt 0" >
                         AND `student_id` = #{studentId}
+                    </if>
+            </if>
+            <if test="realName != null" >
+                    <if test="realName.indexOf('%') >= 0" >
+                        AND `real_name` like #{realName}
+                    </if>
+                    <if test="realName.indexOf('%') lt 0" >
+                        AND `real_name` = #{realName}
                     </if>
             </if>
             <if test="status != null" >
@@ -231,6 +249,14 @@
 	            </if>
                 <if test="studentId.indexOf('%') lt 0" >
                     AND `student_id` = #{studentId}
+                </if>
+            </if>
+            <if test="realName != null" >
+	            <if test="realName.indexOf('%') >= 0" >
+				    AND `real_name` like #{realName}
+	            </if>
+                <if test="realName.indexOf('%') lt 0" >
+                    AND `real_name` = #{realName}
                 </if>
             </if>
             <if test="status != null" >

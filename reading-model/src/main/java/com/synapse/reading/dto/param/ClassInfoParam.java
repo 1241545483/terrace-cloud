@@ -127,4 +127,11 @@ public String getUpdateTime() {
 		classInfo.setUpdateTime(update_time);
 	}
 
+    public String getName() {
+        return classInfo.getName();
     }
+
+    public void setName(String name) {
+        classInfo.setName(name);
+    }
+}

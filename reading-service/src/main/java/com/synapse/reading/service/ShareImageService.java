@@ -217,7 +217,7 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
 //                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
 //                InputStream fiss = new FileInputStream(tempPng.toFile());
 //                String shareUrl = ossUtil.uploadImageLocalFile(fiss);
-                String shareUrl = null;
+                String shareUrl = "";
                 InputStream fiss = new FileInputStream(tempPng.toFile());
                 Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
                 shareUrl = uploader.upload(fiss, "");
@@ -263,7 +263,7 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
 //                }.getType();
 //                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
 //                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
-                String shareUrl = null;
+                String shareUrl = "";
                 InputStream fiss = new FileInputStream(tempPng.toFile());
                 Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
                 shareUrl = uploader.upload(fiss, "");
@@ -303,7 +303,7 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                     wxNickName = member.getName();
                 }
                 Path tempPng = ImgUtil.DrawSuccessPosterByLesson(modelUrl, qrcodeUrl, wxNickName);
-                String shareUrl = null;
+                String shareUrl = "";
                 InputStream fiss = new FileInputStream(tempPng.toFile());
                 Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
                 shareUrl = uploader.upload(fiss, "");
@@ -353,8 +353,8 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                 if (member.getName() != null && !"".equals(member.getName())) {
                     wxNickName = member.getName();
                 }
-                Path tempPng = ImgUtil.DrawSuccessPosterByLesson(modelUrl, qrcodeUrl, wxNickName);
-                String shareUrl = null;
+                Path tempPng = ImgUtil.DrawSuccessPosterByClass(modelUrl, qrcodeUrl, wxNickName,classInfo.getName(),classInfo.getClassCode());
+                String shareUrl = "";
                 InputStream fiss = new FileInputStream(tempPng.toFile());
                 Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
                 shareUrl = uploader.upload(fiss, "");
@@ -410,7 +410,7 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
 //                }.getType();
 //                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
 //                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
-                String shareUrl = null;
+                String shareUrl = "";
                 InputStream fiss = new FileInputStream(tempPng.toFile());
                 Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
                 shareUrl = uploader.upload(fiss, "");

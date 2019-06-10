@@ -111,6 +111,27 @@ public class UserRoleController extends BaseController {
         }
     }
 
+
+    @ApiOperation(value = "获取用户角色")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = UserRoleResult.class, message = "UserRole对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/userRole/roleId/{userId}",method = RequestMethod.GET)
+    public ResponseEntity getByClassCode(@PathVariable("userId") String userId){
+        try {
+            UserRole userRole = userRoleService.getByClassCode(userId);
+            return ResponseEntity.ok(userRole.getRoleId());
+        } catch (BusinessException e) {
+            logger.error("get UserRole Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get UserRole Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 	@ApiOperation(value = "创建UserRole")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),

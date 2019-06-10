@@ -2,7 +2,7 @@ package com.synapse.reading.service.service;
 
 import com.synapse.common.constants.PageInfo;
 import com.synapse.reading.model.model.UserRole;
-import com.synapse.reading.respository.UserRoleRespository;
+import com.synapse.reading.respository.respository.UserRoleRespository;
 import com.synapse.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +33,10 @@ public class UserRoleService extends UserRoleBaseService {
 
     public UserRole find(String recId){
 	    return userRoleRespository.selectByPrimaryKey(recId);
+    }
+
+    public UserRole getByClassCode(String userId){
+        return userRoleRespository.listUserBizRoles(userId);
     }
 
 	public Integer update(UserRole param){
