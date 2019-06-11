@@ -150,11 +150,12 @@ public class RegistController extends BaseController {
                 }
                 Map<String, Object> memberMap = new HashMap<>();
                 User user = new User(userId, userName, "");
-                memberMap.put("userName", userInfo.get("nickName"));
+                memberMap.put("nickName", userInfo.get("nickName"));
 //               memberMap.put("getOrganization",member.getOrganization());
                 memberMap.put("avatarUrl", avatarUrl);
                 memberMap.put("regWay", regWay);
                 user.setParams(memberMap);
+                user.setUsername(nickName);
                 final UserDetails userDetails = user;
                 String data = gson.toJson(userDetails, type);
                 redisTemplate.opsForValue().set(decryptToken, data, 3000, TimeUnit.HOURS);
