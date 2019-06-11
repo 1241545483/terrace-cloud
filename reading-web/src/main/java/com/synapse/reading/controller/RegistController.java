@@ -76,24 +76,24 @@ public class RegistController extends BaseController {
     @ApiOperation(value = "用户注册，微信端")
     @RequestMapping(value = "/view/v1/membershow/wxregist", method = RequestMethod.POST)
     public Result registByWX(HttpServletRequest request, HttpServletResponse response) {
-
-        String header = request.getHeader("Authorization");
-        String code = request.getParameter("code");
-        String userName = request.getParameter("userName");
-        String password = request.getParameter("password");
-        String encrypData = request.getParameter("encrypData");
-        String ivData = request.getParameter("ivData");
-        String regWay = request.getParameter("regWay");
-        String random = RandomStringUtils.randomNumeric(6);
-        String nickName = null;
-        Map<String,Object> result = new HashMap<String,Object>();
-        if (org.springframework.util.StringUtils.isEmpty(regWay)) {
-            nickName = "read" + random;
-        } else {
-            nickName = request.getParameter("nickName");
-        }
-        String avatarUrl = null;
-        //利用原始的request对象创建自己扩展的request对象并添加自定义参数
+        try {
+            String header = request.getHeader("Authorization");
+            String code = request.getParameter("code");
+            String userName = request.getParameter("userName");
+            String password = request.getParameter("password");
+            String encrypData = request.getParameter("encrypData");
+            String ivData = request.getParameter("ivData");
+            String regWay = request.getParameter("regWay");
+            String random = RandomStringUtils.randomNumeric(6);
+            String nickName = null;
+            Map<String, Object> result = new HashMap<String, Object>();
+            if (org.springframework.util.StringUtils.isEmpty(regWay)) {
+                nickName = "read" + random;
+            } else {
+                nickName = request.getParameter("nickName");
+            }
+            String avatarUrl = null;
+            //利用原始的request对象创建自己扩展的request对象并添加自定义参数
 //        RequestParameterWrapper requestParameterWrapper = new RequestParameterWrapper(request);
 //        if (header != null && header.startsWith("Basic ") && null != securityProperties.getOauth2Config().get(header)) {
 //            OAuth2ClientProperties oAuth2ClientProperties = securityProperties.getOauth2Config().get(header);
@@ -131,8 +131,8 @@ public class RegistController extends BaseController {
                 String token = EncryptTool.encrypt(decryptToken, salt);
                 String userId = judgeMap.get("userId");
                 Member member = memberService.getMember(userId);
-                if (member == null ) {
-                    Member member1 =new Member();
+                if (member == null) {
+                    Member member1 = new Member();
                     member1.setName(userInfo.get("nickName"));
                     member1.setOrganization("-1");
                     member1.setStatus("1");
@@ -140,7 +140,7 @@ public class RegistController extends BaseController {
                     member1.setUserId(userId);
                     memberService.create(member1);
                     //todo 抽成一个方法，供注册端使用
-                    UserRole userRole =new UserRole();
+                    UserRole userRole = new UserRole();
                     userRole.setUserId(userId);
                     userRole.setRoleId(MemberConstants.ROLE.STUDENT.value());
                     //todo appkey直接设置  不知道是否为appId  201906031958
@@ -173,7 +173,11 @@ public class RegistController extends BaseController {
                 return Result.ok(extraParams);
             }
 //        }
-        return Result.ok(result);
+            return Result.ok(result);
+        } catch (Exception e) {
+            logger.error("regist error!", e);
+            return Result.error(500, e.getMessage());
+        }
     }
 
 
@@ -220,7 +224,7 @@ public class RegistController extends BaseController {
             member = memberService.buildMember(param);
             member.setUserId(memberId);
             memberService.create(member);
-            UserRole userRole =new UserRole();
+            UserRole userRole = new UserRole();
             userRole.setUserId(memberId);
             userRole.setRoleId(MemberConstants.ROLE.STUDENT.value());
             //todo appkey直接设置  不知道是否为appId  201906031958
@@ -233,9 +237,6 @@ public class RegistController extends BaseController {
             return Result.error(500, e.getMessage());
         }
     }
-
-
-
 
 
 }
