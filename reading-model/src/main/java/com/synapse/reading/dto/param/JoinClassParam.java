@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModel;
  * @author liuguangfu
  * @since 2019-05-28
  */
-@ApiModel(value = "ClassInfoParam对象", description = "加入班级参数")
+@ApiModel(value = "JoinClassParam对象", description = "加入班级参数")
 public class JoinClassParam {
     private  String classCode;
     private  String studentId;
