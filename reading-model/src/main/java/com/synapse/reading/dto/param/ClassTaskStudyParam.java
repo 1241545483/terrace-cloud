@@ -1,9 +1,6 @@
 package com.synapse.reading.dto.param;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.synapse.reading.model.ClassInfo;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -13,33 +10,24 @@ import io.swagger.annotations.ApiModelProperty;
  * @author liuguangfu
  * @since 2019-05-28
  */
-@ApiModel(value = "ClassInfoParam对象", description = "")
-public class JoinClassParam {
-    private  String classCode;
-    private  String studentId;
-    private  String realName;
+@ApiModel(value = "ClassInfoParam对象", description = "任务参数")
+public class ClassTaskStudyParam {
+    private  String studyId;
+    private  String studyType;
 
-    public String getClassCode() {
-        return classCode;
+    public String getStudyId() {
+        return studyId;
     }
 
-    public void setClassCode(String classCode) {
-        this.classCode = classCode;
+    public void setStudyId(String studyId) {
+        this.studyId = studyId;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getStudyType() {
+        return studyType;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setStudyType(String studyType) {
+        this.studyType = studyType;
     }
 }
