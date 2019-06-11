@@ -12,8 +12,7 @@ import java.util.Map;
  * 绑定用户信息
  * Created by wangyifan on 18-4-14.
  */
-//@FeignClient(name = "${gateway.url}")
-@FeignClient(name = "re",url =  "${gateway.url}")
+@FeignClient(name = "${gateway.url}")
 public interface GatwayService {
 
     @RequestMapping(value = "/user/v1/regist/server", method = RequestMethod.POST
