@@ -11,27 +11,24 @@ import com.synapse.reading.model.BindUserModel;
 import com.synapse.reading.model.Pay;
 import com.synapse.reading.remote.BindService;
 import com.synapse.reading.remote.PayService;
+import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.service.WxPayService;
 import com.synapse.reading.service.WxUserBindService;
 
 
 import com.synapse.user.model.api.UserPwdUpdateModel;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,6 +47,8 @@ public class WxUserBindController {
     private  UserService userService;
     @Autowired
     private BindService bindService;
+    @Autowired
+    private ShortLinkApiService shortLinkApiService;
 
 
     @ApiOperation(value = "修改个人信息，如果已绑定则直接修改，如果没有就提醒用户进行修改")
@@ -145,6 +144,24 @@ public class WxUserBindController {
         }
     }
 
+    @ApiOperation("PC端环节二维码跳转处理")
+    @ApiResponses({
+            @ApiResponse(code = 200, response =void.class, message = "短连接二维码跳转处理"),
+            @ApiResponse(code = 1001, response = String.class, message = "用户未登录"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @ApiParam(name = "recId", value = "项目主键", required = true)
+    @RequestMapping(value = "/v1/show/s/{shortUrlId}", method = RequestMethod.GET)
+    public Result getReal(HttpServletResponse response, @PathVariable("shortUrlId") String shortUrlId) throws IOException {
+        //调用短连接服务
+        Result result =  shortLinkApiService.getUrlByCode(shortUrlId);
+        if (result != null && result.getCode() == 200) {
+            String real = (String) result.getBody();
+            return Result.ok(real);
+        } else {
+            return Result.error(500,"ss");
+        }
+    }
 
 
 }
