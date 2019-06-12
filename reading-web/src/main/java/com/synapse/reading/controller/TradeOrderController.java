@@ -165,7 +165,7 @@ public class TradeOrderController extends BaseController{
                 List<Book> results = tradeOrderService.listBuyBook(param,pageInfo);
                 totalNum =results.size() ;
                 Map<String, Object> map = new HashMap();
-                map.put("ProdList", results);
+                map.put("orderList", results);
                 map.put("totalNum", totalNum);
                 return ResponseEntity.ok(map);
             }
@@ -200,7 +200,7 @@ public class TradeOrderController extends BaseController{
                 List<Lesson> results = tradeOrderService.listUserBuyLesson(user,type,pageInfo);
                 totalNum =results.size() ;
                 Map<String, Object> map = new HashMap();
-                map.put("ProdList", results);
+                map.put("orderList", results);
                 map.put("totalNum", totalNum);
                 return ResponseEntity.ok(map);
             }
