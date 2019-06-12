@@ -44,6 +44,14 @@ public class TradeOrderParam  {
         this.schoolTradeOrderList = schoolTradeOrderList;
     }
 
+    public String getFinishTime() {
+        return tradeOrder.getFinishTime();
+    }
+
+    public void setFinishTime(String finishTime) {
+        tradeOrder.setFinishTime(finishTime);
+    }
+
     public String getSchoolUserId() {
         return schoolUserId;
     }

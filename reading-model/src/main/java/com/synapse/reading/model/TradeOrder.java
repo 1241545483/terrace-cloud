@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-04-17
+ * @since 2019-06-12
  */
 public class TradeOrder implements Serializable {
 
@@ -21,7 +21,7 @@ public class TradeOrder implements Serializable {
      */
     private String recId;
     /**
-     * 是否为导入数据
+     * 是否为导入，1为自己购买，2为学校购买
      */
     private String importData;
     /**
@@ -64,6 +64,10 @@ public class TradeOrder implements Serializable {
      * 创建时间
      */
     private String createTime;
+    /**
+     * 订单完成时间
+     */
+    private String finishTime;
     /**
      * 更新人
      */
@@ -168,6 +172,14 @@ public class TradeOrder implements Serializable {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(String finishTime) {
+        this.finishTime = finishTime;
     }
 
     public String getUpdateId() {

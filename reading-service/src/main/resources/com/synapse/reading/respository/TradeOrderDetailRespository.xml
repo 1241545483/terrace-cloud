@@ -7,6 +7,10 @@
                extends="com.synapse.reading.mapper.TradeOrderDetailMapper.BaseResultMap">
         <id column="resource_name" property="resourceName"/>
         <id column="resource_cover" property="resourceCover"/>
+        <id column="orderPrice" property="orderPrice"/>
+        <id column="resourceIntro" property="resourceIntro"/>
+        <id column="orderPayWay" property="orderPayWay"/>
+        <id column="fishTime" property="fishTime"/>
     </resultMap>
 
 
@@ -31,9 +35,10 @@
     <select id="listradeOrderProdIdLesson" parameterType="map" resultMap="simpleRow">
         select
         a. `rec_id`,a.`trate_order_id`,a.`original_price`,a.`present_price`,a.`name`,a.`prod_type`,a.`prod_id`,a.`intro`,a.`preferential_way`,a.`status`,a.`create_id`,a.`create_time`,a.`update_id`,a.`update_time`
-        ,l.name resource_name ,l.banner  resource_cover
+        ,l.name resource_name ,l.banner  resource_cover ,t.price  orderPrice
         from `trade_order_detail` a
         join  lesson l  ON  a.prod_id = l.rec_id
+        JOIN  trade_order t on a.trade_order_id= t.rec_id
         where
         a.`trate_order_id` IN (
         select
@@ -50,9 +55,10 @@
 
     <select id="listradeOrderProdIdBook" parameterType="map" resultMap="simpleRow">
         select
-        a.*,l.name resource_name ,l.cover  resource_cover
+        a.*,l.name resource_name ,l.cover  resource_cover ,t.price  orderPrice
         from `trade_order_detail` a
         join  book l  ON  a.prod_id = l.rec_id
+        JOIN  trade_order t on a.trade_order_id= t.rec_id
         where
         a.`trate_order_id` IN (
         select
@@ -99,5 +105,25 @@
             AND a.`prod_type` = #{type}
     </select>
 
+
+    <select id="findUserOrderBook" parameterType="java.lang.String" resultMap="simpleRow">
+        select
+        a.*,l.name resource_name ,l.cover  resource_cover ,t.price  orderPrice ,l.intro resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime
+        from `trade_order_detail` a
+        join  book l  ON  a.prod_id = l.rec_id
+        JOIN  trade_order t on a.trate_order_id = t.rec_id
+        where
+        a.`trate_order_id` = #{tradeOrderId}
+    </select>
+
+    <select id="findUserOrderLesson" parameterType="java.lang.String" resultMap="simpleRow">
+        select
+        a.*,l.name resource_name ,l.banner  resource_cover ,t.price  orderPrice ,l.intro resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime
+        from `trade_order_detail` a
+        join  lesson l  ON  a.prod_id = l.rec_id
+        JOIN  trade_order t on a.trate_order_id= t.rec_id
+        where
+        a.`trate_order_id` = #{tradeOrderId}
+    </select>
 
 </mapper>

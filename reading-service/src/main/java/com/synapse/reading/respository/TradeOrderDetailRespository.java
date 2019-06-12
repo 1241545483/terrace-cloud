@@ -30,4 +30,7 @@ public interface TradeOrderDetailRespository extends TradeOrderDetailMapper {
     Integer countListUserBuyLesson(@Param("userId") String userId, @Param("type") String type);
 
     Integer countListUserBuyBook(@Param("userId") String userId, @Param("type") String type);
+
+    TradeOrderDetailResult findUserOrderBook(String tradeOrderId);
+    TradeOrderDetailResult findUserOrderLesson(String tradeOrderId);
 }

@@ -16,13 +16,14 @@
         <result column="status" property="status" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
+        <result column="finish_time" property="finishTime" />
         <result column="update_id" property="updateId" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`import_data`,`sell_id`,`buy_id`,`name`,`intro`,`pay_no`,`pay_way`,`price`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`import_data`,`sell_id`,`buy_id`,`name`,`intro`,`pay_no`,`pay_way`,`price`,`status`,`create_id`,`create_time`,`finish_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -37,7 +38,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.TradeOrder">
         insert into `trade_order`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{importData},#{sellId},#{buyId},#{name},#{intro},#{payNo},#{payWay},#{price},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{importData},#{sellId},#{buyId},#{name},#{intro},#{payNo},#{payWay},#{price},#{status},#{createId},#{createTime},#{finishTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -85,6 +86,9 @@
                 <if test="createTime != null" >
                     `create_time`,
                 </if>
+                <if test="finishTime != null" >
+                    `finish_time`,
+                </if>
                 <if test="updateId != null" >
                     `update_id`,
                 </if>
@@ -128,6 +132,9 @@
                 </if>
                 <if test="createTime != null" >
 			        #{createTime},
+                </if>
+                <if test="finishTime != null" >
+			        #{finishTime},
                 </if>
                 <if test="updateId != null" >
 			        #{updateId},
@@ -177,6 +184,9 @@
 	            <if test="createTime != null" >
 		            `create_time` = #{createTime},
 	            </if>
+	            <if test="finishTime != null" >
+		            `finish_time` = #{finishTime},
+	            </if>
 	            <if test="updateId != null" >
 		            `update_id` = #{updateId},
 	            </if>
@@ -189,7 +199,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.TradeOrder" >
         update  `trade_order` SET
-		    `rec_id`=#{recId},`import_data`=#{importData},`sell_id`=#{sellId},`buy_id`=#{buyId},`name`=#{name},`intro`=#{intro},`pay_no`=#{payNo},`pay_way`=#{payWay},`price`=#{price},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`import_data`=#{importData},`sell_id`=#{sellId},`buy_id`=#{buyId},`name`=#{name},`intro`=#{intro},`pay_no`=#{payNo},`pay_way`=#{payWay},`price`=#{price},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`finish_time`=#{finishTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -292,6 +302,14 @@
                     </if>
                     <if test="createTime.indexOf('%') lt 0" >
                         AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="finishTime != null" >
+                    <if test="finishTime.indexOf('%') >= 0" >
+                        AND `finish_time` like #{finishTime}
+                    </if>
+                    <if test="finishTime.indexOf('%') lt 0" >
+                        AND `finish_time` = #{finishTime}
                     </if>
             </if>
             <if test="updateId != null" >
@@ -411,6 +429,14 @@
 	            </if>
                 <if test="createTime.indexOf('%') lt 0" >
                     AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="finishTime != null" >
+	            <if test="finishTime.indexOf('%') >= 0" >
+				    AND `finish_time` like #{finishTime}
+	            </if>
+                <if test="finishTime.indexOf('%') lt 0" >
+                    AND `finish_time` = #{finishTime}
                 </if>
             </if>
             <if test="updateId != null" >

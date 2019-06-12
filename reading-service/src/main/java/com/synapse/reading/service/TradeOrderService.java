@@ -66,6 +66,20 @@ public class TradeOrderService extends TradeOrderBaseService {
         return tradeOrderRespository.selectByPrimaryKey(recId);
     }
 
+    public TradeOrderDetailResult findUserOrder(String recId) {
+        List<TradeOrderDetail> tradeOrderDetail = tradeOrderDetailRespository.findByTradeOrder(recId);
+       if(tradeOrderDetail!=null&&tradeOrderDetail.size()>0){
+           if (tradeOrderDetail.get(0).getProdType().equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
+           return   tradeOrderDetailRespository.findUserOrderLesson(recId);
+           }
+           if (tradeOrderDetail.get(0).getProdType().equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
+               return   tradeOrderDetailRespository.findUserOrderBook(recId);
+           }
+       }
+
+        return null;
+    }
+
     public List<TradeOrder> findByBuyId(String BuyId) {
         return tradeOrderRespository.findByBuyId(BuyId);
     }
@@ -211,13 +225,14 @@ public class TradeOrderService extends TradeOrderBaseService {
 
     public Integer countListUserBuyLesson(User user, String type) {
 
-        return tradeOrderDetailRespository.countListUserBuyLesson(user.getRecId(),type);
+        return tradeOrderDetailRespository.countListUserBuyLesson(user.getRecId(), type);
     }
 
     public Integer countListUserBuyBook(User user, String type) {
 
-        return tradeOrderDetailRespository.countListUserBuyBook(user.getRecId(),type);
+        return tradeOrderDetailRespository.countListUserBuyBook(user.getRecId(), type);
     }
+
     public List<TradeOrderDetailResult> listUserBuyBook(User user, String type, PageInfo pageInfo) {
 
         Map<String, Object> params = new HashMap<>();

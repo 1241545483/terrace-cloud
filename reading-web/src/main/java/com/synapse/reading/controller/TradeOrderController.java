@@ -246,6 +246,27 @@ public class TradeOrderController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "根据主键查询TradeOrder详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TradeOrderResult.class, message = "TradeOrder对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/user/tradeOrder/{recId}",method = RequestMethod.GET)
+    public ResponseEntity getUserOrder(@PathVariable("recId") String recId){
+        try {
+            TradeOrderDetailResult tradeOrder = tradeOrderService.findUserOrder(recId);
+            return ResponseEntity.ok(tradeOrder);
+        } catch (BusinessException e) {
+            logger.error("get TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
 	@ApiOperation(value = "创建TradeOrder")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),

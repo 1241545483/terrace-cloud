@@ -174,4 +174,11 @@ public class TradeOrderResult {
     }
 
 
+    public String getFinishTime() {
+        return tradeOrder.getFinishTime();
+    }
+
+    public void setFinishTime(String finishTime) {
+        tradeOrder.setFinishTime(finishTime);
+    }
 }
