@@ -17,6 +17,24 @@ import io.swagger.annotations.ApiModelProperty;
 public class TradeOrderDetailResult {
 
     private TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
+    private  String resourceName;
+    private  String resourceCover;
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+    public String getResourceCover() {
+        return resourceCover;
+    }
+
+    public void setResourceCover(String resourceCover) {
+        this.resourceCover = resourceCover;
+    }
 
     public TradeOrderDetailResult() {
     }

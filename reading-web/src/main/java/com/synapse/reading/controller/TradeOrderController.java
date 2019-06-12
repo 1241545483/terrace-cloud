@@ -6,6 +6,7 @@ import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.constants.TradeOrderConstants;
 import com.synapse.reading.dto.param.SchoolTradeOrderParam;
+import com.synapse.reading.dto.result.TradeOrderDetailResult;
 import com.synapse.reading.model.Book;
 import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.TradeOrder;
@@ -197,7 +198,7 @@ public class TradeOrderController extends BaseController{
             int totalNum = 0;
             if (type.equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
                 preparePageInfo(pageInfo, totalNum);
-                List<Lesson> results = tradeOrderService.listUserBuyLesson(user,type,pageInfo);
+                List<TradeOrderDetailResult> results = tradeOrderService.listUserBuyLesson(user,type,pageInfo);
                 totalNum =results.size() ;
                 Map<String, Object> map = new HashMap();
                 map.put("orderList", results);
@@ -206,7 +207,7 @@ public class TradeOrderController extends BaseController{
             }
             if (type.equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
                 preparePageInfo(pageInfo, totalNum);
-                List<Book> results = tradeOrderService.listUserBuyBook(user,type,pageInfo);
+                List<TradeOrderDetailResult> results = tradeOrderService.listUserBuyBook(user,type,pageInfo);
                 totalNum =results.size() ;
                 Map<String, Object> map = new HashMap();
                 map.put("ProdList", results);

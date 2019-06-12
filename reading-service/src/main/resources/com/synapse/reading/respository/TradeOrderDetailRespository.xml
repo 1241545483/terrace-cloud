@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.TradeOrderDetailRespository">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.TradeOrderDetailResult"
+               extends="com.synapse.reading.mapper.TradeOrderDetailMapper.BaseResultMap">
+        <id column="resource_name" property="resourceName"/>
+        <id column="resource_cover" property="resourceCover"/>
+    </resultMap>
+
+
     <select id="findByTradeOrder" resultMap="com.synapse.reading.mapper.TradeOrderDetailMapper.BaseResultMap" parameterType="java.lang.String" >
         select
         <include refid="com.synapse.reading.mapper.TradeOrderDetailMapper.Base_Column_List" />
@@ -19,5 +27,45 @@
         `trate_order_id` = #{tradeOrderId} AND
         `prod_type` = #{prodType}
     </select>
+
+    <select id="listradeOrderProdIdLesson" parameterType="map" resultMap="simpleRow">
+        select
+        a. `rec_id`,a.`trate_order_id`,a.`original_price`,a.`present_price`,a.`name`,a.`prod_type`,a.`prod_id`,a.`intro`,a.`preferential_way`,a.`status`,a.`create_id`,a.`create_time`,a.`update_id`,a.`update_time`
+        ,l.name resource_name ,l.banner  resource_cover
+        from `trade_order_detail` a
+        join  lesson l  ON  a.prod_id = l.rec_id
+        where
+        a.`trate_order_id` IN (
+        select
+        b.rec_id
+        from `trade_order` b
+        where
+        b.`buy_id` = #{userId} AND b.status=1
+        )
+        AND a.`prod_type` = #{type}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="listradeOrderProdIdBook" parameterType="map" resultMap="simpleRow">
+        select
+        a.*,l.name resource_name ,l.cover  resource_cover
+        from `trade_order_detail` a
+        join  book l  ON  a.prod_id = l.rec_id
+        where
+        a.`trate_order_id` IN (
+        select
+        b.rec_id
+        from `trade_order` b
+        where
+        b.`buy_id` = #{userId} AND b.status=1
+        )
+        AND a.`prod_type` = #{type}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
 
 </mapper>

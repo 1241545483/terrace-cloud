@@ -6,6 +6,7 @@ import com.synapse.reading.constants.TradeOrderDetailConstants;
 import com.synapse.reading.dto.param.LessonParam;
 import com.synapse.reading.dto.param.SchoolTradeOrderParam;
 import com.synapse.reading.dto.param.TradeOrderDetailParam;
+import com.synapse.reading.dto.result.TradeOrderDetailResult;
 import com.synapse.reading.model.*;
 import com.synapse.reading.respository.BookRespository;
 import com.synapse.reading.respository.LessonRespository;
@@ -198,24 +199,24 @@ public class TradeOrderService extends TradeOrderBaseService {
         return results;
     }
 
-    public List<Lesson> listUserBuyLesson(User user, String type, PageInfo pageInfo) {
+    public List<TradeOrderDetailResult> listUserBuyLesson(User user, String type, PageInfo pageInfo) {
 
         Map<String, Object> params = new HashMap<>();
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         params.put("type", type);
         params.put("userId", user.getRecId());
-        return lessonRespository.listradeOrderProdId(params);
+        return tradeOrderDetailRespository.listradeOrderProdIdLesson(params);
     }
 
-    public List<Book> listUserBuyBook(User user, String type, PageInfo pageInfo) {
+    public List<TradeOrderDetailResult> listUserBuyBook(User user, String type, PageInfo pageInfo) {
 
         Map<String, Object> params = new HashMap<>();
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         params.put("type", type);
         params.put("userId", user.getRecId());
-        return bookRespository.listradeOrderProdIdBooks(params);
+        return tradeOrderDetailRespository.listradeOrderProdIdBook(params);
     }
 
     public List<Lesson> listBuyLesson(SchoolTradeOrderParam schoolTradeOrderParam, PageInfo pageInfo) {
