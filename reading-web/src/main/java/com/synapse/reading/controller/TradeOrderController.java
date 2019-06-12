@@ -246,7 +246,7 @@ public class TradeOrderController extends BaseController{
         }
     }
 
-    @ApiOperation(value = "根据主键查询TradeOrder详情")
+    @ApiOperation(value = "根据主键查询TradeOrder详情（当前用户订单）")
     @ApiResponses({
             @ApiResponse(code = 200, response = TradeOrderResult.class, message = "TradeOrder对象"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
