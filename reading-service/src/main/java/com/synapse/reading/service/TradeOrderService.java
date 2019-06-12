@@ -209,6 +209,15 @@ public class TradeOrderService extends TradeOrderBaseService {
         return tradeOrderDetailRespository.listradeOrderProdIdLesson(params);
     }
 
+    public Integer countListUserBuyLesson(User user, String type) {
+
+        return tradeOrderDetailRespository.countListUserBuyLesson(user.getRecId(),type);
+    }
+
+    public Integer countListUserBuyBook(User user, String type) {
+
+        return tradeOrderDetailRespository.countListUserBuyBook(user.getRecId(),type);
+    }
     public List<TradeOrderDetailResult> listUserBuyBook(User user, String type, PageInfo pageInfo) {
 
         Map<String, Object> params = new HashMap<>();

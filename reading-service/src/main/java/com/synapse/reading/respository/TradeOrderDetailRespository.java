@@ -24,5 +24,10 @@ public interface TradeOrderDetailRespository extends TradeOrderDetailMapper {
     List<String> findTradeOrderProdId(@Param("tradeOrderId") String tradeOrderId, @Param("prodType") String prodType);
 
     List<TradeOrderDetailResult> listradeOrderProdIdLesson(Map<String, Object> params);
+
     List<TradeOrderDetailResult> listradeOrderProdIdBook(Map<String, Object> params);
+
+    Integer countListUserBuyLesson(@Param("userId") String userId, @Param("type") String type);
+
+    Integer countListUserBuyBook(@Param("userId") String userId, @Param("type") String type);
 }

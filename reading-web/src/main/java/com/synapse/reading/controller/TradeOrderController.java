@@ -199,7 +199,7 @@ public class TradeOrderController extends BaseController{
             if (type.equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
                 preparePageInfo(pageInfo, totalNum);
                 List<TradeOrderDetailResult> results = tradeOrderService.listUserBuyLesson(user,type,pageInfo);
-                totalNum =results.size() ;
+                totalNum =tradeOrderService.countListUserBuyLesson(user,type) ;
                 Map<String, Object> map = new HashMap();
                 map.put("orderList", results);
                 map.put("totalNum", totalNum);
@@ -208,7 +208,7 @@ public class TradeOrderController extends BaseController{
             if (type.equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
                 preparePageInfo(pageInfo, totalNum);
                 List<TradeOrderDetailResult> results = tradeOrderService.listUserBuyBook(user,type,pageInfo);
-                totalNum =results.size() ;
+                totalNum =tradeOrderService.countListUserBuyBook(user,type) ;
                 Map<String, Object> map = new HashMap();
                 map.put("orderList", results);
                 map.put("totalNum", totalNum);
