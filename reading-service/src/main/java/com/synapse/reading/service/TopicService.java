@@ -6,6 +6,7 @@ import com.synapse.reading.constants.AudioConstants;
 import com.synapse.reading.constants.TopicConstants;
 import com.synapse.reading.dto.param.AlbumParam;
 import com.synapse.reading.dto.param.AudioParam;
+import com.synapse.reading.dto.param.OrderNumParam;
 import com.synapse.reading.dto.result.AlbumResult;
 import com.synapse.reading.dto.result.SectionResult;
 import com.synapse.reading.model.Album;
@@ -74,6 +75,16 @@ public class TopicService extends TopicBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
         return topicRespository.updateByPrimaryKeySelective(param);
+    }
+
+    public Integer updatByorderNum(List<OrderNumParam> lists) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        int num =0;
+        for (OrderNumParam  param:lists) {
+            topicRespository.updatByorderNum(param);
+            num++;
+        }
+        return num;
     }
 
     public String create(Topic param) {

@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.dto.param.OrderNumParam;
 import com.synapse.reading.model.Audio;
 import com.synapse.reading.model.Topic;
 import com.synapse.reading.dto.param.TopicParam;
@@ -221,6 +222,33 @@ public class TopicController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
 	}
+
+    @ApiOperation(value = "更新Topic排列顺序")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/topic/updatByorderNum", method = RequestMethod.PUT)
+    public ResponseEntity updatByorderNum(@RequestBody @Validated(Update.class) List<OrderNumParam> list, BindingResult bindingResult){
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            Integer num = topicService.updatByorderNum(list);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("update Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Topic Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
     @ApiOperation(value = "修改电台为发布状态")
     @ApiResponses({

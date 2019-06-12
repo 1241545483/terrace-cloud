@@ -7,6 +7,8 @@ import com.synapse.reading.dto.param.LessonParam;
 import com.synapse.reading.dto.param.SchoolTradeOrderParam;
 import com.synapse.reading.dto.param.TradeOrderDetailParam;
 import com.synapse.reading.model.*;
+import com.synapse.reading.respository.BookRespository;
+import com.synapse.reading.respository.LessonRespository;
 import com.synapse.reading.respository.TradeOrderDetailRespository;
 import com.synapse.reading.respository.TradeOrderRespository;
 import com.synapse.reading.dto.param.TradeOrderParam;
@@ -54,6 +56,10 @@ public class TradeOrderService extends TradeOrderBaseService {
     private BookService bookService;
     @Autowired
     private TradeOrderDetailRespository tradeOrderDetailRespository;
+    @Autowired
+    private LessonRespository lessonRespository;
+    @Autowired
+    private BookRespository bookRespository;
 
     public TradeOrder find(String recId) {
         return tradeOrderRespository.selectByPrimaryKey(recId);
@@ -190,6 +196,26 @@ public class TradeOrderService extends TradeOrderBaseService {
             }
         }
         return results;
+    }
+
+    public List<Lesson> listUserBuyLesson(User user, String type, PageInfo pageInfo) {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        params.put("type", type);
+        params.put("userId", user.getRecId());
+        return lessonRespository.listradeOrderProdId(params);
+    }
+
+    public List<Book> listUserBuyBook(User user, String type, PageInfo pageInfo) {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        params.put("type", type);
+        params.put("userId", user.getRecId());
+        return bookRespository.listradeOrderProdIdBooks(params);
     }
 
     public List<Lesson> listBuyLesson(SchoolTradeOrderParam schoolTradeOrderParam, PageInfo pageInfo) {

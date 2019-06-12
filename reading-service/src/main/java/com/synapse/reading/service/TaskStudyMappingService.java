@@ -29,33 +29,33 @@ import java.util.HashMap;
 @Transactional
 public class TaskStudyMappingService extends TaskStudyMappingBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private TaskStudyMappingRespository taskStudyMappingRespository;
 
-    public TaskStudyMapping find(String recId){
-	    return taskStudyMappingRespository.selectByPrimaryKey(recId);
+    public TaskStudyMapping find(String recId) {
+        return taskStudyMappingRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(TaskStudyMapping param){
+    public Integer update(TaskStudyMapping param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return taskStudyMappingRespository.updateByPrimaryKeySelective(param);
+        return taskStudyMappingRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(TaskStudyMapping param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
-		param.setStatus(TaskStudyMappingConstants.STATUS.OK.num());
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
+        param.setStatus(TaskStudyMappingConstants.STATUS.OK.num());
         taskStudyMappingRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId, String updateId) {
+    public Integer delete(String recId, String updateId) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         TaskStudyMapping model = new TaskStudyMapping();
         model.setRecId(recId);
@@ -65,18 +65,33 @@ public class TaskStudyMappingService extends TaskStudyMappingBaseService {
         return taskStudyMappingRespository.updateByPrimaryKeySelective(model);
     }
 
-	public List<TaskStudyMapping> list(TaskStudyMapping taskStudyMappingParam, PageInfo pageInfo) {
-		taskStudyMappingParam.setStatus(TaskStudyMappingConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(taskStudyMappingParam);
+    public Integer deleteByStudyId(String recId, String updateId) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        TaskStudyMapping model = new TaskStudyMapping();
+        model.setStudyId(recId);
+        model.setUpdateId(updateId);
+        model.setUpdateTime(now);
+        model.setStatus(TaskStudyMappingConstants.STATUS.DELETED.num());
+        return taskStudyMappingRespository.deleteByStudyId(model);
+    }
+
+    public List<TaskStudyMapping> list(TaskStudyMapping taskStudyMappingParam, PageInfo pageInfo) {
+        taskStudyMappingParam.setStatus(TaskStudyMappingConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(taskStudyMappingParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return taskStudyMappingRespository.list(params);
-	}
+    }
 
-	public Integer count(TaskStudyMapping taskStudyMappingParam) {
-		taskStudyMappingParam.setStatus(TaskStudyMappingConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(taskStudyMappingParam);
+    public Integer count(TaskStudyMapping taskStudyMappingParam) {
+        taskStudyMappingParam.setStatus(TaskStudyMappingConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(taskStudyMappingParam);
         return taskStudyMappingRespository.count(params);
+    }
+
+    //获取关联的资源idS
+    public List<String> getStudyIds(String taskId, String type) {
+        return taskStudyMappingRespository.getStudyIds(taskId, type);
     }
 
 }

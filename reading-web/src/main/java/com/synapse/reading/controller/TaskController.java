@@ -100,8 +100,8 @@ public class TaskController extends BaseController{
     @RequestMapping(value = "/v1/task/{recId}",method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
-            Task task = taskService.find(recId);
-            return ResponseEntity.ok(new TaskResult(task));
+            TaskResult task = taskService.findByStudy(recId);
+            return ResponseEntity.ok(task);
         } catch (BusinessException e) {
             logger.error("get Task Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
@@ -143,6 +143,39 @@ public class TaskController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "创建Task,并添加平台有的课程或者书籍作为任务")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = String.class, message = "主键"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/task/study", method = RequestMethod.POST)
+    public ResponseEntity createByStudy(@RequestBody @Validated(Create.class) TaskParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            Task model = param.getModel();
+            model.setCreateId(user.getRecId());
+            model.setUpdateId(user.getRecId());
+            String recId = taskService.createByStudy(param);
+            return ResponseEntity.ok(recId);
+        } catch (BusinessException e) {
+            logger.error("create Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("create Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
 	@ApiOperation(value = "根据主键删除Task")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
@@ -154,7 +187,7 @@ public class TaskController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-			Integer num = taskService.delete(recId,user.getRecId());
+			Integer num = taskService.deleteByStudy(recId,user.getRecId());
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("delete Task Error!", e);
@@ -185,7 +218,7 @@ public class TaskController extends BaseController{
 	        Task model = param.getModel();
 	        model.setRecId(recId);
             model.setUpdateId(user.getRecId());
-	        Integer num = taskService.update(model);
+	        Integer num = taskService.updateByStudy(param);
 	        return ResponseEntity.ok(num);
         } catch (BusinessException e) {
 	        logger.error("update Task Error!", e);

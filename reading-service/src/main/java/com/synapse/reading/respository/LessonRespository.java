@@ -1,9 +1,8 @@
 package com.synapse.reading.respository;
 
-import com.synapse.reading.dto.result.MemberResult;
+import com.synapse.reading.dto.param.OrderNumParam;
 import com.synapse.reading.mapper.LessonMapper;
 import com.synapse.reading.model.Lesson;
-import com.synapse.reading.model.Member;
 import feign.Param;
 
 import java.util.List;
@@ -20,6 +19,7 @@ import java.util.Map;
 public interface LessonRespository extends LessonMapper {
 
     List<Lesson> listLessonByOrg(Map<String, Object> params);
+    List<Lesson> listByLessonIds(@Param("lessonIds")List<String> lessonIds);
     Integer countListLessonByOrg(Map<String, Object> params);
     List<Lesson> listLessonByMyself(Map<String, Object> params);
     Integer countListLessonByMyself(Map<String, Object> params);
@@ -28,4 +28,7 @@ public interface LessonRespository extends LessonMapper {
     List<Lesson> listbyexpertLessons(@Param("expertId")String expertId);
     List<Lesson> listbyexpertAll(Map<String, Object> params);
     Integer countListbyexpertAll(@Param("expertId")String expertId);
+    Integer updateByorderNum(@Param("orderNumParam")OrderNumParam orderNumParam);
+
+    List<Lesson> listradeOrderProdId(Map<String, Object> params);
 }

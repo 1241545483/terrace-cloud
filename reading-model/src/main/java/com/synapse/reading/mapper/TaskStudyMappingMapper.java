@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-06-11
+ * @since 2019-06-12
  */
 public interface TaskStudyMappingMapper {
     TaskStudyMapping selectByPrimaryKey(String recId);

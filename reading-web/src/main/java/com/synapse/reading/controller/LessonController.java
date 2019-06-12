@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.dto.param.OrderNumParam;
 import com.synapse.reading.dto.result.ExpertResult;
 import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.event.EventBus;
@@ -299,6 +300,34 @@ public class LessonController extends BaseController {
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+    @ApiOperation(value = "拖拽更新课程排列顺序")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/lesson/updatByorderNum", method = RequestMethod.PUT)
+    public ResponseEntity updatByorderNum(@RequestBody @Validated(Update.class)  List<OrderNumParam> list, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            Integer num = lessonService.updatByorderNum(list);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("update Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Lesson Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
     @ApiOperation(value = "创建课程，若需要章节，则创建，视频是添加进章节或课程")
     @ApiResponses({

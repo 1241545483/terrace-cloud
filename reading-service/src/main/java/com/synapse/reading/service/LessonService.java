@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.reading.constants.VideoConstants;
-import com.synapse.reading.dto.param.MiniQrcodeParam;
-import com.synapse.reading.dto.param.SectionParam;
-import com.synapse.reading.dto.param.VideoParam;
+import com.synapse.reading.dto.param.*;
 import com.synapse.reading.dto.result.*;
 import com.synapse.reading.model.*;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.respository.*;
-import com.synapse.reading.dto.param.LessonParam;
 import com.synapse.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,6 +85,18 @@ public class LessonService extends LessonBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
         return lessonRespository.updateByPrimaryKeySelective(param);
+    }
+
+    public Integer updatByorderNum(List<OrderNumParam> lists) {
+        int num =0;
+        for (OrderNumParam  param:lists) {
+            Lesson lesson =new Lesson() ;
+            lesson.setRecId(param.getRecId());
+            lesson.setOrderNum(Integer.parseInt(param.getOrderNum()));
+            lessonRespository.updateByPrimaryKeySelective(lesson);
+            num++;
+        }
+        return num;
     }
 
     public String create(Lesson param) {
@@ -365,5 +374,8 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.countListLessonByOrg(params);
     }
 
+    public List<Lesson> listByLessonIds( List<String> lessonIds) {
+        return lessonRespository.listByLessonIds(lessonIds);
+    }
 
 }

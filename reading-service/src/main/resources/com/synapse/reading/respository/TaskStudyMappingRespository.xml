@@ -2,4 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.TaskStudyMappingRespository">
 
+
+    <update id="deleteByStudyId" parameterType="com.synapse.reading.model.TaskStudyMapping" >
+        update `task_study_mapping`
+        <set >
+            <if test="recId != null" >
+                `rec_id` = #{recId},
+            </if>
+            <if test="taskId != null" >
+                `task_id` = #{taskId},
+            </if>
+            <if test="studyId != null" >
+                `study_id` = #{studyId},
+            </if>
+            <if test="studyType != null" >
+                `study_type` = #{studyType},
+            </if>
+            <if test="status != null" >
+                `status` = #{status},
+            </if>
+            <if test="createId != null" >
+                `create_id` = #{createId},
+            </if>
+            <if test="updateId != null" >
+                `update_id` = #{updateId},
+            </if>
+            <if test="createTime != null" >
+                `create_time` = #{createTime},
+            </if>
+            <if test="updateTime != null" >
+                `update_time` = #{updateTime},
+            </if>
+        </set>
+        where
+        `study_id` = #{studyId}
+    </update>
+
+    <select id="getStudyIds" parameterType="map" resultType="java.lang.String">
+        select
+           study_id
+        from `task_study_mapping`
+        where 1 = 1
+                AND ` task_id` = #{studyId}
+                AND `study_type` = #{type}
+                AND `status` = 1
+    </select>
+
 </mapper>

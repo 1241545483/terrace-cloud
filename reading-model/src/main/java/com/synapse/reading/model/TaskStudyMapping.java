@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-06-11
+ * @since 2019-06-12
  */
 public class TaskStudyMapping implements Serializable {
 

@@ -9,6 +9,7 @@
         <result column="intro" property="intro" />
         <result column="study_type" property="studyType" />
         <result column="study_id" property="studyId" />
+        <result column="class_id" property="classId" />
         <result column="status" property="status" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`name`,`intro`,`study_type`,`study_id`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
+      `rec_id`,`name`,`intro`,`study_type`,`study_id`,`class_id`,`status`,`create_id`,`create_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -33,7 +34,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.Task">
         insert into `task`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{name},#{intro},#{studyType},#{studyId},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
+        values (#{recId},#{name},#{intro},#{studyType},#{studyId},#{classId},#{status},#{createId},#{createTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -59,6 +60,9 @@
                 </if>
                 <if test="studyId != null" >
                     `study_id`,
+                </if>
+                <if test="classId != null" >
+                    `class_id`,
                 </if>
                 <if test="status != null" >
                     `status`,
@@ -91,6 +95,9 @@
                 </if>
                 <if test="studyId != null" >
 			        #{studyId},
+                </if>
+                <if test="classId != null" >
+			        #{classId},
                 </if>
                 <if test="status != null" >
 			        #{status},
@@ -128,6 +135,9 @@
 	            <if test="studyId != null" >
 		            `study_id` = #{studyId},
 	            </if>
+	            <if test="classId != null" >
+		            `class_id` = #{classId},
+	            </if>
 	            <if test="status != null" >
 		            `status` = #{status},
 	            </if>
@@ -149,7 +159,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.Task" >
         update  `task` SET
-		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`study_type`=#{studyType},`study_id`=#{studyId},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`name`=#{name},`intro`=#{intro},`study_type`=#{studyType},`study_id`=#{studyId},`class_id`=#{classId},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -196,6 +206,14 @@
                     </if>
                     <if test="studyId.indexOf('%') lt 0" >
                         AND `study_id` = #{studyId}
+                    </if>
+            </if>
+            <if test="classId != null" >
+                    <if test="classId.indexOf('%') >= 0" >
+                        AND `class_id` like #{classId}
+                    </if>
+                    <if test="classId.indexOf('%') lt 0" >
+                        AND `class_id` = #{classId}
                     </if>
             </if>
             <if test="status != null" >
@@ -283,6 +301,14 @@
 	            </if>
                 <if test="studyId.indexOf('%') lt 0" >
                     AND `study_id` = #{studyId}
+                </if>
+            </if>
+            <if test="classId != null" >
+	            <if test="classId.indexOf('%') >= 0" >
+				    AND `class_id` like #{classId}
+	            </if>
+                <if test="classId.indexOf('%') lt 0" >
+                    AND `class_id` = #{classId}
                 </if>
             </if>
             <if test="status != null" >

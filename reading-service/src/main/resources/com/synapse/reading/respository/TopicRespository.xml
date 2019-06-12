@@ -45,4 +45,10 @@
     </update>
 
 
+    <update id="updatByorderNum" parameterType="map">
+        update topic
+            set order_num= #{param.orderNum,jdbcType=VARCHAR}
+            where  rec_id = #{param.recId,jdbcType=VARCHAR}
+    </update>
+
 </mapper>

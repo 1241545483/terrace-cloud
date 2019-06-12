@@ -180,6 +180,51 @@ public class TradeOrderController extends BaseController{
         }
     }
 
+    @ApiOperation(value = "查询用户已购买课程和书籍)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TradeOrderResult.class, message = "TradeOrder列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/tradeOrder/user/buy",method = RequestMethod.GET)
+    public ResponseEntity listUserBuy(PageInfo pageInfo,  String type, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            int totalNum = 0;
+            if (type.equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
+                preparePageInfo(pageInfo, totalNum);
+                List<Lesson> results = tradeOrderService.listUserBuyLesson(user,type,pageInfo);
+                totalNum =results.size() ;
+                Map<String, Object> map = new HashMap();
+                map.put("ProdList", results);
+                map.put("totalNum", totalNum);
+                return ResponseEntity.ok(map);
+            }
+            if (type.equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
+                preparePageInfo(pageInfo, totalNum);
+                List<Book> results = tradeOrderService.listUserBuyBook(user,type,pageInfo);
+                totalNum =results.size() ;
+                Map<String, Object> map = new HashMap();
+                map.put("ProdList", results);
+                map.put("totalNum", totalNum);
+                return ResponseEntity.ok(map);
+            }
+            return  ResponseEntity.ok(null);
+        } catch (BusinessException e) {
+            logger.error("list TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
     @ApiOperation(value = "根据主键查询TradeOrder详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = TradeOrderResult.class, message = "TradeOrder对象"),

@@ -51,6 +51,15 @@
 
     </select>
 
+    <select id="listByLessonIds" parameterType="map" resultMap="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
+        SELECT * FROM lesson
+        WHERE 1=1
+        AND rec_id IN
+        <foreach close=")" collection="lessonIds" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
     <select id="countListLessonByOrg" parameterType="map" resultType="int">
 
         SELECT count(1)
@@ -101,6 +110,33 @@
                  where d.ORGANIZATION=#{ORGANIZATION, jdbcType=VARCHAR} AND d.user_id=#{userId, jdbcType=VARCHAR} and  c.rec_id=#{lessonId, jdbcType=VARCHAR}
 
              ) s
+    </select>
+
+
+    <update id="updateByorderNum" parameterType="map">
+        update lesson
+        set order_num= #{orderNumParam.orderNum,jdbcType=VARCHAR}
+        where  rec_id = #{orderNumParam.recId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="listradeOrderProdId" parameterType="map" resultMap="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
+        SELECT * FROM lesson
+        WHERE  rec_id IN (
+        select
+         a.prod_id
+        from `trade_order_detail` a
+        where
+       a.`trate_order_id` IN (
+        select
+        b.rec_id
+        from `trade_order` b
+        where
+        b.`buy_id` = #{userId} AND b.status=1
+        )
+        AND a.`prod_type` = #{type})
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
     </select>
 
 </mapper>

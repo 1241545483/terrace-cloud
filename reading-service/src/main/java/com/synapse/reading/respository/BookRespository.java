@@ -4,9 +4,11 @@ import com.synapse.reading.dto.result.AudioResult;
 import com.synapse.reading.dto.result.BookResult;
 import com.synapse.reading.mapper.BookMapper;
 import com.synapse.reading.model.Book;
+import com.synapse.reading.model.Lesson;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,4 +32,10 @@ public interface BookRespository extends BookMapper {
     修改书籍为未发布状态
     */
     Integer bookUnPublished(@Param("recId") String recId);
+
+    List<Book> listByBookIds(@Param("bookIds")List<String> bookIds);
+
+    List<Book> listradeOrderProdIdBooks(Map<String, Object> params);
+
+
 }

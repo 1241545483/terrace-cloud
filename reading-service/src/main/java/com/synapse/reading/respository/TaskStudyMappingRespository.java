@@ -1,6 +1,11 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.TaskStudyMappingMapper;
+import com.synapse.reading.model.TaskStudyMapping;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -12,4 +17,7 @@ import com.synapse.reading.mapper.TaskStudyMappingMapper;
  */
 public interface TaskStudyMappingRespository extends TaskStudyMappingMapper {
 
+    Integer deleteByStudyId(TaskStudyMapping model);
+
+    List<String> getStudyIds(@Param("taskId") String taskId,@Param("type") String type);
 }

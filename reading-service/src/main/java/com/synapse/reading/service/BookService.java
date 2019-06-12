@@ -126,6 +126,10 @@ public class BookService extends BookBaseService {
         return bookRespository.listMyCollectByBook(userId);
     }
 
+    public List<Book> listByBookIds( List<String> bookIds) {
+        return bookRespository.listByBookIds(bookIds);
+    }
+
     /*
         修改专辑为发布状态
         */

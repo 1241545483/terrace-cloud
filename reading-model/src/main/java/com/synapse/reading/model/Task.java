@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-06-11
+ * @since 2019-06-12
  */
 public class Task implements Serializable {
 
@@ -33,6 +33,10 @@ public class Task implements Serializable {
      * 学习相关id
      */
     private String studyId;
+    /**
+     * 班级id
+     */
+    private String classId;
     /**
      * 班级状态
      */
@@ -93,6 +97,14 @@ public class Task implements Serializable {
 
     public void setStudyId(String studyId) {
         this.studyId = studyId;
+    }
+
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
     public String getStatus() {

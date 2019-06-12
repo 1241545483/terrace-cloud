@@ -9,6 +9,9 @@ import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * TaskParam
@@ -20,12 +23,22 @@ import com.synapse.reading.web.valid.group.Search;
 @ApiModel(value = "TaskParam对象", description = "任务")
 public class TaskParam  {
 
+    private List<ClassTaskStudyParam> classTaskStudyParams = new ArrayList<>();// 子列表
+
     private Task  task = new Task();
 
     public TaskParam(){}
 
     public TaskParam(Task  task){
         this.task = task;
+    }
+
+    public List<ClassTaskStudyParam> getClassTaskStudyParams() {
+        return classTaskStudyParams;
+    }
+
+    public void setClassTaskStudyParams(List<ClassTaskStudyParam> classTaskStudyParams) {
+        this.classTaskStudyParams = classTaskStudyParams;
     }
 
     @JsonIgnore
@@ -127,4 +140,13 @@ public String getUpdateTime() {
 		task.setUpdateTime(update_time);
 	}
 
+    public String getClassId() {
+        return task.getClassId();
     }
+
+    public void setClassId(String classId) {
+        task.setClassId(classId);
+    }
+
+
+}

@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-06-11
+ * @since 2019-06-12
  */
 public class TaskBaseService {
 
@@ -31,6 +31,9 @@ public class TaskBaseService {
         }
         if (taskParam.getStudyId() != null && !taskParam.getStudyId().trim().equals("")) {
             params.put("studyId", taskParam.getStudyId());
+        }
+        if (taskParam.getClassId() != null && !taskParam.getClassId().trim().equals("")) {
+            params.put("classId", taskParam.getClassId());
         }
         if (taskParam.getStatus() != null && !taskParam.getStatus().trim().equals("")) {
             params.put("status", taskParam.getStatus());

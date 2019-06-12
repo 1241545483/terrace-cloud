@@ -76,4 +76,34 @@
     </update>
 
 
+    <select id="listByBookIds" parameterType="map" resultMap="com.synapse.reading.mapper.BookMapper.BaseResultMap">
+        SELECT * FROM book
+        WHERE 1=1
+        AND rec_id IN
+        <foreach close=")" collection="bookIds" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listradeOrderProdIdBooks" parameterType="map" resultMap="com.synapse.reading.mapper.BookMapper.BaseResultMap">
+        SELECT * FROM book
+        WHERE  rec_id IN (
+        select
+        a.prod_id
+        from `trade_order_detail` a
+        where
+        a.`trate_order_id` IN (
+        select
+        b.rec_id
+        from `trade_order` b
+        where
+        b.`buy_id` = #{userId} AND b.status=1
+        )
+        AND a.`prod_type` = #{type})
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+
 </mapper>

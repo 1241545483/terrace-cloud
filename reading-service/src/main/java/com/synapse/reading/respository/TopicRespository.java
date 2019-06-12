@@ -1,7 +1,9 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.param.OrderNumParam;
 import com.synapse.reading.mapper.TopicMapper;
 import com.synapse.reading.model.Audio;
+import com.synapse.reading.model.Topic;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,4 +32,7 @@ public interface TopicRespository extends TopicMapper {
     修改专辑为未发布状态
     */
     Integer topicUnPublished(@Param("recId") String recId);
+
+    Integer updatByorderNum(@Param("param")OrderNumParam param);
+
 }
