@@ -20,4 +20,6 @@ public interface TaskStudyMappingRespository extends TaskStudyMappingMapper {
     Integer deleteByStudyId(TaskStudyMapping model);
 
     List<String> getStudyIds(@Param("taskId") String taskId,@Param("type") String type);
+
+    Integer getNum(String userId);
 }

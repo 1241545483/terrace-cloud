@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.reading.constants.LessonConstants;
 import com.synapse.reading.dto.param.ClassTaskStudyParam;
 import com.synapse.reading.model.Book;
@@ -11,6 +12,7 @@ import com.synapse.reading.respository.TaskRespository;
 import com.synapse.reading.dto.param.TaskParam;
 import com.synapse.reading.dto.result.TaskResult;
 import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.respository.TaskStudyMappingRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,15 +48,15 @@ public class TaskService extends TaskBaseService {
     private LessonService lessonService;
     @Autowired
     private BookService bookService;
+    @Autowired
+    private TaskStudyMappingRespository taskStudyMappingRespository;
 
     public Task find(String recId) {
         return taskRespository.selectByPrimaryKey(recId);
     }
 
     public TaskResult findByStudy(String recId) {
-        Task task = taskRespository.selectByPrimaryKey(recId);
-        TaskResult taskResult = new TaskResult();
-        taskResult.setModel(task);
+        TaskResult taskResult = taskRespository.selectTask(recId);
         List<String> lessonIds = taskStudyMappingService.getStudyIds(recId, "lesson");
         List<Lesson> lessons = lessonService.listByLessonIds(lessonIds);
         if (lessons != null && lessons.size() > 0) {
@@ -68,6 +70,10 @@ public class TaskService extends TaskBaseService {
         return taskResult;
     }
 
+    public Integer getNum(String userId) {
+        return taskStudyMappingRespository.getNum(userId);
+    }
+
     public Integer update(Task param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
@@ -78,10 +84,11 @@ public class TaskService extends TaskBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.getModel().setUpdateTime(now);
         taskRespository.updateByPrimaryKeySelective(param.getModel());
-        taskStudyMappingService.deleteByStudyId(param.getRecId(), param.getUpdateId());
+        taskStudyMappingService.deleteByStudyId(param.getRecId());
         if (param.getClassTaskStudyParams() != null && param.getClassTaskStudyParams().size() > 0) {
             for (ClassTaskStudyParam classTaskStudyParam : param.getClassTaskStudyParams()) {
                 TaskStudyMapping taskStudyMapping = new TaskStudyMapping();
+                taskStudyMapping.setTaskId(param.getRecId());
                 taskStudyMapping.setStudyId(classTaskStudyParam.getStudyId());
                 taskStudyMapping.setStudyType(classTaskStudyParam.getStudyType());
                 taskStudyMappingService.create(taskStudyMapping);
@@ -101,6 +108,7 @@ public class TaskService extends TaskBaseService {
         if (param.getClassTaskStudyParams() != null && param.getClassTaskStudyParams().size() > 0) {
             for (ClassTaskStudyParam classTaskStudyParam : param.getClassTaskStudyParams()) {
                 TaskStudyMapping taskStudyMapping = new TaskStudyMapping();
+                taskStudyMapping.setTaskId(param.getRecId());
                 taskStudyMapping.setStudyId(classTaskStudyParam.getStudyId());
                 taskStudyMapping.setStudyType(classTaskStudyParam.getStudyType());
                 taskStudyMappingService.create(taskStudyMapping);
@@ -126,7 +134,7 @@ public class TaskService extends TaskBaseService {
         model.setUpdateId(updateId);
         model.setUpdateTime(now);
         model.setStatus(TaskConstants.STATUS.DELETED.num());
-        taskStudyMappingService.deleteByStudyId(recId, updateId);
+        taskStudyMappingService.deleteByStudyId(recId);
         return taskRespository.updateByPrimaryKeySelective(model);
     }
 
@@ -147,6 +155,19 @@ public class TaskService extends TaskBaseService {
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return taskRespository.list(params);
+    }
+
+    public List<TaskResult> listByUser(User user, PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        params.put("userId",user.getRecId());
+        return taskRespository.listByUser(params);
+    }
+
+    public Integer countListByUser(User user) {
+
+        return taskRespository.countListByUser(user.getRecId());
     }
 
     public Integer count(Task taskParam) {

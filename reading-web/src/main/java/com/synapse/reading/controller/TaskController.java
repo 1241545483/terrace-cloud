@@ -92,6 +92,38 @@ public class TaskController extends BaseController{
         }
 	}
 
+    @ApiOperation(value = "查询用户自己的Task列表(分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TaskResult.class, message = "Task列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/task/user/list",method = RequestMethod.GET)
+    public ResponseEntity listByUser(PageInfo pageInfo, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            int totalNum = taskService.countListByUser(user);
+            preparePageInfo(pageInfo, totalNum);
+            List<TaskResult> results = taskService.listByUser(user,pageInfo);
+            Map<String, Object> map = new HashMap();
+            map.put("taskList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
 	@ApiOperation(value = "根据主键查询Task详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = TaskResult.class, message = "Task对象"),
@@ -109,6 +141,28 @@ public class TaskController extends BaseController{
             logger.error("get Task Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR)
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "获取用户未接受通知的数量")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TaskResult.class, message = "Task对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/task/num",method = RequestMethod.GET)
+    public ResponseEntity getNum(){
+        try {
+            User user = UserContext.getUser();
+
+            Integer num = taskService.getNum(user.getRecId());
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("get Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
 

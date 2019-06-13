@@ -2,4 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.TaskRespository">
 
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.TaskResult"
+               extends="com.synapse.reading.mapper.TaskMapper.BaseResultMap">
+        <id column="class_name" property="className"/>
+        <id column="teacher_name" property="teacherName"/>
+    </resultMap>
+
+    <select id="listByUser" parameterType="map" resultMap="simpleRow">
+        SELECT a.*,b.name class_name,c.name teacher_name FROM  task a
+        join class_info b on a.class_id= b.rec_id
+        left join  member c on b.create_id = c.user_id
+        where class_id IN
+        (select
+        class_id
+        from `class_student_mapping`
+        where 1 = 1
+        AND `student_id` = #{userId})
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="selectTask" resultMap="simpleRow" parameterType="java.lang.String" >
+        select
+            a.*,b.name class_name,c.name teacher_name
+        from `task` a
+        join class_info b on a.class_id= b.rec_id
+        left join  member c on b.create_id = c.user_id
+        where
+            a.`rec_id` = #{recId}
+    </select>
+
+
+    <select id="countListByUser" parameterType="java.lang.String" resultType="int">
+        SELECT count(1) FROM  task a
+        join class_info b on a.class_id= b.rec_id
+        left join  member c on b.create_id = c.user_id
+        where class_id IN
+        (select
+        class_id
+        from `class_student_mapping`
+        where 1 = 1
+        AND `student_id` = #{userId})
+
+    </select>
+
 </mapper>

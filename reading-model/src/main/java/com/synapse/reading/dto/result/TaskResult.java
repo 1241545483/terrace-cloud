@@ -21,6 +21,9 @@ import java.util.List;
  */
 @ApiModel(value = "TaskResult对象", description = "任务")
 public class TaskResult {
+    private String className;
+
+    private String teacherName;
 
     private Task task = new Task();
 
@@ -49,6 +52,22 @@ public class TaskResult {
 
     public void setLessonList(List<Lesson> lessonList) {
         this.lessonList = lessonList;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     @JsonIgnore

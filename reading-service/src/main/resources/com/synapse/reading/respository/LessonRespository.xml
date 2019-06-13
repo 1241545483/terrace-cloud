@@ -55,7 +55,7 @@
         SELECT * FROM lesson
         WHERE 1=1
         AND rec_id IN
-        <foreach close=")" collection="lessonIds" index="index" item="item" open="(" separator=",">
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
             #{item}
         </foreach>
     </select>

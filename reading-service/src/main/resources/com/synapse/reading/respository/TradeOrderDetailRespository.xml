@@ -10,7 +10,7 @@
         <id column="orderPrice" property="orderPrice"/>
         <id column="resourceIntro" property="resourceIntro"/>
         <id column="orderPayWay" property="orderPayWay"/>
-        <id column="fishTime" property="fishTime"/>
+        <id column="finishTime" property="finishTime"/>
     </resultMap>
 
 

@@ -1,6 +1,11 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.TaskResult;
 import com.synapse.reading.mapper.TaskMapper;
+import com.synapse.reading.model.Task;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -11,5 +16,9 @@ import com.synapse.reading.mapper.TaskMapper;
  * @since 2019-06-11
  */
 public interface TaskRespository extends TaskMapper {
+
+    List<TaskResult> listByUser(Map<String, Object> params);
+  Integer  countListByUser(String userId);
+    TaskResult selectTask(String recId);
 
 }

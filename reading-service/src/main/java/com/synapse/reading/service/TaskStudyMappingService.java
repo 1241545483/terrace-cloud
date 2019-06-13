@@ -65,11 +65,10 @@ public class TaskStudyMappingService extends TaskStudyMappingBaseService {
         return taskStudyMappingRespository.updateByPrimaryKeySelective(model);
     }
 
-    public Integer deleteByStudyId(String recId, String updateId) {
+    public Integer deleteByStudyId(String taskId) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         TaskStudyMapping model = new TaskStudyMapping();
-        model.setStudyId(recId);
-        model.setUpdateId(updateId);
+        model.setTaskId(taskId);
         model.setUpdateTime(now);
         model.setStatus(TaskStudyMappingConstants.STATUS.DELETED.num());
         return taskStudyMappingRespository.deleteByStudyId(model);

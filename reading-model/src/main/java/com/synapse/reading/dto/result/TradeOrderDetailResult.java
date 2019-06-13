@@ -22,7 +22,7 @@ public class TradeOrderDetailResult {
     private String resourceCover;
     private String resourceIntro;
     private String orderPayWay;
-    private String fishTime;
+    private String finishTime;
 
     public String getOrderPrice() {
         return orderPrice;
@@ -49,12 +49,12 @@ public class TradeOrderDetailResult {
     }
 
 
-    public String getFishTime() {
-        return fishTime;
+    public String getFinishTime() {
+        return finishTime;
     }
 
-    public void setFishTime(String fishTime) {
-        this.fishTime = fishTime;
+    public void setFinishTime(String finishTime) {
+        this.finishTime = finishTime;
     }
 
     public String getResourceName() {
