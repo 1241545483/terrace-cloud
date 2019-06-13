@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * 全局ID服务
  * Created by wangyifan on 18-4-14.
  */
-//@FeignClient(name = "${feign.idgen.url}")
-@FeignClient(name = "reid",url =  "${feign.idgen.url}")
+@FeignClient(name = "${feign.idgen.url}")
+//@FeignClient(name = "reid",url =  "${feign.idgen.url}")
 public interface IdService {
 
     @RequestMapping(value = "/{prefix}", method = RequestMethod.GET
