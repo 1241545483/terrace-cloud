@@ -57,6 +57,8 @@ public class ImgUtil {
 //       System.out.println(DrawSuccessPoster("http://img.jssns.cn/SHILU/1/b2572a8da5d47d586a04cae64168b649.png","http://img.jssns.cn/SHILU/1/eb818d6c4a0645f781bccfd515c71be1.png","http://img.jssns.cn/SHILU/1/43022872422734077.png","用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd","嘿嘿嘿呵呵呵呵","哈哈哈"));
 //      System.out.println(DrawSuccessPosterByBook("http://img.jssns.cn/SHILU/1/d5fec4fd30bffacd99eeb370cde3b794.png", "http://img.jssns.cn/SHILU/1/b9e31094ef25b321c4fd3c9aa57d2e20.jpg", "http://img.jssns.cn/SHILU/1/43022872422734077.png", "用户名", "在美好的声音中，遇见美妙的梦中，遇见你,dsdhasdkasdasd", "嘿嘿嘿呵呵呵呵", "http://img.njlsedu.cn/SHILU/1/da654a2ea016216d6d9b2f9dd5c1e3a3.png"));
 //        System.out.println( DrawSuccessPosterByLesson("http://img.jssns.cn/SHILU/1/51410296903862188.png","http://img.jssns.cn/SHILU/1/51411069217550650.png","小李子，请扫码加我微信"));
+
+        System.out.println( DrawSuccessPosterByClass("http://img.jssns.cn/SHILU/1/ee3149a712402c69021f34ca3d5bfe44.png","http://img.jssns.cn/SHILU/1/4c00ea0daa01e8e78b2710d6a1fbcea8.png","小刘","发财啦","1213520"));
     }
 
 
@@ -287,9 +289,9 @@ public class ImgUtil {
 //二维码图片处理
         URL qrcodeUrlRead = new URL(qrcodeUrl);//url 为图片的URL// 二维码缩小处理
         BufferedImage erBuffer = ImageIO.read(qrcodeUrlRead);
-        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 214), 214, 0);// 二维码缩小
+        BufferedImage erMinBuffer = ImgUtil.roundImage(ImgUtil.resizeByHeight(erBuffer, 230), 230, 0);// 二维码缩小
         ImageIO.write(erMinBuffer, "png", tempPng.toFile());
-        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 218, 314);// 二维码合并
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 208, 380);// 二维码合并
         ImageIO.write(new0, "png", tempPng.toFile());
         Color yellow = new Color(184, 119, 14);
         Color color = new Color(255, 255, 255); // 白色
@@ -309,9 +311,9 @@ public class ImgUtil {
         Font font50 = new Font("思源黑体 CN", Font.BOLD, 50);
 
         int length = className.length();
-        BufferedImage txt = ImgUtil.addTxtAtXy(new0, className, (594 - length * font34.getSize()) / 2, 55, font34, black);
-         txt = ImgUtil.addTxtAtXy(new0, wxNickName, 297, 202, font32, black);
-        txt = ImgUtil.addTxtAtXy(new0, classCode, 297, 277, font32, black);
+        BufferedImage txt = ImgUtil.addTxtAtXy(new0, className, (650 - length * font34.getSize()) / 2, 100, font34, black);
+        txt = ImgUtil.addTxtAtXy(txt, wxNickName, 310, 235, font32, black);
+        txt = ImgUtil.addTxtAtXy(txt, classCode, 310, 300, font32, black);
         ImageIO.write(txt, "png", tempPng.toFile());
         return tempPng;
 

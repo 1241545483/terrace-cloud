@@ -343,7 +343,7 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
             if ("class".equals(shareType)) {
                 ClassInfo classInfo = classInfoService.find(id);
                 //todo 待修改 20190528
-                ClassPathResource classPath = new ClassPathResource("/imgs/audioModelUrl.png");
+                ClassPathResource classPath = new ClassPathResource("/imgs/classModelUrl.png");
                 InputStream model = classPath.getInputStream();
                 Upload upload = applicationContext.getBean(uploaderName, Upload.class);
                 String modelUrl = upload.upload(model, "");
