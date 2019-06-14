@@ -120,6 +120,7 @@ public class UserRoleController extends BaseController {
     @RequestMapping(value = "/v1/userRole/roleId/{userId}",method = RequestMethod.GET)
     public ResponseEntity getByClassCode(@PathVariable("userId") String userId){
         try {
+            logger.warn("dsdsdsd=-----------------------userId="+userId);
             String userRole = userRoleService.getByClassCode(userId);
             logger.warn("dsdsdsd=-----------------------userRoleid="+userRole);
             return ResponseEntity.ok(userRole);
