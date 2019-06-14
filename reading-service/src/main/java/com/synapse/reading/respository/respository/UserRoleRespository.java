@@ -13,6 +13,6 @@ import com.synapse.reading.model.model.UserRole;
  */
 public interface UserRoleRespository extends UserRoleMapper {
 
-    UserRole listUserBizRoles(String userId);
+    String listUserBizRoles(String userId);
 
 }

@@ -120,9 +120,9 @@ public class UserRoleController extends BaseController {
     @RequestMapping(value = "/v1/userRole/roleId/{userId}",method = RequestMethod.GET)
     public ResponseEntity getByClassCode(@PathVariable("userId") String userId){
         try {
-            UserRole userRole = userRoleService.getByClassCode(userId);
-            logger.warn("dsdsdsd=-----------------------userRoleid="+userRole.getRoleId());
-            return ResponseEntity.ok(userRole.getRoleId());
+            String userRole = userRoleService.getByClassCode(userId);
+            logger.warn("dsdsdsd=-----------------------userRoleid="+userRole);
+            return ResponseEntity.ok(userRole);
         } catch (BusinessException e) {
             logger.error("get UserRole Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

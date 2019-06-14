@@ -35,7 +35,7 @@ public class UserRoleService extends UserRoleBaseService {
 	    return userRoleRespository.selectByPrimaryKey(recId);
     }
 
-    public UserRole getByClassCode(String userId){
+    public String getByClassCode(String userId){
         return userRoleRespository.listUserBizRoles(userId);
     }
 
