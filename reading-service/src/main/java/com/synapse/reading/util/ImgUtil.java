@@ -361,7 +361,7 @@ public class ImgUtil {
         ImageIO.write(erbdBuffer, "png", tempPng.toFile());
 
 
-        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 94, 589);// 二维码合并
+        BufferedImage new0 = ImgUtil.synthesisPicAtXy(bgBuffer, erMinBuffer, 94, 595);// 二维码合并
 
         BufferedImage new1 = ImgUtil.synthesisPicAtXy(new0, goodsMinBuffer, 195, 250);// 二维码图合并
 
