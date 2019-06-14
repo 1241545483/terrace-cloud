@@ -25,6 +25,8 @@ public class TaskResult {
 
     private String teacherName;
 
+    private String  finish;
+
     private Task task = new Task();
 
     private List<Book> bookList = new ArrayList<>();// 子列表
@@ -32,6 +34,14 @@ public class TaskResult {
     private List<Lesson> lessonList = new ArrayList<>();// 子列表
 
     public TaskResult() {
+    }
+
+    public String getFinish() {
+        return finish;
+    }
+
+    public void setFinish(String finish) {
+        this.finish = finish;
     }
 
     public TaskResult(Task task) {

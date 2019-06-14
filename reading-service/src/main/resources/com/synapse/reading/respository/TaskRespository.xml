@@ -6,18 +6,20 @@
                extends="com.synapse.reading.mapper.TaskMapper.BaseResultMap">
         <id column="class_name" property="className"/>
         <id column="teacher_name" property="teacherName"/>
+        <id column="finish" property="finish"/>
     </resultMap>
 
     <select id="listByUser" parameterType="map" resultMap="simpleRow">
-        SELECT a.*,b.name class_name,c.name teacher_name FROM  task a
+        (SELECT a.*,b.name class_name,c.name teacher_name ,if(d.note,1,0) finish FROM  task a
         join class_info b on a.class_id= b.rec_id
-        left join  member c on b.create_id = c.user_id
-        where class_id IN
+        join  member c on b.create_id = c.user_id
+        LEFT join task_note d  on  a.rec_id =d.task_id
+         where class_id IN
         (select
         class_id
         from `class_student_mapping`
         where 1 = 1
-        AND `student_id` = #{userId})
+        AND `student_id` = #{userId}))
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>

@@ -99,7 +99,7 @@ public class TaskController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/task/user/list",method = RequestMethod.GET)
-    public ResponseEntity listByUser(PageInfo pageInfo, BindingResult bindingResult) {
+    public ResponseEntity listByUser(PageInfo pageInfo, @Validated(Search.class) TaskParam param, BindingResult bindingResult) {
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
