@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class MybatisGenerator {
 
-    private static String[] tables = new String[]{"task_note"};
+    private static String[] tables = new String[]{"task"};
     private static String BASE_PATH_ROOT = "/D:/program/reading";
     private static String AUTHOR = "liuguangfu";
 

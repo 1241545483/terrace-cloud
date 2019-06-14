@@ -186,4 +186,28 @@ public class TaskResult {
     public void setClassId(String classId) {
         task.setClassId(classId);
     }
+
+    public String getCover() {
+        return task.getCover();
+    }
+
+    public void setCover(String cover) {
+        task.setCover(cover);
+    }
+
+    public String getStartTime() {
+        return task.getStartTime();
+    }
+
+    public void setStartTime(String startTime) {
+        task.setStartTime(startTime);
+    }
+
+    public String getEndTime() {
+        return task.getEndTime();
+    }
+
+    public void setEndTime(String endTime) {
+        task.setEndTime(endTime);
+    }
 }

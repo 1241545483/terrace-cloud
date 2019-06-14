@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-06-12
+ * @since 2019-06-14
  */
 public class Task implements Serializable {
 
@@ -21,6 +21,18 @@ public class Task implements Serializable {
      * 任务名称
      */
     private String name;
+    /**
+     * 封面
+     */
+    private String cover;
+    /**
+     * 封面
+     */
+    private String startTime;
+    /**
+     * 封面
+     */
+    private String endTime;
     /**
      * 任务描述
      */
@@ -73,6 +85,30 @@ public class Task implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getIntro() {
