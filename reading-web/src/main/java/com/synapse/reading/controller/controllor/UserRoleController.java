@@ -121,6 +121,7 @@ public class UserRoleController extends BaseController {
     public ResponseEntity getByClassCode(@PathVariable("userId") String userId){
         try {
             UserRole userRole = userRoleService.getByClassCode(userId);
+            logger.warn("dsdsdsd=-----------------------userRoleid="+userRole.getRoleId());
             return ResponseEntity.ok(userRole.getRoleId());
         } catch (BusinessException e) {
             logger.error("get UserRole Error!", e);
