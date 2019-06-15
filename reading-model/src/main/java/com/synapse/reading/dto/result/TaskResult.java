@@ -27,6 +27,8 @@ public class TaskResult {
 
     private String  finish;
 
+    private String  clicked;
+
     private Task task = new Task();
 
     private List<Book> bookList = new ArrayList<>();// 子列表
@@ -209,5 +211,13 @@ public class TaskResult {
 
     public void setEndTime(String endTime) {
         task.setEndTime(endTime);
+    }
+
+    public String getClicked() {
+        return clicked;
+    }
+
+    public void setClicked(String clicked) {
+        this.clicked = clicked;
     }
 }
