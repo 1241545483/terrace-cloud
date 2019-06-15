@@ -6,6 +6,8 @@ import com.synapse.reading.respository.UserTaskRecordRespository;
 import com.synapse.reading.dto.param.UserTaskRecordParam;
 import com.synapse.reading.dto.result.UserTaskRecordResult;
 import com.synapse.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,8 @@ public class UserTaskRecordService extends UserTaskRecordBaseService {
     @Autowired
     private UserTaskRecordRespository userTaskRecordRespository;
 
+    private Logger logger = LoggerFactory.getLogger(UserTaskRecordService.class);
+
     public UserTaskRecord find(String recId){
 	    return userTaskRecordRespository.selectByPrimaryKey(recId);
     }
@@ -46,13 +50,19 @@ public class UserTaskRecordService extends UserTaskRecordBaseService {
     }
 
     public String create(UserTaskRecord param) {
-        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
-		param.setStatus(UserTaskRecordConstants.STATUS.OK.num());
-        userTaskRecordRespository.insert(param);
-        return param.getRecId();
+        UserTaskRecord userTaskRecord  =  userTaskRecordRespository.selectByTaskId(param.getTaskId(),param.getUserId());
+	    if(userTaskRecord!=null&&!"".equals(userTaskRecord)){
+	        return  userTaskRecord.getRecId();
+        }else {
+            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+            param.setRecId(idService.gen("ID"));
+            param.setCreateTime(now);
+            param.setUpdateTime(now);
+            param.setStatus(UserTaskRecordConstants.STATUS.OK.num());
+            userTaskRecordRespository.insert(param);
+            return param.getRecId();
+        }
+
     }
 
 	public Integer delete(String recId, String updateId) {

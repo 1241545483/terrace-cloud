@@ -129,6 +129,7 @@ public class UserTaskRecordController extends BaseController{
 	        UserTaskRecord model = param.getModel();
                 model.setCreateId(user.getRecId());
                 model.setUpdateId(user.getRecId());
+                model.setUserId(user.getRecId());
             String recId = userTaskRecordService.create(model);
             return ResponseEntity.ok(recId);
         } catch (BusinessException e) {

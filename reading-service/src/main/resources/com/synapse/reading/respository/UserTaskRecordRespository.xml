@@ -2,4 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.UserTaskRecordRespository">
 
+    <select id="selectByTaskId" resultMap="com.synapse.reading.mapper.UserTaskRecordMapper.BaseResultMap" parameterType="map" >
+        select
+        <include refid="com.synapse.reading.mapper.UserTaskRecordMapper.Base_Column_List" />
+        from `user_task_record`
+        where
+        task_id = #{taskId}  AND `user_id`= #{userId} AND  status =1
+    </select>
+
+
 </mapper>
