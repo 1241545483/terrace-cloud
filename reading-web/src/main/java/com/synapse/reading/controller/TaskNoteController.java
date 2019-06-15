@@ -132,6 +132,7 @@ public class TaskNoteController extends BaseController{
 
 	        TaskNote model = param.getModel();
                 model.setCreateId(user.getRecId());
+                model.setUserId(user.getRecId());
                 model.setUpdateId(user.getRecId());
             String recId = taskNoteService.create(model);
             return ResponseEntity.ok(recId);
