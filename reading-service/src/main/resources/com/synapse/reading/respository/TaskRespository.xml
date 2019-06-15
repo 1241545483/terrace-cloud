@@ -11,7 +11,7 @@
     </resultMap>
 
     <select id="listByUser" parameterType="map" resultMap="simpleRow">
-        (SELECT a.*,b.name class_name,c.name teacher_name ,if(d.note,1,0) finish,if(e.user_id,1,0) clicked FROM  task a
+        (SELECT a.*,b.name class_name,c.name teacher_name ,if(d.note,1,0) finish,if(e.rec_id,1,0) clicked FROM  task a
         join class_info b on a.class_id= b.rec_id
         join  member c on b.create_id = c.user_id
         LEFT join task_note d  on  a.rec_id =d.task_id
