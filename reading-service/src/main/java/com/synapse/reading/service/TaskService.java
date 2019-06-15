@@ -13,6 +13,8 @@ import com.synapse.reading.dto.param.TaskParam;
 import com.synapse.reading.dto.result.TaskResult;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.respository.TaskStudyMappingRespository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,8 @@ public class TaskService extends TaskBaseService {
     @Autowired
     private TaskStudyMappingRespository taskStudyMappingRespository;
 
+    private Logger logger = LoggerFactory.getLogger(TaskService.class);
+
     public Task find(String recId) {
         return taskRespository.selectByPrimaryKey(recId);
     }
@@ -58,15 +62,25 @@ public class TaskService extends TaskBaseService {
     public TaskResult findByStudy(String recId) {
         TaskResult taskResult = taskRespository.selectTask(recId);
         List<String> lessonIds = taskStudyMappingService.getStudyIds(recId, "lesson");
-        List<Lesson> lessons = lessonService.listByLessonIds(lessonIds);
-        if (lessons != null && lessons.size() > 0) {
-            taskResult.setLessonList(lessons);
+        logger.warn("------------------lessonIds="+lessonIds);
+        if (lessonIds != null && lessonIds.size() > 0) {
+            List<Lesson> lessons = lessonService.listByLessonIds(lessonIds);
+            logger.warn("------------------lessons="+lessons);
+            if (lessons != null && lessons.size() > 0) {
+                taskResult.setLessonList(lessons);
+            }
         }
         List<String> bookIds = taskStudyMappingService.getStudyIds(recId, "book");
-        List<Book> books = bookService.listByBookIds(bookIds);
-        if (books != null && books.size() > 0) {
-            taskResult.setBookList(books);
+        logger.warn("------------------bookIds="+bookIds);
+        if (bookIds != null && bookIds.size() > 0) {
+            List<Book> books = bookService.listByBookIds(bookIds);
+            logger.warn("------------------books="+books);
+            if (books != null && books.size() > 0) {
+                taskResult.setBookList(books);
+            }
         }
+
+
         return taskResult;
     }
 
@@ -161,7 +175,7 @@ public class TaskService extends TaskBaseService {
         Map<String, Object> params = new HashMap<>();
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
-        params.put("userId",user.getRecId());
+        params.put("userId", user.getRecId());
         return taskRespository.listByUser(params);
     }
 
