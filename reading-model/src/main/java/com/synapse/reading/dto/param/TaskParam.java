@@ -155,4 +155,28 @@ public String getUpdateTime() {
     public void setTask(Task task) {
         this.task = task;
     }
+
+    public String getCover() {
+        return task.getCover();
+    }
+
+    public void setCover(String cover) {
+        task.setCover(cover);
+    }
+
+    public String getStartTime() {
+        return task.getStartTime();
+    }
+
+    public void setStartTime(String startTime) {
+        task.setStartTime(startTime);
+    }
+
+    public String getEndTime() {
+        return task.getEndTime();
+    }
+
+    public void setEndTime(String endTime) {
+        task.setEndTime(endTime);
+    }
 }

@@ -220,4 +220,5 @@ public class TaskResult {
     public void setClicked(String clicked) {
         this.clicked = clicked;
     }
+
 }
