@@ -21,4 +21,6 @@ public interface TaskRespository extends TaskMapper {
   Integer  countListByUser(String userId);
     TaskResult selectTask(String recId);
 
+    List<Task> listByClass(Map<String, Object> params);
+
 }

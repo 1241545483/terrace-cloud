@@ -52,4 +52,128 @@
 
     </select>
 
+
+    <select id="listByClass" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `task`
+        where 1 = 1
+        <if test="recId != null" >
+            <if test="recId.indexOf('%') >= 0" >
+                AND `rec_id` like #{recId}
+            </if>
+            <if test="recId.indexOf('%') lt 0" >
+                AND `rec_id` = #{recId}
+            </if>
+        </if>
+        <if test="name != null" >
+            <if test="name.indexOf('%') >= 0" >
+                AND `name` like #{name}
+            </if>
+            <if test="name.indexOf('%') lt 0" >
+                AND `name` = #{name}
+            </if>
+        </if>
+        <if test="cover != null" >
+            <if test="cover.indexOf('%') >= 0" >
+                AND `cover` like #{cover}
+            </if>
+            <if test="cover.indexOf('%') lt 0" >
+                AND `cover` = #{cover}
+            </if>
+        </if>
+        <if test="startTime != null" >
+            <if test="startTime.indexOf('%') >= 0" >
+                AND `start_time` like #{startTime}
+            </if>
+            <if test="startTime.indexOf('%') lt 0" >
+                AND `start_time` = #{startTime}
+            </if>
+        </if>
+        <if test="endTime != null" >
+            <if test="endTime.indexOf('%') >= 0" >
+                AND `end_time` like #{endTime}
+            </if>
+            <if test="endTime.indexOf('%') lt 0" >
+                AND `end_time` = #{endTime}
+            </if>
+        </if>
+        <if test="intro != null" >
+            <if test="intro.indexOf('%') >= 0" >
+                AND `intro` like #{intro}
+            </if>
+            <if test="intro.indexOf('%') lt 0" >
+                AND `intro` = #{intro}
+            </if>
+        </if>
+        <if test="studyType != null" >
+            <if test="studyType.indexOf('%') >= 0" >
+                AND `study_type` like #{studyType}
+            </if>
+            <if test="studyType.indexOf('%') lt 0" >
+                AND `study_type` = #{studyType}
+            </if>
+        </if>
+        <if test="studyId != null" >
+            <if test="studyId.indexOf('%') >= 0" >
+                AND `study_id` like #{studyId}
+            </if>
+            <if test="studyId.indexOf('%') lt 0" >
+                AND `study_id` = #{studyId}
+            </if>
+        </if>
+        <if test="classId != null" >
+            <if test="classId.indexOf('%') >= 0" >
+                AND `class_id` like #{classId}
+            </if>
+            <if test="classId.indexOf('%') lt 0" >
+                AND `class_id` = #{classId}
+            </if>
+        </if>
+        <if test="status != null" >
+            <if test="status.indexOf('%') >= 0" >
+                AND `status` like #{status}
+            </if>
+            <if test="status.indexOf('%') lt 0" >
+                AND `status` = #{status}
+            </if>
+        </if>
+        <if test="createId != null" >
+            <if test="createId.indexOf('%') >= 0" >
+                AND `create_id` like #{createId}
+            </if>
+            <if test="createId.indexOf('%') lt 0" >
+                AND `create_id` = #{createId}
+            </if>
+        </if>
+        <if test="createTime != null" >
+            <if test="createTime.indexOf('%') >= 0" >
+                AND `create_time` like #{createTime}
+            </if>
+            <if test="createTime.indexOf('%') lt 0" >
+                AND `create_time` = #{createTime}
+            </if>
+        </if>
+        <if test="updateId != null" >
+            <if test="updateId.indexOf('%') >= 0" >
+                AND `update_id` like #{updateId}
+            </if>
+            <if test="updateId.indexOf('%') lt 0" >
+                AND `update_id` = #{updateId}
+            </if>
+        </if>
+        <if test="updateTime != null" >
+            <if test="updateTime.indexOf('%') >= 0" >
+                AND `update_time` like #{updateTime}
+            </if>
+            <if test="updateTime.indexOf('%') lt 0" >
+                AND `update_time` = #{updateTime}
+            </if>
+        </if>
+        ORDER BY  create_time DESC
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
 </mapper>

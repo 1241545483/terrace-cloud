@@ -168,7 +168,7 @@ public class TaskService extends TaskBaseService {
         Map<String, Object> params = prepareParams(taskParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
-        return taskRespository.list(params);
+        return taskRespository.listByClass(params);
     }
 
     public List<TaskResult> listByUser(User user, PageInfo pageInfo) {
