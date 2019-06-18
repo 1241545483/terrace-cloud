@@ -16,6 +16,10 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "TaskNoteResult对象", description = "任务笔记")
 public class TaskNoteResult {
 
+	private String  userName;
+
+	private String  userImage;
+
     private TaskNote  taskNote = new TaskNote();
 
     public TaskNoteResult(){}
@@ -141,5 +145,19 @@ public String getUpdateTime() {
 		taskNote.setUpdateTime(update_time);
 	}
 
-		
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserImage() {
+		return userImage;
+	}
+
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
+	}
 }

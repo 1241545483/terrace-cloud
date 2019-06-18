@@ -78,8 +78,8 @@ public class TaskNoteController extends BaseController{
 	        }
 	        int totalNum = taskNoteService.count(param.getModel());
 	        preparePageInfo(pageInfo, totalNum);
-	        List<TaskNote> models = taskNoteService.list(param.getModel(),pageInfo);
-	        List<TaskNoteResult> results = models.stream().map(it -> new TaskNoteResult(it)).collect(Collectors.toList());
+	        List<TaskNoteResult> results = taskNoteService.list(param.getModel(),pageInfo);
+//	        List<TaskNoteResult> results = models.stream().map(it -> new TaskNoteResult(it)).collect(Collectors.toList());
 	        Map<String, Object> map = new HashMap();
             map.put("taskNoteList", results);
             map.put("totalNum", totalNum);

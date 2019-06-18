@@ -65,12 +65,12 @@ public class TaskNoteService extends TaskNoteBaseService {
         return taskNoteRespository.updateByPrimaryKeySelective(model);
     }
 
-	public List<TaskNote> list(TaskNote taskNoteParam, PageInfo pageInfo) {
+	public List<TaskNoteResult> list(TaskNote taskNoteParam, PageInfo pageInfo) {
 		taskNoteParam.setStatus(TaskNoteConstants.STATUS.OK.num());
         Map<String,Object> params = prepareParams(taskNoteParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
-        return taskNoteRespository.list(params);
+        return taskNoteRespository.listByUser(params);
 	}
 
 	public Integer count(TaskNote taskNoteParam) {

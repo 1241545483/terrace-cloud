@@ -1,6 +1,11 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.TaskNoteResult;
 import com.synapse.reading.mapper.TaskNoteMapper;
+import com.synapse.reading.model.TaskNote;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -11,5 +16,7 @@ import com.synapse.reading.mapper.TaskNoteMapper;
  * @since 2019-06-13
  */
 public interface TaskNoteRespository extends TaskNoteMapper {
+
+    List<TaskNoteResult> listByUser(Map<String, Object> params);
 
 }
