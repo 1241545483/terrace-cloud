@@ -70,14 +70,9 @@
                 AND `img3` = #{img3}
             </if>
         </if>
-        <if test="status != null" >
-            <if test="status.indexOf('%') >= 0" >
-                AND `status` like #{status}
-            </if>
-            <if test="status.indexOf('%') lt 0" >
-                AND `status` = #{status}
-            </if>
-        </if>
+
+                AND `status` ="1"
+
         <if test="createId != null" >
             <if test="createId.indexOf('%') >= 0" >
                 AND `create_id` like #{createId}
