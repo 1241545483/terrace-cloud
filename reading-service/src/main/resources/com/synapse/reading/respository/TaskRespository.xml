@@ -11,7 +11,7 @@
     </resultMap>
 
     <select id="listByUser" parameterType="map" resultMap="simpleRow">
-        SELECT a.*,b.name class_name,c.name teacher_name ,ISNULL(d.task_id)  finish,ISNULL(e.rec_id)   clicked
+        SELECT a.*,b.name class_name,c.name teacher_name ,if(d.task_id is null,0,1) finish,if(e.task_id is null,0,1) clicked
         FROM  task a
         join class_info b on a.class_id= b.rec_id
         join  member c on b.create_id = c.user_id

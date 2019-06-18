@@ -16,93 +16,93 @@
         where 1 = 1
         <if test="recId != null" >
             <if test="recId.indexOf('%') >= 0" >
-                AND `rec_id` like #{recId}
+                AND a.`rec_id` like #{recId}
             </if>
             <if test="recId.indexOf('%') lt 0" >
-                AND `rec_id` = #{recId}
+                AND a.`rec_id` = #{recId}
             </if>
         </if>
         <if test="note != null" >
             <if test="note.indexOf('%') >= 0" >
-                AND `note` like #{note}
+                AND a.`note` like #{note}
             </if>
             <if test="note.indexOf('%') lt 0" >
-                AND `note` = #{note}
+                AND a.`note` = #{note}
             </if>
         </if>
         <if test="userId != null" >
             <if test="userId.indexOf('%') >= 0" >
-                AND `user_id` like #{userId}
+                AND a.`user_id` like #{userId}
             </if>
             <if test="userId.indexOf('%') lt 0" >
-                AND `user_id` = #{userId}
+                AND a.`user_id` = #{userId}
             </if>
         </if>
         <if test="taskId != null" >
             <if test="taskId.indexOf('%') >= 0" >
-                AND `task_id` like #{taskId}
+                AND a.`task_id` like #{taskId}
             </if>
             <if test="taskId.indexOf('%') lt 0" >
-                AND `task_id` = #{taskId}
+                AND a.`task_id` = #{taskId}
             </if>
         </if>
         <if test="img1 != null" >
             <if test="img1.indexOf('%') >= 0" >
-                AND `img1` like #{img1}
+                AND a.`img1` like #{img1}
             </if>
             <if test="img1.indexOf('%') lt 0" >
-                AND `img1` = #{img1}
+                AND a.`img1` = #{img1}
             </if>
         </if>
         <if test="img2 != null" >
             <if test="img2.indexOf('%') >= 0" >
-                AND `img2` like #{img2}
+                AND a.`img2` like #{img2}
             </if>
             <if test="img2.indexOf('%') lt 0" >
-                AND `img2` = #{img2}
+                AND a.`img2` = #{img2}
             </if>
         </if>
         <if test="img3 != null" >
             <if test="img3.indexOf('%') >= 0" >
-                AND `img3` like #{img3}
+                AND a.`img3` like #{img3}
             </if>
             <if test="img3.indexOf('%') lt 0" >
-                AND `img3` = #{img3}
+                AND a.`img3` = #{img3}
             </if>
         </if>
 
-                AND `status` ="1"
+                AND a.`status` ="1"
 
         <if test="createId != null" >
             <if test="createId.indexOf('%') >= 0" >
-                AND `create_id` like #{createId}
+                AND a.`create_id` like #{createId}
             </if>
             <if test="createId.indexOf('%') lt 0" >
-                AND `create_id` = #{createId}
+                AND a.`create_id` = #{createId}
             </if>
         </if>
         <if test="createTime != null" >
             <if test="createTime.indexOf('%') >= 0" >
-                AND `create_time` like #{createTime}
+                AND a.`create_time` like #{createTime}
             </if>
             <if test="createTime.indexOf('%') lt 0" >
-                AND `create_time` = #{createTime}
+                AND a.`create_time` = #{createTime}
             </if>
         </if>
         <if test="updateId != null" >
             <if test="updateId.indexOf('%') >= 0" >
-                AND `update_id` like #{updateId}
+                AND a.`update_id` like #{updateId}
             </if>
             <if test="updateId.indexOf('%') lt 0" >
-                AND `update_id` = #{updateId}
+                AND a.`update_id` = #{updateId}
             </if>
         </if>
         <if test="updateTime != null" >
             <if test="updateTime.indexOf('%') >= 0" >
-                AND `update_time` like #{updateTime}
+                AND a.`update_time` like #{updateTime}
             </if>
             <if test="updateTime.indexOf('%') lt 0" >
-                AND `update_time` = #{updateTime}
+                AND a.`update_time` = #{updateTime}
             </if>
         </if>
       ORDER BY  a.create_time DESC
