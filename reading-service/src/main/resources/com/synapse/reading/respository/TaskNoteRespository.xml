@@ -8,7 +8,7 @@
         <id column="user_image" property="userImage"/>
     </resultMap>
 
-    <select id="list" parameterType="map" resultMap="simpleRow">
+    <select id="listByUser" parameterType="map" resultMap="simpleRow">
         select
          a.* , b.name userName ,b.pic userImage
         from `task_note` a
