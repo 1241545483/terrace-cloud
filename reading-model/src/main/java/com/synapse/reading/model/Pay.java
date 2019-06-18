@@ -14,6 +14,8 @@ import java.util.Map;
  */
 public class Pay {
 
+    private  String  item_type;
+
     private PayTransInfo payInfo = new PayTransInfo();
 
 private TradeOrderParam tradeOrderParam =new TradeOrderParam();
@@ -32,5 +34,13 @@ private TradeOrderParam tradeOrderParam =new TradeOrderParam();
 
     public void setTradeOrderParam(TradeOrderParam tradeOrderParam) {
         this.tradeOrderParam = tradeOrderParam;
+    }
+
+    public String getItem_type() {
+        return item_type;
+    }
+
+    public void setItem_type(String item_type) {
+        this.item_type = item_type;
     }
 }

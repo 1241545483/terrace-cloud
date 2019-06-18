@@ -58,26 +58,24 @@ public class WxPayController {
     @RequestMapping(value = "/v1/pay", method = RequestMethod.POST)
     public ResponseEntity pay(@RequestBody Pay pay) {
         try {
+            //根据ItemType 查询出订单总价，合适前台订单
             User user = UserContext.getUser();
             Date now = new Date();
             pay.getTradeOrderParam().setCreateId(user.getRecId());
             String ids = wxPayService.create(pay.getTradeOrderParam());
-            pay.getPayInfo().setDesc("交易订单内容描述");
-            pay.getPayInfo().setAttach("请转给小刘同学：13814516352");
             pay.getPayInfo().setOrderNo(ids);
+            //订单总金额
+
             pay.getPayInfo().setTotalFee("1");
-            pay.getPayInfo().setRemoteIP("123.12.12.123");
             pay.getPayInfo().setChannelId(1L);
             pay.getPayInfo().setService("W1");
             pay.getPayInfo().setSubAppid(appId);
-            pay.getPayInfo().setPayItems(new ArrayList<PayItemInfo>());
 //            pay.getPayInfo().setSubOpenid(user.getRegWay());
             pay.getPayInfo().setPartnerId(2L);
             pay.getPayInfo().setSecurityKey(secret);
-            pay.getPayInfo().setTradeName("交易订单名称");
             pay.getPayInfo().setPartnerSign("商户验签");
-            pay.getPayInfo().setTradeType("2");
-            pay.getPayInfo().setPayType("3");
+            pay.getPayInfo().setTradeType("1");
+            pay.getPayInfo().setPayType("1");
             pay.getPayInfo().setPayerAccId(1L);
 //            payInfo.setShowUrl("服务URL");
             pay.getPayInfo().setDeviceType("JSAPI");
