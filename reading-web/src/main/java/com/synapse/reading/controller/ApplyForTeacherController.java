@@ -75,8 +75,8 @@ public class ApplyForTeacherController extends BaseController{
 	        }
 	        int totalNum = applyForTeacherService.count(param.getModel());
 	        preparePageInfo(pageInfo, totalNum);
-	        List<ApplyForTeacher> models = applyForTeacherService.list(param.getModel(),pageInfo);
-	        List<ApplyForTeacherResult> results = models.stream().map(it -> new ApplyForTeacherResult(it)).collect(Collectors.toList());
+	        List<ApplyForTeacherResult> results = applyForTeacherService.list(param.getModel(),pageInfo);
+//	        List<ApplyForTeacherResult> results = models.stream().map(it -> new ApplyForTeacherResult(it)).collect(Collectors.toList());
 	        Map<String, Object> map = new HashMap();
             map.put("applyForTeacherList", results);
             map.put("totalNum", totalNum);

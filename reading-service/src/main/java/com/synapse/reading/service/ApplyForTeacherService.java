@@ -65,12 +65,12 @@ public class ApplyForTeacherService extends ApplyForTeacherBaseService {
         return applyForTeacherRespository.updateByPrimaryKeySelective(model);
     }
 
-	public List<ApplyForTeacher> list(ApplyForTeacher applyForTeacherParam, PageInfo pageInfo) {
+	public List<ApplyForTeacherResult> list(ApplyForTeacher applyForTeacherParam, PageInfo pageInfo) {
 		applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.OK.num());
         Map<String,Object> params = prepareParams(applyForTeacherParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
-        return applyForTeacherRespository.list(params);
+        return applyForTeacherRespository.listByUser(params);
 	}
 
 	public Integer count(ApplyForTeacher applyForTeacherParam) {
