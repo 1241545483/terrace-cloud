@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.respository.ApplyForTeacherRespository">
+
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.ApplyForTeacherResult"
+               extends="com.synapse.reading.mapper.ApplyForTeacherMapper.BaseResultMap">
+    <id column="user_name" property="userName"/>
+    <id column="org" property="org"/>
+    </resultMap>
+
+
+    <select id="list" parameterType="map" resultMap="simpleRow">
+        select
+      a.* , b.name  user_name, c.org_name org
+        from `apply_for_teacher` a
+        join member  b on a.user_id = b.user_id
+       join organization c on   b.ORGANIZATION =c.org_id
+          where 1 = 1
+        <if test="recId != null" >
+            <if test="recId.indexOf('%') >= 0" >
+                AND a.`rec_id` like #{recId}
+            </if>
+            <if test="recId.indexOf('%') lt 0" >
+                AND a.`rec_id` = #{recId}
+            </if>
+        </if>
+        <if test="name != null" >
+            <if test="name.indexOf('%') >= 0" >
+                AND a.`name` like #{name}
+            </if>
+            <if test="name.indexOf('%') lt 0" >
+                AND a.`name` = #{name}
+            </if>
+        </if>
+        <if test="userId != null" >
+            <if test="userId.indexOf('%') >= 0" >
+                AND a.`user_id` like #{userId}
+            </if>
+            <if test="userId.indexOf('%') lt 0" >
+                AND a.`user_id` = #{userId}
+            </if>
+        </if>
+        <if test="reason != null" >
+            <if test="reason.indexOf('%') >= 0" >
+                AND a.`reason` like #{reason}
+            </if>
+            <if test="reason.indexOf('%') lt 0" >
+                AND a.`reason` = #{reason}
+            </if>
+        </if>
+        <if test="status != null" >
+            <if test="status.indexOf('%') >= 0" >
+                AND a.`status` like #{status}
+            </if>
+            <if test="status.indexOf('%') lt 0" >
+                AND a.`status` = #{status}
+            </if>
+        </if>
+        <if test="createId != null" >
+            <if test="createId.indexOf('%') >= 0" >
+                AND a.`create_id` like #{createId}
+            </if>
+            <if test="createId.indexOf('%') lt 0" >
+                AND a.`create_id` = #{createId}
+            </if>
+        </if>
+        <if test="createTime != null" >
+            <if test="createTime.indexOf('%') >= 0" >
+                AND a.`create_time` like #{createTime}
+            </if>
+            <if test="createTime.indexOf('%') lt 0" >
+                AND a.`create_time` = #{createTime}
+            </if>
+        </if>
+        <if test="updateId != null" >
+            <if test="updateId.indexOf('%') >= 0" >
+                AND a.`update_id` like #{updateId}
+            </if>
+            <if test="updateId.indexOf('%') lt 0" >
+                AND a.`update_id` = #{updateId}
+            </if>
+        </if>
+        <if test="updateTime != null" >
+            <if test="updateTime.indexOf('%') >= 0" >
+                AND a.`update_time` like #{updateTime}
+            </if>
+            <if test="updateTime.indexOf('%') lt 0" >
+                AND a.`update_time` = #{updateTime}
+            </if>
+        </if>
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>
