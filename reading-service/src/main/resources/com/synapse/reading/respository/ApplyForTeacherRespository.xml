@@ -93,9 +93,9 @@
         </if>
     </select>
 
-    <select id="selectByUserId" resultMap="com.synapse.reading.mapper.ApplyForTeacherMapper.BaseResultMap" parameterType="java.lang.String" >
+    <select id="selectByUserId" resultMap="simpleRow" parameterType="java.lang.String" >
         select
-        <include refid="com.synapse.reading.mapper.ApplyForTeacherMapper.Base_Column_List" />
+        *
         from `apply_for_teacher`
         where
         `user_id` = #{userId}

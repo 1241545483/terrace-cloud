@@ -19,6 +19,6 @@ public interface ApplyForTeacherRespository extends ApplyForTeacherMapper {
 
     List<ApplyForTeacherResult> listByUser(Map<String, Object> params);
 
-    ApplyForTeacher selectByUserId(String userId);
+    ApplyForTeacherResult selectByUserId(String userId);
 
 }

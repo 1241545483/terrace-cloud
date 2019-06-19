@@ -99,7 +99,7 @@ public class ApplyForTeacherController extends BaseController{
     @RequestMapping(value = "/v1/applyForTeacher/{recId}",method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
-            ApplyForTeacher applyForTeacher = applyForTeacherService.selectByUserId(recId);
+            ApplyForTeacherResult applyForTeacher = applyForTeacherService.selectByUserId(recId);
             return ResponseEntity.ok(applyForTeacher);
         } catch (BusinessException e) {
             logger.error("get ApplyForTeacher Error!", e);

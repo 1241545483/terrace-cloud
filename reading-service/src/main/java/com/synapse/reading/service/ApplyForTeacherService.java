@@ -39,7 +39,7 @@ public class ApplyForTeacherService extends ApplyForTeacherBaseService {
 	    return applyForTeacherRespository.selectByPrimaryKey(recId);
     }
 
-    public ApplyForTeacher selectByUserId(String recId){
+    public ApplyForTeacherResult selectByUserId(String recId){
         return applyForTeacherRespository.selectByUserId(recId);
     }
 
