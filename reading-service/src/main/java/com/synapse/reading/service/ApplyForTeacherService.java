@@ -39,6 +39,10 @@ public class ApplyForTeacherService extends ApplyForTeacherBaseService {
 	    return applyForTeacherRespository.selectByPrimaryKey(recId);
     }
 
+    public ApplyForTeacher selectByUserId(String recId){
+        return applyForTeacherRespository.selectByUserId(recId);
+    }
+
 	public Integer update(ApplyForTeacher param){
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
@@ -50,7 +54,7 @@ public class ApplyForTeacherService extends ApplyForTeacherBaseService {
         param.setRecId(idService.gen("ID"));
 		param.setCreateTime(now);
 		param.setUpdateTime(now);
-		param.setStatus(ApplyForTeacherConstants.STATUS.OK.num());
+		param.setStatus(ApplyForTeacherConstants.STATUS.UNCHECK.num());
         applyForTeacherRespository.insert(param);
         return param.getRecId();
     }
@@ -61,12 +65,12 @@ public class ApplyForTeacherService extends ApplyForTeacherBaseService {
         model.setRecId(recId);
         model.setUpdateId(updateId);
         model.setUpdateTime(now);
-        model.setStatus(ApplyForTeacherConstants.STATUS.DELETED.num());
+        model.setStatus(ApplyForTeacherConstants.STATUS.REJECT.num());
         return applyForTeacherRespository.updateByPrimaryKeySelective(model);
     }
 
 	public List<ApplyForTeacherResult> list(ApplyForTeacher applyForTeacherParam, PageInfo pageInfo) {
-		applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.OK.num());
+		applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.CHECK.num());
         Map<String,Object> params = prepareParams(applyForTeacherParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
@@ -74,7 +78,7 @@ public class ApplyForTeacherService extends ApplyForTeacherBaseService {
 	}
 
 	public Integer count(ApplyForTeacher applyForTeacherParam) {
-		applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.OK.num());
+		applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.CHECK.num());
         Map<String,Object> params = prepareParams(applyForTeacherParam);
         return applyForTeacherRespository.count(params);
     }

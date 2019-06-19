@@ -14,7 +14,7 @@ public interface  ApplyForTeacherConstants  {
      * 状态
      */
     enum STATUS {
-        DELETED("deleted", "0"), OK("ok", "1");
+        REJECT("reject", "0"), CHECK("check", "1"), UNCHECK("uncheck", "2");
 
         public final String code;
         public final String num;

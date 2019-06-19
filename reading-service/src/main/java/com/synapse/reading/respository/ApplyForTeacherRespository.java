@@ -2,6 +2,7 @@ package com.synapse.reading.respository;
 
 import com.synapse.reading.dto.result.ApplyForTeacherResult;
 import com.synapse.reading.mapper.ApplyForTeacherMapper;
+import com.synapse.reading.model.ApplyForTeacher;
 
 import java.util.List;
 import java.util.Map;
@@ -17,5 +18,7 @@ import java.util.Map;
 public interface ApplyForTeacherRespository extends ApplyForTeacherMapper {
 
     List<ApplyForTeacherResult> listByUser(Map<String, Object> params);
+
+    ApplyForTeacher selectByUserId(String userId);
 
 }
