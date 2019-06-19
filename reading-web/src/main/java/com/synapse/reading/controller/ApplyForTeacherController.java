@@ -100,7 +100,7 @@ public class ApplyForTeacherController extends BaseController{
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
             ApplyForTeacher applyForTeacher = applyForTeacherService.selectByUserId(recId);
-            return ResponseEntity.ok(new ApplyForTeacherResult(applyForTeacher));
+            return ResponseEntity.ok(applyForTeacher);
         } catch (BusinessException e) {
             logger.error("get ApplyForTeacher Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
