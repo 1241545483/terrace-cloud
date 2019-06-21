@@ -92,7 +92,7 @@
         <dependency>
             <groupId>com.synapse</groupId>
             <artifactId>pay-model</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.5-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.synapse.common</groupId>
