@@ -110,7 +110,7 @@ public class ApplyForTeacherServiceTest {
     @Test
 	public void delete(){
 		    ApplyForTeacher param = new ApplyForTeacher();
-            param.setStatus(ApplyForTeacherConstants.STATUS.OK.num());
+            param.setStatus(ApplyForTeacherConstants.STATUS.REJECT.num());
             int num = applyForTeacherService.count(param);
 	        String recId = doCreate();
 	        int num2 = applyForTeacherService.count(param);
@@ -127,10 +127,10 @@ public class ApplyForTeacherServiceTest {
         pageInfo.setPerPageNum(1000000);
         pageInfo.setCurrentPageIndex(1);
         pageInfo.setTotalNum(100000);
-		List<ApplyForTeacher> results = applyForTeacherService.list(param,pageInfo);
+		List<ApplyForTeacherResult> results = applyForTeacherService.list(param,pageInfo);
 		int num = results.size();
         String recId = doCreate();
-        List<ApplyForTeacher> results2 = applyForTeacherService.list(param,pageInfo);
+        List<ApplyForTeacherResult> results2 = applyForTeacherService.list(param,pageInfo);
         int num2 = results2.size();
         assertEquals(num + 1, num2);
 	}
