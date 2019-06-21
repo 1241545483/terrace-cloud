@@ -62,10 +62,13 @@ public class WxPayController {
     @RequestMapping(value = "/v1/pay", method = RequestMethod.POST)
     public ResponseEntity pay(@RequestBody Pay pay) {
         try {
-            //根据ItemType 查询出订单总价，合适前台订单
+            //todo 20190621 根据ItemType 查询出订单总价，合适前台订单
             User user = UserContext.getUser();
             Date now = new Date();
             pay.getTradeOrderParam().setCreateId(user.getRecId());
+            pay.getTradeOrderParam().setBuyId(user.getRecId());
+            pay.getTradeOrderParam().setPayWay("weixin");
+            pay.getTradeOrderParam().setPrice("1");
             String ids = wxPayService.create(pay.getTradeOrderParam());
             pay.getPayInfo().setOrderNo(ids);
             //订单总金额
@@ -107,7 +110,7 @@ public class WxPayController {
     public ResponseEntity payBack(@RequestBody Map<String, String> map) {
         try {
             Integer num = wxPayService.updateOrder(map);
-            return ResponseEntity.ok(num);
+            return ResponseEntity.ok(Result.ok(num));
         } catch (BusinessException e) {
             logger.error("update payBack Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
