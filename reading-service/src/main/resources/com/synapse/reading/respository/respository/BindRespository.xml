@@ -12,7 +12,7 @@
     </select>
 
     <select id="selectByUserId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
-        SELECT  * from bind where  userId= #{userId}
+        SELECT  * from bind where  user_id= #{userId}
     </select>
 
 </mapper>
