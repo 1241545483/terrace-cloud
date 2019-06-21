@@ -65,7 +65,8 @@ public class WxPayController {
             String ids = wxPayService.create(pay.getTradeOrderParam());
             pay.getPayInfo().setOrderNo(ids);
             //订单总金额
-
+            logger.warn("------------openId="+user.getParams().get("openId").toString());
+            pay.getPayInfo().setOpenId(user.getParams().get("openId").toString());
             pay.getPayInfo().setTotalFee("1");
             pay.getPayInfo().setChannelId(1L);
             pay.getPayInfo().setService("W1");
