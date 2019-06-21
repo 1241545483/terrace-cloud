@@ -154,6 +154,7 @@ public class RegistController extends BaseController {
 //               memberMap.put("getOrganization",member.getOrganization());
                 memberMap.put("avatarUrl", avatarUrl);
                 memberMap.put("regWay", regWay);
+                memberMap.put("openId", userInfo.get("openid"));
                 user.setParams(memberMap);
                 user.setUsername(nickName);
                 final UserDetails userDetails = user;

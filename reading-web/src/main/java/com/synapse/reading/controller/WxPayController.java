@@ -15,6 +15,7 @@ import com.synapse.reading.model.Audio;
 import com.synapse.reading.model.Pay;
 import com.synapse.reading.remote.PayService;
 import com.synapse.reading.service.WxPayService;
+import com.synapse.reading.service.service.BindService;
 import com.synapse.reading.web.valid.group.Update;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +45,8 @@ public class WxPayController {
     private PayService payService;
     @Autowired
     private WxPayService wxPayService;
+    @Autowired
+    private BindService bindService;
     @Value("${mini.app.appid}")
     private String appId;
     @Value("${mini.app.secret}")
@@ -65,6 +68,7 @@ public class WxPayController {
             String ids = wxPayService.create(pay.getTradeOrderParam());
             pay.getPayInfo().setOrderNo(ids);
             //订单总金额
+//            bindService.
             logger.warn("------------openId="+user.getParams().get("openId").toString());
             pay.getPayInfo().setOpenId(user.getParams().get("openId").toString());
             pay.getPayInfo().setTotalFee("1");
