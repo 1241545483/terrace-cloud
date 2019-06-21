@@ -197,4 +197,36 @@ public class ApplyForTeacherController extends BaseController{
         }
 	}
 
+
+    @ApiOperation(value = "后台审核，需要更改审核状态，同时更新用户角色（更新，若不存在，则新增）")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/applyForTeacher/apply/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity updateApply(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) ApplyForTeacherParam param, BindingResult bindingResult){
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            ApplyForTeacher model = param.getModel();
+            model.setRecId(recId);
+            model.setUpdateId(user.getRecId());
+            Integer num = applyForTeacherService.updateApply(model);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("update ApplyForTeacher Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update ApplyForTeacher Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 }

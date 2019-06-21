@@ -2,10 +2,13 @@ package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
 import com.synapse.reading.model.ApplyForTeacher;
+import com.synapse.reading.model.model.UserRole;
 import com.synapse.reading.respository.ApplyForTeacherRespository;
 import com.synapse.reading.dto.param.ApplyForTeacherParam;
 import com.synapse.reading.dto.result.ApplyForTeacherResult;
 import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.respository.respository.UserRoleRespository;
+import com.synapse.reading.service.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,37 +32,54 @@ import java.util.HashMap;
 @Transactional
 public class ApplyForTeacherService extends ApplyForTeacherBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Autowired
     private ApplyForTeacherRespository applyForTeacherRespository;
 
-    public ApplyForTeacher find(String recId){
-	    return applyForTeacherRespository.selectByPrimaryKey(recId);
+    public ApplyForTeacher find(String recId) {
+        return applyForTeacherRespository.selectByPrimaryKey(recId);
     }
 
-    public ApplyForTeacherResult selectByUserId(String recId){
+    public ApplyForTeacherResult selectByUserId(String recId) {
         return applyForTeacherRespository.selectByUserId(recId);
     }
 
-	public Integer update(ApplyForTeacher param){
+    public Integer update(ApplyForTeacher param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return applyForTeacherRespository.updateByPrimaryKeySelective(param);
+        return applyForTeacherRespository.updateByPrimaryKeySelective(param);
     }
+
+    public Integer updateApply(ApplyForTeacher param) {
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        param.setUpdateTime(now);
+        UserRole userRole = new UserRole();
+        userRole.setUserId(param.getUserId());
+        userRole.setRoleId("teacher");
+        int num = userRoleService.update(userRole);
+        if (num <= 0) {
+            userRoleService.create(userRole);
+        }
+        return applyForTeacherRespository.updateByPrimaryKeySelective(param);
+    }
+
 
     public String create(ApplyForTeacher param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
-		param.setStatus(ApplyForTeacherConstants.STATUS.UNCHECK.num());
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
+        param.setStatus(ApplyForTeacherConstants.STATUS.UNCHECK.num());
         applyForTeacherRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId, String updateId) {
+    public Integer delete(String recId, String updateId) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         ApplyForTeacher model = new ApplyForTeacher();
         model.setRecId(recId);
@@ -69,17 +89,17 @@ public class ApplyForTeacherService extends ApplyForTeacherBaseService {
         return applyForTeacherRespository.updateByPrimaryKeySelective(model);
     }
 
-	public List<ApplyForTeacherResult> list(ApplyForTeacher applyForTeacherParam, PageInfo pageInfo) {
-		applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.CHECK.num());
-        Map<String,Object> params = prepareParams(applyForTeacherParam);
+    public List<ApplyForTeacherResult> list(ApplyForTeacher applyForTeacherParam, PageInfo pageInfo) {
+        applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.CHECK.num());
+        Map<String, Object> params = prepareParams(applyForTeacherParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return applyForTeacherRespository.listByUser(params);
-	}
+    }
 
-	public Integer count(ApplyForTeacher applyForTeacherParam) {
-		applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.CHECK.num());
-        Map<String,Object> params = prepareParams(applyForTeacherParam);
+    public Integer count(ApplyForTeacher applyForTeacherParam) {
+        applyForTeacherParam.setStatus(ApplyForTeacherConstants.STATUS.CHECK.num());
+        Map<String, Object> params = prepareParams(applyForTeacherParam);
         return applyForTeacherRespository.count(params);
     }
 
