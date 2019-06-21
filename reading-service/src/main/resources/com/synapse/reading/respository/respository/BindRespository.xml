@@ -10,4 +10,9 @@
     <select id="selectByUnionId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
         SELECT  * from bind where  open_id= #{openId}
     </select>
+
+    <select id="selectByUserId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
+        SELECT  * from bind where  userId= #{userId}
+    </select>
+
 </mapper>

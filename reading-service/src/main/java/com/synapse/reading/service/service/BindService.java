@@ -98,6 +98,15 @@ public class BindService extends BindBaseService {
         return null;
     }
 
+    public Bind isUser(String userId) {
+        List<Bind> bind = bindRespository.selectByUserId(userId);
+        if (bind != null && bind.size() > 0) {
+            return bind.get(0);
+        }
+        return null;
+    }
+
+
     public Map<String, String> judge4MiniApp(Map<String, String> userInfo) {
         Map<String, String> map = new HashMap<String, String>();
         try {

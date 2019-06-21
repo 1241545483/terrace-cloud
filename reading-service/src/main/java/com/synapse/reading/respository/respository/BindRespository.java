@@ -18,5 +18,5 @@ public interface BindRespository extends BindMapper {
 
     List<Bind> selectByOpenId(@Param("openId") String openId);
     List<Bind> selectByUnionId(@Param("unionId") String unionId);
-
+    List<Bind> selectByUserId(@Param("userId") String userId);
 }

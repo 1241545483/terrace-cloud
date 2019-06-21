@@ -13,6 +13,7 @@ import com.synapse.reading.dto.param.AudioParam;
 import com.synapse.reading.exception.common.ValidException;
 import com.synapse.reading.model.Audio;
 import com.synapse.reading.model.Pay;
+import com.synapse.reading.model.model.Bind;
 import com.synapse.reading.remote.PayService;
 import com.synapse.reading.service.WxPayService;
 import com.synapse.reading.service.service.BindService;
@@ -68,9 +69,9 @@ public class WxPayController {
             String ids = wxPayService.create(pay.getTradeOrderParam());
             pay.getPayInfo().setOrderNo(ids);
             //订单总金额
-//            bindService.
-            logger.warn("------------openId="+user.getParams().get("openId").toString());
-            pay.getPayInfo().setOpenId(user.getParams().get("openId").toString());
+            Bind bind= bindService.isUser(user.getRecId());
+            logger.warn("------------openId="+bind.getOpenId());
+            pay.getPayInfo().setOpenId(bind.getOpenId());
             pay.getPayInfo().setTotalFee("1");
             pay.getPayInfo().setChannelId(1L);
             pay.getPayInfo().setService("W1");
