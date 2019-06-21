@@ -54,7 +54,7 @@ public class WxPayService {
 
     //解密encryptedData 获取前台传过来的openid
     public String getOpenid(Map<String, String> param) {
-        String openid =null;
+        String openid = null;
         if (param.get("encryptedData") != null) {
             String phoneData = null;
             try {
@@ -62,10 +62,10 @@ public class WxPayService {
                 Map map = JsonUtils.toObject(phoneData, Map.class);
                 openid = String.valueOf(map.get("openId"));
             } catch (Exception e) {
-              e.printStackTrace();
+                e.printStackTrace();
             }
         }
-        return  openid;
+        return openid;
     }
 
     //后台生成自己的订单（用来和实际 的支付订单同步，并返回前台）
@@ -76,8 +76,8 @@ public class WxPayService {
         param.setUpdateTime(now);
         param.setStatus(TradeOrderConstants.STATUS.UNPAID.num());
         tradeOrderRespository.insert(param.getModel());
-        if(param.getTradeOrderDetailParamArrayList()!=null && !"".equals(param.getTradeOrderDetailParamArrayList())) {
-            for (TradeOrderDetailParam tradeOrderDetail:param.getTradeOrderDetailParamArrayList()) {
+        if (param.getTradeOrderDetailParamArrayList() != null && !"".equals(param.getTradeOrderDetailParamArrayList())) {
+            for (TradeOrderDetailParam tradeOrderDetail : param.getTradeOrderDetailParamArrayList()) {
                 tradeOrderDetail.getModel().setRecId(idService.gen("ID"));
                 tradeOrderDetail.getModel().setCreateTime(now);
                 tradeOrderDetail.getModel().setUpdateTime(now);
@@ -89,15 +89,15 @@ public class WxPayService {
     }
 
     //todo 后台支付完成后，同步修改生成的订单状态，修改为已完成状态（订单分为待完成，完成，删除三个状态），
-    public Integer updateOrder(Map<String, String> map) {
-        TradeOrder tradeOrder =tradeOrderRespository.selectByPrimaryKey(map.get("orderNo"));
+    public Integer updateOrder(Map<String, Object> map) {
+        TradeOrder tradeOrder = tradeOrderRespository.selectByPrimaryKey(map.get("orderNo") + "");
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-        tradeOrder.setPayNo(map.get("serialNo"));
-        tradeOrder.setIntro(map.get("attach"));
-        tradeOrder.setPayWay(map.get("channel"));
+        tradeOrder.setPayNo(map.get("serialNo") + "");
+        tradeOrder.setIntro(map.get("attach") + "");
+        tradeOrder.setPayWay(map.get("channel") + "");
         tradeOrder.setUpdateTime(now);
         tradeOrder.setStatus(TradeOrderConstants.STATUS.OK.num());
-        return  tradeOrderRespository.updateByPrimaryKeySelective(tradeOrder);
+        return tradeOrderRespository.updateByPrimaryKeySelective(tradeOrder);
     }
 
 }

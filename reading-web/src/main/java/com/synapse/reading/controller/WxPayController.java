@@ -72,8 +72,8 @@ public class WxPayController {
             String ids = wxPayService.create(pay.getTradeOrderParam());
             pay.getPayInfo().setOrderNo(ids);
             //订单总金额
-            Bind bind= bindService.isUser(user.getRecId());
-            logger.warn("------------openId="+bind.getOpenId());
+            Bind bind = bindService.isUser(user.getRecId());
+            logger.warn("------------openId=" + bind.getOpenId());
             pay.getPayInfo().setOpenId(bind.getOpenId());
             pay.getPayInfo().setTotalFee("1");
             pay.getPayInfo().setChannelId(1L);
@@ -107,16 +107,16 @@ public class WxPayController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/payBack", method = RequestMethod.POST)
-    public ResponseEntity payBack(@RequestParam Map<String, String> map) {
+    public Result payBack(@RequestParam Map<String, Object> map) {
         try {
             Integer num = wxPayService.updateOrder(map);
-            return ResponseEntity.ok(Result.ok(num));
+            return Result.ok(num > 0 ? 1 : 0);
         } catch (BusinessException e) {
             logger.error("update payBack Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+            return Result.error(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
             logger.error("update payBack Error!", e);
-            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+            return Result.error(CommonConstants.SERVER_ERROR)
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
