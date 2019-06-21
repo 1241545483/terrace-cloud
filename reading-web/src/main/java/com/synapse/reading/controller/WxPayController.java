@@ -107,7 +107,7 @@ public class WxPayController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/payBack", method = RequestMethod.POST)
-    public ResponseEntity payBack(@RequestBody Map<String, String> map) {
+    public ResponseEntity payBack(@RequestParam Map<String, String> map) {
         try {
             Integer num = wxPayService.updateOrder(map);
             return ResponseEntity.ok(Result.ok(num));
