@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public interface MyLikeRespository extends MyLikeMapper {
 
-    Integer deleteByCreateId( String createId);
+    Integer deleteByCreateId(Map<String, Object> params);
 
     List<String> listAndUserName(Map<String, Object> params);
 

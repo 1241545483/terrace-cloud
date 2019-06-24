@@ -1,6 +1,7 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.reading.model.MyLike;
 import com.synapse.reading.respository.MyLikeRespository;
 import com.synapse.reading.dto.param.MyLikeParam;
@@ -55,8 +56,9 @@ public class MyLikeService extends MyLikeBaseService {
         return myLikeRespository.deleteByPrimaryKey(recId);
     }
 
-    public Integer deleteByCreateId(String recId) {
-        return myLikeRespository.deleteByCreateId(recId);
+    public Integer deleteByCreateId(MyLike param) {
+        Map<String, Object> params = prepareParams(param);
+        return myLikeRespository.deleteByCreateId(params);
     }
 
     public List<MyLike> list(MyLike myLikeParam, PageInfo pageInfo) {

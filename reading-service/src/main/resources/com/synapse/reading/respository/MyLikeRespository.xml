@@ -6,6 +6,8 @@
         delete from `my_like`
         where
         `create_id` = #{createId}
+        AND `like_type` = #{likeType}
+        AND `like_id` = #{likeId}
     </delete>
 
     <select id="listAndUserName" parameterType="map" resultType="java.lang.String">

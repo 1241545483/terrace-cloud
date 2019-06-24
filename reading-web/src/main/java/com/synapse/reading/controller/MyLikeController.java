@@ -13,6 +13,8 @@ import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.ibatis.annotations.Delete;
+import org.elasticsearch.index.engine.Engine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -162,13 +164,13 @@ public class MyLikeController extends BaseController{
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/myLike/deleteByCreateId/{recId}",method = RequestMethod.DELETE)
-    public ResponseEntity deleteByCreateId(@PathVariable("recId") String recId){
+    @RequestMapping(value = "/v1/myLike/deleteByCreateId",method = RequestMethod.DELETE)
+    public ResponseEntity deleteByCreateId(@RequestBody @Validated(Update.class) MyLikeParam param){
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-
-            Integer num = myLikeService.deleteByCreateId(recId);
+            param.getModel().setCreateId(user.getRecId());
+            Integer num = myLikeService.deleteByCreateId(param.getModel());
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("delete MyLike Error!", e);
