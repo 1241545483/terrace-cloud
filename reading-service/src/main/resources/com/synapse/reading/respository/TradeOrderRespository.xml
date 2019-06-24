@@ -10,4 +10,11 @@
         `buy_id` = #{buyId}
     </select>
 
+
+    <select id="getUserBuy" parameterType="map" resultType="int">
+        select count(1)
+        from `trade_order` a
+            JOIN   trade_order_detail b on  b.trate_order_id = a.rec_id and b.prod_id= #{studyId} and b.prod_type =  #{studyType}
+        where a.buy_id = #{buyId}
+    </select>
 </mapper>

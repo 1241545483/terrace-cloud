@@ -18,4 +18,6 @@ import java.util.Map;
 public interface TradeOrderRespository extends TradeOrderMapper {
 
     List<TradeOrder>  findByBuyId(String buyId);
+
+    Integer getUserBuy(Map<String, String> params);
 }

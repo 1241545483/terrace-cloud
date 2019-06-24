@@ -5,6 +5,7 @@ import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.constants.TradeOrderConstants;
+import com.synapse.reading.dto.param.BuyByUserParam;
 import com.synapse.reading.dto.param.SchoolTradeOrderParam;
 import com.synapse.reading.dto.result.TradeOrderDetailResult;
 import com.synapse.reading.model.Book;
@@ -245,6 +246,29 @@ public class TradeOrderController extends BaseController{
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+
+    @ApiOperation(value = "查询当前课程或书籍是否已购买")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TradeOrderResult.class, message = "是否购买"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/user/buy/",method = RequestMethod.GET)
+    public ResponseEntity getUserBuy( @Validated(Search.class) BuyByUserParam param ){
+        try {
+            User user = UserContext.getUser();
+            Boolean valid = tradeOrderService.getUserBuy(param,user);
+            return ResponseEntity.ok(valid);
+        } catch (BusinessException e) {
+            logger.error("get TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get TradeOrder Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
     @ApiOperation(value = "根据主键查询TradeOrder详情（当前用户订单）")
     @ApiResponses({

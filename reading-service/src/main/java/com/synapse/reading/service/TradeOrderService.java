@@ -3,16 +3,13 @@ package com.synapse.reading.service;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.constants.TradeOrderDetailConstants;
-import com.synapse.reading.dto.param.LessonParam;
-import com.synapse.reading.dto.param.SchoolTradeOrderParam;
-import com.synapse.reading.dto.param.TradeOrderDetailParam;
+import com.synapse.reading.dto.param.*;
 import com.synapse.reading.dto.result.TradeOrderDetailResult;
 import com.synapse.reading.model.*;
 import com.synapse.reading.respository.BookRespository;
 import com.synapse.reading.respository.LessonRespository;
 import com.synapse.reading.respository.TradeOrderDetailRespository;
 import com.synapse.reading.respository.TradeOrderRespository;
-import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.dto.result.TradeOrderResult;
 import com.synapse.common.utils.DateUtils;
 import org.slf4j.Logger;
@@ -66,16 +63,31 @@ public class TradeOrderService extends TradeOrderBaseService {
         return tradeOrderRespository.selectByPrimaryKey(recId);
     }
 
+
+    public Boolean getUserBuy(BuyByUserParam param, User user) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", user.getRecId());
+        params.put("studyId", param.getStudyId());
+        params.put("studyType", param.getStudyType());
+        Integer num = tradeOrderRespository.getUserBuy(params);
+        if (num>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
     public TradeOrderDetailResult findUserOrder(String recId) {
         List<TradeOrderDetail> tradeOrderDetail = tradeOrderDetailRespository.findByTradeOrder(recId);
-       if(tradeOrderDetail!=null&&tradeOrderDetail.size()>0){
-           if (tradeOrderDetail.get(0).getProdType().equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
-           return   tradeOrderDetailRespository.findUserOrderLesson(recId);
-           }
-           if (tradeOrderDetail.get(0).getProdType().equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
-               return   tradeOrderDetailRespository.findUserOrderBook(recId);
-           }
-       }
+        if (tradeOrderDetail != null && tradeOrderDetail.size() > 0) {
+            if (tradeOrderDetail.get(0).getProdType().equals(TradeOrderConstants.ORDERTYPE.LESSON.value())) {
+                return tradeOrderDetailRespository.findUserOrderLesson(recId);
+            }
+            if (tradeOrderDetail.get(0).getProdType().equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
+                return tradeOrderDetailRespository.findUserOrderBook(recId);
+            }
+        }
 
         return null;
     }
