@@ -170,6 +170,9 @@ public class MyLikeController extends BaseController{
             User user = UserContext.getUser();
             //todo 根据角色判断权限
             param.getModel().setCreateId(user.getRecId());
+            logger.warn("-------------userId="+user.getRecId());
+            logger.warn("-------------likeType="+param.getModel().getLikeType());
+            logger.warn("-------------likeId="+param.getModel().getLikeId());
             Integer num = myLikeService.deleteByCreateId(param.getModel());
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
