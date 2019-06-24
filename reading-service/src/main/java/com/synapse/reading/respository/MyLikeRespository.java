@@ -1,7 +1,12 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.MyLikeResult;
 import com.synapse.reading.mapper.MyLikeMapper;
+import com.synapse.reading.model.MyLike;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,5 +19,7 @@ import org.apache.ibatis.annotations.Param;
 public interface MyLikeRespository extends MyLikeMapper {
 
     Integer deleteByCreateId( String createId);
+
+    List<String> listAndUserName(Map<String, Object> params);
 
 }

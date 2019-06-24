@@ -94,6 +94,53 @@ public class TaskNoteController extends BaseController{
         }
 	}
 
+
+    @ApiOperation(value = "查询TaskNote列表(分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TaskNoteResult.class, message = "TaskNote列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "recId" , paramType = "query"),
+            @ApiImplicitParam(name = "note" , paramType = "query"),
+            @ApiImplicitParam(name = "userId" , paramType = "query"),
+            @ApiImplicitParam(name = "taskId" , paramType = "query"),
+            @ApiImplicitParam(name = "img1" , paramType = "query"),
+            @ApiImplicitParam(name = "img2" , paramType = "query"),
+            @ApiImplicitParam(name = "img3" , paramType = "query"),
+            @ApiImplicitParam(name = "status" , paramType = "query"),
+            @ApiImplicitParam(name = "createId" , paramType = "query"),
+            @ApiImplicitParam(name = "createTime" , paramType = "query"),
+            @ApiImplicitParam(name = "updateId" , paramType = "query"),
+            @ApiImplicitParam(name = "updateTime" , paramType = "query")    })
+    @RequestMapping(value = "/v1/taskNote/list",method = RequestMethod.GET)
+    public ResponseEntity listByDiscuss(PageInfo pageInfo, @Validated(Search.class) TaskNoteParam param, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = taskNoteService.count(param.getModel());
+            preparePageInfo(pageInfo, totalNum);
+            List<TaskNoteResult> results = taskNoteService.listByDiscuss(param.getModel(),pageInfo);
+//	        List<TaskNoteResult> results = models.stream().map(it -> new TaskNoteResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
+            map.put("taskNoteList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list TaskNote Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list TaskNote Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
 	@ApiOperation(value = "根据主键查询TaskNote详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = TaskNoteResult.class, message = "TaskNote对象"),

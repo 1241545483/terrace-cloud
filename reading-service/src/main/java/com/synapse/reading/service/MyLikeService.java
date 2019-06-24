@@ -28,47 +28,57 @@ import java.util.HashMap;
 @Transactional
 public class MyLikeService extends MyLikeBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private MyLikeRespository myLikeRespository;
 
-    public MyLike find(String recId){
-	    return myLikeRespository.selectByPrimaryKey(recId);
+    public MyLike find(String recId) {
+        return myLikeRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(MyLike param){
+    public Integer update(MyLike param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-		return myLikeRespository.updateByPrimaryKeySelective(param);
+        return myLikeRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(MyLike param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
+        param.setCreateTime(now);
         myLikeRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId){
+    public Integer delete(String recId) {
         return myLikeRespository.deleteByPrimaryKey(recId);
-	}
+    }
 
-    public Integer deleteByCreateId(String recId){
+    public Integer deleteByCreateId(String recId) {
         return myLikeRespository.deleteByCreateId(recId);
     }
-	public List<MyLike> list(MyLike myLikeParam, PageInfo pageInfo) {
-        Map<String,Object> params = prepareParams(myLikeParam);
+
+    public List<MyLike> list(MyLike myLikeParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(myLikeParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return myLikeRespository.list(params);
-	}
+    }
 
-	public Integer count(MyLike myLikeParam) {
-        Map<String,Object> params = prepareParams(myLikeParam);
+    public Integer count(MyLike myLikeParam) {
+        Map<String, Object> params = prepareParams(myLikeParam);
         return myLikeRespository.count(params);
     }
 
+    public Map<String, Object> listAndUserName(MyLike myLikeParam) {
+        Map<String, Object> params = prepareParams(myLikeParam);
+        Map<String, Object> map = new HashMap<>();
+        Integer num = myLikeRespository.count(params);
+        List<String> names = myLikeRespository.listAndUserName(params);
+        map.put("names", names);
+        map.put("num", num);
+        return map;
+    }
 
 }

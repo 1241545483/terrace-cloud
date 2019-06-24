@@ -18,6 +18,8 @@ public class MyLikeResult {
 
     private MyLike myLike = new MyLike();
 
+    private  String  userName;
+
     public MyLikeResult() {
     }
 

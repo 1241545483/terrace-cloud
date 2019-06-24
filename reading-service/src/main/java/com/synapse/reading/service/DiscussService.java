@@ -7,6 +7,7 @@ import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.constants.DiscussConstants;
 import com.synapse.reading.dto.result.DiscussResult;
 import com.synapse.reading.model.Discuss;
+import com.synapse.reading.model.Member;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.DiscussRespository;
@@ -44,6 +45,8 @@ public class DiscussService extends DiscussBaseService {
 
     @Autowired
     private DiscussRespository discussRespository;
+    @Autowired
+    private  MemberService memberService;
 
     private Logger logger = LoggerFactory.getLogger(DiscussService.class);
 
@@ -94,7 +97,7 @@ public class DiscussService extends DiscussBaseService {
         return discussRespository.updateByPrimaryKeySelective(model);
     }
 
-    public Integer deleteByCreateId(String recId,User user) {
+    public Integer deleteByCreateId(String recId, User user) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         Discuss model = new Discuss();
         model.setRecId(recId);
@@ -117,24 +120,13 @@ public class DiscussService extends DiscussBaseService {
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         List<DiscussResult> discusses = discussRespository.listByCommentType(params);
-        List<String> useridList = new ArrayList<>();
         if (discusses != null && discusses.size() != 0) {
             for (DiscussResult discuss : discusses) {
-                useridList.add(discuss.getCreateId());
-            }
-            String userIdListStr = StringUtils.join(useridList.toArray(), ",");
-            ArrayList<UserInfo> userList = userService.selectByUserIdList(userIdListStr);
-            for (DiscussResult discuss : discusses) {
-                for (UserInfo user : userList) {
-                    if (user.getUserId().equals(discuss.getCreateId())) {
-                        discuss.setUserName(user.getUserName());
-                        discuss.setUserImg(user.getUserImg());
-                        break;
-                    }
-                }
+             Member member = memberService.getMember(discuss.getCreateId());
+                discuss.setUserName(member.getPic());
+                discuss.setUserImg(member.getName());
             }
         }
-
         return discusses;
     }
 

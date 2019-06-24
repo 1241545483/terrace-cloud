@@ -1,11 +1,16 @@
 package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.reading.dto.result.DiscussResult;
+import com.synapse.reading.model.Discuss;
+import com.synapse.reading.model.MyLike;
 import com.synapse.reading.model.TaskNote;
 import com.synapse.reading.respository.TaskNoteRespository;
 import com.synapse.reading.dto.param.TaskNoteParam;
 import com.synapse.reading.dto.result.TaskNoteResult;
 import com.synapse.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +39,11 @@ public class TaskNoteService extends TaskNoteBaseService {
 
     @Autowired
     private TaskNoteRespository taskNoteRespository;
+    @Autowired
+    private  MyLikeService myLikeService;
+    @Autowired
+    private  DiscussService discussService;
+    private Logger logger = LoggerFactory.getLogger(TaskNoteService.class);
 
     public TaskNote find(String recId){
 	    return taskNoteRespository.selectByPrimaryKey(recId);
@@ -77,6 +87,29 @@ public class TaskNoteService extends TaskNoteBaseService {
 		taskNoteParam.setStatus(TaskNoteConstants.STATUS.OK.num());
         Map<String,Object> params = prepareParams(taskNoteParam);
         return taskNoteRespository.count(params);
+    }
+
+    public List<TaskNoteResult> listByDiscuss(TaskNote taskNoteParam, PageInfo pageInfo) {
+        taskNoteParam.setStatus(TaskNoteConstants.STATUS.OK.num());
+        Map<String,Object> params = prepareParams(taskNoteParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        List<TaskNoteResult> taskNoteResults =  taskNoteRespository.listByUser(params);
+        if(taskNoteResults.size()>=0) {
+            for (TaskNoteResult taskNoteResult : taskNoteResults) {
+                Discuss discussParam = new Discuss();
+                discussParam.setCommentType("taskNote");
+                discussParam.setCommentId(taskNoteResult.getRecId());
+                List<DiscussResult> discussResults = discussService.listByCommentType(discussParam, pageInfo);
+                MyLike myLikeParam = new MyLike();
+                myLikeParam.setLikeId(taskNoteResult.getRecId());
+                myLikeParam.setLikeType("taskNote");
+                Map<String, Object> names = myLikeService.listAndUserName(myLikeParam);
+                taskNoteResult.setDiscussResultList(discussResults);
+                taskNoteResult.setMyLikeMap(names);
+            }
+        }
+        return taskNoteResults;
     }
 
 }

@@ -8,4 +8,15 @@
         `create_id` = #{createId}
     </delete>
 
+    <select id="listAndUserName" parameterType="map" resultType="java.lang.String">
+        select
+        b.name
+        from`my_like` a
+        join  member b on a.create_id =b.user_id
+        where 1 = 1
+        AND `like_type` = #{likeType}
+        AND `like_id` = #{likeId}
+    </select>
+
+
 </mapper>

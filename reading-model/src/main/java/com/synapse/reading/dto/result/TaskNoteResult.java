@@ -1,9 +1,16 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.reading.model.Audio;
+import com.synapse.reading.model.MyLike;
 import com.synapse.reading.model.TaskNote;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,6 +28,10 @@ public class TaskNoteResult {
 	private String  userImage;
 
     private TaskNote  taskNote = new TaskNote();
+
+	private Map<String, Object> myLikeMap = new HashMap<>();// 子列表
+
+	private List<DiscussResult> discussResultList = new ArrayList<>();// 子列表
 
     public TaskNoteResult(){}
 
@@ -159,5 +170,21 @@ public String getUpdateTime() {
 
 	public void setUserImage(String userImage) {
 		this.userImage = userImage;
+	}
+
+	public Map<String, Object> getMyLikeMap() {
+		return myLikeMap;
+	}
+
+	public void setMyLikeMap(Map<String, Object> myLikeMap) {
+		this.myLikeMap = myLikeMap;
+	}
+
+	public List<DiscussResult> getDiscussResultList() {
+		return discussResultList;
+	}
+
+	public void setDiscussResultList(List<DiscussResult> discussResultList) {
+		this.discussResultList = discussResultList;
 	}
 }
