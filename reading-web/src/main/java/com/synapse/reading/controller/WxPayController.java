@@ -10,11 +10,15 @@ import com.synapse.pay.dto.PayItemInfo;
 import com.synapse.pay.dto.PayTransInfo;
 import com.synapse.reading.constants.CommonConstants;
 import com.synapse.reading.dto.param.AudioParam;
+import com.synapse.reading.dto.param.TradeOrderDetailParam;
 import com.synapse.reading.exception.common.ValidException;
 import com.synapse.reading.model.Audio;
+import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.Pay;
+import com.synapse.reading.model.TradeOrderDetail;
 import com.synapse.reading.model.model.Bind;
 import com.synapse.reading.remote.PayService;
+import com.synapse.reading.service.LessonService;
 import com.synapse.reading.service.WxPayService;
 import com.synapse.reading.service.service.BindService;
 import com.synapse.reading.web.valid.group.Update;
@@ -48,6 +52,9 @@ public class WxPayController {
     private WxPayService wxPayService;
     @Autowired
     private BindService bindService;
+    @Autowired
+    private LessonService lessonService;
+
     @Value("${mini.app.appid}")
     private String appId;
     @Value("${mini.app.secret}")
@@ -63,6 +70,19 @@ public class WxPayController {
     public ResponseEntity pay(@RequestBody Pay pay) {
         try {
             //todo 20190621 根据ItemType 查询出订单总价，合适前台订单
+            Integer totalFee = 0;
+            List<TradeOrderDetailParam> tradeOrderDetailParamList = pay.getTradeOrderParam().getTradeOrderDetailParamArrayList();
+            if (tradeOrderDetailParamList.size() >= 0) {
+                for (TradeOrderDetailParam tradeOrderDetailParam : tradeOrderDetailParamList) {
+                    if (tradeOrderDetailParam.getProdType().equals("lesson")) {
+                        Lesson lesson = lessonService.find(tradeOrderDetailParam.getProdId());
+                        totalFee += Integer.parseInt(lesson.getPresentPrice());
+                    }
+                    if (tradeOrderDetailParam.getProdType().equals("book")) {
+                    //TODO   书籍暂时没有支付，待完成  20190624
+                    }
+                }
+            }
             User user = UserContext.getUser();
             Date now = new Date();
             pay.getTradeOrderParam().setCreateId(user.getRecId());
@@ -75,7 +95,7 @@ public class WxPayController {
             Bind bind = bindService.isUser(user.getRecId());
             logger.warn("------------openId=" + bind.getOpenId());
             pay.getPayInfo().setOpenId(bind.getOpenId());
-            pay.getPayInfo().setTotalFee("1");
+            pay.getPayInfo().setTotalFee(totalFee.toString());
             pay.getPayInfo().setChannelId(1L);
             pay.getPayInfo().setService("W1");
             pay.getPayInfo().setSubAppid(appId);
