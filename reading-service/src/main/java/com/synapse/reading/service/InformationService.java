@@ -135,7 +135,11 @@ public class InformationService extends InformationBaseService {
     }
 
     public boolean updateLikeReduceNum(String recId,String createId) {
-        myLikeRespository.deleteByCreateId(createId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("likeType","info");
+        params.put("likeId",recId);
+        params.put("createId",createId);
+        myLikeRespository.deleteByCreateId(params);
         return informationRespository.updateLikeReduceNum(recId) > 0;
     }
 
