@@ -119,7 +119,11 @@ public class DiscussService extends DiscussBaseService {
         Map<String, Object> params = prepareParams(discussParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
+        logger.warn("---------startIndex="+pageInfo.getCurrentStartIndex());
+        logger.warn("---------pageSize="+ pageInfo.getPerPageNum());
+        logger.warn("---------discussParam="+ discussParam.getCommentId());
         List<DiscussResult> discusses = discussRespository.listByCommentType(params);
+        logger.warn("---------countdiscusses="+discusses.size());
         if (discusses != null && discusses.size() != 0) {
             for (DiscussResult discuss : discusses) {
              Member member = memberService.getMember(discuss.getCreateId());

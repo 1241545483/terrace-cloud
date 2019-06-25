@@ -106,6 +106,7 @@ public class TaskNoteService extends TaskNoteBaseService {
                 Integer num = discussService.count(discussParam);
                 logger.warn("-------------------CommentId="+taskNoteResult.getRecId());
                 logger.warn("-------------------num="+num);
+                logger.warn("-------------------CommentId1="+discussParam.getCommentId());
                 List<DiscussResult> discussResults = discussService.listByCommentType(discussParam, pageInfo1);
                 logger.warn("-------------------countdiscussResults="+discussResults);
                 Map<String, Object> discussMap = new HashMap<>();
