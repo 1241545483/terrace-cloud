@@ -253,7 +253,7 @@ public class TradeOrderController extends BaseController{
             @ApiResponse(code = 200, response = TradeOrderResult.class, message = "是否购买"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/user/buy/",method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/user/buy",method = RequestMethod.GET)
     public ResponseEntity getUserBuy( @Validated(Search.class) BuyByUserParam param ){
         try {
             User user = UserContext.getUser();

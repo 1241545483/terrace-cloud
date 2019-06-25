@@ -69,8 +69,6 @@ public class WxPayController {
     @RequestMapping(value = "/v1/pay", method = RequestMethod.POST)
     public ResponseEntity pay(@RequestBody Pay pay) {
         try {
-            //todo 20190621 根据ItemType 查询出订单总价，合适前台订单
-
             Integer totalFee = 0;
             List<TradeOrderDetailParam> tradeOrderDetailParamList = pay.getTradeOrderParam().getTradeOrderDetailParamArrayList();
             logger.warn("------------counttradeOrderDetailParamList=" +tradeOrderDetailParamList.size());
@@ -85,6 +83,9 @@ public class WxPayController {
                     //TODO   书籍暂时没有支付，待完成  20190624
                     }
                 }
+            }
+            if (totalFee.toString().equals(pay.getPayInfo().getTotalFee())){
+                return ResponseEntity.ok("订单异常");
             }
             logger.warn("------------totalFee=" +totalFee);
             User user = UserContext.getUser();
