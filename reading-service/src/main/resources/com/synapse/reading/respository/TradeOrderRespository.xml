@@ -15,6 +15,6 @@
         select count(1)
         from `trade_order` a
             JOIN   trade_order_detail b on  b.trate_order_id = a.rec_id and b.prod_id= #{studyId} and b.prod_type =  #{studyType}
-        where a.buy_id = #{buyId} AND a.status=1
+        where a.buy_id = #{userId} AND a.status=1
     </select>
 </mapper>
