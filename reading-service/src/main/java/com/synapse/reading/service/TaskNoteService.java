@@ -102,7 +102,7 @@ public class TaskNoteService extends TaskNoteBaseService {
                 discussParam.setCommentId(taskNoteResult.getRecId());
                 PageInfo pageInfo1 = new PageInfo();
                 pageInfo1.setCurrentStartIndex(0);
-                pageInfo.setPerPageNum(2);
+                pageInfo1.setPerPageNum(2);
                 Integer num = discussService.count(discussParam);
                 logger.warn("-------------------CommentId="+taskNoteResult.getRecId());
                 logger.warn("-------------------num="+num);
