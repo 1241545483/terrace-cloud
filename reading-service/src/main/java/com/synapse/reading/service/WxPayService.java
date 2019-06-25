@@ -80,6 +80,7 @@ public class WxPayService {
             for (TradeOrderDetailParam tradeOrderDetail : param.getTradeOrderDetailParamArrayList()) {
                 tradeOrderDetail.getModel().setRecId(idService.gen("ID"));
                 tradeOrderDetail.getModel().setCreateTime(now);
+                tradeOrderDetail.getModel().setTrateOrderId(param.getRecId());
                 tradeOrderDetail.getModel().setUpdateTime(now);
                 tradeOrderDetail.getModel().setStatus(TradeOrderConstants.STATUS.OK.num());
                 tradeOrderDetailRespository.insert(tradeOrderDetail.getModel());
