@@ -8,6 +8,15 @@
         <id column="user_image" property="userImage"/>
     </resultMap>
 
+    <select id="findByUser" resultMap="simpleRow" parameterType="java.lang.String" >
+        select
+            a.* , b.name userName ,b.pic userImage
+        from `task_note`a
+        JOIN member b on a.user_id = b.user_id
+        where
+        a.`rec_id` = #{recId}
+    </select>
+
     <select id="listByUser" parameterType="map" resultMap="simpleRow">
         select
          a.* , b.name userName ,b.pic userImage

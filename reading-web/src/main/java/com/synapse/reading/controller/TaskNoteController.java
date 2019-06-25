@@ -149,8 +149,8 @@ public class TaskNoteController extends BaseController{
     @RequestMapping(value = "/v1/taskNote/{recId}",method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("recId") String recId){
         try {
-            TaskNote taskNote = taskNoteService.find(recId);
-            return ResponseEntity.ok(new TaskNoteResult(taskNote));
+            TaskNoteResult taskNote = taskNoteService.findByUser(recId);
+            return ResponseEntity.ok(taskNote);
         } catch (BusinessException e) {
             logger.error("get TaskNote Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

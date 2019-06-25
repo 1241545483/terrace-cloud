@@ -19,4 +19,6 @@ public interface TaskNoteRespository extends TaskNoteMapper {
 
     List<TaskNoteResult> listByUser(Map<String, Object> params);
 
+    TaskNoteResult findByUser(String recId);
+
 }

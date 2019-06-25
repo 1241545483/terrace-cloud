@@ -49,6 +49,10 @@ public class TaskNoteService extends TaskNoteBaseService {
 	    return taskNoteRespository.selectByPrimaryKey(recId);
     }
 
+    public TaskNoteResult findByUser(String recId){
+        return taskNoteRespository.findByUser(recId);
+    }
+
 	public Integer update(TaskNote param){
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
