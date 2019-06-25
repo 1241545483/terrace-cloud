@@ -73,8 +73,10 @@ public class WxPayController {
 
             Integer totalFee = 0;
             List<TradeOrderDetailParam> tradeOrderDetailParamList = pay.getTradeOrderParam().getTradeOrderDetailParamArrayList();
+            logger.warn("------------counttradeOrderDetailParamList=" +tradeOrderDetailParamList.size());
             if (tradeOrderDetailParamList.size() >= 0) {
                 for (TradeOrderDetailParam tradeOrderDetailParam : tradeOrderDetailParamList) {
+                    logger.warn("------------getProdId=" +tradeOrderDetailParam.getProdId());
                     if (tradeOrderDetailParam.getProdType().equals("lesson")) {
                         Lesson lesson = lessonService.find(tradeOrderDetailParam.getProdId());
                         totalFee += Integer.parseInt(lesson.getPresentPrice());
