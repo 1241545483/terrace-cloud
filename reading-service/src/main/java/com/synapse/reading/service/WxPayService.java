@@ -97,6 +97,7 @@ public class WxPayService {
         tradeOrder.setIntro(map.get("attach") + "");
         tradeOrder.setPayWay(map.get("channel") + "");
         tradeOrder.setUpdateTime(now);
+        tradeOrder.setFinishTime(now);
         tradeOrder.setStatus(TradeOrderConstants.STATUS.OK.num());
         return tradeOrderRespository.updateByPrimaryKeySelective(tradeOrder);
     }
