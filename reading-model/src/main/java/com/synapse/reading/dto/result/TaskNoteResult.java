@@ -31,7 +31,9 @@ public class TaskNoteResult {
 
 	private Map<String, Object> myLikeMap = new HashMap<>();// 子列表
 
-	private List<DiscussResult> discussResultList = new ArrayList<>();// 子列表
+	private Map<String, Object> discussMap = new HashMap<>();
+
+//	private List<DiscussResult> discussResultList = new ArrayList<>();// 子列表
 
     public TaskNoteResult(){}
 
@@ -180,11 +182,11 @@ public String getUpdateTime() {
 		this.myLikeMap = myLikeMap;
 	}
 
-	public List<DiscussResult> getDiscussResultList() {
-		return discussResultList;
+	public Map<String, Object> getDiscussMap() {
+		return discussMap;
 	}
 
-	public void setDiscussResultList(List<DiscussResult> discussResultList) {
-		this.discussResultList = discussResultList;
+	public void setDiscussMap(Map<String, Object> discussMap) {
+		this.discussMap = discussMap;
 	}
 }

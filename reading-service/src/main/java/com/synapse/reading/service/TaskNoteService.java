@@ -100,12 +100,19 @@ public class TaskNoteService extends TaskNoteBaseService {
                 Discuss discussParam = new Discuss();
                 discussParam.setCommentType("taskNote");
                 discussParam.setCommentId(taskNoteResult.getRecId());
-                List<DiscussResult> discussResults = discussService.listByCommentType(discussParam, pageInfo);
+                PageInfo pageInfo1 = new PageInfo();
+                pageInfo1.setCurrentStartIndex(0);
+                pageInfo.setPerPageNum(2);
+                Integer num = discussService.count(discussParam);
+                List<DiscussResult> discussResults = discussService.listByCommentType(discussParam, pageInfo1);
+                Map<String, Object> discussMap = new HashMap<>();
+                discussMap.put("discussNum",num );
+                discussMap.put("discussResults",discussResults );
                 MyLike myLikeParam = new MyLike();
                 myLikeParam.setLikeId(taskNoteResult.getRecId());
                 myLikeParam.setLikeType("taskNote");
                 Map<String, Object> names = myLikeService.listAndUserName(myLikeParam);
-                taskNoteResult.setDiscussResultList(discussResults);
+                taskNoteResult.setDiscussMap(discussMap);
                 taskNoteResult.setMyLikeMap(names);
             }
         }
