@@ -98,7 +98,12 @@ public class TaskNoteService extends TaskNoteBaseService {
         Map<String,Object> params = prepareParams(taskNoteParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
+        logger.warn("--------------------userid="+taskNoteParam.getUserId());
+        logger.warn("--------------------TaskId="+taskNoteParam.getTaskId());
+        logger.warn("--------------------getCurrentStartIndex="+pageInfo.getCurrentStartIndex());
+        logger.warn("--------------------getPerPageNum="+pageInfo.getPerPageNum());
         List<TaskNoteResult> taskNoteResults =  taskNoteRespository.listByUser(params);
+        logger.warn("--------------------counttaskNoteResults="+taskNoteResults.size());
         if(taskNoteResults.size()>=0) {
             for (TaskNoteResult taskNoteResult : taskNoteResults) {
                 Discuss discussParam = new Discuss();
