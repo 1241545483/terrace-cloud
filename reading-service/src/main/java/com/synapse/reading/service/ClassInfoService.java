@@ -97,6 +97,7 @@ public class ClassInfoService extends ClassInfoBaseService {
         miniQrcodeParam.setPage("pages/class/class/join");
         Map<String, String> params = new HashMap<>();
         params.put("classCode", param.getClassCode());
+        params.put("classId", param.getRecId());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
         if (result != null && result.getCode() == 200) {
             String body = (String) result.getBody();
