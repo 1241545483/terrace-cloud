@@ -1,6 +1,7 @@
 package com.synapse.reading.respository;
 
 import com.synapse.reading.mapper.ClassStudentMappingMapper;
+import com.synapse.reading.model.ClassStudentMapping;
 
 /**
  * <p>
@@ -11,5 +12,7 @@ import com.synapse.reading.mapper.ClassStudentMappingMapper;
  * @since 2019-05-28
  */
 public interface ClassStudentMappingRespository extends ClassStudentMappingMapper {
+
+    ClassStudentMapping selectByClassId(ClassStudentMapping model);
 
 }
