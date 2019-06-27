@@ -354,10 +354,17 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                     wxNickName = member.getName();
                 }
                 Path tempPng = ImgUtil.DrawSuccessPosterByClass(modelUrl, qrcodeUrl, wxNickName,classInfo.getName(),classInfo.getClassCode());
-                String shareUrl = "";
-                InputStream fiss = new FileInputStream(tempPng.toFile());
-                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
-                shareUrl = uploader.upload(fiss, "");
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+//                String shareUrl = "";
+//                InputStream fiss = new FileInputStream(tempPng.toFile());
+//                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
+//                shareUrl = uploader.upload(fiss, "");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
                 param.setRecId(idService.gen("ID"));
