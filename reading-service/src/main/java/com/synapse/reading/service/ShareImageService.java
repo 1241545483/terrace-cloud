@@ -157,10 +157,13 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                 String albumName = albumService.find(audio.getBelongToId()).getName();
                 String audioName = audio.getName();
                 Path tempPng = ImgUtil.DrawSuccessPoster(modelUrl, url, qrcodeUrl, wxNickName, solgan, albumName, audioName);
-                String shareUrl = null;
-                InputStream fiss = new FileInputStream(tempPng.toFile());
-                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
-                shareUrl = uploader.upload(fiss, "");
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
 //                if ("OSS".equals(UploadType)) {
 //                    InputStream fiss = new FileInputStream(tempPng.toFile());
 //                    shareUrl = ossUtil.uploadImageLocalFile(fiss);
@@ -208,19 +211,17 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                 String albumName = bookService.find(audio.getBelongToId()).getName();
                 String audioName = audio.getName();
                 Path tempPng = ImgUtil.DrawSuccessPoster(modelUrl, url, qrcodeUrl, wxNickName, solgan, albumName, audioName);
-//                FileInputStream fis = new FileInputStream(tempPng.toFile());
-//                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
-//                Gson gson = new Gson();
-//                Type memberType = new TypeToken<Map<String, Object>>() {
-//                }.getType();
-//                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
-//                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+//                String shareUrl = "";
 //                InputStream fiss = new FileInputStream(tempPng.toFile());
-//                String shareUrl = ossUtil.uploadImageLocalFile(fiss);
-                String shareUrl = "";
-                InputStream fiss = new FileInputStream(tempPng.toFile());
-                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
-                shareUrl = uploader.upload(fiss, "");
+//                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
+//                shareUrl = uploader.upload(fiss, "");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
                 param.setRecId(idService.gen("ID"));
@@ -256,17 +257,17 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                 String solgan = book.getSlogan();
                 String bookName = book.getName();
                 Path tempPng = ImgUtil.DrawSuccessPosterByBook(modelUrl, url, qrcodeUrl, wxNickName, solgan, bookName, backdropUrl);
-//                FileInputStream fis = new FileInputStream(tempPng.toFile());
-//                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
-//                Gson gson = new Gson();
-//                Type memberType = new TypeToken<Map<String, Object>>() {
-//                }.getType();
-//                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
-//                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
-                String shareUrl = "";
-                InputStream fiss = new FileInputStream(tempPng.toFile());
-                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
-                shareUrl = uploader.upload(fiss, "");
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+//                String shareUrl = "";
+//                InputStream fiss = new FileInputStream(tempPng.toFile());
+//                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
+//                shareUrl = uploader.upload(fiss, "");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
                 param.setRecId(idService.gen("ID"));
@@ -303,17 +304,17 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                     wxNickName = member.getName();
                 }
                 Path tempPng = ImgUtil.DrawSuccessPosterByLesson(modelUrl, qrcodeUrl, wxNickName);
-                String shareUrl = "";
-                InputStream fiss = new FileInputStream(tempPng.toFile());
-                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
-                shareUrl = uploader.upload(fiss, "");
-//                FileInputStream fis = new FileInputStream(tempPng.toFile());
-//                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
-//                Gson gson = new Gson();
-//                Type memberType = new TypeToken<Map<String, Object>>() {
-//                }.getType();
-//                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
-//                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+//                String shareUrl = "";
+//                InputStream fiss = new FileInputStream(tempPng.toFile());
+//                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
+//                shareUrl = uploader.upload(fiss, "");
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
                 param.setRecId(idService.gen("ID"));
@@ -410,17 +411,17 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                 ClassPathResource classPathStarUrl = new ClassPathResource("/imgs/star/" + starNum + ".png");
                 BufferedImage starUrl = ImageIO.read(classPathStarUrl.getInputStream());
                 Path tempPng = ImgUtil.DrawSuccessPosterByIssue(modelUrl, qrcodeUrl, starUrl, wxNickName, bookName, rightNum, starNum);
-//                FileInputStream fis = new FileInputStream(tempPng.toFile());
-//                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
-//                Gson gson = new Gson();
-//                Type memberType = new TypeToken<Map<String, Object>>() {
-//                }.getType();
-//                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
-//                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
-                String shareUrl = "";
-                InputStream fiss = new FileInputStream(tempPng.toFile());
-                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
-                shareUrl = uploader.upload(fiss, "");
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+//                String shareUrl = "";
+//                InputStream fiss = new FileInputStream(tempPng.toFile());
+//                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
+//                shareUrl = uploader.upload(fiss, "");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
                 param.setRecId(idService.gen("ID"));

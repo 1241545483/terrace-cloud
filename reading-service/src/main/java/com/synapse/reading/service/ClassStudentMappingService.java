@@ -48,6 +48,7 @@ public class ClassStudentMappingService extends ClassStudentMappingBaseService {
     public String create(ClassStudentMapping param) {
         ClassStudentMapping classStudentMapping = classStudentMappingRespository.selectByClassId(param);
         if (classStudentMapping != null && !"".equals(classStudentMapping)) {
+            param.setRecId(classStudentMapping.getRecId());
             classStudentMappingRespository.updateByPrimaryKeySelective(param);
             return classStudentMapping.getRecId();
         } else {
