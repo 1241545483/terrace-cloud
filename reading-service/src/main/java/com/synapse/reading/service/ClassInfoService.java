@@ -94,7 +94,7 @@ public class ClassInfoService extends ClassInfoBaseService {
 
     public ClassInfo getClassQrCode(ClassInfo param) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/class/class/detail");
+        miniQrcodeParam.setPage("pages/class/class/join");
         Map<String, String> params = new HashMap<>();
         params.put("classCode", param.getClassCode());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
