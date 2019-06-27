@@ -5,7 +5,7 @@
 
     <select id="selectByClassId" resultMap="com.synapse.reading.mapper.ClassStudentMappingMapper.BaseResultMap" parameterType="com.synapse.reading.model.ClassStudentMapping" >
         select
-        <include refid="Base_Column_List" />
+        <include refid="com.synapse.reading.mapper.ClassStudentMappingMapper.Base_Column_List" />
         from `class_student_mapping`
         where
         `class_id` = #{classId} and student_id =#{studentId}
