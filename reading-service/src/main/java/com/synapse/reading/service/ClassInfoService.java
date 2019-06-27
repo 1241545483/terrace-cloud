@@ -87,14 +87,14 @@ public class ClassInfoService extends ClassInfoBaseService {
         classCode.setStatus(ClassCodeConstants.STATUS.OK.num());
         String code = classCodeService.create(classCode);
         param.setClassCode(code);
-//        getClassQrCode(param);
+        getClassQrCode(param);
         classInfoRespository.insert(param);
         return param.getRecId();
     }
 
     public ClassInfo getClassQrCode(ClassInfo param) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/class/index");
+        miniQrcodeParam.setPage("pages/class/class/detail");
         Map<String, String> params = new HashMap<>();
         params.put("classCode", param.getClassCode());
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
