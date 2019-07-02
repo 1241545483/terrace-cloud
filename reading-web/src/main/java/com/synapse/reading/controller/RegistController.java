@@ -106,7 +106,7 @@ public class RegistController extends BaseController {
             logger.error("------------------------------------code" + code);
             String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appId + "&secret=" + secret + "&js_code=" + code + "&grant_type=authorization_code";
             Map<String, String> userInfo = getRsp(url);
-            redisTemplate.opsForValue().set(code, userInfo.get("openId"), 72, TimeUnit.HOURS);
+//            redisTemplate.opsForValue().set(code, userInfo.get("openId"), 72, TimeUnit.HOURS);
             if (org.springframework.util.StringUtils.isEmpty(userInfo.get("unionid"))) {
                 String data = null;
                 try {
