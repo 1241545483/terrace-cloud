@@ -11,7 +11,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-09
+ * @since 2019-07-02
  */
 public class IssueAnswerBaseService {
 
@@ -25,6 +25,9 @@ public class IssueAnswerBaseService {
         }
         if (issueAnswerParam.getItemId() != null && !issueAnswerParam.getItemId().trim().equals("")) {
             params.put("itemId", issueAnswerParam.getItemId());
+        }
+        if (issueAnswerParam.getAnswer() != null && !issueAnswerParam.getAnswer().trim().equals("")) {
+            params.put("answer", issueAnswerParam.getAnswer());
         }
         if (issueAnswerParam.getStatus() != null && !issueAnswerParam.getStatus().trim().equals("")) {
             params.put("status", issueAnswerParam.getStatus());

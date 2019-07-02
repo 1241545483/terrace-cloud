@@ -125,6 +125,7 @@ public class BindService extends BindBaseService {
                     Bind bind1 =new Bind();
                     bind1.setUserId(userId);
                     bind1.setOpenId(userInfo.get("openid"));
+                    logger.info("--------------------------20190628openId 2=" + userInfo.get("openId"));
                     String bindId1 = bindService.create(bind1);
                     logger.warn("-------------bindId=="+bindId1);
                     map.put("userId", userId);
@@ -159,6 +160,7 @@ public class BindService extends BindBaseService {
                     Bind bind2 =new Bind();
                     bind2.setUserId(userId);
                     bind2.setOpenId(userInfo.get("openid"));
+                    logger.info("--------------------------20190628openId 3=" + userInfo.get("openId"));
                  String bindId = bindService.create(bind2);
                     logger.warn("-------------bindId=="+bindId);
                     map.put("userId", userId);

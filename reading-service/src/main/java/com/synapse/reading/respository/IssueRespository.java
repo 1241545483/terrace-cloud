@@ -25,4 +25,6 @@ Double  selectScoreByUserId(@Param("userId") String userId,@Param("belongToId") 
 
 Integer  selectCountByUserId(@Param("userId") String userId,@Param("belongToId") String belongToId,@Param("belongTo") String belongTo);
 
+    Map<String,String> issueRate(@Param("taskId") String taskId);
+
 }

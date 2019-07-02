@@ -2,7 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.IssueRespository">
 
-
+    <select id="selectByPrimaryKey" resultMap="com.synapse.reading.mapper.IssueMapper.BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="com.synapse.reading.mapper.IssueMapper.Base_Column_List" />
+        from `issue`
+        where
+        `rec_id` = #{recId}
+    </select>
 
     <select id="selectBybelongToId" resultType="map" parameterType="map" >
         select
@@ -12,6 +18,19 @@
         JOIN  issue_item b on a.rec_id =b.issue_id
         where
             a.`belong_to_id` = #{recId} AND   a.`belong_to` = #{belongTo} AND a.status='1'  order by a.rec_id ,b.rec_id
+    </select>
+
+    <select id="issueRate" resultType="map" parameterType="map" >
+        SELECT a.applyTotalNum ,b.joinNum,ROUND(IFNULL(b.joinNum,0)/a.applyTotalNum*100,1) rate FROM (
+         select count(*) applyTotalNum from  member a
+        join class_student_mapping c on a.user_id = c.student_id
+        join task b on b.rec_id = #{taskId}  and b.class_id = c.class_id
+        WHERE  1=1)a
+            JOIN
+            (SELECT count(DISTINCT a.create_id ) joinNum FROM  issue_answer a
+                join  issue b on a.issue_id = b.rec_id and b.belong_to ='task' and  b.belong_to_id = #{taskId}
+                JOIN  task  c on b.belong_to_id =c.rec_id WHERE 1=1) b
+        WHERE 1=1
     </select>
 
 

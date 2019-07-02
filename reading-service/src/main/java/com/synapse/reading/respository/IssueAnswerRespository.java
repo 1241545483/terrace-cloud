@@ -3,6 +3,8 @@ package com.synapse.reading.respository;
 import com.synapse.reading.mapper.IssueAnswerMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 问题回答 Respository 接口
@@ -13,4 +15,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IssueAnswerRespository extends IssueAnswerMapper {
     Integer deleteByCreateId(@Param("createId") String createId, @Param("belongToId") String belongToId, @Param("belongTo") String belongTo);
+    List<String> listUser(@Param("issueItemId") String issueItemId);
+
 }

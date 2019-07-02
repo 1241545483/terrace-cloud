@@ -22,7 +22,10 @@ import java.util.List;
 public class IssueResult {
 
     private Issue issue = new Issue();
+
     private List<IssueItemResult> issueItemList = new ArrayList<>();
+
+    private  String  orderNum;
 
     public IssueResult() {
     }
@@ -184,5 +187,13 @@ public class IssueResult {
 
     public void setIssueItemList(List<IssueItemResult> issueItemList) {
         this.issueItemList = issueItemList;
+    }
+
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
     }
 }

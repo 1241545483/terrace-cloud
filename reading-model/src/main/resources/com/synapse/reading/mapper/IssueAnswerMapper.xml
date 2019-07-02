@@ -7,6 +7,7 @@
         <id column="rec_id" property="recId" />
         <result column="issue_id" property="issueId" />
         <result column="item_id" property="itemId" />
+        <result column="answer" property="answer" />
         <result column="status" property="status" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
@@ -14,7 +15,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`issue_id`,`item_id`,`status`,`create_id`,`create_time`
+      `rec_id`,`issue_id`,`item_id`,`answer`,`status`,`create_id`,`create_time`
     </sql>
 
 
@@ -29,7 +30,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.IssueAnswer">
         insert into `issue_answer`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{issueId},#{itemId},#{status},#{createId},#{createTime})
+        values (#{recId},#{issueId},#{itemId},#{answer},#{status},#{createId},#{createTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -50,6 +51,9 @@
                 <if test="itemId != null" >
                     `item_id`,
                 </if>
+                <if test="answer != null" >
+                    `answer`,
+                </if>
                 <if test="status != null" >
                     `status`,
                 </if>
@@ -69,6 +73,9 @@
                 </if>
                 <if test="itemId != null" >
 			        #{itemId},
+                </if>
+                <if test="answer != null" >
+			        #{answer},
                 </if>
                 <if test="status != null" >
 			        #{status},
@@ -94,6 +101,9 @@
 	            <if test="itemId != null" >
 		            `item_id` = #{itemId},
 	            </if>
+	            <if test="answer != null" >
+		            `answer` = #{answer},
+	            </if>
 	            <if test="status != null" >
 		            `status` = #{status},
 	            </if>
@@ -109,7 +119,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.IssueAnswer" >
         update  `issue_answer` SET
-		    `rec_id`=#{recId},`issue_id`=#{issueId},`item_id`=#{itemId},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime}
+		    `rec_id`=#{recId},`issue_id`=#{issueId},`item_id`=#{itemId},`answer`=#{answer},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -140,6 +150,14 @@
                     </if>
                     <if test="itemId.indexOf('%') lt 0" >
                         AND `item_id` = #{itemId}
+                    </if>
+            </if>
+            <if test="answer != null" >
+                    <if test="answer.indexOf('%') >= 0" >
+                        AND `answer` like #{answer}
+                    </if>
+                    <if test="answer.indexOf('%') lt 0" >
+                        AND `answer` = #{answer}
                     </if>
             </if>
             <if test="status != null" >
@@ -195,6 +213,14 @@
 	            </if>
                 <if test="itemId.indexOf('%') lt 0" >
                     AND `item_id` = #{itemId}
+                </if>
+            </if>
+            <if test="answer != null" >
+	            <if test="answer.indexOf('%') >= 0" >
+				    AND `answer` like #{answer}
+	            </if>
+                <if test="answer.indexOf('%') lt 0" >
+                    AND `answer` = #{answer}
                 </if>
             </if>
             <if test="status != null" >

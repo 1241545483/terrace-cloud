@@ -7,6 +7,7 @@ import com.synapse.reading.dto.result.IssueItemResult;
 import com.synapse.reading.model.Issue;
 import com.synapse.reading.model.IssueAnswer;
 import com.synapse.reading.model.IssueItem;
+import com.synapse.reading.model.Member;
 import com.synapse.reading.respository.IssueRespository;
 import com.synapse.reading.dto.param.IssueParam;
 import com.synapse.reading.dto.result.IssueResult;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 
 /**
@@ -46,6 +48,8 @@ public class IssueService extends IssueBaseService {
     private IssueAnswerService issueAnswerService;
     @Autowired
     private IssueService issueService;
+    @Autowired
+    private  MemberService memberService;
 
     public Issue find(String recId) {
         return issueRespository.selectByPrimaryKey(recId);
@@ -75,6 +79,11 @@ public class IssueService extends IssueBaseService {
         model.setUpdateTime(now);
         model.setStatus(IssueConstants.STATUS.DELETED.num());
         return issueRespository.updateByPrimaryKeySelective(model);
+    }
+
+
+    public Map<String, String> issueRate(String taskId) {
+        return issueRespository.issueRate(taskId);
     }
 
     public List<Issue> list(Issue issueParam, PageInfo pageInfo) {
@@ -182,12 +191,38 @@ public class IssueService extends IssueBaseService {
             item.setCreateTime(map.get("item_create_time"));
             item.setUpdateId(map.get("item_update_id"));
             item.setUpdateTime(map.get("item_update_time"));
-
-
-
         }
         return list;
     }
+
+    public List<IssueResult> getIssueListRate(Issue issueParam) {
+        issueParam.setStatus(IssueConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(issueParam);
+        List<Issue> models = issueRespository.list(params);
+        List<IssueResult> results = models.stream().map(it -> new IssueResult(it)).collect(Collectors.toList());
+        if (results != null && results.size() > 0) {
+            for (IssueResult result : results) {
+                List<IssueItemResult> issueItemResults = issueItemService.findByIssueIdRate(result.getRecId());
+                if (issueItemResults != null && issueItemResults.size() > 0) {
+                    for (IssueItemResult issueItemResult : issueItemResults) {
+                        List<String> userNames = issueAnswerService.listUser(issueItemResult.getRecId());
+                        if (userNames != null && userNames.size() > 0) {
+                            issueItemResult.setNameList(userNames);
+                        }
+                        if (result.getType().equals("answer")) {
+                            List<Member> memberList = memberService.listMember(issueItemResult.getRecId());
+                            if (memberList != null && memberList.size() > 0) {
+                                issueItemResult.setMemberList(memberList);
+                            }
+                        }
+                    }
+                }
+                result.setIssueItemList(issueItemResults);
+            }
+        }
+        return results;
+    }
+
 
     public int selectCountByUserId(User user, String belongToId, String belongTo) {
         return issueRespository.selectCountByUserId(user.getRecId(), belongToId, belongTo);
@@ -196,15 +231,15 @@ public class IssueService extends IssueBaseService {
     public double selectScoreByUserId(User user, String belongToId, String belongTo) {
         Double score = issueRespository.selectScoreByUserId(user.getRecId(), belongToId, belongTo);
         if (!"".equals(score) && score != null) {
-            if (0.8 < score && score <=1) {
+            if (0.8 < score && score <= 1) {
                 return 5;
-            } else if (0.6 < score && score <=0.8) {
+            } else if (0.6 < score && score <= 0.8) {
                 return 4;
             } else if (0.4 < score && score <= 0.6) {
                 return 3;
             } else if (0.2 < score && score <= 0.4) {
                 return 2;
-            } else if (0 < score && score <=0.2) {
+            } else if (0 < score && score <= 0.2) {
                 return 1;
             } else {
                 return 0;

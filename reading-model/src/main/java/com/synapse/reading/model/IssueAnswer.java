@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liuguangfu
- * @since 2019-01-09
+ * @since 2019-07-02
  */
 public class IssueAnswer implements Serializable {
 
@@ -28,6 +28,10 @@ public class IssueAnswer implements Serializable {
      * 选项主键
      */
     private String itemId;
+    /**
+     * 文字回答
+     */
+    private String answer;
     /**
      * 状态(0 删除，1正常)
      */
@@ -64,6 +68,14 @@ public class IssueAnswer implements Serializable {
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public String getStatus() {

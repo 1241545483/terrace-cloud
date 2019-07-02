@@ -2,8 +2,12 @@ package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.synapse.reading.model.IssueItem;
+import com.synapse.reading.model.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -18,6 +22,10 @@ public class IssueItemResult {
 
     private IssueItem  issueItem = new IssueItem();
 
+    private  String selectedCount;
+
+	private List<String> nameList = new ArrayList<>();
+	private List<Member> MemberList = new ArrayList<>();
     public IssueItemResult(){}
 
     public IssueItemResult(IssueItem  issueItem) {
@@ -134,5 +142,27 @@ public String getUpdateTime() {
 		issueItem.setUpdateTime(update_time);
 	}
 
-		
+	public String getSelectedCount() {
+		return selectedCount;
+	}
+
+	public void setSelectedCount(String selectedCount) {
+		this.selectedCount = selectedCount;
+	}
+
+	public List<String> getNameList() {
+		return nameList;
+	}
+
+	public void setNameList(List<String> nameList) {
+		this.nameList = nameList;
+	}
+
+	public List<Member> getMemberList() {
+		return MemberList;
+	}
+
+	public void setMemberList(List<Member> memberList) {
+		MemberList = memberList;
+	}
 }

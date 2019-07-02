@@ -89,5 +89,11 @@ public String getCreateTime() {
 		issueAnswer.setCreateTime(create_time);
 	}
 
-		
+	public String getAnswer() {
+		return issueAnswer.getAnswer();
+	}
+
+	public void setAnswer(String answer) {
+		issueAnswer.setAnswer(answer);
+	}
 }

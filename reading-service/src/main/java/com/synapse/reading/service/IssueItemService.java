@@ -42,6 +42,10 @@ public class IssueItemService extends IssueItemBaseService {
         return issueItemRespository.selectByPrimaryIssueId(issueId);
     }
 
+    public List<IssueItemResult> findByIssueIdRate(String issueId){
+        return issueItemRespository.findByIssueIdRate(issueId);
+    }
+
 	public Integer update(IssueItem param){
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);

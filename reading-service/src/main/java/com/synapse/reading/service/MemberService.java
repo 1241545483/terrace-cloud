@@ -83,6 +83,10 @@ public class MemberService extends MemberBaseService {
         return memberRespository.updateByPrimaryKeySelective(param);
     }
 
+    public List<Member> listMember(String issueItemId) {
+        return memberRespository.listMember(issueItemId);
+    }
+
     public boolean addPoint(User user, Integer point) {
         MySignin mySignin = new MySignin();
         mySignin.setCreateId(user.getRecId());

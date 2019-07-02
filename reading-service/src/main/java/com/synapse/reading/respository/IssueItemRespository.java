@@ -1,5 +1,6 @@
 package com.synapse.reading.respository;
 
+import com.synapse.reading.dto.result.IssueItemResult;
 import com.synapse.reading.mapper.IssueItemMapper;
 import com.synapse.reading.model.IssueItem;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,5 @@ public interface IssueItemRespository extends IssueItemMapper {
     Integer deleteByIssueId(String issueId);
 
    List<IssueItem>  selectByPrimaryIssueId(String issueId);
+    List<IssueItemResult>  findByIssueIdRate(String issueId);
 }

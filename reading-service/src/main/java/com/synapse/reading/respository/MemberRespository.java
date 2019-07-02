@@ -32,5 +32,7 @@ public interface MemberRespository extends MemberMapper {
 
     List<Member> listTeacher(Map<String, Object> params);
 
+    List<Member> listMember(@Param("issueItemId") String issueItemId);
+
 
 }

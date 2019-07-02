@@ -1,6 +1,7 @@
 package com.synapse.reading.mapper;
 
 import com.synapse.reading.model.Member;
+import feign.Param;
 
 import java.util.List;
 import java.util.Map;

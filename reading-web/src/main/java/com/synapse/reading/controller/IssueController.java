@@ -175,6 +175,31 @@ public class IssueController extends BaseController {
     }
 
 
+    @ApiOperation(value = "根据书籍主键查询所有Issue详情（查询统计详情）")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = IssueResult.class, message = "返回包含统计详情"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/getIssueList/rate", method = RequestMethod.GET)
+    public ResponseEntity getIssueListRate(@Validated(Search.class) IssueParam param) {
+        try {
+            int totalNum = issueService.count(param.getModel());
+            List<IssueResult> results = issueService.getIssueListRate(param.getModel());
+            Map<String, Object> map = new HashMap();
+            map.put("issueList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+
+        } catch (BusinessException e) {
+            logger.error("get issueResult Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get issueResult Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 //    @ApiOperation(value = "根据主键查询单个Issue详情")
 //    @ApiResponses({
 //            @ApiResponse(code = 200, response = IssueResult.class, message = "Issue对象包含选项"),
@@ -394,4 +419,25 @@ public class IssueController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "根据任务主键查询参与率")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "参与情况"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/issue/join/{taskId}", method = RequestMethod.GET)
+    public ResponseEntity issueRate(@PathVariable("taskId") String taskId) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            Map<String,String> map = issueService.issueRate(taskId);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("rate Issue Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("rate Issue Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 }

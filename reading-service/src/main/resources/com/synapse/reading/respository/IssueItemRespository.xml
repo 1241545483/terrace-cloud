@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.IssueItemRespository">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.IssueItemResult"
+               extends="com.synapse.reading.mapper.IssueItemMapper.BaseResultMap">
+        <id column="selectedCount" property="selectedCount"/>
+
+    </resultMap>
+
     <delete id="deleteByIssueId" parameterType="java.lang.String" >
         delete from `issue_item`
         where
@@ -17,6 +24,16 @@
     </select>
 
 
+    <select id="findByIssueIdRate" resultMap="simpleRow" parameterType="java.lang.String" >
+        select
+        a.*, b.orderNum selectedCount
+        from `issue_item` a
+        join  (SELECT a.item_id,count(DISTINCT a.create_id ) orderNum FROM  issue_answer a
+        join  issue b on a.issue_id = b.rec_id
+        JOIN  task  c on b.belong_to_id =c.rec_id WHERE 1=1 GROUP BY a.item_id ) b on a.rec_id = b.item_id
+        where
+        `issue_id` = #{issueId}
+    </select>
 
 
 

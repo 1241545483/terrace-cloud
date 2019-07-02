@@ -106,13 +106,14 @@ public class RegistController extends BaseController {
             logger.error("------------------------------------code" + code);
             String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appId + "&secret=" + secret + "&js_code=" + code + "&grant_type=authorization_code";
             Map<String, String> userInfo = getRsp(url);
+            redisTemplate.opsForValue().set(code, userInfo.get("openId"), 72, TimeUnit.HOURS);
             if (org.springframework.util.StringUtils.isEmpty(userInfo.get("unionid"))) {
                 String data = null;
                 try {
                     data = AESDecodeUtils.decryptPre(encrypData, ivData, userInfo.get("session_key"));
                     Map map = JsonUtils.toObject(data, Map.class);
                     logger.warn("-------------" + JsonUtils.toJson(map));
-                    userInfo.put("unionid", (String) map.get("unionId"));
+                    userInfo.put("unionid", (String) map.get("userInfo"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -123,6 +124,7 @@ public class RegistController extends BaseController {
             if (!org.springframework.util.StringUtils.isEmpty(regWay)) {
                 userInfo.put("regWay", regWay);
             }
+            logger.info("--------------------------20190628openId 1=" + userInfo.get("openId"));
             Map<String, String> judgeMap = bindService.judge4MiniApp(userInfo);
             logger.info("--------------------------judgeMapuserId" + judgeMap.get("userId"));
             //1没有unionId关联的user
