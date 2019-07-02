@@ -180,6 +180,9 @@ public class IssueController extends BaseController {
             @ApiResponse(code = 200, response = IssueResult.class, message = "返回包含统计详情"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "belongToId" , paramType = "query"),
+            @ApiImplicitParam(name = "belongTo" , paramType = "query")    })
     @RequestMapping(value = "/v1/getIssueList/rate", method = RequestMethod.GET)
     public ResponseEntity getIssueListRate(@Validated(Search.class) IssueParam param) {
         try {

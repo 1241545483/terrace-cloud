@@ -113,7 +113,7 @@ public class RegistController extends BaseController {
                     data = AESDecodeUtils.decryptPre(encrypData, ivData, userInfo.get("session_key"));
                     Map map = JsonUtils.toObject(data, Map.class);
                     logger.warn("-------------" + JsonUtils.toJson(map));
-                    userInfo.put("unionid", (String) map.get("userInfo"));
+                    userInfo.put("unionid", (String) map.get("unionId"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
