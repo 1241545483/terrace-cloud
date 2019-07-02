@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.dto.param.IssueItemParam;
 import com.synapse.reading.dto.result.IssueItemResult;
+import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.model.Issue;
 import com.synapse.reading.model.IssueAnswer;
 import com.synapse.reading.model.IssueItem;
@@ -209,12 +210,12 @@ public class IssueService extends IssueBaseService {
                         if (userNames != null && userNames.size() > 0) {
                             issueItemResult.setNameList(userNames);
                         }
-                        if (result.getType().equals("answer")) {
-                            List<Member> memberList = memberService.listMember(issueItemResult.getRecId());
-                            if (memberList != null && memberList.size() > 0) {
-                                issueItemResult.setMemberList(memberList);
-                            }
-                        }
+                    }
+                }
+                if (result.getType().equals("answer")) {
+                    List<MemberResult> memberList = memberService.listMember(result.getRecId());
+                    if (memberList != null && memberList.size() > 0) {
+                        result.setMemberList(memberList);
                     }
                 }
                 result.setIssueItemList(issueItemResults);

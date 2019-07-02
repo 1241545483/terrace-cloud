@@ -25,7 +25,7 @@ public class IssueItemResult {
     private  String selectedCount;
 
 	private List<String> nameList = new ArrayList<>();
-	private List<Member> MemberList = new ArrayList<>();
+
     public IssueItemResult(){}
 
     public IssueItemResult(IssueItem  issueItem) {
@@ -158,11 +158,11 @@ public String getUpdateTime() {
 		this.nameList = nameList;
 	}
 
-	public List<Member> getMemberList() {
-		return MemberList;
+	public IssueItem getIssueItem() {
+		return issueItem;
 	}
 
-	public void setMemberList(List<Member> memberList) {
-		MemberList = memberList;
+	public void setIssueItem(IssueItem issueItem) {
+		this.issueItem = issueItem;
 	}
 }

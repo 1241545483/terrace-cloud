@@ -23,6 +23,8 @@ public class MemberResult {
 
     private Member  member = new Member();
 
+    private  String answer;
+
 	private List<Lesson> lessonList = new ArrayList<>();// 子列表
 
 	public List<Lesson> getLessonList() {
@@ -218,5 +220,11 @@ public String getUpdateTime() {
 		member.setUpdateTime(update_time);
 	}
 
-		
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
 }

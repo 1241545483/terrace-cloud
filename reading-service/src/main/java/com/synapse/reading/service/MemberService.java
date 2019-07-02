@@ -6,6 +6,7 @@ import com.synapse.common.trans.BizTrans;
 import com.synapse.common.trans.BizTransUtils;
 import com.synapse.reading.constants.MemberConstants;
 import com.synapse.reading.dto.param.RegistParam;
+import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.model.*;
 import com.synapse.reading.remote.GatwayService;
 import com.synapse.reading.remote.UserService;
@@ -83,7 +84,7 @@ public class MemberService extends MemberBaseService {
         return memberRespository.updateByPrimaryKeySelective(param);
     }
 
-    public List<Member> listMember(String issueItemId) {
+    public List<MemberResult> listMember(String issueItemId) {
         return memberRespository.listMember(issueItemId);
     }
 

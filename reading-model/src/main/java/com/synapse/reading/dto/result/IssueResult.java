@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.synapse.reading.dto.param.IssueItemParam;
 import com.synapse.reading.model.Issue;
 import com.synapse.reading.model.IssueItem;
+import com.synapse.reading.model.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -25,7 +26,8 @@ public class IssueResult {
 
     private List<IssueItemResult> issueItemList = new ArrayList<>();
 
-    private  String  orderNum;
+    private List<MemberResult> MemberList = new ArrayList<>();
+    private String orderNum;
 
     public IssueResult() {
     }
@@ -195,5 +197,13 @@ public class IssueResult {
 
     public void setOrderNum(String orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public List<MemberResult> getMemberList() {
+        return MemberList;
+    }
+
+    public void setMemberList(List<MemberResult> memberList) {
+        MemberList = memberList;
     }
 }
