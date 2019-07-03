@@ -15,7 +15,7 @@
             join member b on b.user_id = s.create_id
         where s.item_id =#{issueItemId}
         <if test="createId != null" >
-             and  s.create_id =#{create_id}
+             and  s.create_id =#{createId}
         </if>
         ;
     </select>
