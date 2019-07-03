@@ -13,6 +13,7 @@ import com.synapse.reading.respository.IssueRespository;
 import com.synapse.reading.dto.param.IssueParam;
 import com.synapse.reading.dto.result.IssueResult;
 import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.respository.MemberRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +52,8 @@ public class IssueService extends IssueBaseService {
     private IssueService issueService;
     @Autowired
     private  MemberService memberService;
+    @Autowired
+    private MemberRespository memberRespository;
 
     public Issue find(String recId) {
         return issueRespository.selectByPrimaryKey(recId);
@@ -83,8 +86,13 @@ public class IssueService extends IssueBaseService {
     }
 
 
-    public Map<String, String> issueRate(String taskId) {
-        return issueRespository.issueRate(taskId);
+    public Map<String, Object> issueRate(String taskId) {
+        Map<String, Object> map =issueRespository.issueRate(taskId);
+      List<Member> memberList =  memberRespository.listByTaskId(taskId);
+      if(memberList!=null&&memberList.size()>0){
+          map.put("memberList",memberList);
+      }
+        return map;
     }
 
     public List<Issue> list(Issue issueParam, PageInfo pageInfo) {
@@ -196,9 +204,9 @@ public class IssueService extends IssueBaseService {
         return list;
     }
 
-    public List<IssueResult> getIssueListRate(Issue issueParam) {
+    public List<IssueResult> getIssueListRate(IssueParam issueParam) {
         issueParam.setStatus(IssueConstants.STATUS.OK.num());
-        Map<String, Object> params = prepareParams(issueParam);
+        Map<String, Object> params = prepareParams(issueParam.getModel());
         List<Issue> models = issueRespository.list(params);
         List<IssueResult> results = models.stream().map(it -> new IssueResult(it)).collect(Collectors.toList());
         if (results != null && results.size() > 0) {
@@ -206,7 +214,7 @@ public class IssueService extends IssueBaseService {
                 List<IssueItemResult> issueItemResults = issueItemService.findByIssueIdRate(result.getRecId());
                 if (issueItemResults != null && issueItemResults.size() > 0) {
                     for (IssueItemResult issueItemResult : issueItemResults) {
-                        List<String> userNames = issueAnswerService.listUser(issueItemResult.getRecId());
+                        List<String> userNames = issueAnswerService.listUser(issueItemResult.getRecId(),issueParam.getUserId());
                         if (userNames != null && userNames.size() > 0) {
                             issueItemResult.setNameList(userNames);
                         }

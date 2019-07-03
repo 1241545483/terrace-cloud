@@ -182,12 +182,13 @@ public class IssueController extends BaseController {
     })
     @ApiImplicitParams({
             @ApiImplicitParam(name = "belongToId" , paramType = "query"),
+            @ApiImplicitParam(name = "userId" , paramType = "query"),
             @ApiImplicitParam(name = "belongTo" , paramType = "query")    })
     @RequestMapping(value = "/v1/getIssueList/rate", method = RequestMethod.GET)
     public ResponseEntity getIssueListRate(@Validated(Search.class) IssueParam param) {
         try {
             int totalNum = issueService.count(param.getModel());
-            List<IssueResult> results = issueService.getIssueListRate(param.getModel());
+            List<IssueResult> results = issueService.getIssueListRate(param);
             Map<String, Object> map = new HashMap();
             map.put("issueList", results);
             map.put("totalNum", totalNum);
@@ -432,7 +433,7 @@ public class IssueController extends BaseController {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-            Map<String,String> map = issueService.issueRate(taskId);
+            Map<String,Object> map = issueService.issueRate(taskId);
             return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("rate Issue Error!", e);

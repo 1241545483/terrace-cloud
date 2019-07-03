@@ -15,6 +15,6 @@ import java.util.List;
  */
 public interface IssueAnswerRespository extends IssueAnswerMapper {
     Integer deleteByCreateId(@Param("createId") String createId, @Param("belongToId") String belongToId, @Param("belongTo") String belongTo);
-    List<String> listUser(@Param("issueItemId") String issueItemId);
+    List<String> listUser(@Param("issueItemId") String issueItemId,@Param("createId") String createId);
 
 }

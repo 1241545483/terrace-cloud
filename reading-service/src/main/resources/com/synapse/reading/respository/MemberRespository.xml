@@ -66,4 +66,13 @@
         </if>
     </select>
 
+
+    <select id="listByTaskId"  parameterType="map" resultMap="com.synapse.reading.mapper.MemberMapper.BaseResultMap">
+
+        SELECT m.user_id,m.`NAME`,m.pic  FROM  member  m
+            join  issue_answer a on a.create_id =m.user_id
+            join  issue b on a.issue_id = b.rec_id and b.belong_to ='task' and  b.belong_to_id = #{taskId}
+            JOIN  task  c on b.belong_to_id =c.rec_id WHERE 1=1
+
+    </select>
 </mapper>

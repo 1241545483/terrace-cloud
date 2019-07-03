@@ -27,6 +27,8 @@ public class IssueParam {
 
     private Issue issue = new Issue();
 
+    private  String  userId;
+
     private List<IssueItemParam>  issueItemList = new ArrayList<>();
 
     public IssueParam() {
@@ -198,5 +200,13 @@ public class IssueParam {
 
     public void setIssueItemParamList(List<IssueItemParam> issueItemList) {
         this.issueItemList = issueItemList;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
