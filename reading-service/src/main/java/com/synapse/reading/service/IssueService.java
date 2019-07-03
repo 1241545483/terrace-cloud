@@ -14,6 +14,8 @@ import com.synapse.reading.dto.param.IssueParam;
 import com.synapse.reading.dto.result.IssueResult;
 import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.respository.MemberRespository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,8 @@ public class IssueService extends IssueBaseService {
     private  MemberService memberService;
     @Autowired
     private MemberRespository memberRespository;
+
+    private Logger logger = LoggerFactory.getLogger(IssueService.class);
 
     public Issue find(String recId) {
         return issueRespository.selectByPrimaryKey(recId);
@@ -216,7 +220,9 @@ public class IssueService extends IssueBaseService {
                     for (IssueItemResult issueItemResult : issueItemResults) {
                         Map<String,String> map =new HashMap<>();
                         map.put("issueItemId",issueItemResult.getRecId());
-                        map.put("userId",issueParam.getUserId());
+                        if(issueParam.getUserId()!=null &&!"".equals(issueParam.getUserId())){
+                            map.put("userId",issueParam.getUserId());
+                        }
                         List<String> userNames = issueAnswerService.listUser(map);
                         if (userNames != null && userNames.size() > 0) {
                             issueItemResult.setNameList(userNames);
@@ -226,7 +232,10 @@ public class IssueService extends IssueBaseService {
                 if (result.getType().equals("answer")) {
                     Map<String,String> map =new HashMap<>();
                     map.put("issueId",result.getRecId());
-                    map.put("userId",issueParam.getUserId());
+                    logger.warn("--------------------------userId="+issueParam.getUserId());
+                    if(issueParam.getUserId()!=null &&!"".equals(issueParam.getUserId())){
+                        map.put("userId",issueParam.getUserId());
+                    }
                     List<MemberResult> memberList = memberService.listMember(map);
                     if (memberList != null && memberList.size() > 0) {
                         result.setMemberList(memberList);

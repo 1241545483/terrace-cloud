@@ -6,16 +6,16 @@
     <resultMap id="simpleRow" type="com.synapse.reading.dto.result.MemberResult"
                extends="com.synapse.reading.mapper.MemberMapper.BaseResultMap">
         <id column="answer" property="answer"/>
-
     </resultMap>
 
+
     <select id="listMember" resultMap="simpleRow" parameterType="map" >
-        SELECT  b.*,s.answer from member b
-        join  issue_answer s on b.user_id = s.create_id and s.issue_id =#{issueItemId}
+        SELECT  b.* , s.answer from member b
+        join  issue_answer s on b.user_id = s.create_id and s.issue_id =#{issueId}
         where 1=1
-        <if test="createId != null" >
-            and  b.user_id =#{createId}
-        </if>;
+        <if test="userId != null" >
+            and  b.user_id =#{userId}
+        </if>
     </select>
 
     <update id="addPoint" parameterType="com.synapse.reading.model.Member" >

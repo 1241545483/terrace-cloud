@@ -14,8 +14,8 @@
         SELECT b.name from member b
         join  issue_answer s on b.user_id = s.create_id and s.item_id =#{issueItemId}
         where 1=1
-        <if test="createId != null" >
-            and  b.user_id =#{createId}
+        <if test="userId != null" >
+            and  b.user_id =#{userId}
         </if>;
 
     </select>
