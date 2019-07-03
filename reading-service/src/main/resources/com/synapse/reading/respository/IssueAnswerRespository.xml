@@ -11,13 +11,13 @@
 
 
     <select id="listUser" resultType="java.lang.String" parameterType="map" >
-        SELECT b.name from issue_answer s
-            join member b on b.user_id = s.create_id
-        where s.item_id =#{issueItemId}
+        SELECT b.name from member b
+        join  issue_answer s on b.user_id = s.create_id and s.item_id =#{issueItemId}
+        where 1=1
         <if test="createId != null" >
-             and  s.create_id =#{createId}
-        </if>
-        ;
+            and  b.user_id =#{createId}
+        </if>;
+
     </select>
 
 </mapper>
