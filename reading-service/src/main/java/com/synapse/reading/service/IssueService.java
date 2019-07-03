@@ -214,7 +214,10 @@ public class IssueService extends IssueBaseService {
                 List<IssueItemResult> issueItemResults = issueItemService.findByIssueIdRate(result.getRecId());
                 if (issueItemResults != null && issueItemResults.size() > 0) {
                     for (IssueItemResult issueItemResult : issueItemResults) {
-                        List<String> userNames = issueAnswerService.listUser(issueItemResult.getRecId(),issueParam.getUserId());
+                        Map<String,String> map =new HashMap<>();
+                        map.put("issueItemId",issueItemResult.getRecId());
+                        map.put("userId",issueParam.getUserId());
+                        List<String> userNames = issueAnswerService.listUser(map);
                         if (userNames != null && userNames.size() > 0) {
                             issueItemResult.setNameList(userNames);
                         }

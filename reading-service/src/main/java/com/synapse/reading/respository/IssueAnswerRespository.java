@@ -4,6 +4,7 @@ import com.synapse.reading.mapper.IssueAnswerMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,6 +16,6 @@ import java.util.List;
  */
 public interface IssueAnswerRespository extends IssueAnswerMapper {
     Integer deleteByCreateId(@Param("createId") String createId, @Param("belongToId") String belongToId, @Param("belongTo") String belongTo);
-    List<String> listUser(@Param("issueItemId") String issueItemId,@Param("createId") String createId);
+    List<String> listUser(Map<String,String> map);
 
 }

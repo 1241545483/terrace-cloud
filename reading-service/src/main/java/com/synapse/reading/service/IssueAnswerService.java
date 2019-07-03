@@ -78,8 +78,8 @@ public class IssueAnswerService extends IssueAnswerBaseService {
         return issueAnswerRespository.list(params);
 	}
 
-    public List<String> listUser(String issueItemId,String userId) {
-        return issueAnswerRespository.listUser(issueItemId,userId);
+    public List<String> listUser(Map<String,String> map) {
+        return issueAnswerRespository.listUser(map);
     }
 
 	public Integer count(IssueAnswer issueAnswerParam) {
