@@ -63,6 +63,8 @@ public class WxUserBindService {
             Map<String, String> resultMap = new HashMap<>();
 
             String UserId = gatwayService.findByUserName(param.getPhone());
+            logger.warn("findByUserName--------------------currentUserId="+currentUserId);
+            logger.warn("findByUserName--------------------UserId="+UserId);
             if (UserId != null) {
 //                String findUserId = findUser.get("userId");
                 //该手机号已提交信息没有密码；返回要求用户填写密码;
