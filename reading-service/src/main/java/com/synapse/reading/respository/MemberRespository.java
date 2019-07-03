@@ -30,11 +30,11 @@ public interface MemberRespository extends MemberMapper {
 
     Integer countTeacher(String roleId);
 
-    List<Member> listByTaskId(@Param("taskId") String taskId);
+    List<Member> listByClassId(@Param("classId") String classId);
 
     List<Member> listTeacher(Map<String, Object> params);
 
     List<MemberResult> listMember( Map<String,String> map);
 
-
+    List<Member> listByTaskId(@Param("taskId") String taskId);
 }

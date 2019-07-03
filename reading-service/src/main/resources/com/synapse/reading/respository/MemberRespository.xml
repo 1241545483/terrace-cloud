@@ -18,6 +18,18 @@
         </if>
     </select>
 
+    <select id="listByClassId" resultMap="com.synapse.reading.mapper.MemberMapper.BaseResultMap" parameterType="map" >
+
+        select a.* from  member a
+            join class_student_mapping c on a.user_id = c.student_id
+            join class_info b on b.rec_id = #{classId}  and b.rec_id = c.class_id
+        WHERE  1=1
+
+
+    </select>
+
+
+
     <update id="addPoint" parameterType="com.synapse.reading.model.Member" >
         update  `member` SET
          `update_id`=#{updateId},`update_time`=#{updateTime},

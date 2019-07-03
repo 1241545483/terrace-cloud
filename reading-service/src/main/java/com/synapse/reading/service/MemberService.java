@@ -71,6 +71,12 @@ public class MemberService extends MemberBaseService {
         return memberRespository.selectByPrimaryKey(recId);
     }
 
+
+    public List<Member> listByClassId(String classId) {
+
+        return memberRespository.listByClassId(classId);
+    }
+
     public Member selectByUserId(String recId) {
         if (recId == null) {
             return null;

@@ -133,6 +133,27 @@ public class MemberController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "根据班级Id主键查询班级Member详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MemberResult.class, message = "Member对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/class/{classId}", method = RequestMethod.GET)
+    public ResponseEntity getClassMember(@PathVariable("classId") String classId) {
+        try {
+            List<Member> members = memberService.listByClassId(classId);
+            return ResponseEntity.ok(members);
+        } catch (BusinessException e) {
+            logger.error("get Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
     @ApiOperation(value = "查询当前用户详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = MemberResult.class, message = "Member对象"),
