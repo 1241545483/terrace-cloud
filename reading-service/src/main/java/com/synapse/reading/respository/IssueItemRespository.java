@@ -6,6 +6,7 @@ import com.synapse.reading.model.IssueItem;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -20,5 +21,5 @@ public interface IssueItemRespository extends IssueItemMapper {
     Integer deleteByIssueId(String issueId);
 
    List<IssueItem>  selectByPrimaryIssueId(String issueId);
-    List<IssueItemResult>  findByIssueIdRate(String issueId);
+    List<IssueItemResult>  findByIssueIdRate( Map<String,String> map);
 }

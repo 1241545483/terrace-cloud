@@ -215,7 +215,12 @@ public class IssueService extends IssueBaseService {
         List<IssueResult> results = models.stream().map(it -> new IssueResult(it)).collect(Collectors.toList());
         if (results != null && results.size() > 0) {
             for (IssueResult result : results) {
-                List<IssueItemResult> issueItemResults = issueItemService.findByIssueIdRate(result.getRecId());
+                Map<String,String> map1 =new HashMap<>();
+                map1.put("issueId",result.getRecId());
+                if(issueParam.getUserId()!=null &&!"".equals(issueParam.getUserId())){
+                    map1.put("userId",issueParam.getUserId());
+                }
+                List<IssueItemResult> issueItemResults = issueItemService.findByIssueIdRate(map1);
                 if (issueItemResults != null && issueItemResults.size() > 0) {
                     for (IssueItemResult issueItemResult : issueItemResults) {
                         Map<String,String> map =new HashMap<>();

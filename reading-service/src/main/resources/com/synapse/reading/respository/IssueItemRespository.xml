@@ -30,7 +30,11 @@
         from `issue_item` a
         left join  (SELECT a.item_id,count(DISTINCT a.create_id ) orderNum FROM  issue_answer a
         join  issue b on a.issue_id = b.rec_id
-        JOIN  task  c on b.belong_to_id =c.rec_id WHERE 1=1 GROUP BY a.item_id ) b on a.rec_id = b.item_id
+        JOIN  task  c on b.belong_to_id =c.rec_id WHERE 1=1
+        <if test="userId != null" >
+            and  a.create_id =#{userId}
+        </if>
+            GROUP BY a.item_id ) b on a.rec_id = b.item_id
         where
         `issue_id` = #{issueId}
     </select>

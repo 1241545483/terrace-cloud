@@ -42,8 +42,8 @@ public class IssueItemService extends IssueItemBaseService {
         return issueItemRespository.selectByPrimaryIssueId(issueId);
     }
 
-    public List<IssueItemResult> findByIssueIdRate(String issueId){
-        return issueItemRespository.findByIssueIdRate(issueId);
+    public List<IssueItemResult> findByIssueIdRate( Map<String,String> map){
+        return issueItemRespository.findByIssueIdRate(map);
     }
 
 	public Integer update(IssueItem param){
