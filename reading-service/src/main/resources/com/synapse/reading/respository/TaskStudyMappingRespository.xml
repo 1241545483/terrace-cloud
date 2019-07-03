@@ -50,14 +50,15 @@
 
     <select id="getNum" parameterType="java.lang.String" resultType="int">
     SELECT count(1) FROM  task
-    where rec_id IN
+        join class_info b on a.class_id =b.rec_id AND b.status=1
+    where a.rec_id IN
         (select
              a.rec_id
          from `task` a
          join `class_student_mapping` b on  a.class_id =b.class_id and b.`student_id` = #{userId}
         where 1 = 1 and a.status =1
          )
-        AND rec_id NOT IN (
+        AND a.rec_id NOT IN (
               select
                   task_id
               from `user_task_record`
