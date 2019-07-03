@@ -62,7 +62,7 @@ public class WxUserBindService {
         try {
             Map<String, String> resultMap = new HashMap<>();
 
-            String UserId = gatwayService.findByUserName(param.getPhone());
+            String UserId = memberService.selectByPhone(param.getPhone());
             logger.warn("findByUserName--------------------currentUserId="+currentUserId);
             logger.warn("findByUserName--------------------UserId="+UserId);
             if (UserId != null) {
@@ -98,7 +98,7 @@ public class WxUserBindService {
             } else {
                 //该手机没有注册系统，走正常逻辑；
                 resultMap.put("flag", "8");
-                updateUser(param, currentUserId);
+//                updateUser(param, currentUserId);
                 return resultMap;
             }
         } catch (Exception e) {

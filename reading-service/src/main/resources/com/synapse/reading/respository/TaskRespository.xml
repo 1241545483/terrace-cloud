@@ -42,7 +42,7 @@
 
     <select id="countListByUser" parameterType="java.lang.String" resultType="int">
         SELECT count(1) FROM  task a
-        join class_info b on a.class_id= b.rec_id
+        join class_info b on a.class_id= b.rec_id AND  a.status=1
         left join  member c on b.create_id = c.user_id
         where class_id IN
         (select

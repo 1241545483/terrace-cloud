@@ -68,6 +68,12 @@
     </select>
 
 
+    <select id="selectByPhone" parameterType="java.lang.String" resultType="java.lang.String">
+        select user_id
+        from member
+        where status = 1 and mobole = #{phone, jdbcType=VARCHAR}
+    </select>
+
     <select id="countTeacher" parameterType="java.lang.String" resultType="int">
         select count(1)
         from `member` a

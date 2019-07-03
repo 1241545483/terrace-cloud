@@ -91,6 +91,10 @@ public class MemberService extends MemberBaseService {
         return memberRespository.selectByUserId(recId);
     }
 
+    public String selectByPhone(String phone) {
+
+        return memberRespository.selectByPhone(phone);
+    }
     public Integer update(Member param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
