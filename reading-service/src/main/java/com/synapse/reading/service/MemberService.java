@@ -84,8 +84,8 @@ public class MemberService extends MemberBaseService {
         return memberRespository.updateByPrimaryKeySelective(param);
     }
 
-    public List<MemberResult> listMember(String issueItemId) {
-        return memberRespository.listMember(issueItemId);
+    public List<MemberResult> listMember( Map<String,String> map) {
+        return memberRespository.listMember(map);
     }
 
     public boolean addPoint(User user, Integer point) {

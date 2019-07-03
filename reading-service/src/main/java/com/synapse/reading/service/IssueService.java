@@ -224,7 +224,10 @@ public class IssueService extends IssueBaseService {
                     }
                 }
                 if (result.getType().equals("answer")) {
-                    List<MemberResult> memberList = memberService.listMember(result.getRecId());
+                    Map<String,String> map =new HashMap<>();
+                    map.put("issueId",result.getRecId());
+                    map.put("userId",issueParam.getUserId());
+                    List<MemberResult> memberList = memberService.listMember(map);
                     if (memberList != null && memberList.size() > 0) {
                         result.setMemberList(memberList);
                     }
