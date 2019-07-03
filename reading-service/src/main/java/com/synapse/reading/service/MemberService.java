@@ -72,11 +72,18 @@ public class MemberService extends MemberBaseService {
     }
 
 
-    public List<Member> listByClassId(String classId) {
-
-        return memberRespository.listByClassId(classId);
+    public List<Member> listByClassId(String classId, PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("classId", classId);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return memberRespository.listByClassId(params);
     }
 
+    public Integer countClassMember(String classId) {
+
+        return memberRespository.countClassMember(classId);
+    }
     public Member selectByUserId(String recId) {
         if (recId == null) {
             return null;

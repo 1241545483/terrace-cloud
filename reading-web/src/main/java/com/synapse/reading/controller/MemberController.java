@@ -139,10 +139,16 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/class/{classId}", method = RequestMethod.GET)
-    public ResponseEntity getClassMember(@PathVariable("classId") String classId) {
+    public ResponseEntity getClassMember(@PathVariable("classId") String classId,PageInfo pageInfo) {
         try {
-            List<Member> members = memberService.listByClassId(classId);
-            return ResponseEntity.ok(members);
+
+            int totalNum = memberService.countClassMember(classId);
+            preparePageInfo(pageInfo, totalNum);
+            List<Member> members = memberService.listByClassId(classId,pageInfo);
+            Map<String, Object> map = new HashMap();
+            map.put("members", members);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("get Member Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

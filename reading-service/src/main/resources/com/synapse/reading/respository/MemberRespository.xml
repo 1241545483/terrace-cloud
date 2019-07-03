@@ -24,11 +24,18 @@
             join class_student_mapping c on a.user_id = c.student_id
             join class_info b on b.rec_id = #{classId}  and b.rec_id = c.class_id
         WHERE  1=1
-
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
 
     </select>
 
-
+    <select id="countClassMember" parameterType="java.lang.String" resultType="int">
+        select count(1) from  member a
+            join class_student_mapping c on a.user_id = c.student_id
+            join class_info b on b.rec_id = #{classId}  and b.rec_id = c.class_id
+        WHERE  1=1
+    </select>
 
     <update id="addPoint" parameterType="com.synapse.reading.model.Member" >
         update  `member` SET
