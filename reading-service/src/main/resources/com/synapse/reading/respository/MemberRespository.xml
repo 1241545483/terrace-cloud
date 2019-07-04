@@ -6,6 +6,7 @@
     <resultMap id="simpleRow" type="com.synapse.reading.dto.result.MemberResult"
                extends="com.synapse.reading.mapper.MemberMapper.BaseResultMap">
         <id column="answer" property="answer"/>
+        <id column="realName" property="realName"/>
     </resultMap>
 
 
@@ -18,9 +19,9 @@
         </if>
     </select>
 
-    <select id="listByClassId" resultMap="com.synapse.reading.mapper.MemberMapper.BaseResultMap" parameterType="map" >
+    <select id="listByClassId" resultMap="simpleRow" parameterType="map" >
 
-        select a.* from  member a
+        select a.*,c.real_name realName from  member a
             join class_student_mapping c on a.user_id = c.student_id
             join class_info b on b.rec_id = #{classId}  and b.rec_id = c.class_id
         WHERE  1=1
