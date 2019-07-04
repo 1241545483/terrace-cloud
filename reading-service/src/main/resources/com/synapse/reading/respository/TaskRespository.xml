@@ -17,12 +17,12 @@
         join  member c on b.create_id = c.user_id
         left JOIN user_task_record e ON a.rec_id =e.task_id and e.user_id = #{userId}
         LEFT join (SELECT  DISTINCT task_id  FROM task_note WHERE user_id=#{userId}) d  on a.rec_id =d.task_id
-        where class_id IN
+        where a.class_id IN
         (select
         class_id
         from `class_student_mapping`
         where 1 = 1
-        AND `student_id` = #{userId})
+        AND `student_id` = #{userId}) and a.`status`=1
         ORDER BY  a.create_time DESC
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
@@ -44,12 +44,12 @@
         SELECT count(1) FROM  task a
         join class_info b on a.class_id= b.rec_id AND  b.status=1
         left join  member c on b.create_id = c.user_id
-        where class_id IN
+        where a.class_id IN
         (select
         class_id
         from `class_student_mapping`
         where 1 = 1
-        AND `student_id` = #{userId})
+        AND `student_id` = #{userId}) and a.`status`=1
 
     </select>
 
