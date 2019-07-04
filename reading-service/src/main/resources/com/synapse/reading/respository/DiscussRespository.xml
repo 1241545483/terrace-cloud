@@ -42,7 +42,6 @@
         LEFT JOIN (SELECT s.reply_id rpy_id,count(1) reply_num from discuss s where
         s.`comment_type` = 'reply' AND s.`comment_id` = #{commentId} AND s.status='1' group by s.reply_id) b
         ON b.rpy_id = a.rec_id
-        join member m on a.create_id =m.user_id
         where a.`comment_type` = #{commentType} AND a.`comment_id` = #{commentId}
         AND a.status='1'
         <if test="replyId != null">
