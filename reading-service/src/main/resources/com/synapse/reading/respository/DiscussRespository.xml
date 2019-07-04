@@ -35,7 +35,7 @@
 
     <select id="listByCommentType" parameterType="map" resultMap="simpleRow">
         select
-        <include refid="com.synapse.reading.mapper.DiscussMapper.Base_Column_List" /> ,
+        a.* ,
         b.reply_num,m.name userName,m.pic userImg
         from `discuss` a
         join member m on a.create_id =m.user_id
