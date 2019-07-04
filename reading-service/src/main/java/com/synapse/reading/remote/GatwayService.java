@@ -23,5 +23,9 @@ public interface GatwayService {
     @RequestMapping(value = "/user/v1/userInfo/userName/{userName}", method = RequestMethod.GET)
     public String findByUserName(@PathVariable("userName") String userName);
 
+
+    @RequestMapping(value = "/user/v1/userInfo/user/{userId}", method = RequestMethod.GET)
+    public User findByUserId(@PathVariable("userId") String userId);
+
 }
 

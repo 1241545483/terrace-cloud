@@ -1,34 +1,28 @@
 package com.synapse.reading.service;
 
+import com.synapse.common.codec.EncryptTool;
 import com.synapse.common.formatter.Encoder;
-import com.synapse.common.trans.Result;
+import com.synapse.common.sso.model.User;
 import com.synapse.common.utils.DateUtils;
-import com.synapse.common.utils.JsonUtils;
 import com.synapse.reading.constants.MemberConstants;
-import com.synapse.reading.constants.TradeOrderConstants;
-import com.synapse.reading.dto.param.TradeOrderDetailParam;
-import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.model.BindUserModel;
 import com.synapse.reading.model.Member;
-import com.synapse.reading.model.TradeOrder;
-import com.synapse.reading.remote.BindService;
+import com.synapse.reading.model.model.Bind;
 import com.synapse.reading.remote.GatwayService;
-import com.synapse.reading.remote.IdService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.MemberRespository;
-import com.synapse.reading.respository.TradeOrderDetailRespository;
-import com.synapse.reading.respository.TradeOrderRespository;
-import com.synapse.reading.util.AESDecodeUtils;
-import org.apache.commons.lang.StringUtils;
+import com.synapse.reading.respository.respository.BindRespository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 
 /**
@@ -50,21 +44,23 @@ public class WxUserBindService {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private BindService bindService;
+    private BindRespository bindRespository;
     @Autowired
     private Encoder encoder;
     @Autowired
     private MemberRespository memberRespository;
     @Autowired
     private GatwayService gatwayService;
+    @Value("${encrypt.salt}")
+    private String salt;
 
     public Map<String, String> handleApply(BindUserModel param, String currentUserId) {
         try {
             Map<String, String> resultMap = new HashMap<>();
 
             String UserId = memberService.selectByPhone(param.getPhone());
-            logger.warn("findByUserName--------------------currentUserId="+currentUserId);
-            logger.warn("findByUserName--------------------UserId="+UserId);
+            logger.warn("findByUserName--------------------currentUserId=" + currentUserId);
+            logger.warn("findByUserName--------------------UserId=" + UserId);
             if (UserId != null) {
 //                String findUserId = findUser.get("userId");
                 //该手机号已提交信息没有密码；返回要求用户填写密码;
@@ -78,7 +74,7 @@ public class WxUserBindService {
                     resultMap.put("existUserId", encoder.encryptStr(UserId));
                     Member member = memberService.getMember(currentUserId);
                     //todo 待修改成调用reading接口
-                    if(member==null){
+                    if (member == null) {
                         member = new Member();
                         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                         member.setUserId(currentUserId);
@@ -139,6 +135,28 @@ public class WxUserBindService {
             memberRespository.insert(member);
             return 1;
         }
+    }
+
+
+    public int miniBind(Map<String, String> param) {
+        String userId = param.get("userId");
+        String existUserId = param.get("existUserId");
+        String decrypt = EncryptTool.decrypt(userId, salt);
+        String decryptExistUserId = EncryptTool.decrypt(existUserId, salt);
+        User user = gatwayService.findByUserId(decryptExistUserId);
+        logger.info(">>>>>>>=----------------user" + user.getRecId());
+        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+        if (null == user) {
+            return 3;
+        }
+        if (!encode.matches(param.get("password"), user.getPassword())) {
+            return 2;
+        }
+        List<Bind> eduConnectionList = bindRespository.selectByUserIdAndOpenId(param.get("openId"), decrypt);
+        logger.info(">>>>>>>----------------eduConnectionList" + eduConnectionList.get(0).getOpenId());
+        Bind connection = eduConnectionList.get(0);
+        connection.setUserId(decryptExistUserId);
+        return bindRespository.updateByPrimaryKeySelective(connection);
     }
 
 

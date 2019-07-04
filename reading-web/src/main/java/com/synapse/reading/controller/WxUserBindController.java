@@ -105,13 +105,19 @@ public class WxUserBindController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "openId" , paramType = "query"),
+            @ApiImplicitParam(name = "userId" , paramType = "query"),
+            @ApiImplicitParam(name = "existUserId" , paramType = "query"),
+            @ApiImplicitParam(name = "password" , paramType = "query")    })
     @RequestMapping(value = "/v1/user/mini/bind", method = RequestMethod.PUT)
     public ResponseEntity bind(@RequestBody Map<String,String> param) {
 
         try {
             logger.info("-----------------------20190520userId"+param.get("userId"));
             logger.info("-----------------------20190520existUserId"+param.get("existUserId"));
-            return ResponseEntity.ok(bindService.miniBind(param));
+            wxUserBindService.miniBind(param);
+            return ResponseEntity.ok(null);
         } catch (BusinessException e) {
             logger.error("bind Info Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

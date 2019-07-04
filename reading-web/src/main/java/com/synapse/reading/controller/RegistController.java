@@ -121,6 +121,8 @@ public class RegistController extends BaseController {
             userInfo.put("userName", userName);
             userInfo.put("nickName", nickName);
             userInfo.put("avatarUrl", avatarUrl);
+            //todo 20190704 密码暂定为read123 ，后期待修改（增加密码修改功能）
+            userInfo.put("password","read123");
             if (!org.springframework.util.StringUtils.isEmpty(regWay)) {
                 userInfo.put("regWay", regWay);
             }

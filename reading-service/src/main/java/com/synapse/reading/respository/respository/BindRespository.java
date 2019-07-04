@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2019-05-28
  */
 public interface BindRespository extends BindMapper {
-
+    List<Bind> selectByUserIdAndOpenId(@Param("openId") String openId,@Param("userId") String userId);
     List<Bind> selectByOpenId(@Param("openId") String openId);
     List<Bind> selectByUnionId(@Param("unionId") String unionId);
     List<Bind> selectByUserId(@Param("userId") String userId);

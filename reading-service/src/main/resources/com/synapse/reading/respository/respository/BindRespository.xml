@@ -7,6 +7,11 @@
         SELECT  * from bind where  open_id= #{openId}
     </select>
 
+    <select id="selectByUserIdAndOpenId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
+        SELECT  * from bind where  open_id= #{openId} and  user_id= #{userId}
+    </select>
+
+
     <select id="selectByUnionId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
         SELECT  * from bind where  open_id= #{openId}
     </select>
