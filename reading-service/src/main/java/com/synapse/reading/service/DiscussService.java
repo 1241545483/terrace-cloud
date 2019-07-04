@@ -46,7 +46,7 @@ public class DiscussService extends DiscussBaseService {
     @Autowired
     private DiscussRespository discussRespository;
     @Autowired
-    private  MemberService memberService;
+    private MemberService memberService;
 
     private Logger logger = LoggerFactory.getLogger(DiscussService.class);
 
@@ -120,18 +120,6 @@ public class DiscussService extends DiscussBaseService {
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         List<DiscussResult> discusses = discussRespository.listByCommentType(params);
-        if (discusses != null && discusses.size() != 0) {
-            for (DiscussResult discuss : discusses) {
-             Member member = memberService.getMember(discuss.getCreateId());
-             if(member.getName()!=null&&"".equals(member.getName())){
-                 discuss.setUserName(member.getName());
-             }
-             if(member.getPic()!=null&&"".equals(member.getPic())){
-                    discuss.setUserImg(member.getPic());
-                }
-
-            }
-        }
         return discusses;
     }
 
