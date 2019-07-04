@@ -12,6 +12,7 @@ import com.synapse.reading.remote.GatwayService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.MemberRespository;
 import com.synapse.reading.respository.respository.BindRespository;
+import com.synapse.user.model.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,13 +144,14 @@ public class WxUserBindService {
         String existUserId = param.get("existUserId");
         String decrypt = EncryptTool.decrypt(userId, salt);
         String decryptExistUserId = EncryptTool.decrypt(existUserId, salt);
-        User user = gatwayService.findByUserId(decryptExistUserId);
-        logger.info(">>>>>>>=----------------user" + user.getRecId());
+        logger.info(">>>>>>>=----------------decryptExistUserId" + decryptExistUserId);
+        String passWord = gatwayService.findByUserId(decryptExistUserId);
+        logger.info(">>>>>>>=----------------passWord" + passWord);
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-        if (null == user) {
+        if (null == passWord) {
             return 3;
         }
-        if (!encode.matches(param.get("password"), user.getPassword())) {
+        if (!encode.matches(param.get("password"), passWord)) {
             return 2;
         }
         List<Bind> eduConnectionList = bindRespository.selectByUserIdAndOpenId(param.get("openId"), decrypt);

@@ -1,12 +1,12 @@
 package com.synapse.reading.remote;
 
 import com.synapse.common.sso.model.User;
-import com.synapse.common.trans.Result;
-import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 绑定用户信息
@@ -25,7 +25,7 @@ public interface GatwayService {
 
 
     @RequestMapping(value = "/user/v1/userInfo/user/{userId}", method = RequestMethod.GET)
-    public User findByUserId(@PathVariable("userId") String userId);
+    public String findByUserId(@PathVariable("userId") String userId);
 
 }
 
