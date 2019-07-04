@@ -21,7 +21,7 @@
 
     <select id="listByClassId" resultMap="simpleRow" parameterType="map" >
 
-        select a.*,c.real_name realName from  member a
+        select a.pic,a.user_id,  c.real_name as name   from  member a
             join class_student_mapping c on a.user_id = c.student_id
             join class_info b on b.rec_id = #{classId}  and b.rec_id = c.class_id
         WHERE  1=1
