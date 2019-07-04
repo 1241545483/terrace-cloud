@@ -123,8 +123,13 @@ public class DiscussService extends DiscussBaseService {
         if (discusses != null && discusses.size() != 0) {
             for (DiscussResult discuss : discusses) {
              Member member = memberService.getMember(discuss.getCreateId());
-                discuss.setUserName(member.getName());
-                discuss.setUserImg(member.getPic());
+             if(member.getName()!=null&&"".equals(member.getName())){
+                 discuss.setUserName(member.getName());
+             }
+             if(member.getPic()!=null&&"".equals(member.getPic())){
+                    discuss.setUserImg(member.getPic());
+                }
+
             }
         }
         return discusses;
