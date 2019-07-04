@@ -72,7 +72,7 @@ public class MemberService extends MemberBaseService {
     }
 
 
-    public List<Member> listByClassId(String classId, PageInfo pageInfo) {
+    public List<MemberResult> listByClassId(String classId, PageInfo pageInfo) {
         Map<String, Object> params = new HashMap<>();
         params.put("classId", classId);
         params.put("startIndex", pageInfo.getCurrentStartIndex());

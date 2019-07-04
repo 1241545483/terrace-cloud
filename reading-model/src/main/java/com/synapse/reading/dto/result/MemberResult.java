@@ -25,6 +25,8 @@ public class MemberResult {
 
     private  String answer;
 
+	private  String	realName;
+
 	private List<Lesson> lessonList = new ArrayList<>();// 子列表
 
 	public List<Lesson> getLessonList() {
@@ -226,5 +228,13 @@ public String getUpdateTime() {
 
 	public void setAnswer(String answer) {
 		this.answer = answer;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 }

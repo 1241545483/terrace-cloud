@@ -144,7 +144,7 @@ public class MemberController extends BaseController {
 
             int totalNum = memberService.countClassMember(classId);
             preparePageInfo(pageInfo, totalNum);
-            List<Member> members = memberService.listByClassId(classId,pageInfo);
+            List<MemberResult> members = memberService.listByClassId(classId,pageInfo);
             Map<String, Object> map = new HashMap();
             map.put("members", members);
             map.put("totalNum", totalNum);
