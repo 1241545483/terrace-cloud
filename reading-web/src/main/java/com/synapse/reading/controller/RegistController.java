@@ -114,6 +114,8 @@ public class RegistController extends BaseController {
                     Map map = JsonUtils.toObject(data, Map.class);
                     logger.warn("-------------" + JsonUtils.toJson(map));
                     userInfo.put("unionid", (String) map.get("unionId"));
+                    logger.info("--------------------------20190628openId map 1=" + (String) map.get("openId"));
+                    userInfo.put("openId", (String) map.get("openId"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
