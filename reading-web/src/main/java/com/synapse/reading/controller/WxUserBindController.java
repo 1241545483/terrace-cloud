@@ -116,8 +116,7 @@ public class WxUserBindController {
         try {
             logger.info("-----------------------20190520userId"+param.get("userId"));
             logger.info("-----------------------20190520existUserId"+param.get("existUserId"));
-            wxUserBindService.miniBind(param);
-            return ResponseEntity.ok(null);
+            return ResponseEntity.ok(wxUserBindService.miniBind(param));
         } catch (BusinessException e) {
             logger.error("bind Info Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
