@@ -103,7 +103,7 @@
 //    }
 //
 //
-//    public Connection isBind(String openId) {
+//    public Connection isBindByUnionId(String openId) {
 //        List<Connection> eduConnections = connectionRespository.selectByOpenId(openId);
 //        if (eduConnections != null && eduConnections.size() > 0) {
 //            return eduConnections.get(0);
@@ -111,7 +111,7 @@
 //        return null;
 //    }
 //
-//    public Connection isBind2(String unionId) {
+//    public Connection isBindByOpenId(String unionId) {
 //        List<Connection> eduConnections = connectionRespository.selectByUnionId(unionId);
 //        if (eduConnections != null && eduConnections.size() > 0) {
 //            return eduConnections.get(0);
@@ -150,13 +150,13 @@
 //            redisTemplate.opsForValue().set(rsp.get("unionid"), rsp.get("access_token"), 7200, TimeUnit.SECONDS);
 //            redisTemplate.opsForValue().set(rsp.get("openid"), rsp.get("access_token"), 7200, TimeUnit.SECONDS);
 //            //针对之前老师路用微信公众号绑定过的问题，在这里用openID去weChatUser表中去查查到了就往eduConnection中插入一条数据就ok
-//            Connection connectionByUnionid = isBind2(rsp.get("unionid"));
+//            Connection connectionByUnionid = isBindByOpenId(rsp.get("unionid"));
 //            //如果绑定过
 //            if (null != connectionByUnionid) {
 //                //构建用户角色信息
 //                return buildUserDetailByUserId(connectionByUnionid.getUserId());
 //            } else {
-//                Connection connection = isBind(rsp.get("openid"));
+//                Connection connection = isBindByUnionId(rsp.get("openid"));
 //                if (null != connection) {
 //                    //构建用户角色信息
 //                    return buildUserDetailByUserId(connection.getUserId());
@@ -182,7 +182,7 @@
 //        Map<String, String> map = new HashMap<String, String>();
 //        try {
 //            if (null == userInfo.get("unionid")) {
-//                Connection eduConnection2 = isBind((String) userInfo.get("openid"));
+//                Connection eduConnection2 = isBindByUnionId((String) userInfo.get("openid"));
 //                if (null != eduConnection2) {
 //                    map.put("userId", (String) eduConnection2.getUserId());
 //                    map.put("code", "200");
@@ -209,14 +209,14 @@
 //                }
 //
 //            }
-//            Connection connection = isBind2(userInfo.get("unionid"));
+//            Connection connection = isBindByOpenId(userInfo.get("unionid"));
 //            //如果绑定过
 //            if (null != connection) {
 //                map.put("userId", (String) connection.getUserId());
 //                map.put("code", "200");
 //                return map;
 //            } else {
-//                Connection eduConnection2 = isBind((String) userInfo.get("openid"));
+//                Connection eduConnection2 = isBindByUnionId((String) userInfo.get("openid"));
 //                if (null != eduConnection2) {
 //                    //当小程序登陆有unionId;但是没有找到对应的用户；这时使用openID能找到；则将unionId插入进去；补充之前没有unionId 的记录
 //                    eduConnection2.setUnionId(userInfo.get("unionid"));

@@ -2,12 +2,10 @@ package com.synapse.reading.service.service;
 
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
-import com.synapse.reading.constants.MemberConstants;
 import com.synapse.reading.model.model.Bind;
 import com.synapse.reading.remote.GatwayService;
 import com.synapse.reading.respository.respository.BindRespository;
 import com.synapse.common.utils.DateUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +80,7 @@ public class BindService extends BindBaseService {
     }
 
 
-    public Bind isBind(String unionId) {
+    public Bind isBindByUnionId(String unionId) {
         List<Bind> bind = bindRespository.selectByUnionId(unionId);
         if (bind != null && bind.size() > 0) {
             return bind.get(0);
@@ -90,7 +88,7 @@ public class BindService extends BindBaseService {
         return null;
     }
 
-    public Bind isBind2(String openId) {
+    public Bind isBindByOpenId(String openId) {
         List<Bind> bind = bindRespository.selectByOpenId(openId);
         if (bind != null && bind.size() > 0) {
             return bind.get(0);
@@ -111,7 +109,7 @@ public class BindService extends BindBaseService {
         Map<String, String> map = new HashMap<String, String>();
         try {
             if (null == userInfo.get("unionid")) {
-                Bind bind = isBind((String) userInfo.get("openid"));
+                Bind bind = isBindByOpenId((String) userInfo.get("openid"));
                 if (null != bind) {
                     map.put("userId", (String) bind.getUserId());
                     map.put("code", "200");
@@ -135,7 +133,7 @@ public class BindService extends BindBaseService {
 
             }
 
-            Bind bind = isBind2(userInfo.get("unionid"));
+            Bind bind = isBindByUnionId(userInfo.get("unionid"));
             logger.warn("-----------------d4sdffsdx");
             //如果绑定过
             if (null != bind) {
@@ -143,7 +141,7 @@ public class BindService extends BindBaseService {
                 map.put("code", "200");
                 return map;
             } else {
-                Bind bind1 = isBind((String) userInfo.get("openid"));
+                Bind bind1 = isBindByOpenId((String) userInfo.get("openid"));
                 if (null != bind1) {
                     //当小程序登陆有unionId;但是没有找到对应的用户；这时使用openID能找到；则将unionId插入进去；补充之前没有unionId 的记录
                     bind1.setUnionId(userInfo.get("unionid"));
