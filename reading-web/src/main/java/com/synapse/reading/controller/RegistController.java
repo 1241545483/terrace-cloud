@@ -109,7 +109,7 @@ public class RegistController extends BaseController {
                     logger.warn("-------------" + JsonUtils.toJson(map));
                     userInfo.put("unionid", (String) map.get("unionId"));
                     logger.info("--------------------------20190628openId map 1=" + (String) map.get("openId"));
-                    userInfo.put("openId", (String) map.get("openId"));
+                    userInfo.put("openid", (String) map.get("openId"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -122,7 +122,7 @@ public class RegistController extends BaseController {
             if (!org.springframework.util.StringUtils.isEmpty(regWay)) {
                 userInfo.put("regWay", regWay);
             }
-            logger.info("--------------------------20190628openId 1=" + userInfo.get("openId"));
+            logger.info("--------------------------20190628openId 1=" + userInfo.get("openid"));
             Map<String, String> judgeMap = bindService.judge4MiniApp(userInfo);
             logger.info("--------------------------judgeMapuserId" + judgeMap.get("userId"));
             //1没有unionId关联的user
@@ -130,6 +130,9 @@ public class RegistController extends BaseController {
                 String decryptToken = String.valueOf(System.currentTimeMillis());
                 String token = EncryptTool.encrypt(decryptToken, salt);
                 String userId = judgeMap.get("userId");
+                logger.info("userId = {}", userId);
+                userId = EncryptTool.decrypt(userId, salt);
+                logger.info("userId = {}", userId);
                 Member member = memberService.getMember(userId);
                 if (member == null) {
                     Member member1 = new Member();
@@ -190,12 +193,10 @@ public class RegistController extends BaseController {
         String forObject = restTemplate.getForObject(url, String.class);
         try {
             forObject = new String(forObject.getBytes("ISO-8859-1"), "UTF-8");
-            logger.info("forObject = [{}]", forObject);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         map = JsonUtils.toObject(forObject, Map.class);
-        logger.warn("==============openId=" + map.get("openId"));
         return map;
     }
 
