@@ -2,7 +2,7 @@ package com.synapse.reading.respository.respository;
 
 import com.synapse.reading.mapper.mapper.BindMapper;
 import com.synapse.reading.model.model.Bind;
-import feign.Param;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2019-05-28
  */
 public interface BindRespository extends BindMapper {
-    List<Bind> selectByUserIdAndOpenId(@Param("openId") String openId,@Param("userId") String userId);
+    List<Bind> selectByUserIdAndOpenId(@Param("openId") String openId, @Param("userId") String userId);
     List<Bind> selectByOpenId(@Param("openId") String openId);
     List<Bind> selectByUnionId(@Param("unionId") String unionId);
     List<Bind> selectByUserId(@Param("userId") String userId);
