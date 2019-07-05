@@ -11,16 +11,12 @@ import com.synapse.reading.constants.MemberConstants;
 import com.synapse.reading.dto.param.RegistParam;
 import com.synapse.reading.model.Member;
 import com.synapse.reading.model.model.UserRole;
-import com.synapse.reading.properties.OAuth2ClientProperties;
-import com.synapse.reading.properties.SecurityProperties;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.service.MemberService;
 import com.synapse.reading.service.service.BindService;
-import com.synapse.reading.service.service.UserRoleBaseService;
 import com.synapse.reading.service.service.UserRoleService;
 import com.synapse.reading.util.AESDecodeUtils;
 import com.synapse.reading.web.valid.group.Create;
-import com.synapse.reading.wrapper.RequestParameterWrapper;
 import io.swagger.annotations.ApiOperation;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -72,8 +68,6 @@ public class RegistController extends BaseController {
     private StringRedisTemplate redisTemplate;
     @Autowired
     private UserRoleService userRoleService;
-    @Autowired
-    private SecurityProperties securityProperties;
     private static Type type = new TypeToken<User>() {
     }.getType();
 
