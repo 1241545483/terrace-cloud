@@ -13,7 +13,7 @@
 
 
     <select id="selectByUnionId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
-        SELECT  * from bind where  open_id= #{openId}
+        SELECT  * from bind where  union_id= #{unionId}
     </select>
 
     <select id="selectByUserId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">

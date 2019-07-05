@@ -12,6 +12,7 @@ import com.synapse.reading.remote.GatwayService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.MemberRespository;
 import com.synapse.reading.respository.respository.BindRespository;
+import com.synapse.reading.service.service.BindService;
 import com.synapse.user.model.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,8 @@ public class WxUserBindService {
     private MemberRespository memberRespository;
     @Autowired
     private GatwayService gatwayService;
+    @Autowired
+    private BindService bindService;
     @Value("${encrypt.salt}")
     private String salt;
 
@@ -139,12 +142,13 @@ public class WxUserBindService {
     }
 
 
-    public int miniBind(Map<String, String> param) {
+    public int  miniBind(Map<String, String> param) {
         String userId = param.get("userId");
         String existUserId = param.get("existUserId");
         String decrypt = EncryptTool.decrypt(userId, salt);
         String decryptExistUserId = EncryptTool.decrypt(existUserId, salt);
         logger.info(">>>>>>>=----------------decryptExistUserId" + decryptExistUserId);
+        logger.info(">>>>>>>=----------------decryptuserId" + decrypt);
         String passWord = gatwayService.findByUserId(decryptExistUserId);
         logger.info(">>>>>>>=----------------passWord" + passWord);
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
@@ -154,11 +158,19 @@ public class WxUserBindService {
         if (!encode.matches(param.get("password"), passWord)) {
             return 2;
         }
+        logger.info(">>>>>>>----------------openId==" +param.get("openId") );
         List<Bind> eduConnectionList = bindRespository.selectByUserIdAndOpenId(param.get("openId"), decrypt);
-        logger.info(">>>>>>>----------------eduConnectionList" + eduConnectionList.get(0).getOpenId());
-        Bind connection = eduConnectionList.get(0);
-        connection.setUserId(decryptExistUserId);
-        return bindRespository.updateByPrimaryKeySelective(connection);
+     if (eduConnectionList!=null &&eduConnectionList.size()>0){
+         Bind connection = eduConnectionList.get(0);
+         connection.setUserId(decryptExistUserId);
+         bindRespository.updateByPrimaryKeySelective(connection);
+     }else {
+         Bind bind = new Bind();
+         bind.setUserId(decryptExistUserId);
+         bind.setOpenId(param.get("openId"));
+         bindService.create(bind);
+     }
+        return 1;
     }
 
 
