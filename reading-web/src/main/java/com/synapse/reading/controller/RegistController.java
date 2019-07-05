@@ -98,6 +98,8 @@ public class RegistController extends BaseController {
             logger.warn("url--------url-----url" + url);
             Map<String, String> userInfo = getRsp(url);
             logger.info("--------------------------20190628unionid map 1=" + userInfo.get("unionid"));
+            logger.info("--------------------------20190628session_key map 1=" + userInfo.get("session_key"));
+
 //            redisTemplate.opsForValue().set(code, userInfo.get("openId"), 72, TimeUnit.HOURS);
             if (org.springframework.util.StringUtils.isEmpty(userInfo.get("unionid"))) {
                 String data = null;
