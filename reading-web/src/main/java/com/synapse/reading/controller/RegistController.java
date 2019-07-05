@@ -130,10 +130,10 @@ public class RegistController extends BaseController {
                 String decryptToken = String.valueOf(System.currentTimeMillis());
                 String token = EncryptTool.encrypt(decryptToken, salt);
                 String userId = judgeMap.get("userId");
-                logger.info("userId = {}", userId);
-                userId = EncryptTool.decrypt(userId, salt);
-                logger.info("userId = {}", userId);
                 Member member = memberService.getMember(userId);
+                logger.info("member : [{}]", member);
+
+
                 if (member == null) {
                     Member member1 = new Member();
                     member1.setName(userInfo.get("nickName"));
