@@ -190,10 +190,12 @@ public class RegistController extends BaseController {
         String forObject = restTemplate.getForObject(url, String.class);
         try {
             forObject = new String(forObject.getBytes("ISO-8859-1"), "UTF-8");
+            logger.info("forObject = [{}]", forObject);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         map = JsonUtils.toObject(forObject, Map.class);
+        logger.warn("==============openId=" + map.get("openId"));
         return map;
     }
 
