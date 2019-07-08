@@ -194,29 +194,60 @@ public class UserRoleController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-	@RequestMapping(value = "/v1/userRole/{recId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/v1/userRole/{recId}", method = RequestMethod.PUT)
     public ResponseEntity update(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) UserRoleParam param, BindingResult bindingResult){
         try {
-	        //验证失败
-	        if (bindingResult.hasErrors()) {
-	            throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-	        }
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
             User user = UserContext.getUser();
             //todo 根据角色判断权限
 
-	        UserRole model = param.getModel();
-	        model.setRecId(recId);
+            UserRole model = param.getModel();
+            model.setRecId(recId);
             model.setUpdateId(user.getRecId());
-	        Integer num = userRoleService.update(model);
-	        return ResponseEntity.ok(num);
+            Integer num = userRoleService.update(model);
+            return ResponseEntity.ok(num);
         } catch (BusinessException e) {
-	        logger.error("update UserRole Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+            logger.error("update UserRole Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
         } catch (Exception e) {
-	        logger.error("update UserRole Error!", e);
-	        return ResponseEntity.status(CommonConstants.SERVER_ERROR)
-        .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+            logger.error("update UserRole Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
-	}
+    }
+
+    @ApiOperation(value = "将用户角色更改为校管理员")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/userRole/School/{recId}", method = RequestMethod.PUT)
+    public ResponseEntity updateUserForSchool(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) UserRoleParam param, BindingResult bindingResult){
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+
+            UserRole model = param.getModel();
+            model.setRecId(recId);
+            model.setUpdateId(user.getRecId());
+            Integer num = userRoleService.updateUserForSchool(model);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("update UserRole Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update UserRole Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 }

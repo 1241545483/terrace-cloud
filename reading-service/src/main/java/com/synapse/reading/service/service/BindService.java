@@ -115,7 +115,7 @@ public class BindService extends BindBaseService {
                     map.put("code", "200");
                     return map;
                 }else {
-                    User user =new User("", userInfo.get("nickName"),"");
+                    User user =new User("", userInfo.get("nickName"),userInfo.get("password"));
                     Map<String, Object> param = new HashMap();
                     param.put("regWay", userInfo.get("regWay"));
                     user.setParams(param);
@@ -150,7 +150,7 @@ public class BindService extends BindBaseService {
                     map.put("code", "200");
                     return map;
                 }else{
-                    User user =new User("", userInfo.get("nickName"),"");
+                    User user =new User("", userInfo.get("nickName"),userInfo.get("password"));
                     Map<String, Object> param = new HashMap();
                     param.put("regWay", userInfo.get("regWay"));
                     user.setParams(param);
@@ -158,7 +158,7 @@ public class BindService extends BindBaseService {
                     Bind bind2 =new Bind();
                     bind2.setUserId(userId);
                     bind2.setOpenId(userInfo.get("openid"));
-                    logger.info("--------------------------20190628openId 3=" + userInfo.get("openId"));
+                    logger.info("--------------------------20190628openId 3=" + userInfo.get("openid"));
                  String bindId = bindService.create(bind2);
                     logger.warn("-------------bindId=="+bindId);
                     map.put("userId", userId);

@@ -120,10 +120,9 @@ public class IssueAnswerController extends BaseController{
             }
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-
 	        IssueAnswer model = param.getModel();
                 model.setCreateId(user.getRecId());
-            String recId = issueAnswerService.create(model);
+            String recId = issueAnswerService.create(param);
             return ResponseEntity.ok(recId);
         } catch (BusinessException e) {
             logger.error("create IssueAnswer Error!", e);

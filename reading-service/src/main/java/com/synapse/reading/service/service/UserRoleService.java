@@ -1,6 +1,8 @@
 package com.synapse.reading.service.service;
 
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
+import com.synapse.reading.constants.constants.UserRoleConstants;
 import com.synapse.reading.model.model.UserRole;
 import com.synapse.reading.respository.respository.UserRoleRespository;
 import com.synapse.common.utils.DateUtils;
@@ -42,7 +44,19 @@ public class UserRoleService extends UserRoleBaseService {
 	public Integer update(UserRole param){
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return userRoleRespository.updateByPrimaryKeySelective(param);
+        return userRoleRespository.updateByPrimaryKeySelective(param);
+    }
+
+    public Integer updateUserForSchool(UserRole param){
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        param.setRoleId(UserRoleConstants.ROLE.SCHOOL.value());
+        param.setUpdateTime(now);
+        int num  = userRoleRespository.updateByPrimaryKeySelective(param);
+        if (num <= 0) {
+            create(param);
+            return  1;
+        }
+        return num;
     }
 
     public String create(UserRole param) {

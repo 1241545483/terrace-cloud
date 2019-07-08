@@ -51,9 +51,23 @@ public class IssueAnswerService extends IssueAnswerBaseService {
     public String create(IssueAnswer param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setStatus(IssueAnswerConstants.STATUS.OK.num());
+        param.setCreateTime(now);
+        param.setStatus(IssueAnswerConstants.STATUS.OK.num());
         issueAnswerRespository.insert(param);
+        return param.getRecId();
+    }
+
+    public String create(IssueAnswerParam param) {
+        IssueAnswer model = param.getModel();
+	    if(model.getItemId()!=null&&!"".equals(model.getItemId())){
+            create(model);
+        }
+        if(param.getItemIdList()!=null&&param.getItemIdList().size()>0){
+            for (String itemId:param.getItemIdList()) {
+                model.setItemId(itemId);
+                create(model);
+            }
+        }
         return param.getRecId();
     }
 

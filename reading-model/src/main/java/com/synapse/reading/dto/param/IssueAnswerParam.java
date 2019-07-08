@@ -9,6 +9,9 @@ import com.synapse.reading.web.valid.group.Update;
 import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * IssueAnswerParam
@@ -21,6 +24,8 @@ import com.synapse.reading.web.valid.group.Search;
 public class IssueAnswerParam  {
 
     private IssueAnswer  issueAnswer = new IssueAnswer();
+
+    private List<String> itemIdList = new ArrayList<>();
 
     public IssueAnswerParam(){}
 
@@ -97,5 +102,13 @@ public String getCreateTime() {
 
     public void setAnswer(String answer) {
         issueAnswer.setAnswer(answer);
+    }
+
+    public List<String> getItemIdList() {
+        return itemIdList;
+    }
+
+    public void setItemIdList(List<String> itemIdList) {
+        this.itemIdList = itemIdList;
     }
 }
