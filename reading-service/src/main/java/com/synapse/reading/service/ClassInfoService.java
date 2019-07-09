@@ -177,7 +177,7 @@ public class ClassInfoService extends ClassInfoBaseService {
         return classInfoRespository.countByTeacherCreate(userId);
     }
 
-    public Integer countListByClasse(SelectTaskParam selectTaskParam) {
+    public Integer countListByClass(SelectTaskParam selectTaskParam) {
         Map<String, Object> params = new HashMap<>();
         if(selectTaskParam.getUserId()!=null&&!"".equals(selectTaskParam.getUserId())){
             params.put("classId", selectTaskParam.getClassId());
@@ -188,7 +188,7 @@ public class ClassInfoService extends ClassInfoBaseService {
         if(selectTaskParam.getTeacherName()!=null&&!"".equals(selectTaskParam.getTeacherName())){
             params.put("teacherName", "%"+selectTaskParam.getTeacherName()+"%");
         }
-        return classInfoRespository.countListByClasse(params);
+        return classInfoRespository.countListByClass(params);
     }
 
     public Integer countByStudentJoin(String userId) {

@@ -24,7 +24,7 @@
         join
         (SELECT count(class_id) taskNum ,class_id from task where status =1 GROUP BY class_id )
         c on  a.rec_id =c.class_id
-         join  member b  on a.create_id = b.user_id and
+         join  member b  on a.create_id = b.user_id
         <if test="teacherName != null" >
             <if test="teacherName.indexOf('%') >= 0" >
                 AND b.`NAME` like #{teacherName}
@@ -57,14 +57,14 @@
         </if>
     </select>
 
-    <select id="countListByClasse" parameterType="map" resultType="int">
+    <select id="countListByClass" parameterType="map" resultType="int">
         select
         count(*)
         from `class_info` a
         join
         (SELECT count(class_id) taskNum ,class_id from task where status =1 GROUP BY class_id )
         c on  a.rec_id =c.class_id
-        join  member b  on a.create_id = b.user_id and
+        join  member b  on a.create_id = b.user_id
         <if test="teacherName != null" >
             <if test="teacherName.indexOf('%') >= 0" >
                 AND b.`NAME` like #{teacherName}

@@ -134,7 +134,7 @@ public class ClassInfoController extends BaseController{
             if (bindingResult.hasErrors()) {
                 throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
             }
-            int totalNum = classInfoService.countListByClasse(selectTaskParam);
+            int totalNum = classInfoService.countListByClass(selectTaskParam);
             preparePageInfo(pageInfo, totalNum);
             List<ClassInfoResult> results = classInfoService.listByClass(selectTaskParam,pageInfo);
 //            List<ClassInfoResult> results = models.stream().map(it -> new ClassInfoResult(it)).collect(Collectors.toList());
