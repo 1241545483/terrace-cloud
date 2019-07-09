@@ -213,7 +213,7 @@ public class MemberService extends MemberBaseService {
         logger.info("----------------------member.getRecId()="+member.getUserId());
         List<MemberResult> memberList = new ArrayList<>();
         if (member != null && !"".equals(member)) {
-            if (member.getOrganization() != null && "".equals(member.getOrganization())) {
+            if (member.getOrganization() != null && !"".equals(member.getOrganization())) {
                 Member member1 = new Member();
                 member1.setOrganization(member.getOrganization());
                 logger.info("----------------------0rg="+member1.getOrganization());
