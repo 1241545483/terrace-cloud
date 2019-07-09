@@ -240,7 +240,7 @@ public class MemberService extends MemberBaseService {
     public Integer countTeacherBySchool(User user,String name) {
         Member member = memberRespository.selectByUserId(user.getRecId());
         if (member != null && !"".equals(member)) {
-            if (member.getOrganization() != null && "".equals(member.getOrganization())) {
+            if (member.getOrganization() != null &&! "".equals(member.getOrganization())) {
                 Member member1 = new Member();
                 member1.setOrganization(member.getOrganization());
                 if(name!=null&&!"".equals(name)){
