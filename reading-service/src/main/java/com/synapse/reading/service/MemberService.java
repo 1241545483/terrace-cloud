@@ -209,11 +209,14 @@ public class MemberService extends MemberBaseService {
 
     public List<MemberResult> listTeacherBySchool(User user, PageInfo pageInfo,String name) {
         Member member = memberRespository.selectByUserId(user.getRecId());
+        logger.info("----------------------user.getRecId()="+user.getRecId());
+        logger.info("----------------------member.getRecId()="+member.getUserId());
         List<MemberResult> memberList = new ArrayList<>();
         if (member != null && !"".equals(member)) {
             if (member.getOrganization() != null && "".equals(member.getOrganization())) {
                 Member member1 = new Member();
                 member1.setOrganization(member.getOrganization());
+                logger.info("----------------------0rg="+member1.getOrganization());
                 if(name!=null&&!"".equals(name)){
                     member1.setName(name);
                 }
