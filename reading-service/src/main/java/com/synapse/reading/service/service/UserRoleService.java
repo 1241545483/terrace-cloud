@@ -3,9 +3,11 @@ package com.synapse.reading.service.service;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.constants.constants.UserRoleConstants;
+import com.synapse.reading.model.OrgCode;
 import com.synapse.reading.model.model.UserRole;
 import com.synapse.reading.respository.respository.UserRoleRespository;
 import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.service.OrgCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,9 @@ public class UserRoleService extends UserRoleBaseService {
     @Autowired
     private UserRoleRespository userRoleRespository;
 
+    @Autowired
+    private OrgCodeService orgCodeService;
+
     public UserRole find(String recId){
 	    return userRoleRespository.selectByPrimaryKey(recId);
     }
@@ -54,10 +59,20 @@ public class UserRoleService extends UserRoleBaseService {
         int num  = userRoleRespository.updateByPrimaryKeySelective(param);
         if (num <= 0) {
             create(param);
+            createOrgCode(param.getUserId());
             return  1;
         }
+        createOrgCode(param.getUserId());
         return num;
     }
+    public String createOrgCode(String userId) {
+        OrgCode orgCode =new OrgCode();
+        orgCode.setCreateId(userId);
+        orgCodeService.create(orgCode);
+        return  orgCodeService.create(orgCode);
+    }
+
+
 
     public String create(UserRole param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);

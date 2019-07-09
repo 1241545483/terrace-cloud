@@ -7,6 +7,7 @@
                extends="com.synapse.reading.mapper.MemberMapper.BaseResultMap">
         <id column="answer" property="answer"/>
         <id column="realName" property="realName"/>
+        <id column="classNum" property="classNum"/>
     </resultMap>
 
 
@@ -101,5 +102,49 @@
             join  issue_answer a on a.create_id =m.user_id
             join  issue b on a.issue_id = b.rec_id and b.belong_to ='task' and  b.belong_to_id = #{taskId}
             JOIN  task  c on b.belong_to_id =c.rec_id WHERE 1=1 GROUP BY  m.user_id
+    </select>
+
+    <select id="countTeacherBySchool" parameterType="java.lang.String" resultType="int">
+        select
+        count(*)
+        from `member` a
+        join
+        (SELECT count(create_id) classNum ,create_id from class_info where status =1 GROUP BY create_id )
+        b on  a.user_id =b.create_id
+        where 1 = 1
+        AND a.`ORGANIZATION` = #{organization}
+        AND a.`STATUS` = "1"
+        <if test="name != null" >
+            <if test="name.indexOf('%') >= 0" >
+                AND a.`NAME` like #{name}
+            </if>
+            <if test="name.indexOf('%') lt 0" >
+                AND a.`NAME` = #{name}
+            </if>
+        </if>
+    </select>
+
+    <select id="listByShchool" parameterType="map" resultMap="simpleRow">
+        select
+        a.* ,b.classNum
+        from `member` a
+        join
+        (SELECT count(create_id) classNum ,create_id from class_info where status =1 GROUP BY create_id )
+        b on  a.user_id =b.create_id
+        where 1 = 1
+        AND a.`ORGANIZATION` = #{organization}
+        AND a.`STATUS` = "1"
+        <if test="name != null" >
+            <if test="name.indexOf('%') >= 0" >
+                AND a.`NAME` like #{name}
+            </if>
+            <if test="name.indexOf('%') lt 0" >
+                AND a.`NAME` = #{name}
+            </if>
+        </if>
+        ORDER BY   b.classNum  DESC
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
     </select>
 </mapper>

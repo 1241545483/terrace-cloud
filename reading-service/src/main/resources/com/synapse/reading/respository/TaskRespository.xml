@@ -8,6 +8,7 @@
         <id column="teacher_name" property="teacherName"/>
         <id column="finish" property="finish"/>
         <id column="clicked" property="clicked"/>
+        <id column="taskNoteNum" property="taskNoteNum"/>
     </resultMap>
 
     <select id="listByUser" parameterType="map" resultMap="simpleRow">
@@ -28,6 +29,104 @@
             limit ${startIndex}, ${pageSize}
         </if>
     </select>
+
+
+    <select id="listByTaskOrTeacher" parameterType="map" resultMap="simpleRow">
+        SELECT a.*,b.name class_name,c.name teacher_name ,d.taskNoteNum
+        FROM  task a
+        join class_info b on a.class_id= b.rec_id  AND  b.status=1
+        <if test="className != null" >
+        <if test="className.indexOf('%') >= 0" >
+            AND b.`NAME` like #{className}
+        </if>
+        <if test="className.indexOf('%') lt 0" >
+            AND b.`NAME` = #{className}
+        </if>
+        </if>
+        join  member c on b.create_id = c.user_id
+        <if test="teacherName != null" >
+            <if test="teacherName.indexOf('%') >= 0" >
+                AND c.`NAME` like #{teacherName}
+            </if>
+            <if test="teacherName.indexOf('%') lt 0" >
+                AND c.`NAME` = #{teacherName}
+            </if>
+        </if>
+        join
+        (SELECT count(task_id) taskNoteNum ,task_id from task_note where status =1 GROUP BY task_id )
+        d on  a.rec_id =d.task_id
+        where
+        1 = 1
+        AND a.`status` = 1
+        <if test="taskId != null" >
+            <if test="taskId.indexOf('%') >= 0" >
+                AND a.`rec_id` like #{taskId}
+            </if>
+            <if test="taskId.indexOf('%') lt 0" >
+                AND a.`rec_id` = #{taskId}
+            </if>
+        </if>
+        <if test="taskName != null" >
+            <if test="taskName.indexOf('%') >= 0" >
+                AND a.`name` like #{taskName}
+            </if>
+            <if test="taskName.indexOf('%') lt 0" >
+                AND a.`name` = #{taskName}
+            </if>
+        </if>
+        ORDER BY  d.taskNoteNum DESC
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+
+    <select id="countListByTaskOrTeacher" parameterType="map" resultType="int">
+        SELECT count(1)
+        FROM  task a
+        join class_info b on a.class_id= b.rec_id  AND  b.status=1
+        <if test="className != null" >
+            <if test="className.indexOf('%') >= 0" >
+                AND b.`NAME` like #{className}
+            </if>
+            <if test="className.indexOf('%') lt 0" >
+                AND b.`NAME` = #{className}
+            </if>
+        </if>
+        join  member c on b.create_id = c.user_id
+        <if test="teacherName != null" >
+            <if test="teacherName.indexOf('%') >= 0" >
+                AND c.`NAME` like #{teacherName}
+            </if>
+            <if test="teacherName.indexOf('%') lt 0" >
+                AND c.`NAME` = #{teacherName}
+            </if>
+        </if>
+        join
+        (SELECT count(task_id) taskNoteNum ,task_id from task_note where status =1 GROUP BY task_id )
+        d on  a.rec_id =d.task_id
+        where
+        1 = 1
+        AND a.`status` = 1
+        <if test="taskId != null" >
+            <if test="taskId.indexOf('%') >= 0" >
+                AND a.`rec_id` like #{taskId}
+            </if>
+            <if test="taskId.indexOf('%') lt 0" >
+                AND a.`rec_id` = #{taskId}
+            </if>
+        </if>
+        <if test="taskName != null" >
+            <if test="taskName.indexOf('%') >= 0" >
+                AND a.`name` like #{taskName}
+            </if>
+            <if test="taskName.indexOf('%') lt 0" >
+                AND a.`name` = #{taskName}
+            </if>
+        </if>
+
+    </select>
+
 
     <select id="selectTask" resultMap="simpleRow" parameterType="java.lang.String" >
         select

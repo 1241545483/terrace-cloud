@@ -73,6 +73,8 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
     private ALiUpload ossUtil;
     @Autowired
     private ClassInfoService classInfoService;
+    @Autowired
+    private  OrgCodeService orgCodeService;
 
     @Value("${uploaderName}")
     private String uploaderName;
@@ -362,10 +364,6 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                 }.getType();
                 Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
                 String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
-//                String shareUrl = "";
-//                InputStream fiss = new FileInputStream(tempPng.toFile());
-//                Upload uploader = applicationContext.getBean(uploaderName, Upload.class);
-//                shareUrl = uploader.upload(fiss, "");
                 String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                 ShareImage param = new ShareImage();
                 param.setRecId(idService.gen("ID"));
@@ -380,8 +378,54 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
             }
             return shareImageRespository.list(params).get(0).getUrl();
         }
-
     }
+
+    public String getShareUrlByOrgCode(String id, User user, String shareType) throws IOException {
+        ShareImage shareImageParam = new ShareImage();
+        Map<String, Object> params = prepareParams(shareImageParam);
+        params.put("userId", user.getRecId());
+        params.put("shareType", shareType);
+        params.put("shareId", id);
+        if (shareImageRespository.count(params) > 0) {
+            return shareImageRespository.list(params).get(0).getUrl();
+        } else {
+            if ("orgCode".equals(shareType)) {
+                OrgCode orgCode = orgCodeService.find(id);
+                //todo 待修改 20190528
+                ClassPathResource classPath = new ClassPathResource("/imgs/classModelUrl.png");
+                InputStream model = classPath.getInputStream();
+                Upload upload = applicationContext.getBean(uploaderName, Upload.class);
+                String modelUrl = upload.upload(model, "");
+                String qrcodeUrl = orgCode.getQrCode();
+                Member member = memberService.getMember(user.getRecId());
+                String wxNickName = user.getUsername();
+                if (member.getName() != null && !"".equals(member.getName())) {
+                    wxNickName = member.getName();
+                }
+                Path tempPng = ImgUtil.DrawSuccessPosterByClass(modelUrl, qrcodeUrl, wxNickName,"",orgCode.getQrCode());
+                FileInputStream fis = new FileInputStream(tempPng.toFile());
+                String infos = miniQrcodeService.inputStreamUpload(fis, "shareUrl.png");
+                Gson gson = new Gson();
+                Type memberType = new TypeToken<Map<String, Object>>() {
+                }.getType();
+                Map<String, Map<String, List<Map<String, String>>>> map = gson.fromJson(infos, memberType);
+                String shareUrl = map.get("bizInfo").get("models").get(0).get("url");
+                String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                ShareImage param = new ShareImage();
+                param.setRecId(idService.gen("ID"));
+                //    param.setRecId("66");
+                param.setCreateTime(now);
+                param.setShareId(id);
+                param.setShareType(shareType);
+                param.setUrl(shareUrl);
+                param.setUserId(user.getRecId());
+                param.setCreateId(user.getRecId());
+                shareImageMapper.insertSelective(param);
+            }
+            return shareImageRespository.list(params).get(0).getUrl();
+        }
+    }
+
 
     public String getIssueShareUrl(User user, String shareType, String belongTo, String belongToId) throws IOException {
         ShareImage shareImageParam = new ShareImage();

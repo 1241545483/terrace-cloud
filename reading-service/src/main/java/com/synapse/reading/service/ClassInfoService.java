@@ -5,6 +5,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.reading.constants.ClassCodeConstants;
 import com.synapse.reading.dto.param.MiniQrcodeParam;
+import com.synapse.reading.dto.param.SelectTaskParam;
 import com.synapse.reading.model.ClassCode;
 import com.synapse.reading.model.ClassInfo;
 import com.synapse.reading.model.ClassStudentMapping;
@@ -142,6 +143,22 @@ public class ClassInfoService extends ClassInfoBaseService {
         return classInfoRespository.listByTeacherCreate(params);
     }
 
+    public List<ClassInfoResult> listByClass(SelectTaskParam selectTaskParam, PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        if(selectTaskParam.getUserId()!=null&&!"".equals(selectTaskParam.getUserId())){
+            params.put("userId", selectTaskParam.getUserId());
+        }
+        if(selectTaskParam.getClassName()!=null&&!"".equals(selectTaskParam.getClassName())){
+            params.put("className", selectTaskParam.getClassName());
+        }
+        if(selectTaskParam.getTeacherName()!=null&&!"".equals(selectTaskParam.getTeacherName())){
+            params.put("teacherName", selectTaskParam.getTeacherName());
+        }
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return classInfoRespository.listByClass(params);
+    }
+
     public List<ClassInfoResult> listByStudentJoin(String userId, PageInfo pageInfo) {
         Map<String, Object> params = new HashMap<>();
         params.put("userId", userId);
@@ -158,6 +175,20 @@ public class ClassInfoService extends ClassInfoBaseService {
 
     public Integer countByTeacherCreate(String userId) {
         return classInfoRespository.countByTeacherCreate(userId);
+    }
+
+    public Integer countListByClasse(SelectTaskParam selectTaskParam) {
+        Map<String, Object> params = new HashMap<>();
+        if(selectTaskParam.getUserId()!=null&&!"".equals(selectTaskParam.getUserId())){
+            params.put("classId", selectTaskParam.getClassId());
+        }
+        if(selectTaskParam.getClassName()!=null&&!"".equals(selectTaskParam.getClassName())){
+            params.put("className", "%"+selectTaskParam.getClassName()+"%");
+        }
+        if(selectTaskParam.getTeacherName()!=null&&!"".equals(selectTaskParam.getTeacherName())){
+            params.put("teacherName", "%"+selectTaskParam.getTeacherName()+"%");
+        }
+        return classInfoRespository.countListByClasse(params);
     }
 
     public Integer countByStudentJoin(String userId) {

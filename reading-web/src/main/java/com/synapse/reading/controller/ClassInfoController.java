@@ -5,6 +5,7 @@ import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.dto.param.JoinClassParam;
+import com.synapse.reading.dto.param.SelectTaskParam;
 import com.synapse.reading.model.ClassInfo;
 import com.synapse.reading.dto.param.ClassInfoParam;
 import com.synapse.reading.dto.result.ClassInfoResult;
@@ -119,6 +120,38 @@ public class ClassInfoController extends BaseController{
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+    @ApiOperation(value = "查询ClassInfo列表(分页,支持查询老师，班级模糊查询)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = ClassInfoResult.class, message = "ClassInfo列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/classInfo/teacher",method = RequestMethod.GET)
+    public ResponseEntity listByClass(PageInfo pageInfo,@Validated(Search.class)SelectTaskParam selectTaskParam, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            int totalNum = classInfoService.countListByClasse(selectTaskParam);
+            preparePageInfo(pageInfo, totalNum);
+            List<ClassInfoResult> results = classInfoService.listByClass(selectTaskParam,pageInfo);
+//            List<ClassInfoResult> results = models.stream().map(it -> new ClassInfoResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
+            map.put("classInfoList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list ClassInfo Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list ClassInfo Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
     @ApiOperation(value = "查询ClassInfo列表(分页,学生参加的列表)")
     @ApiResponses({

@@ -52,7 +52,7 @@ public class MemberService extends MemberBaseService {
     @Autowired
     private UserService userService;
     @Autowired
-    private  GatwayService gatwayService;
+    private GatwayService gatwayService;
 
     @Autowired
     private BaseSystemParameterService baseSystemParameterService;
@@ -62,7 +62,8 @@ public class MemberService extends MemberBaseService {
 
     @Autowired
     private TradeOrderDetailService tradeOrderDetailService;
-
+    @Autowired
+    private OrgCodeService orgCodeService;
 
     public Member find(String recId) {
         if (recId == null) {
@@ -84,6 +85,7 @@ public class MemberService extends MemberBaseService {
 
         return memberRespository.countClassMember(classId);
     }
+
     public Member selectByUserId(String recId) {
         if (recId == null) {
             return null;
@@ -95,13 +97,33 @@ public class MemberService extends MemberBaseService {
 
         return memberRespository.selectByPhone(phone);
     }
+
     public Integer update(Member param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
         return memberRespository.updateByPrimaryKeySelective(param);
     }
 
-    public List<MemberResult> listMember( Map<String,String> map) {
+    public String joinSchool(String orgCode, User user) {
+        OrgCode model = orgCodeService.find(orgCode);
+        if(model != null &&! "".equals(model)){
+            Member member1 = memberRespository.selectByUserId(model.getCreateId());
+            Member member2 = memberRespository.selectByUserId(user.getRecId());
+            if (member2 != null &&! "".equals(member2)) {
+                member2.setOrganization(member1.getOrganization());
+                update(member2);
+            }else {
+                member2.setUserId(user.getRecId());
+                member2.setOrganization(member1.getOrganization());
+                create(member2);
+            }
+            return  member2.getUserId();
+        }
+        return "";
+    }
+
+
+    public List<MemberResult> listMember(Map<String, String> map) {
         return memberRespository.listMember(map);
     }
 
@@ -170,6 +192,13 @@ public class MemberService extends MemberBaseService {
         return memberRespository.list(params);
     }
 
+    public List<MemberResult> listByShchool(Member memberParam, PageInfo pageInfo) {
+        Map<String, Object> params = prepareParams(memberParam);
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return memberRespository.listByShchool(params);
+    }
+
     public List<Member> listTeacher(String roleId, PageInfo pageInfo) {
         Map<String, Object> params = new HashMap<>();
         params.put("roleId", roleId);
@@ -178,110 +207,50 @@ public class MemberService extends MemberBaseService {
         return memberRespository.listTeacher(params);
     }
 
+    public List<MemberResult> listTeacherBySchool(User user, PageInfo pageInfo,String name) {
+        Member member = memberRespository.selectByUserId(user.getRecId());
+        List<MemberResult> memberList = new ArrayList<>();
+        if (member != null && !"".equals(member)) {
+            if (member.getOrganization() != null && "".equals(member.getOrganization())) {
+                Member member1 = new Member();
+                member1.setOrganization(member.getOrganization());
+                if(name!=null&&!"".equals(name)){
+                    member1.setName(name);
+                }
+                memberList = listByShchool(member1, pageInfo);
+                return memberList;
+            }
+        }
+        return memberList;
+    }
 
     public Integer count(Member memberParam) {
         Map<String, Object> params = prepareParams(memberParam);
         return memberRespository.count(params);
     }
 
+
     public Integer countTeacher(String roleId) {
         return memberRespository.countTeacher(roleId);
     }
 
+    public Integer countTeacherBySchool(User user,String name) {
+        Member member = memberRespository.selectByUserId(user.getRecId());
+        if (member != null && !"".equals(member)) {
+            if (member.getOrganization() != null && "".equals(member.getOrganization())) {
+                Member member1 = new Member();
+                member1.setOrganization(member.getOrganization());
+                if(name!=null&&!"".equals(name)){
+                    member1.setName(name);
+                }
+                Map<String, Object> params = prepareParams(member1);
+                return memberRespository.countTeacherBySchool(params);
+            }
+        }
+        return 0;
 
-//    public void doExcelImport(List<Member> successImport, User currentUser, String organization, Map<String, List<ExcelRowModel>> result, String role) {
-//        List<ExcelRowModel> excelRowModels = result.get("excel_members");
-//        for (ExcelRowModel excelRowModel : excelRowModels) {
-//            Map<String, Object> registParams = new HashMap<String, Object>();
-//            registParams.put("userName", excelRowModel.getUserName());
-//            registParams.put("subject", excelRowModel.getSubject());
-////            registParams.put("organization", organization);
-//            registParams.put("mobilePhone", excelRowModel.getPhone());
-//            registParams.put("loginAlais", excelRowModel.getPhone());
-//            registParams.put("idCard", excelRowModel.getIdCard());
-//            registParams.put("orgId", organization);
-//            registParams.put("registFlag", 1);
-//            registParams.put("regRoletype", excelRowModel.getRegRoletype());
-//            registParams.put("bizroleId", role);
-//            String userId = null;
-//            //登录账号为：身份证后六位
-//            String idCard = (String) registParams.get("idCard");
-////				String loginName = idCard.substring(idCard.length() - 6, idCard.length());
-//            //登录帐号为身份证号
-//            String loginName = idCard.toUpperCase();
-//            String loginName_mobilePhone = excelRowModel.getPhone();
-//
-//            Member memberByIdCard = getMemberByIdCard(idCard);
-//            if (memberByIdCard != null) {
-//                userId = memberByIdCard.getUserId() + "";
-//                logger.info("member {} is not exist!", idCard);
-//            } else {
-//                if (!userService.userNameIsExist(loginName) && !userService.userNameIsExist(loginName_mobilePhone)) {
-//                    userId = importregist(registParams);
-//                    logger.info("member {} is not exist remote!", idCard);
-//                } else {
-//                    //存在这个用户，查询用户主键ID
-//                    userId = getUserId(loginName);
-//                    if (StringUtils.trim(userId).equals("")) {
-//                        userId = getUserId(loginName_mobilePhone);
-//                    }
-//                    //TODO 判断用户角色和是否是培训班的创建者？先放开
-//                }
-//                logger.info("member {} userId is {}!", idCard, userId);
-//            }
-//
-//            Member member = new Member();
-//            member.setUserId(userId);
-//            member.setIdCard(excelRowModel.getIdCard());
-//            //在职状态、教师性质查询对应key 在字段表里
-////            String office_status_type = "OFFICE_STATUS";
-////            String officeStatus = baseSystemParameterService.getKeyByTypeAndValue(office_status_type, StringUtils.trimToEmpty(excelRowModel.getOfficeStatus()));
-////            member.setOfficeStatus(officeStatus);
-////            String teacher_nature_type = "TEACHER_NATURE";
-////            String nature = baseSystemParameterService.getKeyByTypeAndValue(teacher_nature_type, StringUtils.trimToEmpty(excelRowModel.getTeacherNature()));
-////            member.setNature(nature);
-//            String subject_type = "SUBJECT";
-//            String subject = baseSystemParameterService.getKeyByTypeAndValue(subject_type, StringUtils.trimToEmpty(excelRowModel.getSubject()));
-//            member.setSubject(subject);
-//            String phase_type = "PHASE";
-//            String phase = baseSystemParameterService.getKeyByTypeAndValue(phase_type, StringUtils.trimToEmpty(excelRowModel.getPhase()));
-//            member.setPhase(phase);
-////            member.setMemberType(MemberConstants.TYPE.TEACHER.vlaue()); //学员类型 1-专家，2-老师
-//            member.setName(excelRowModel.getUserName());
-//            member.setOrganization(organization);
-//            member.setMobile(excelRowModel.getPhone());
-//            String nowStr = DateUtils.getNowStr("yyyy-MM-dd HH:mm:ss");
-//            member.setCreateId(userId);
-//            member.setRole(role);
-//            member.setCreateTime(nowStr);
-//            member.setUpdateTime(nowStr);
-//            member.setStatus(MemberConstants.STATUS.OK.num());
-//            logger.info("userId is 6666666666666666666666666666666" + userId);
-//            Member isExist = memberRespository.selectByUserId(userId);
-//            if (isExist != null) {
-//                logger.info("member {} userId is {} exists!", idCard, userId);
-//                update(member);
-//            } else {
-//                logger.info("member {} userId is {} not exists!", idCard, userId);
-//                create(member);
-//            }
-//            successImport.add(member);
-////            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-////            TradeOrder tradeOrder = tradeOrderService.findByBuyId(currentUser.getRecId());
-////            tradeOrder.setRecId(idService.gen("ID"));
-////            tradeOrder.setBuyId(userId);
-////            tradeOrder.setCreateTime(now);
-////            tradeOrder.setCreateId(currentUser.getRecId());
-////            tradeOrderService.create(tradeOrder);
-////            TradeOrderDetail tradeOrderDetail =tradeOrderDetailService.findByTradeOrder(tradeOrder.getRecId());
-////            tradeOrderDetail.setRecId(idService.gen("ID"));
-////            tradeOrderDetail.setTrateOrderId(tradeOrder.getRecId());
-////            tradeOrderDetail.setCreateTime(now);
-////            tradeOrderDetail.setCreateId(currentUser.getRecId());
-////            tradeOrderDetailService.create(tradeOrderDetail);
-//
-//        }
-//    }
+    }
+
 
     /**
      * 根据身份证查询学员信息
@@ -371,90 +340,6 @@ public class MemberService extends MemberBaseService {
         Member member = memberRespository.selectByUserId(userId);
         return member;
     }
-
-//    public Member addMember(User user, String type, MemberParam param, String roletype) {
-//
-//        type = StringUtils.trimToEmpty(type);
-//        String organization = param.getOrganization();
-//        Member member = param.getModel();
-//        member.setStatus("1");
-//        member.setOrganization(organization);
-//        String memberId = null;
-//        String idCard = StringUtils.trimToEmpty(member.getIdCard());
-//        String idCard_6 = idCard.toUpperCase();
-//        Map<String, Object> registParams = new HashMap<String, Object>();
-//
-//
-//        private String password;
-//        private String passwordAgain;
-//        private String nickName;
-//
-//        registParams.put("userName", member.getName());
-//        registParams.put("organization", organization);
-//        registParams.put("mobile", StringUtils.trimToEmpty(member.getMobile()));
-//        registParams.put("idCard", StringUtils.trimToEmpty(member.getIdCard()));
-//        registParams.put("orgId", param.getOrganization());
-//        registParams.put("regRoletype", roletype);
-//        String mobile = org.apache.commons.lang.StringUtils.trimToEmpty(member.getMobile());
-//        String lName = "";
-//        //如果手机号和电话都为空则直接新增用户名, 用名称去判断 且是专家
-//        String name = StringUtils.trimToEmpty(param.getName());
-//        User userInfo= new User();
-//        userInfo.setUsername(param.getName());
-//        userInfo.setPassword();
-//
-//
-//        importregist(registParams);
-//        if (idCard.length() == 0 && mobile.length() == 0 && type.length() > 0 && name.length() > 0 && !userService.userNameIsExist(name)) {
-//            System.err.println("jinru 1111111111");
-//            lName = name;
-//            //查询name为用户名的客户是否存在
-//            registParams.put("userName", name);
-//            registParams.put("loginName", name);
-//            //专家默认的密码为123456
-//            registParams.put("loginPass", "123456");
-//            //密码设置为123456
-//            memberId = importregist(registParams);
-//            member.setUserId(memberId);
-//        } else if (idCard.length() == 0 && mobile.length() != 0 && type.length() > 0 && !userService.userNameIsExist(mobile)) {
-//            lName = mobile;
-//            registParams.put("userName", name);
-//            registParams.put("loginName", mobile);
-//            //专家默认的密码为123456
-//            registParams.put("loginPass", "123456");
-//            memberId = importregist(registParams);
-//            member.setUserId(memberId);
-//        } else if (idCard.length() != 0 && mobile.length() == 0 && type.length() > 0 && !userService.userNameIsExist(idCard)) {
-//            lName = idCard_6;
-//            registParams.put("userName", name);
-//            registParams.put("loginName", idCard_6);
-//            //专家默认的密码为123456
-//            registParams.put("loginPass", "123456");
-//            memberId = importregist(registParams);
-//            member.setUserId(memberId);
-//        } else if (!userService.userNameIsExist(idCard_6) && !userService.userNameIsExist(member.getMobile())) {
-//            lName = idCard_6;
-//            memberId = importregist(registParams);
-//            member.setUserId(memberId);
-//        } else {//存在这个用户，查询用户主键ID
-//            lName = idCard_6;
-//            memberId = getUserId(lName);
-//            if (StringUtils.trim(memberId).equals("")) {
-//                memberId = getUserId(member.getMobile());
-//            }
-//            member = getMember(memberId);
-//            if (member == null) {
-//                member.setUserId(memberId);
-//                try {
-//                    create(member);
-//                } catch (Exception e) {
-//                    throw new RuntimeException("新增失败");
-//                }
-//            }
-////            throw new RuntimeException("已存在");
-//        }
-//        return member;
-//    }
 
     public String regist(Map<String, Object> params) {
         //登录账号：身份证后六位

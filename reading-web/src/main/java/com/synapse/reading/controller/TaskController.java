@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
+import com.synapse.reading.dto.param.SelectTaskParam;
 import com.synapse.reading.model.Task;
 import com.synapse.reading.dto.param.TaskParam;
 import com.synapse.reading.dto.result.TaskResult;
@@ -109,6 +110,37 @@ public class TaskController extends BaseController{
             int totalNum = taskService.countListByUser(user);
             preparePageInfo(pageInfo, totalNum);
             List<TaskResult> results = taskService.listByUser(user,pageInfo);
+            Map<String, Object> map = new HashMap();
+            map.put("taskList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "查询Task列表(分页，可支持老师，班级，任务名查询)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TaskResult.class, message = "Task列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/task/taskOrTeacher/list",method = RequestMethod.GET)
+    public ResponseEntity listByTaskOrTeacher(PageInfo pageInfo, @Validated(Search.class) SelectTaskParam selectTaskParam, BindingResult bindingResult) {
+        try {
+            //验证失败
+            if (bindingResult.hasErrors()) {
+                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
+            }
+            User user = UserContext.getUser();
+            int totalNum = taskService.countListByTaskOrTeacher(selectTaskParam);
+            preparePageInfo(pageInfo, totalNum);
+            List<TaskResult> results = taskService.listByTaskOrTeacher(selectTaskParam,pageInfo);
             Map<String, Object> map = new HashMap();
             map.put("taskList", results);
             map.put("totalNum", totalNum);

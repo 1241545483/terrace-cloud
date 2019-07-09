@@ -356,6 +356,30 @@ public class MemberController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "根据学校分享码将老师添加入学校")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/joinSchool/{orgCode}", method = RequestMethod.PUT)
+    public ResponseEntity joinSchool(@PathVariable("orgCode") String orgCode) {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            String userId = memberService.joinSchool(orgCode,user);
+            return ResponseEntity.ok(userId);
+        } catch (BusinessException e) {
+            logger.error("update Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
     @ApiOperation(value = "根据主键更新Member")
     @ApiResponses({
             @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
@@ -639,6 +663,38 @@ public class MemberController extends BaseController {
         }
 
     }
+
+    @ApiOperation(value = "根据校管理员id查询学校所有老师Member列表(分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MemberResult.class, message = "Member列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/teacher/bySchool", method = RequestMethod.GET)
+    public ResponseEntity listTeacherBySchool(String name,PageInfo pageInfo) {
+        try {
+            User user = UserContext.getUser();
+            if(name!=null&&!"".equals(name)){
+                name ="%"+name+"%";
+            }
+            int totalNum = memberService.countTeacherBySchool(user,name);
+            preparePageInfo(pageInfo, totalNum);
+            List<MemberResult> results = memberService.listTeacherBySchool(user, pageInfo,name);
+//            List<MemberResult> results = models.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
+            Map<String, Object> map = new HashMap();
+            map.put("teacherList", results);
+            map.put("totalNum", totalNum);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Member Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
     @ApiOperation(value = "查询老师Member列表(分页)")
     @ApiResponses({

@@ -5,6 +5,7 @@
     <resultMap id="simpleRow" type="com.synapse.reading.dto.result.ClassInfoResult"
                extends="com.synapse.reading.mapper.ClassInfoMapper.BaseResultMap">
         <id column="teacherName" property="teacherName"/>
+        <id column="taskNum" property="taskNum"/>
     </resultMap>
 
 
@@ -16,18 +17,97 @@
               AND `create_id` = #{userId}
     </select>
 
+    <select id="listByClass" parameterType="map" resultMap="simpleRow">
+        select
+        a.*,b.`NAME` teacherName,c.taskNum
+        from `class_info` a
+        join
+        (SELECT count(class_id) taskNum ,class_id from task where status =1 GROUP BY class_id )
+        c on  a.rec_id =c.class_id
+         join  member b  on a.create_id = b.user_id and
+        <if test="teacherName != null" >
+            <if test="teacherName.indexOf('%') >= 0" >
+                AND b.`NAME` like #{teacherName}
+            </if>
+            <if test="teacherName.indexOf('%') lt 0" >
+                AND b.`NAME` = #{teacherName}
+            </if>
+        </if>
+        where 1 = 1
+        AND a.`status` = 1
+        <if test="classId != null" >
+            <if test="classId.indexOf('%') >= 0" >
+                AND a.`rec_id` like #{classId}
+            </if>
+            <if test="classId.indexOf('%') lt 0" >
+                AND a.`rec_id` = #{classId}
+            </if>
+        </if>
+        <if test="className != null" >
+            <if test="className.indexOf('%') >= 0" >
+                AND a.`NAME` like #{className}
+            </if>
+            <if test="className.indexOf('%') lt 0" >
+                AND a.`NAME` = #{className}
+            </if>
+        </if>
+        ORDER BY  c.taskNum DESC
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="countListByClasse" parameterType="map" resultType="int">
+        select
+        count(*)
+        from `class_info` a
+        join
+        (SELECT count(class_id) taskNum ,class_id from task where status =1 GROUP BY class_id )
+        c on  a.rec_id =c.class_id
+        join  member b  on a.create_id = b.user_id and
+        <if test="teacherName != null" >
+            <if test="teacherName.indexOf('%') >= 0" >
+                AND b.`NAME` like #{teacherName}
+            </if>
+            <if test="teacherName.indexOf('%') lt 0" >
+                AND b.`NAME` = #{teacherName}
+            </if>
+        </if>
+        where 1 = 1
+        AND a.`status` = 1
+        <if test="userId != null" >
+            <if test="userId.indexOf('%') >= 0" >
+                AND a.`create_id` like #{userId}
+            </if>
+            <if test="userId.indexOf('%') lt 0" >
+                AND a.`create_id` = #{userId}
+            </if>
+        </if>
+        <if test="className != null" >
+            <if test="className.indexOf('%') >= 0" >
+                AND a.`NAME` like #{className}
+            </if>
+            <if test="className.indexOf('%') lt 0" >
+                AND a.`NAME` = #{className}
+            </if>
+        </if>
+
+    </select>
+
+
     <select id="listByTeacherCreate" parameterType="map" resultMap="simpleRow">
         select
         a.*,b.`NAME` teacherName
         from `class_info` a
         left join  member b  on a.create_id = b.user_id
         where 1 = 1
-                AND a.`status` = 1
-                AND a.`create_id` = #{userId}
+        AND a.`status` = 1
+        AND a.`create_id` = #{userId}
         <if test="startIndex != null">
             limit ${startIndex}, ${pageSize}
         </if>
     </select>
+
 
 
     <select id="countByStudentJoin" parameterType="java.lang.String" resultType="int">

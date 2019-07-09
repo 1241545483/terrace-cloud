@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.mapper.OrgCodeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.synapse.reading.model.OrgCode">
+        <id column="org_code" property="orgCode" />
+        <result column="status" property="status" />
+        <result column="qr_code" property="qrCode" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+      `org_code`,`status`,`qr_code`,`create_id`,`create_time`,`update_id`,`update_time`
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from `org_code`
+        where
+                `org_code` = #{orgCode}
+    </select>
+
+    <insert id="insert"  parameterType="com.synapse.reading.model.OrgCode">
+        insert into `org_code`
+        (<include refid="Base_Column_List" />)
+        values (#{orgCode},#{status},#{qrCode},#{createId},#{createTime},#{updateId},#{updateTime})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from `org_code`
+        where
+			    `org_code` = #{orgCode}
+    </delete>
+
+    <insert id="insertSelective"  parameterType="com.synapse.reading.model.OrgCode" >
+        insert into `org_code`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="orgCode != null" >
+                    `org_code`,
+                </if>
+                <if test="status != null" >
+                    `status`,
+                </if>
+                <if test="qrCode != null" >
+                    `qr_code`,
+                </if>
+                <if test="createId != null" >
+                    `create_id`,
+                </if>
+                <if test="createTime != null" >
+                    `create_time`,
+                </if>
+                <if test="updateId != null" >
+                    `update_id`,
+                </if>
+                <if test="updateTime != null" >
+                    `update_time`,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="orgCode != null" >
+			        #{orgCode},
+                </if>
+                <if test="status != null" >
+			        #{status},
+                </if>
+                <if test="qrCode != null" >
+			        #{qrCode},
+                </if>
+                <if test="createId != null" >
+			        #{createId},
+                </if>
+                <if test="createTime != null" >
+			        #{createTime},
+                </if>
+                <if test="updateId != null" >
+			        #{updateId},
+                </if>
+                <if test="updateTime != null" >
+			        #{updateTime},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.synapse.reading.model.OrgCode" >
+        update `org_code`
+        <set >
+	            <if test="orgCode != null" >
+		            `org_code` = #{orgCode},
+	            </if>
+	            <if test="status != null" >
+		            `status` = #{status},
+	            </if>
+	            <if test="qrCode != null" >
+		            `qr_code` = #{qrCode},
+	            </if>
+	            <if test="createId != null" >
+		            `create_id` = #{createId},
+	            </if>
+	            <if test="createTime != null" >
+		            `create_time` = #{createTime},
+	            </if>
+	            <if test="updateId != null" >
+		            `update_id` = #{updateId},
+	            </if>
+	            <if test="updateTime != null" >
+		            `update_time` = #{updateTime},
+	            </if>
+        </set>
+        where
+		    `org_code` = #{orgCode}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.OrgCode" >
+        update  `org_code` SET
+		    `org_code`=#{orgCode},`status`=#{status},`qr_code`=#{qrCode},`create_id`=#{createId},`create_time`=#{createTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+        where
+		    `org_code` = #{orgCode}
+    </update>
+
+    <select id="count" parameterType="map" resultType="int">
+        select count(1)
+	    from `org_code`
+        where 1 = 1
+            <if test="orgCode != null" >
+                    AND `org_code` = #{orgCode}
+            </if>
+            <if test="status != null" >
+                    <if test="status.indexOf('%') >= 0" >
+                        AND `status` like #{status}
+                    </if>
+                    <if test="status.indexOf('%') lt 0" >
+                        AND `status` = #{status}
+                    </if>
+            </if>
+            <if test="qrCode != null" >
+                    <if test="qrCode.indexOf('%') >= 0" >
+                        AND `qr_code` like #{qrCode}
+                    </if>
+                    <if test="qrCode.indexOf('%') lt 0" >
+                        AND `qr_code` = #{qrCode}
+                    </if>
+            </if>
+            <if test="createId != null" >
+                    <if test="createId.indexOf('%') >= 0" >
+                        AND `create_id` like #{createId}
+                    </if>
+                    <if test="createId.indexOf('%') lt 0" >
+                        AND `create_id` = #{createId}
+                    </if>
+            </if>
+            <if test="createTime != null" >
+                    <if test="createTime.indexOf('%') >= 0" >
+                        AND `create_time` like #{createTime}
+                    </if>
+                    <if test="createTime.indexOf('%') lt 0" >
+                        AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="updateId != null" >
+                    <if test="updateId.indexOf('%') >= 0" >
+                        AND `update_id` like #{updateId}
+                    </if>
+                    <if test="updateId.indexOf('%') lt 0" >
+                        AND `update_id` = #{updateId}
+                    </if>
+            </if>
+            <if test="updateTime != null" >
+                    <if test="updateTime.indexOf('%') >= 0" >
+                        AND `update_time` like #{updateTime}
+                    </if>
+                    <if test="updateTime.indexOf('%') lt 0" >
+                        AND `update_time` = #{updateTime}
+                    </if>
+            </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `org_code`
+        where 1 = 1
+            <if test="orgCode != null" >
+                    AND `org_code` = #{orgCode}
+            </if>
+            <if test="status != null" >
+	            <if test="status.indexOf('%') >= 0" >
+				    AND `status` like #{status}
+	            </if>
+                <if test="status.indexOf('%') lt 0" >
+                    AND `status` = #{status}
+                </if>
+            </if>
+            <if test="qrCode != null" >
+	            <if test="qrCode.indexOf('%') >= 0" >
+				    AND `qr_code` like #{qrCode}
+	            </if>
+                <if test="qrCode.indexOf('%') lt 0" >
+                    AND `qr_code` = #{qrCode}
+                </if>
+            </if>
+            <if test="createId != null" >
+	            <if test="createId.indexOf('%') >= 0" >
+				    AND `create_id` like #{createId}
+	            </if>
+                <if test="createId.indexOf('%') lt 0" >
+                    AND `create_id` = #{createId}
+                </if>
+            </if>
+            <if test="createTime != null" >
+	            <if test="createTime.indexOf('%') >= 0" >
+				    AND `create_time` like #{createTime}
+	            </if>
+                <if test="createTime.indexOf('%') lt 0" >
+                    AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="updateId != null" >
+	            <if test="updateId.indexOf('%') >= 0" >
+				    AND `update_id` like #{updateId}
+	            </if>
+                <if test="updateId.indexOf('%') lt 0" >
+                    AND `update_id` = #{updateId}
+                </if>
+            </if>
+            <if test="updateTime != null" >
+	            <if test="updateTime.indexOf('%') >= 0" >
+				    AND `update_time` like #{updateTime}
+	            </if>
+                <if test="updateTime.indexOf('%') lt 0" >
+                    AND `update_time` = #{updateTime}
+                </if>
+            </if>
+        <if test="startIndex != null">
+        	limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+</mapper>

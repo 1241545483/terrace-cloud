@@ -308,6 +308,30 @@ public class ShareImageController extends BaseController {
     }
 
 
+    @ApiOperation(value = "根据学校分享码加入学校分享图片详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = ShareImageResult.class, message = "分享图片地址"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/shareImage/getShareUrlByOrgCode/{recId}", method = RequestMethod.GET)
+    public ResponseEntity getShareUrlByOrgCode(@PathVariable("recId") String recId) {
+        try {
+            User user = UserContext.getUser();
+            String shareType = "orgCode";
+            String url = shareImageService.getShareUrlByOrgCode(recId, user,shareType);
+            return ResponseEntity.ok(url);
+        } catch (BusinessException e) {
+            logger.error("get ShareImage Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get ShareImage Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
     @ApiOperation(value = "根据主键查询issue分享图片详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = ShareImageResult.class, message = "分享issue图片地址"),

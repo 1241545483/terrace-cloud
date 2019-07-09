@@ -4,6 +4,7 @@ import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.constants.LessonConstants;
 import com.synapse.reading.dto.param.ClassTaskStudyParam;
+import com.synapse.reading.dto.param.SelectTaskParam;
 import com.synapse.reading.model.Book;
 import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.Task;
@@ -171,6 +172,25 @@ public class TaskService extends TaskBaseService {
         return taskRespository.listByClass(params);
     }
 
+    public List<TaskResult> listByTaskOrTeacher(SelectTaskParam selectTaskParam, PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        if(selectTaskParam.getUserId()!=null&&!"".equals(selectTaskParam.getUserId())){
+            params.put("taskId", selectTaskParam.getTaskId());
+        }
+        if(selectTaskParam.getClassName()!=null&&!"".equals(selectTaskParam.getClassName())){
+            params.put("className", "%"+selectTaskParam.getClassName()+"%");
+        }
+        if(selectTaskParam.getTeacherName()!=null&&!"".equals(selectTaskParam.getTeacherName())){
+            params.put("teacherName", "%"+selectTaskParam.getTeacherName()+"%");
+        }
+        if(selectTaskParam.getTaskName()!=null&&!"".equals(selectTaskParam.getTaskName())){
+            params.put("taskName", "%"+selectTaskParam.getTaskName()+"%");
+        }
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return taskRespository.listByTaskOrTeacher(params);
+    }
+
     public List<TaskResult> listByUser(User user, PageInfo pageInfo) {
         Map<String, Object> params = new HashMap<>();
         params.put("startIndex", pageInfo.getCurrentStartIndex());
@@ -180,8 +200,26 @@ public class TaskService extends TaskBaseService {
     }
 
     public Integer countListByUser(User user) {
-
         return taskRespository.countListByUser(user.getRecId());
+    }
+
+
+
+    public Integer countListByTaskOrTeacher(SelectTaskParam selectTaskParam) {
+        Map<String, Object> params = new HashMap<>();
+        if(selectTaskParam.getUserId()!=null&&!"".equals(selectTaskParam.getUserId())){
+            params.put("taskId", selectTaskParam.getTaskId());
+        }
+        if(selectTaskParam.getClassName()!=null&&!"".equals(selectTaskParam.getClassName())){
+            params.put("className", "%"+selectTaskParam.getClassName()+"%");
+        }
+        if(selectTaskParam.getTeacherName()!=null&&!"".equals(selectTaskParam.getTeacherName())){
+            params.put("teacherName", "%"+selectTaskParam.getTeacherName()+"%");
+        }
+        if(selectTaskParam.getTaskName()!=null&&!"".equals(selectTaskParam.getTaskName())){
+            params.put("taskName", "%"+selectTaskParam.getTaskName()+"%");
+        }
+        return taskRespository.countListByTaskOrTeacher(params);
     }
 
     public Integer count(Task taskParam) {

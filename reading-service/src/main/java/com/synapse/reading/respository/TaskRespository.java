@@ -16,9 +16,14 @@ import java.util.Map;
  * @since 2019-06-11
  */
 public interface TaskRespository extends TaskMapper {
+    List<TaskResult> listByTaskOrTeacher(Map<String, Object> params);
 
     List<TaskResult> listByUser(Map<String, Object> params);
-  Integer  countListByUser(String userId);
+
+    Integer countListByUser(String userId);
+
+    Integer countListByTaskOrTeacher(Map<String, Object> params);
+
     TaskResult selectTask(String recId);
 
     List<Task> listByClass(Map<String, Object> params);

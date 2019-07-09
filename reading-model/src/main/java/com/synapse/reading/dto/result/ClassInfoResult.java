@@ -20,6 +20,8 @@ public class ClassInfoResult {
 
 	private  String  teacherName;
 
+	private  String  taskNum;
+
     public ClassInfoResult(){}
 
     public ClassInfoResult(ClassInfo  classInfo){
@@ -139,5 +141,13 @@ public String getUpdateTime() {
 
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
+	}
+
+	public String getTaskNum() {
+		return taskNum;
+	}
+
+	public void setTaskNum(String taskNum) {
+		this.taskNum = taskNum;
 	}
 }

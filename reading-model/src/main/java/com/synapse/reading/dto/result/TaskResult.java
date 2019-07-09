@@ -29,6 +29,8 @@ public class TaskResult {
 
     private String  clicked;
 
+    private String taskNoteNum;
+
     private Task task = new Task();
 
     private List<Book> bookList = new ArrayList<>();// 子列表
@@ -221,4 +223,11 @@ public class TaskResult {
         this.clicked = clicked;
     }
 
+    public String getTaskNoteNum() {
+        return taskNoteNum;
+    }
+
+    public void setTaskNoteNum(String taskNoteNum) {
+        this.taskNoteNum = taskNoteNum;
+    }
 }

@@ -225,8 +225,8 @@ public class UserRoleController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/userRole/School/{recId}", method = RequestMethod.PUT)
-    public ResponseEntity updateUserForSchool(@PathVariable("recId") String recId, @RequestBody @Validated(Update.class) UserRoleParam param, BindingResult bindingResult){
+    @RequestMapping(value = "/v1/userRole/School", method = RequestMethod.PUT)
+    public ResponseEntity updateUserForSchool(@RequestBody @Validated(Update.class) UserRoleParam param, BindingResult bindingResult){
         try {
             //验证失败
             if (bindingResult.hasErrors()) {
@@ -234,9 +234,7 @@ public class UserRoleController extends BaseController {
             }
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-
             UserRole model = param.getModel();
-            model.setRecId(recId);
             model.setUpdateId(user.getRecId());
             Integer num = userRoleService.updateUserForSchool(model);
             return ResponseEntity.ok(num);
