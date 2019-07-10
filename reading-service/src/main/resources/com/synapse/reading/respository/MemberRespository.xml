@@ -128,7 +128,7 @@
         select
         a.* ,b.classNum
         from `member` a
-        join
+       left join
         (SELECT count(create_id) classNum ,create_id from class_info where status =1 GROUP BY create_id )
         b on  a.user_id =b.create_id
         where 1 = 1
