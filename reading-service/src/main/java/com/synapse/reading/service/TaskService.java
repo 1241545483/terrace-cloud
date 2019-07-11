@@ -219,10 +219,12 @@ public class TaskService extends TaskBaseService {
         params.put("teacherId",teacherId);
         params.put("classId",classId);
         params.put("taskId",taskId);
+
         List<Map<String,Map<String,String>>> dataList = new ArrayList<>();
         List<String>  monthList = getMonthBetweenDates(startTime,endTime);
 
         if (member != null && !"".equals(member)) {
+            params.put("organization",member.getOrganization());
             List<Map<String,String>>  teacherList = memberRespository.countTeacherNum(params);
 
             List<Map<String,String>>  classList =  classInfoRespository.countClassNum(params);
@@ -314,21 +316,40 @@ public class TaskService extends TaskBaseService {
     /**
      * 获取某个时间段内所有月份
      */
-    public static List<String> getMonthBetweenDates(String minDate, String maxDate)  throws  Exception {
+    public  List<String> getMonthBetweenDates(String minDate, String maxDate)  throws  Exception {
         ArrayList<String> result = new ArrayList<String>();
         try {
-            Calendar min = Calendar.getInstance();
-            Calendar max = Calendar.getInstance();
-            min.setTime(new SimpleDateFormat("yyyy-MM").parse(minDate));
-            min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
-            max.setTime(new SimpleDateFormat("yyyy-MM").parse(maxDate));
-            max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 2);
-            Calendar curr = min;
-            while (curr.before(max)) {
-                result.add(new SimpleDateFormat().format(curr.getTime()));
-                curr.add(Calendar.MONTH, 1);
+            Date d1 = new SimpleDateFormat("yyyy-MM").parse(minDate);//定义起始日期
+
+            Date d2 = new SimpleDateFormat("yyyy-MM").parse(maxDate);//定义结束日期
+
+            Calendar dd = Calendar.getInstance();//定义日期实例
+
+            dd.setTime(d1);//设置日期起始时间
+
+            while(dd.getTime().before(d2)){//判断是否到结束日期
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+
+                String str = sdf.format(dd.getTime());
+                logger.info("----------------------str="+str);
+                result.add(str);
+
+                dd.add(Calendar.MONTH, 1);//进行当前日期月份加1
+
             }
-            return result;
+//            Calendar min = Calendar.getInstance();
+//            Calendar max = Calendar.getInstance();
+//            min.setTime(new SimpleDateFormat("yyyy-MM").parse(minDate));
+//            min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
+//            max.setTime(new SimpleDateFormat("yyyy-MM").parse(maxDate));
+//            max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 2);
+//            Calendar curr = min;
+//            while (curr.before(max)) {
+//                result.add(new SimpleDateFormat().format(curr.getTime()));
+//                curr.add(Calendar.MONTH, 1);
+//            }
+          return result;
         } catch (Exception e) {
             return result;
         }
