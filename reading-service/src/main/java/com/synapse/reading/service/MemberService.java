@@ -192,10 +192,14 @@ public class MemberService extends MemberBaseService {
         return memberRespository.list(params);
     }
 
-    public List<MemberResult> listByShchool(Member memberParam, PageInfo pageInfo) {
+    public List<MemberResult> listByShchool(Member memberParam,String startTime,String endTime) {
         Map<String, Object> params = prepareParams(memberParam);
-        params.put("startIndex", pageInfo.getCurrentStartIndex());
-        params.put("pageSize", pageInfo.getPerPageNum());
+        if(startTime!=null&&!"".equals(startTime)){
+            params.put("startTime", startTime);
+        }
+        if(endTime!=null&&!"".equals(endTime)){
+            params.put("endTime", endTime);
+        }
         return memberRespository.listByShchool(params);
     }
 
@@ -207,7 +211,7 @@ public class MemberService extends MemberBaseService {
         return memberRespository.listTeacher(params);
     }
 
-    public List<MemberResult> listTeacherBySchool(User user, PageInfo pageInfo,String name) {
+    public List<MemberResult> listTeacherBySchool(User user,String startTime,String endTime) {
         Member member = memberRespository.selectByUserId(user.getRecId());
         logger.info("----------------------user.getRecId()="+user.getRecId());
         logger.info("----------------------member.getRecId()="+member.getUserId());
@@ -217,10 +221,7 @@ public class MemberService extends MemberBaseService {
                 Member member1 = new Member();
                 member1.setOrganization(member.getOrganization());
                 logger.info("----------------------0rg="+member1.getOrganization());
-                if(name!=null&&!"".equals(name)){
-                    member1.setName(name);
-                }
-                memberList = listByShchool(member1, pageInfo);
+                memberList = listByShchool(member1, startTime,endTime);
                 return memberList;
             }
         }

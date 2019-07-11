@@ -124,27 +124,42 @@
         </if>
     </select>
 
-    <select id="listByShchool" parameterType="map" resultMap="simpleRow">
+    <select id="countTeacherNum" parameterType="map" resultType="map">
         select
-        a.* ,b.classNum
-        from `member` a
-       left join
-        (SELECT count(create_id) classNum ,create_id from class_info where status =1 GROUP BY create_id )
-        b on  a.user_id =b.create_id
+        date_format(create_time,'%Y-%m')  time,  count(create_time) teacherNum
+        from member a
         where 1 = 1
-        AND a.`ORGANIZATION` = #{organization}
-        AND a.`STATUS` = "1"
-        <if test="name != null" >
-            <if test="name.indexOf('%') >= 0" >
-                AND a.`NAME` like #{name}
-            </if>
-            <if test="name.indexOf('%') lt 0" >
-                AND a.`NAME` = #{name}
-            </if>
+        AND ORGANIZATION = #{organization}
+        AND STATUS = "1"
+        <if test="startTime != null" >
+            <![CDATA[  and  date_format(create_time,'%Y-%m') >= #{startTime}   ]]>
         </if>
-        ORDER BY   b.classNum  DESC
-        <if test="startIndex != null">
-            limit ${startIndex}, ${pageSize}
+        <if test="endTime != null" >
+            <![CDATA[   and  date_format(create_time,'%Y-%m') <= #{endTime}   ]]>
         </if>
+        <if test="teacherId != null" >
+            and a.user_id = #{teacherId}
+        </if>
+        GROUP BY  date_format(create_time,'%Y-%m')
+        ORDER BY   date_format(create_time,'%Y-%m')
+
     </select>
+
+
+    <select id="listByShchool" parameterType="map" resultMap="simpleRow">
+           select
+        *
+        from member
+        where 1 = 1
+        AND ORGANIZATION = #{organization}
+        AND STATUS = "1"
+        <if test="startTime != null" >
+        <![CDATA[  and  date_format(create_time,'%Y-%m') >= #{startTime}   ]]>
+        </if>
+        <if test="endTime != null" >
+       <![CDATA[   and  date_format(create_time,'%Y-%m') <= #{endTime}   ]]>
+        </if>
+
+    </select>
+
 </mapper>

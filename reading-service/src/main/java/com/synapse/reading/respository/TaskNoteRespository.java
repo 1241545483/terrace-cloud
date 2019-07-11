@@ -21,4 +21,6 @@ public interface TaskNoteRespository extends TaskNoteMapper {
 
     TaskNoteResult findByUser(String recId);
 
+    List<Map<String,String>> countFinishNum (Map<String, Object> params);
+
 }

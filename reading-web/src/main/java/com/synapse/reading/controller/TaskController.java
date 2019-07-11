@@ -124,6 +124,58 @@ public class TaskController extends BaseController{
         }
     }
 
+
+    @ApiOperation(value = "查询学校内的老师班级任务的完成情况(分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TaskResult.class, message = "Task列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/task/user/data",method = RequestMethod.GET)
+    public ResponseEntity listByCountData(String startTime,String endTime,String teacherId,String classId,String taskId) {
+        try {
+            //验证失败
+
+            User user = UserContext.getUser();
+
+            List<Map<String,Map<String,String>>>  results = taskService.listByCountData(user, startTime, endTime,teacherId, classId, taskId);
+            Map<String, Object> map = new HashMap();
+            map.put("dataList", results);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "查询学校所有的老师班级任务的完成情况(分页)")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = TaskResult.class, message = "Task列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/task/user/Alldata",method = RequestMethod.GET)
+    public ResponseEntity listByCountAllData() {
+        try {
+            User user = UserContext.getUser();
+            Map<String,String>  map = taskService.listByCountAllData(user);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("list Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Task Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+
     @ApiOperation(value = "查询Task列表(分页，可支持老师，班级，任务名查询)")
     @ApiResponses({
             @ApiResponse(code = 200, response = TaskResult.class, message = "Task列表"),
@@ -131,19 +183,15 @@ public class TaskController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/task/taskOrTeacher/list",method = RequestMethod.GET)
-    public ResponseEntity listByTaskOrTeacher(PageInfo pageInfo, @Validated(Search.class) SelectTaskParam selectTaskParam, BindingResult bindingResult) {
+    public ResponseEntity listByTaskOrTeacher(String startTime,String endTime,String classId) {
         try {
-            //验证失败
-            if (bindingResult.hasErrors()) {
-                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-            }
+
             User user = UserContext.getUser();
-            int totalNum = taskService.countListByTaskOrTeacher(selectTaskParam);
-            preparePageInfo(pageInfo, totalNum);
-            List<TaskResult> results = taskService.listByTaskOrTeacher(selectTaskParam,pageInfo);
+
+            List<TaskResult> results = taskService.listByTaskOrTeacher(startTime, endTime,classId);
             Map<String, Object> map = new HashMap();
             map.put("taskList", results);
-            map.put("totalNum", totalNum);
+
             return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("list Task Error!", e);

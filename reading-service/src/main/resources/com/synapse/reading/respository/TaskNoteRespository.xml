@@ -17,6 +17,33 @@
         a.`rec_id` = #{recId}
     </select>
 
+    <select id="countFinishNum" parameterType="map" resultType="map">
+        SELECT count(a.create_time) finishNum ,date_format(a.create_time,'%Y-%m')  time
+        from task_note a
+        JOIN  member b on a.create_id = b.user_id and b.ORGANIZATION   = #{organization}
+        <if test="teacherId != null" >
+            and b.user_id = #{teacherId}
+        </if>
+        join  task  c  on c.rec_id  = a.task_id
+        <if test="classId != null" >
+            and c.class_id = #{classId}
+        </if>
+        where a.status =1
+        <if test="startTime != null" >
+            <![CDATA[  and  date_format(a.create_time,'%Y-%m') >= #{startTime}   ]]>
+        </if>
+        <if test="endTime != null" >
+            <![CDATA[   and  date_format(a.create_time,'%Y-%m') <= #{endTime}   ]]>
+        </if>
+        <if test="taskId != null" >
+        and a.task_id = #{taskId}
+        </if>
+        GROUP BY  date_format(a.create_time,'%Y-%m')
+        ORDER BY   date_format(a.create_time,'%Y-%m')
+
+    </select>
+
+
     <select id="listByUser" parameterType="map" resultMap="simpleRow">
         select
          a.* , b.name userName ,b.pic userImage

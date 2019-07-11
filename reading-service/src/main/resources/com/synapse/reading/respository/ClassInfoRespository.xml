@@ -17,44 +17,44 @@
               AND `create_id` = #{userId}
     </select>
 
-    <select id="listByClass" parameterType="map" resultMap="simpleRow">
-        select
-        a.*,b.`NAME` teacherName,c.taskNum
-        from `class_info` a
-        join
-        (SELECT count(class_id) taskNum ,class_id from task where status =1 GROUP BY class_id )
-        c on  a.rec_id =c.class_id
-         join  member b  on a.create_id = b.user_id
-        <if test="teacherName != null" >
-            <if test="teacherName.indexOf('%') >= 0" >
-                AND b.`NAME` like #{teacherName}
-            </if>
-            <if test="teacherName.indexOf('%') lt 0" >
-                AND b.`NAME` = #{teacherName}
-            </if>
+    <select id="countClassNum" parameterType="map" resultType="map">
+        SELECT count(a.create_time) classNum ,date_format(a.create_time,'%Y-%m') time
+        from class_info  a
+        JOIN  member b on a.create_id = b.user_id and b.ORGANIZATION  = #{organization}
+        <if test="teacherId != null" >
+            and b.user_id = #{teacherId}
         </if>
-        where 1 = 1
-        AND a.`status` = 1
+        where a.status =1
+        <if test="startTime != null" >
+            <![CDATA[  and  date_format(a.create_time,'%Y-%m') >= #{startTime}   ]]>
+        </if>
+        <if test="endTime != null" >
+            <![CDATA[   and  date_format(a.create_time,'%Y-%m') <= #{endTime}   ]]>
+        </if>
         <if test="classId != null" >
-            <if test="classId.indexOf('%') >= 0" >
-                AND a.`rec_id` like #{classId}
-            </if>
-            <if test="classId.indexOf('%') lt 0" >
-                AND a.`rec_id` = #{classId}
-            </if>
+            and a.rec_id = #{classId}
         </if>
-        <if test="className != null" >
-            <if test="className.indexOf('%') >= 0" >
-                AND a.`NAME` like #{className}
-            </if>
-            <if test="className.indexOf('%') lt 0" >
-                AND a.`NAME` = #{className}
-            </if>
+        GROUP BY  date_format(a.create_time,'%Y-%m')
+        ORDER BY   date_format(a.create_time,'%Y-%m')
+
+    </select>
+
+
+
+    <select id="listByClass" parameterType="map" resultMap="simpleRow">
+           select
+        *
+        from `class_info`
+
+        where 1 = 1
+        AND `status` = 1 and create_id =#{teacherId}
+        <if test="startTime != null" >
+            <![CDATA[  and  date_format(create_time,'%Y-%m') >= #{startTime}    ]]>
         </if>
-        ORDER BY  c.taskNum DESC
-        <if test="startIndex != null">
-            limit ${startIndex}, ${pageSize}
+        <if test="endTime != null" >
+            <![CDATA[   and  date_format(create_time,'%Y-%m') <= #{endTime}    ]]>
         </if>
+
     </select>
 
     <select id="countListByClass" parameterType="map" resultType="int">

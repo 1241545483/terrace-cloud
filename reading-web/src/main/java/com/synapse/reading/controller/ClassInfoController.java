@@ -128,19 +128,13 @@ public class ClassInfoController extends BaseController{
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/classInfo/teacher",method = RequestMethod.GET)
-    public ResponseEntity listByClass(PageInfo pageInfo,@Validated(Search.class)SelectTaskParam selectTaskParam, BindingResult bindingResult) {
+    public ResponseEntity listByClass(String startTime,String endTime,String teacherId) {
         try {
-            //验证失败
-            if (bindingResult.hasErrors()) {
-                throw new ValidException(bindingResult.getFieldError().getDefaultMessage());
-            }
-            int totalNum = classInfoService.countListByClass(selectTaskParam);
-            preparePageInfo(pageInfo, totalNum);
-            List<ClassInfoResult> results = classInfoService.listByClass(selectTaskParam,pageInfo);
+
+            List<ClassInfoResult> results = classInfoService.listByClass(startTime,endTime,teacherId);
 //            List<ClassInfoResult> results = models.stream().map(it -> new ClassInfoResult(it)).collect(Collectors.toList());
             Map<String, Object> map = new HashMap();
             map.put("classInfoList", results);
-            map.put("totalNum", totalNum);
             return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("list ClassInfo Error!", e);

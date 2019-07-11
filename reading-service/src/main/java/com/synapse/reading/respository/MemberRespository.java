@@ -19,6 +19,8 @@ import java.util.Map;
  */
 public interface MemberRespository extends MemberMapper {
 
+   List<Map<String,String>> countTeacherNum (Map<String, Object> params);
+
     Integer countTeacherBySchool(Map<String, Object> params);
 
     List<MemberResult> listByShchool(Map<String, Object> params);

@@ -32,53 +32,109 @@
 
 
     <select id="listByTaskOrTeacher" parameterType="map" resultMap="simpleRow">
-        SELECT a.*,b.name class_name,c.name teacher_name ,d.taskNoteNum
-        FROM  task a
-        join class_info b on a.class_id= b.rec_id  AND  b.status=1
-        <if test="className != null" >
-        <if test="className.indexOf('%') >= 0" >
-            AND b.`NAME` like #{className}
-        </if>
-        <if test="className.indexOf('%') lt 0" >
-            AND b.`NAME` = #{className}
-        </if>
-        </if>
-        join  member c on b.create_id = c.user_id
-        <if test="teacherName != null" >
-            <if test="teacherName.indexOf('%') >= 0" >
-                AND c.`NAME` like #{teacherName}
-            </if>
-            <if test="teacherName.indexOf('%') lt 0" >
-                AND c.`NAME` = #{teacherName}
-            </if>
-        </if>
-        join
-        (SELECT count(task_id) taskNoteNum ,task_id from task_note where status =1 GROUP BY task_id )
-        d on  a.rec_id =d.task_id
+        SELECT *
+        FROM  task
         where
         1 = 1
-        AND a.`status` = 1
-        <if test="taskId != null" >
-            <if test="taskId.indexOf('%') >= 0" >
-                AND a.`rec_id` like #{taskId}
-            </if>
-            <if test="taskId.indexOf('%') lt 0" >
-                AND a.`rec_id` = #{taskId}
-            </if>
+        AND `status` = 1 and class_id = #{classId}
+        <if test="startTime != null" >
+        <![CDATA[    and  date_format(create_time,'%Y-%m') >= #{startTime}  ]]>
         </if>
-        <if test="taskName != null" >
-            <if test="taskName.indexOf('%') >= 0" >
-                AND a.`name` like #{taskName}
-            </if>
-            <if test="taskName.indexOf('%') lt 0" >
-                AND a.`name` = #{taskName}
-            </if>
+        <if test="endTime != null" >
+            <![CDATA[    and  date_format(create_time,'%Y-%m') <= #{endTime}  ]]>
         </if>
-        ORDER BY  d.taskNoteNum DESC
-        <if test="startIndex != null">
-            limit ${startIndex}, ${pageSize}
-        </if>
+
     </select>
+
+    <!--<select id="countTaskNum" parameterType="map" resultType="map">-->
+
+        <!--SELECT count(a.create_time) taskNum ,date_format(a.create_time,'%Y-%m') time-->
+        <!--from task  a-->
+        <!--JOIN  member b on a.create_id = b.user_id and  b.ORGANIZATION  = #{organization}-->
+        <!--<if test="teacherId != null" >-->
+            <!--and b.user_id = #{teacherId}-->
+        <!--</if>-->
+        <!--where a.status =1-->
+        <!--<if test="startTime != null" >-->
+            <!--<![CDATA[  and  date_format(a.create_time,'%Y-%m') >= #{startTime}   ]]>-->
+        <!--</if>-->
+        <!--<if test="endTime != null" >-->
+            <!--<![CDATA[   and  date_format(a.create_time,'%Y-%m') <= #{endTime}   ]]>-->
+        <!--</if>-->
+        <!--<if test="taskId != null" >-->
+            <!--and a.rec_id = #{taskId}-->
+        <!--</if>-->
+        <!--<if test="classId != null" >-->
+            <!--and a.class_id = #{classId}-->
+        <!--</if>-->
+        <!--GROUP BY  date_format(a.create_time,'%Y-%m')-->
+        <!--ORDER BY   date_format(a.create_time,'%Y-%m')-->
+
+    <!--</select>-->
+
+
+
+
+    <select id="listByCountAllData" parameterType="java.lang.String" resultType="map">
+
+        SELECT a.teacherNum, b.classNum  , c.taskNum , d.finishNum
+        from
+        ( select  count(create_time) teacherNum
+        from member a
+        where 1 = 1
+        AND ORGANIZATION = #{organization}
+        AND STATUS = 1) a
+        JOIN
+        (SELECT count(a.create_time) classNum
+        from class_info  a
+        JOIN  member b on a.create_id = b.user_id and b.ORGANIZATION  = #{organization}
+        where a.status =1) b
+        JOIN
+
+        (SELECT count(a.create_time) taskNum
+        from task  a
+        JOIN  member b on a.create_id = b.user_id and  b.ORGANIZATION  = #{organization}
+        where a.status =1) c
+        JOIN
+        (SELECT count(a.create_time) finishNum
+        from task_note a
+        JOIN  member b on a.create_id = b.user_id and b.ORGANIZATION   = #{organization}
+        where a.status =1) d
+        WHERE 1=1
+
+    </select>
+
+
+
+
+
+    <select id="countTaskNum" parameterType="map" resultType="map">
+
+        SELECT count(a.create_time) taskNum ,date_format(a.create_time,'%Y-%m') time
+        from task  a
+        JOIN  member b on a.create_id = b.user_id and  b.ORGANIZATION  = #{organization}
+        <if test="teacherId != null" >
+            and b.user_id = #{teacherId}
+        </if>
+        where a.status =1
+        <if test="startTime != null" >
+            <![CDATA[  and  date_format(a.create_time,'%Y-%m') >= #{startTime}   ]]>
+        </if>
+        <if test="endTime != null" >
+            <![CDATA[   and  date_format(a.create_time,'%Y-%m') <= #{endTime}   ]]>
+        </if>
+        <if test="taskId != null" >
+            and a.rec_id = #{taskId}
+        </if>
+        <if test="classId != null" >
+            and a.class_id = #{classId}
+        </if>
+        GROUP BY  date_format(a.create_time,'%Y-%m')
+        ORDER BY   date_format(a.create_time,'%Y-%m')
+
+    </select>
+
+
 
 
     <select id="countListByTaskOrTeacher" parameterType="map" resultType="int">

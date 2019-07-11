@@ -671,19 +671,13 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/teacher/bySchool", method = RequestMethod.GET)
-    public ResponseEntity listTeacherBySchool(String name,PageInfo pageInfo) {
+    public ResponseEntity listTeacherBySchool(String startTime,String endTime) {
         try {
             User user = UserContext.getUser();
-            if(name!=null&&!"".equals(name)){
-                name ="%"+name+"%";
-            }
-            int totalNum = memberService.countTeacherBySchool(user,name);
-            preparePageInfo(pageInfo, totalNum);
-            List<MemberResult> results = memberService.listTeacherBySchool(user, pageInfo,name);
+            List<MemberResult> results = memberService.listTeacherBySchool(user, endTime,endTime);
 //            List<MemberResult> results = models.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
             Map<String, Object> map = new HashMap();
             map.put("teacherList", results);
-            map.put("totalNum", totalNum);
             return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("list Member Error!", e);

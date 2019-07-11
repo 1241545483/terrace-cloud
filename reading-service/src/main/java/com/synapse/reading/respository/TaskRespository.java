@@ -28,4 +28,8 @@ public interface TaskRespository extends TaskMapper {
 
     List<Task> listByClass(Map<String, Object> params);
 
+    List<Map<String,String>> countTaskNum (Map<String, Object> params);
+
+     Map<String,String> listByCountAllData (String orgId);
+
 }

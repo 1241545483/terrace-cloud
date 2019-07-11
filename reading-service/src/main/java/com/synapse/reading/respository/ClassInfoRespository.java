@@ -16,6 +16,8 @@ import java.util.Map;
  * @since 2019-05-28
  */
 public interface ClassInfoRespository extends ClassInfoMapper {
+
+    List<Map<String,String>> countClassNum (Map<String, Object> params);
     Integer countListByClass(Map<String, Object> params);
     Integer countByTeacherCreate(String userId);
     Integer countByStudentJoin(String userId);

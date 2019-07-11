@@ -143,19 +143,17 @@ public class ClassInfoService extends ClassInfoBaseService {
         return classInfoRespository.listByTeacherCreate(params);
     }
 
-    public List<ClassInfoResult> listByClass(SelectTaskParam selectTaskParam, PageInfo pageInfo) {
+    public List<ClassInfoResult> listByClass(String startTime,String endTime,String teacherId) {
         Map<String, Object> params = new HashMap<>();
-        if(selectTaskParam.getUserId()!=null&&!"".equals(selectTaskParam.getUserId())){
-            params.put("userId", selectTaskParam.getUserId());
+        if(startTime!=null&&!"".equals(startTime)){
+            params.put("startTime",startTime);
         }
-        if(selectTaskParam.getClassName()!=null&&!"".equals(selectTaskParam.getClassName())){
-            params.put("className", selectTaskParam.getClassName());
+        if(endTime!=null&&!"".equals(endTime)){
+            params.put("endTime", endTime);
         }
-        if(selectTaskParam.getTeacherName()!=null&&!"".equals(selectTaskParam.getTeacherName())){
-            params.put("teacherName", selectTaskParam.getTeacherName());
+        if(teacherId!=null&&!"".equals(teacherId)){
+            params.put("teacherId", teacherId);
         }
-        params.put("startIndex", pageInfo.getCurrentStartIndex());
-        params.put("pageSize", pageInfo.getPerPageNum());
         return classInfoRespository.listByClass(params);
     }
 
