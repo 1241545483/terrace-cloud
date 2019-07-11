@@ -138,7 +138,7 @@ public class TaskController extends BaseController{
 
             User user = UserContext.getUser();
 
-            List<Map<String,Map<String,String>>>  results = taskService.listByCountData(user, startTime, endTime,teacherId, classId, taskId);
+            List<Map<String,String>>  results = taskService.listByCountData(user, startTime, endTime,teacherId, classId, taskId);
             Map<String, Object> map = new HashMap();
             map.put("dataList", results);
             return ResponseEntity.ok(map);

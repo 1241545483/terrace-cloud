@@ -200,88 +200,84 @@ public class TaskService extends TaskBaseService {
         return taskRespository.listByUser(params);
     }
 
-    public Map<String,String> listByCountAllData(User user) throws  Exception {
+    public Map<String, String> listByCountAllData(User user) throws Exception {
         Member member = memberRespository.selectByUserId(user.getRecId());
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         if (member != null && !"".equals(member)) {
-            map= taskRespository.listByCountAllData(member.getOrganization());
+            map = taskRespository.listByCountAllData(member.getOrganization());
         }
-        return  map;
+        return map;
     }
 
 
-    public List<Map<String,Map<String,String>>> listByCountData(User user, String startTime,String endTime,String teacherId,String classId,String taskId) throws  Exception {
+    public List<Map<String, String>> listByCountData(User user, String startTime, String endTime, String teacherId, String classId, String taskId) throws Exception {
         Member member = memberRespository.selectByUserId(user.getRecId());
-        logger.info("----------------------memberORG="+member.getOrganization());
-        Map<String, Object> params =  new HashMap<>();
-        params.put("startTime",startTime);
-        params.put("endTime",endTime);
-        params.put("teacherId",teacherId);
-        params.put("classId",classId);
-        params.put("taskId",taskId);
-
-        List<Map<String,Map<String,String>>> dataList = new ArrayList<>();
-        List<String>  monthList = getMonthBetweenDates(startTime,endTime);
+        Map<String, Object> params = new HashMap<>();
+        params.put("startTime", startTime);
+        params.put("endTime", endTime);
+        params.put("teacherId", teacherId);
+        params.put("classId", classId);
+        params.put("taskId", taskId);
+        List<Map<String, String>> dataList = new ArrayList<>();
+        List<String> monthList = getMonthBetweenDates(startTime, endTime);
 
         if (member != null && !"".equals(member)) {
-            params.put("organization",member.getOrganization());
-            List<Map<String,String>>  teacherList = memberRespository.countTeacherNum(params);
+            params.put("organization", member.getOrganization());
+            List<Map<String, String>> teacherList = memberRespository.countTeacherNum(params);
 
-            List<Map<String,String>>  classList =  classInfoRespository.countClassNum(params);
+            List<Map<String, String>> classList = classInfoRespository.countClassNum(params);
 
-            List<Map<String,String>>  taskList = taskRespository.countTaskNum(params);
+            List<Map<String, String>> taskList = taskRespository.countTaskNum(params);
 
-            List<Map<String,String>>  finishList = taskNoteRespository.countFinishNum(params);
+            List<Map<String, String>> finishList = taskNoteRespository.countFinishNum(params);
 
-            if (monthList!=null&& monthList.size()>0){
-                logger.info("----------------------monthList="+monthList.size());
-                for (String data:monthList) {
-                    logger.info("----------------------data="+data);
-                    Map<String,Map<String,String>>  dataMaps = new HashMap<>();
-                    Map<String,String> dataMap = new HashMap<>();
-                    if (teacherList!=null&& teacherList.size()>0){
-                        logger.info("----------------------teacherList="+teacherList.size());
-                        for (Map<String,String> teacher:teacherList) {
-                            logger.info("----------------------teacher="+teacher.get("time"));
-                          if(teacher.get("time")!=null&&data.equals(teacher.get("time"))){
-                              dataMap.put("teacherNum",teacher.get("teacherNum"));
-                          }
-                        }
-                    }
-                    if (classList!=null&& classList.size()>0){
-                        logger.info("----------------------classList="+classList.size());
-                        for (Map<String,String> classInfo:classList) {
-                            logger.info("----------------------classInfo="+classInfo.get("time"));
-                            if(classInfo.get("time")!=null&&data.equals(classInfo.get("time"))){
-                                dataMap.put("classNum",classInfo.get("classNum"));
+            if (monthList != null && monthList.size() > 0) {
+
+                for (String data : monthList) {
+                    Map<String, String> dataMap = new HashMap<>();
+                    dataMap.put("year", data);
+                    if (teacherList != null && teacherList.size() > 0) {
+                        for (Map<String, String> teacher : teacherList) {
+                            if (teacher.get("time") != null && data.equals(teacher.get("time"))) {
+                                dataMap.put("teacherNum", teacher.get("teacherNum"));
+                            } else {
+                                dataMap.put("teacherNum", "0");
                             }
                         }
                     }
-                    if (taskList!=null&& taskList.size()>0){
-                        logger.info("----------------------taskList="+taskList.size());
-                        for (Map<String,String> task:taskList) {
-                            logger.info("----------------------task="+task.get("time"));
-                            if(task.get("time")!=null&&data.equals(task.get("time"))){
-                                dataMap.put("taskNum",task.get("taskNum"));
+                    if (classList != null && classList.size() > 0) {
+                        for (Map<String, String> classInfo : classList) {
+                            if (classInfo.get("time") != null && data.equals(classInfo.get("time"))) {
+                                dataMap.put("classNum", classInfo.get("classNum"));
+                            } else {
+                                dataMap.put("classNum", "0");
                             }
                         }
                     }
-                    if (finishList!=null&& finishList.size()>0){
-                        logger.info("----------------------finishList="+finishList.size());
-                        for (Map<String,String> finish:finishList) {
-                            logger.info("----------------------finish="+finish.get("time"));
-                            if(finish.get("time")!=null&&data.equals(finish.get("time"))){
-                                dataMap.put("finishNum",finish.get("finishNum"));
+                    if (taskList != null && taskList.size() > 0) {
+                        for (Map<String, String> task : taskList) {
+                            if (task.get("time") != null && data.equals(task.get("time"))) {
+                                dataMap.put("taskNum", task.get("taskNum"));
+                            } else {
+                                dataMap.put("taskNum", "0");
                             }
                         }
                     }
-                    dataMaps.put(data,dataMap);
-                    dataList.add(dataMaps);
+                    if (finishList != null && finishList.size() > 0) {
+                        for (Map<String, String> finish : finishList) {
+                            if (finish.get("time") != null && data.equals(finish.get("time"))) {
+                                dataMap.put("finishNum", finish.get("finishNum"));
+                            } else {
+                                dataMap.put("finishNum", "0");
+                            }
+                        }
+                    }
+                    dataList.add(dataMap);
                 }
             }
 
         }
-        return   dataList;
+        return dataList;
     }
 
 
@@ -316,7 +312,7 @@ public class TaskService extends TaskBaseService {
     /**
      * 获取某个时间段内所有月份
      */
-    public  List<String> getMonthBetweenDates(String minDate, String maxDate)  throws  Exception {
+    public List<String> getMonthBetweenDates(String minDate, String maxDate) throws Exception {
         ArrayList<String> result = new ArrayList<String>();
         try {
             Date d1 = new SimpleDateFormat("yyyy-MM").parse(minDate);//定义起始日期
@@ -327,39 +323,22 @@ public class TaskService extends TaskBaseService {
 
             dd.setTime(d1);//设置日期起始时间
 
-            while(dd.getTime().before(d2)){//判断是否到结束日期
+            while (dd.getTime().before(d2)) {//判断是否到结束日期
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 
                 String str = sdf.format(dd.getTime());
-                logger.info("----------------------str="+str);
+
                 result.add(str);
 
                 dd.add(Calendar.MONTH, 1);//进行当前日期月份加1
 
             }
-//            Calendar min = Calendar.getInstance();
-//            Calendar max = Calendar.getInstance();
-//            min.setTime(new SimpleDateFormat("yyyy-MM").parse(minDate));
-//            min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
-//            max.setTime(new SimpleDateFormat("yyyy-MM").parse(maxDate));
-//            max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 2);
-//            Calendar curr = min;
-//            while (curr.before(max)) {
-//                result.add(new SimpleDateFormat().format(curr.getTime()));
-//                curr.add(Calendar.MONTH, 1);
-//            }
-          return result;
+            return result;
         } catch (Exception e) {
             return result;
         }
     }
-
-
-
-
-
-
 
 
 }
