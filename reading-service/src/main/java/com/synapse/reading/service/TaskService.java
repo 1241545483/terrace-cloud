@@ -210,7 +210,7 @@ public class TaskService extends TaskBaseService {
     }
 
 
-    public List<Map<String, String>> listByCountData(User user, String startTime, String endTime, String teacherId, String classId, String taskId) throws Exception {
+    public List<Map<String, Object>> listByCountData(User user, String startTime, String endTime, String teacherId, String classId, String taskId) throws Exception {
         Member member = memberRespository.selectByUserId(user.getRecId());
         Map<String, Object> params = new HashMap<>();
         params.put("startTime", startTime);
@@ -218,7 +218,7 @@ public class TaskService extends TaskBaseService {
         params.put("teacherId", teacherId);
         params.put("classId", classId);
         params.put("taskId", taskId);
-        List<Map<String, String>> dataList = new ArrayList<>();
+        List<Map<String, Object>> dataList = new ArrayList<>();
         List<String> monthList = getMonthBetweenDates(startTime, endTime);
 
         if (member != null && !"".equals(member)) {
@@ -234,14 +234,14 @@ public class TaskService extends TaskBaseService {
             if (monthList != null && monthList.size() > 0) {
 
                 for (String data : monthList) {
-                    Map<String, String> dataMap = new HashMap<>();
+                    Map<String, Object> dataMap = new HashMap<>();
                     dataMap.put("year", data);
                     if (teacherList != null && teacherList.size() > 0) {
                         for (Map<String, String> teacher : teacherList) {
                             if (teacher.get("time") != null && data.equals(teacher.get("time"))) {
                                 dataMap.put("teacherNum", teacher.get("teacherNum"));
                             } else {
-                                dataMap.put("teacherNum", "0");
+                                dataMap.put("teacherNum", 0);
                             }
                         }
                     }
@@ -250,7 +250,7 @@ public class TaskService extends TaskBaseService {
                             if (classInfo.get("time") != null && data.equals(classInfo.get("time"))) {
                                 dataMap.put("classNum", classInfo.get("classNum"));
                             } else {
-                                dataMap.put("classNum", "0");
+                                dataMap.put("classNum", 0);
                             }
                         }
                     }
@@ -259,7 +259,7 @@ public class TaskService extends TaskBaseService {
                             if (task.get("time") != null && data.equals(task.get("time"))) {
                                 dataMap.put("taskNum", task.get("taskNum"));
                             } else {
-                                dataMap.put("taskNum", "0");
+                                dataMap.put("taskNum", 0);
                             }
                         }
                     }
@@ -268,7 +268,7 @@ public class TaskService extends TaskBaseService {
                             if (finish.get("time") != null && data.equals(finish.get("time"))) {
                                 dataMap.put("finishNum", finish.get("finishNum"));
                             } else {
-                                dataMap.put("finishNum", "0");
+                                dataMap.put("finishNum", 0);
                             }
                         }
                     }
