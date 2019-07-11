@@ -212,6 +212,7 @@ public class TaskService extends TaskBaseService {
 
     public List<Map<String,Map<String,String>>> listByCountData(User user, String startTime,String endTime,String teacherId,String classId,String taskId) throws  Exception {
         Member member = memberRespository.selectByUserId(user.getRecId());
+        logger.info("----------------------memberORG="+member.getOrganization());
         Map<String, Object> params =  new HashMap<>();
         params.put("startTime",startTime);
         params.put("endTime",endTime);
@@ -220,38 +221,53 @@ public class TaskService extends TaskBaseService {
         params.put("taskId",taskId);
         List<Map<String,Map<String,String>>> dataList = new ArrayList<>();
         List<String>  monthList = getMonthBetweenDates(startTime,endTime);
+
         if (member != null && !"".equals(member)) {
             List<Map<String,String>>  teacherList = memberRespository.countTeacherNum(params);
+
             List<Map<String,String>>  classList =  classInfoRespository.countClassNum(params);
+
             List<Map<String,String>>  taskList = taskRespository.countTaskNum(params);
+
             List<Map<String,String>>  finishList = taskNoteRespository.countFinishNum(params);
+
             if (monthList!=null&& monthList.size()>0){
+                logger.info("----------------------monthList="+monthList.size());
                 for (String data:monthList) {
+                    logger.info("----------------------data="+data);
                     Map<String,Map<String,String>>  dataMaps = new HashMap<>();
                     Map<String,String> dataMap = new HashMap<>();
                     if (teacherList!=null&& teacherList.size()>0){
+                        logger.info("----------------------teacherList="+teacherList.size());
                         for (Map<String,String> teacher:teacherList) {
+                            logger.info("----------------------teacher="+teacher.get("time"));
                           if(teacher.get("time")!=null&&data.equals(teacher.get("time"))){
                               dataMap.put("teacherNum",teacher.get("teacherNum"));
                           }
                         }
                     }
                     if (classList!=null&& classList.size()>0){
+                        logger.info("----------------------classList="+classList.size());
                         for (Map<String,String> classInfo:classList) {
+                            logger.info("----------------------classInfo="+classInfo.get("time"));
                             if(classInfo.get("time")!=null&&data.equals(classInfo.get("time"))){
                                 dataMap.put("classNum",classInfo.get("classNum"));
                             }
                         }
                     }
                     if (taskList!=null&& taskList.size()>0){
+                        logger.info("----------------------taskList="+taskList.size());
                         for (Map<String,String> task:taskList) {
+                            logger.info("----------------------task="+task.get("time"));
                             if(task.get("time")!=null&&data.equals(task.get("time"))){
                                 dataMap.put("taskNum",task.get("taskNum"));
                             }
                         }
                     }
                     if (finishList!=null&& finishList.size()>0){
+                        logger.info("----------------------finishList="+finishList.size());
                         for (Map<String,String> finish:finishList) {
+                            logger.info("----------------------finish="+finish.get("time"));
                             if(finish.get("time")!=null&&data.equals(finish.get("time"))){
                                 dataMap.put("finishNum",finish.get("finishNum"));
                             }
