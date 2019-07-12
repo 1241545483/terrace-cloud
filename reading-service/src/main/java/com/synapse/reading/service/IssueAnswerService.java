@@ -63,15 +63,14 @@ public class IssueAnswerService extends IssueAnswerBaseService {
 
     public String createAnswer(IssueAnswerParam param) {
         IssueAnswer model = param.getModel();
-	    if(model.getItemId()!=null&&!"".equals(model.getItemId())){
-            logger.info("----------------------param.getAnswer model  =" + param.getAnswer());
-            create(model);
-        }
+        logger.info("----------------------param.getItemId model  =" + param.getItemId());
         if(param.getItemIdList()!=null&&param.getItemIdList().size()>0){
             for (String itemId:param.getItemIdList()) {
                 model.setItemId(itemId);
                 create(model);
             }
+        }else {
+            create(model);
         }
         return param.getRecId();
     }
