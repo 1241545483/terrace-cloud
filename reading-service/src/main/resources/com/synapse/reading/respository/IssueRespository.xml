@@ -36,25 +36,75 @@
 
     <select id="selectScoreByUserId" resultType="double" parameterType="map" >
 
-        SELECT ROUND(SUM(if(a.is_answer=1,a.difficulty,0))/SUM(a.difficulty),2)
+        SELECT
+            ROUND( (SUM(if(a.is_answer=1,a.difficulty,0))+ SUM(if(b.is_answer=1,b.difficulty,0))+SUM(if(c.is_answer=1,c.difficulty,0)))/(SUM(a.difficulty)+SUM(b.difficulty)+SUM(c.difficulty)) ,2)
         FROM
-        (SELECT a.content issue ,a.difficulty,b.content item ,b.is_answer,c.rec_id,c.create_id from issue a
-        join issue_item b on a.rec_id = b.issue_id
-        LEFT JOIN issue_answer c on a.rec_id = c.issue_id AND b.rec_id = c.item_id and c.create_id = #{userId}
-        WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1
-        order by a.rec_id,b.rec_id ) a WHERE a.rec_id is not NULL
+            (SELECT a.content issue ,a.difficulty,b.content item ,b.is_answer,c.rec_id,c.create_id,c.answer
+             from issue a
+                 LEFT join issue_item b on a.rec_id = b.issue_id
+                 JOIN issue_answer c on a.rec_id = c.issue_id AND b.rec_id = c.item_id and c.create_id = #{userId}
+             WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='single'
+             order by a.rec_id,b.rec_id
+            ) a
+            JOIN
+            (SELECT a.content issue ,a.difficulty,'' item ,'1' is_answer ,c.rec_id,c.create_id,c.answer
+             from issue a
+                 JOIN issue_answer c on a.rec_id = c.issue_id AND c.create_id = #{userId}
+             WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='answer'
+             order by a.rec_id) b
+            join
+            (SELECT i.rec_id ,i.difficulty ,e.is_answer FROM
+                (SELECT GROUP_CONCAT(b.rec_id)  answer_id, a.rec_id,a.difficulty
+                 from issue a
+                     join issue_item b on a.rec_id = b.issue_id  and b.is_answer =1
+                 WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='multi'
+                 GROUP BY  a.rec_id) i
+                left join
+                (SELECT  GROUP_CONCAT(b.rec_id) answer_id , a.rec_id, '1' is_answer
+                 from issue a
+                     join issue_item b on a.rec_id = b.issue_id
+                     JOIN issue_answer c on a.rec_id = c.issue_id AND b.rec_id = c.item_id and c.create_id = #{userId}
+                 WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='multi'
+                 GROUP BY a.rec_id   )  e  ON i.answer_id= e.answer_id) c
+        WHERE a.rec_id is not NULL
 
     </select>
 
     <select id="selectCountByUserId" resultType="int" parameterType="map" >
 
-        SELECT count(1)
+        SELECT
+            SUM(if(a.is_answer=1,1,0))+ SUM(if(b.is_answer=1,1,0))+SUM(if(c.is_answer=1,1,0))  num
         FROM
-        (SELECT a.content issue ,a.difficulty,b.content item ,b.is_answer,c.rec_id,c.create_id from issue a
-        join issue_item b on a.rec_id = b.issue_id
-        LEFT JOIN issue_answer c on a.rec_id = c.issue_id AND b.rec_id = c.item_id and c.create_id = #{userId}
-        WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1
-        order by a.rec_id,b.rec_id ) a WHERE a.rec_id is not NULL AND a.is_answer=1
+            (SELECT a.content issue ,a.difficulty,b.content item ,b.is_answer,c.rec_id,c.create_id,c.answer
+             from issue a
+                 LEFT join issue_item b on a.rec_id = b.issue_id
+                 JOIN issue_answer c on a.rec_id = c.issue_id AND b.rec_id = c.item_id and c.create_id = #{userId}
+             WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='single'
+             order by a.rec_id,b.rec_id
+            ) a
+            JOIN
+            (SELECT a.content issue ,a.difficulty,'' item ,'1' is_answer ,c.rec_id,c.create_id,c.answer
+             from issue a
+                 JOIN issue_answer c on a.rec_id = c.issue_id AND c.create_id = #{userId}
+             WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='answer'
+             order by a.rec_id) b
+            join
+            (SELECT i.rec_id ,i.difficulty ,e.is_answer FROM
+                (SELECT GROUP_CONCAT(b.rec_id)  answer_id, a.rec_id,a.difficulty
+                 from issue a
+                     join issue_item b on a.rec_id = b.issue_id  and b.is_answer =1
+                 WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='multi'
+                 GROUP BY  a.rec_id) i
+                left join
+                (SELECT  GROUP_CONCAT(b.rec_id) answer_id , a.rec_id, '1' is_answer
+                 from issue a
+                     join issue_item b on a.rec_id = b.issue_id
+                     JOIN issue_answer c on a.rec_id = c.issue_id AND b.rec_id = c.item_id and c.create_id = #{userId}
+                 WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='multi'
+                 GROUP BY a.rec_id   )  e  ON i.answer_id= e.answer_id) c
+        WHERE a.rec_id is not NULL
+
+
 
     </select>
 

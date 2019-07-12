@@ -952,7 +952,7 @@ DROP TABLE IF EXISTS `issue_answer`;
 CREATE TABLE `issue_answer` (
   `rec_id` varchar(30) NOT NULL COMMENT '主键',
   `issue_id` varchar(30) NOT NULL COMMENT '题目主键',
-  `item_id` varchar(30) NOT NULL COMMENT '选项主键',
+  `item_id` varchar(30)  COMMENT '选项主键',
   `status` varchar(6) DEFAULT NULL COMMENT '状态(0 删除，1正常)',
   `create_id` varchar(30) DEFAULT NULL COMMENT '回答人',
   `create_time` varchar(30) DEFAULT NULL COMMENT '回答时间',
