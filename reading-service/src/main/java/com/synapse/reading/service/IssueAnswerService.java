@@ -7,6 +7,8 @@ import com.synapse.reading.respository.IssueAnswerRespository;
 import com.synapse.reading.dto.param.IssueAnswerParam;
 import com.synapse.reading.dto.result.IssueAnswerResult;
 import com.synapse.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +41,8 @@ public class IssueAnswerService extends IssueAnswerBaseService {
     @Autowired
     private  ShareImageService shareImageService;
 
+    private Logger logger = LoggerFactory.getLogger(IssueAnswerService.class);
+
     public IssueAnswer find(String recId){
 	    return issueAnswerRespository.selectByPrimaryKey(recId);
     }
@@ -60,6 +64,8 @@ public class IssueAnswerService extends IssueAnswerBaseService {
     public String createAnswer(IssueAnswerParam param) {
         IssueAnswer model = param.getModel();
 	    if(model.getItemId()!=null&&!"".equals(model.getItemId())){
+            logger.info("----------------------param.getAnswer model  =" + param.getAnswer());
+            create(model);
         }
         if(param.getItemIdList()!=null&&param.getItemIdList().size()>0){
             for (String itemId:param.getItemIdList()) {
