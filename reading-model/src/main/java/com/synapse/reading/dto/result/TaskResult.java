@@ -31,6 +31,8 @@ public class TaskResult {
 
     private String taskNoteNum;
 
+    private String hasIsssue;
+
     private Task task = new Task();
 
     private List<Book> bookList = new ArrayList<>();// 子列表
@@ -229,5 +231,13 @@ public class TaskResult {
 
     public void setTaskNoteNum(String taskNoteNum) {
         this.taskNoteNum = taskNoteNum;
+    }
+
+    public String getHasIsssue() {
+        return hasIsssue;
+    }
+
+    public void setHasIsssue(String hasIsssue) {
+        this.hasIsssue = hasIsssue;
     }
 }

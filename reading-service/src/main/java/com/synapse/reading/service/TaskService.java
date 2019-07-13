@@ -170,7 +170,7 @@ public class TaskService extends TaskBaseService {
         return taskRespository.updateByPrimaryKeySelective(model);
     }
 
-    public List<Task> list(Task taskParam, PageInfo pageInfo) {
+    public List<TaskResult> list(Task taskParam, PageInfo pageInfo) {
         taskParam.setStatus(TaskConstants.STATUS.OK.num());
         Map<String, Object> params = prepareParams(taskParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());

@@ -26,7 +26,7 @@ public interface TaskRespository extends TaskMapper {
 
     TaskResult selectTask(String recId);
 
-    List<Task> listByClass(Map<String, Object> params);
+    List<TaskResult> listByClass(Map<String, Object> params);
 
     List<Map<String,String>> countTaskNum (Map<String, Object> params);
 

@@ -77,8 +77,8 @@ public class TaskController extends BaseController{
 	        }
 	        int totalNum = taskService.count(param.getModel());
 	        preparePageInfo(pageInfo, totalNum);
-	        List<Task> models = taskService.list(param.getModel(),pageInfo);
-	        List<TaskResult> results = models.stream().map(it -> new TaskResult(it)).collect(Collectors.toList());
+	        List<TaskResult> results = taskService.list(param.getModel(),pageInfo);
+//	        List<TaskResult> results = models.stream().map(it -> new TaskResult(it)).collect(Collectors.toList());
 	        Map<String, Object> map = new HashMap();
             map.put("taskList", results);
             map.put("totalNum", totalNum);
