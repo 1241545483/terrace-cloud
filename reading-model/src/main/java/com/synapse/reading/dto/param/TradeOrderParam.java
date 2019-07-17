@@ -201,4 +201,20 @@ public String getUpdateTime() {
 		tradeOrder.setUpdateTime(update_time);
 	}
 
+
+    public String getEndTime() {
+        return tradeOrder.getEndTime();
     }
+
+    public void setEndTime(String endTime) {
+        tradeOrder.setEndTime(endTime);
+    }
+
+    public String getStartTime() {
+        return tradeOrder.getStartTime();
+    }
+
+    public void setStartTime(String startTime) {
+        tradeOrder.setStartTime(startTime);
+    }
+}

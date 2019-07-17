@@ -3,6 +3,8 @@ package com.synapse.reading.respository.respository;
 import com.synapse.reading.mapper.mapper.UserRoleMapper;
 import com.synapse.reading.model.model.UserRole;
 
+import java.util.List;
+
 /**
  * <p>
  * 阅读这边目前就只有老师，学生 Respository 接口
@@ -13,6 +15,6 @@ import com.synapse.reading.model.model.UserRole;
  */
 public interface UserRoleRespository extends UserRoleMapper {
 
-    String listUserBizRoles(String userId);
-
+    List<String> listUserBizRoles(String userId);
+     Integer deleteVipByUserId(String userId);
 }

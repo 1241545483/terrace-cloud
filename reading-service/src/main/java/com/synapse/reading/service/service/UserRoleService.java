@@ -42,7 +42,7 @@ public class UserRoleService extends UserRoleBaseService {
 	    return userRoleRespository.selectByPrimaryKey(recId);
     }
 
-    public String getByClassCode(String userId){
+    public List<String> listUserBizRoles(String userId){
         return userRoleRespository.listUserBizRoles(userId);
     }
 
@@ -86,6 +86,10 @@ public class UserRoleService extends UserRoleBaseService {
 	public Integer delete(String recId){
         return userRoleRespository.deleteByPrimaryKey(recId);
 	}
+
+    public Integer deleteVipByUserId(String recId){
+      return   userRoleRespository.deleteVipByUserId(recId);
+    }
 
 	public List<UserRole> list(UserRole userRoleParam, PageInfo pageInfo) {
         Map<String,Object> params = prepareParams(userRoleParam);

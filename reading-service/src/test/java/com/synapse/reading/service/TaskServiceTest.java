@@ -130,10 +130,10 @@ public class TaskServiceTest {
         pageInfo.setPerPageNum(1000000);
         pageInfo.setCurrentPageIndex(1);
         pageInfo.setTotalNum(100000);
-		List<Task> results = taskService.list(param,pageInfo);
+		List<TaskResult> results = taskService.list(param,pageInfo);
 		int num = results.size();
         String recId = doCreate();
-        List<Task> results2 = taskService.list(param,pageInfo);
+        List<TaskResult> results2 = taskService.list(param,pageInfo);
         int num2 = results2.size();
         assertEquals(num + 1, num2);
 	}

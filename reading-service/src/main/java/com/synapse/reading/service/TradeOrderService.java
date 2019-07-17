@@ -95,6 +95,11 @@ public class TradeOrderService extends TradeOrderBaseService {
     public List<TradeOrder> findByBuyId(String BuyId) {
         return tradeOrderRespository.findByBuyId(BuyId);
     }
+    public List<TradeOrder> findVipByBuyId(String BuyId) {
+        return tradeOrderRespository.findVipByBuyId(BuyId);
+    }
+
+
 
     public Integer update(TradeOrder param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);

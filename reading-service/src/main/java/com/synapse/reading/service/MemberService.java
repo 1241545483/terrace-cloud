@@ -402,9 +402,9 @@ public class MemberService extends MemberBaseService {
             String vipCode = ShareCodeUtil.toSerialCode(now);
             String vipCodeUrl = getQrCode(vipCode);
             redisTemplate.opsForValue().set(vipCode, "1");
-//            logger.info("--------------------------vipCode"+vipCode);
-//            logger.info("--------------------------vipCodeUrl"+vipCodeUrl);
-//            logger.info("--------------------------redisTemplatevipCode"+redisTemplate.opsForValue().get(vipCode));
+            logger.info("--------------------------vipCode"+vipCode);
+            logger.info("--------------------------vipCodeUrl"+vipCodeUrl);
+            logger.info("--------------------------redisTemplatevipCode"+redisTemplate.opsForValue().get(vipCode));
             return vipCodeUrl;
 //            return vipCode;
         } catch (Exception e) {

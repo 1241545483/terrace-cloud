@@ -10,6 +10,26 @@
         `buy_id` = #{buyId}
     </select>
 
+    <select id="findVipByBuyId" resultMap="com.synapse.reading.mapper.TradeOrderMapper.BaseResultMap" parameterType="java.lang.String" >
+        select
+        a.*
+        from `trade_order` a
+        join  trade_order_detail b on b.trate_order_id = a.rec_id and b.prod_type ='vip'
+        where
+        a.`buy_id` = #{buyId}
+        ORDER BY  a.end_time DESC
+    </select>
+
+    <select id="findVipUser" resultType="java.lang.String">
+        select
+            DISTINCT  a.create_id
+        from `trade_order` a
+        join  trade_order_detail b on b.trate_order_id = a.rec_id and b.prod_type ='vip'
+        where
+         1=1 and a.status=1
+        ORDER BY  a.end_time DESC
+    </select>
+
 
     <select id="getUserBuy" parameterType="map" resultType="int">
         select count(1)

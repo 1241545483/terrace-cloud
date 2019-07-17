@@ -26,6 +26,14 @@
         WHERE user_id = #{userId,jdbcType=VARCHAR}
     </select>
 
+    <delete id="deleteVipByUserId" parameterType="java.lang.String" >
+        delete from `user_role`
+        where
+        `user_id` = #{userId} AND  role_id='vip'
+    </delete>
+
+
+
 
 
 

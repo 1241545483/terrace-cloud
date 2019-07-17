@@ -19,5 +19,7 @@ public interface TradeOrderRespository extends TradeOrderMapper {
 
     List<TradeOrder>  findByBuyId(String buyId);
 
+    List<TradeOrder>  findVipByBuyId(String buyId);
+    List<String>  findVipUser();
     Integer getUserBuy(Map<String, String> params);
 }

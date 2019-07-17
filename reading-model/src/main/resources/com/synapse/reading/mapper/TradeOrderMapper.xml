@@ -16,6 +16,8 @@
         <result column="status" property="status" />
         <result column="create_id" property="createId" />
         <result column="create_time" property="createTime" />
+        <result column="end_time" property="endTime" />
+        <result column="start_time" property="startTime" />
         <result column="finish_time" property="finishTime" />
         <result column="update_id" property="updateId" />
         <result column="update_time" property="updateTime" />
@@ -23,7 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-      `rec_id`,`import_data`,`sell_id`,`buy_id`,`name`,`intro`,`pay_no`,`pay_way`,`price`,`status`,`create_id`,`create_time`,`finish_time`,`update_id`,`update_time`
+      `rec_id`,`import_data`,`sell_id`,`buy_id`,`name`,`intro`,`pay_no`,`pay_way`,`price`,`status`,`create_id`,`create_time`,`end_time`,`start_time`,`finish_time`,`update_id`,`update_time`
     </sql>
 
 
@@ -38,7 +40,7 @@
     <insert id="insert"  parameterType="com.synapse.reading.model.TradeOrder">
         insert into `trade_order`
         (<include refid="Base_Column_List" />)
-        values (#{recId},#{importData},#{sellId},#{buyId},#{name},#{intro},#{payNo},#{payWay},#{price},#{status},#{createId},#{createTime},#{finishTime},#{updateId},#{updateTime})
+        values (#{recId},#{importData},#{sellId},#{buyId},#{name},#{intro},#{payNo},#{payWay},#{price},#{status},#{createId},#{createTime},#{endTime},#{startTime},#{finishTime},#{updateId},#{updateTime})
     </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -86,6 +88,12 @@
                 <if test="createTime != null" >
                     `create_time`,
                 </if>
+                <if test="endTime != null" >
+                    `end_time`,
+                </if>
+                <if test="startTime != null" >
+                    `start_time`,
+                </if>
                 <if test="finishTime != null" >
                     `finish_time`,
                 </if>
@@ -132,6 +140,12 @@
                 </if>
                 <if test="createTime != null" >
 			        #{createTime},
+                </if>
+                <if test="endTime != null" >
+			        #{endTime},
+                </if>
+                <if test="startTime != null" >
+			        #{startTime},
                 </if>
                 <if test="finishTime != null" >
 			        #{finishTime},
@@ -184,6 +198,12 @@
 	            <if test="createTime != null" >
 		            `create_time` = #{createTime},
 	            </if>
+	            <if test="endTime != null" >
+		            `end_time` = #{endTime},
+	            </if>
+	            <if test="startTime != null" >
+		            `start_time` = #{startTime},
+	            </if>
 	            <if test="finishTime != null" >
 		            `finish_time` = #{finishTime},
 	            </if>
@@ -199,7 +219,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.synapse.reading.model.TradeOrder" >
         update  `trade_order` SET
-		    `rec_id`=#{recId},`import_data`=#{importData},`sell_id`=#{sellId},`buy_id`=#{buyId},`name`=#{name},`intro`=#{intro},`pay_no`=#{payNo},`pay_way`=#{payWay},`price`=#{price},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`finish_time`=#{finishTime},`update_id`=#{updateId},`update_time`=#{updateTime}
+		    `rec_id`=#{recId},`import_data`=#{importData},`sell_id`=#{sellId},`buy_id`=#{buyId},`name`=#{name},`intro`=#{intro},`pay_no`=#{payNo},`pay_way`=#{payWay},`price`=#{price},`status`=#{status},`create_id`=#{createId},`create_time`=#{createTime},`end_time`=#{endTime},`start_time`=#{startTime},`finish_time`=#{finishTime},`update_id`=#{updateId},`update_time`=#{updateTime}
         where
 		    `rec_id` = #{recId}
     </update>
@@ -302,6 +322,22 @@
                     </if>
                     <if test="createTime.indexOf('%') lt 0" >
                         AND `create_time` = #{createTime}
+                    </if>
+            </if>
+            <if test="endTime != null" >
+                    <if test="endTime.indexOf('%') >= 0" >
+                        AND `end_time` like #{endTime}
+                    </if>
+                    <if test="endTime.indexOf('%') lt 0" >
+                        AND `end_time` = #{endTime}
+                    </if>
+            </if>
+            <if test="startTime != null" >
+                    <if test="startTime.indexOf('%') >= 0" >
+                        AND `start_time` like #{startTime}
+                    </if>
+                    <if test="startTime.indexOf('%') lt 0" >
+                        AND `start_time` = #{startTime}
                     </if>
             </if>
             <if test="finishTime != null" >
@@ -429,6 +465,22 @@
 	            </if>
                 <if test="createTime.indexOf('%') lt 0" >
                     AND `create_time` = #{createTime}
+                </if>
+            </if>
+            <if test="endTime != null" >
+	            <if test="endTime.indexOf('%') >= 0" >
+				    AND `end_time` like #{endTime}
+	            </if>
+                <if test="endTime.indexOf('%') lt 0" >
+                    AND `end_time` = #{endTime}
+                </if>
+            </if>
+            <if test="startTime != null" >
+	            <if test="startTime.indexOf('%') >= 0" >
+				    AND `start_time` like #{startTime}
+	            </if>
+                <if test="startTime.indexOf('%') lt 0" >
+                    AND `start_time` = #{startTime}
                 </if>
             </if>
             <if test="finishTime != null" >
