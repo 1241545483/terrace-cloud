@@ -22,7 +22,7 @@ public class QuartzConfiguration {
     public MethodInvokingJobDetailFactoryBean vipDetail(Vip vip) {
         MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
         // 是否并发执行
-        jobDetail.setConcurrent(false);
+        jobDetail.setConcurrent(true);
         // 为需要执行的实体类对应的对象
         jobDetail.setTargetObject(vip);
         // 需要执行的方法
@@ -36,7 +36,7 @@ public class QuartzConfiguration {
         CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
         trigger.setJobDetail(vipDetail);
         // cron表达式
-//        trigger.setCronExpression("30 10 1 * * ?");
+//       trigger.setCronExpression("30 10 1 * * ?");
         trigger.setCronExpression("0 */1 * * * ?");
         return trigger;
     }
