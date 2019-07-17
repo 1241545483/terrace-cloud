@@ -97,7 +97,7 @@
     <select id="selectCountByUserId" resultType="int" parameterType="map" >
 
         SELECT
-            SUM(if(a.is_answer=1,1,0))+ SUM(if(b.is_answer=1,1,0))+SUM(if(c.is_answer=1,1,0)+SUM(if(d.is_answer=1,1,0))  num
+            SUM(if(a.is_answer=1,1,0))+ SUM(if(b.is_answer=1,1,0))+SUM(if(c.is_answer=1,1,0)+SUM(if(d.is_answer=1,1,0)))  num
         FROM
             (SELECT a.content issue ,a.difficulty,b.content item ,b.is_answer,c.rec_id,c.create_id,c.answer
              from issue a
@@ -150,7 +150,6 @@
                                JOIN issue_answer c on a.rec_id = c.issue_id AND b.rec_id = c.item_id and c.create_id = #{userId}
                            WHERE a.belong_to_id=#{belongToId} AND a.belong_to=#{belongTo} AND a.`status`=1 and a.type ='draw'
                            GROUP BY b.rec_id    )  g where 1=1 ) e  ON i.answer_id= e.answer_id) d
-
         WHERE a.rec_id is not NULL
 
     </select>
