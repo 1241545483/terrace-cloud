@@ -165,8 +165,9 @@ public class IssueService extends IssueBaseService {
         }
     }
 
-    public List<IssueResult> getIssueList(String recId, String belongTo) {
 
+//查询问题和选项（注意：创建问答题或者画画题时，需要在issue_item 创建一条记录用于问题展示）
+    public List<IssueResult> getIssueList(String recId, String belongTo) {
         List<Map<String, String>> issueLists = issueRespository.selectBybelongToId(recId, belongTo);
         List<IssueResult> list = new ArrayList<IssueResult>();
         IssueResult issueResult = null;
@@ -235,6 +236,18 @@ public class IssueService extends IssueBaseService {
                     }
                 }
                 if (result.getType().equals("answer")) {
+                    Map<String,String> map =new HashMap<>();
+                    map.put("issueId",result.getRecId());
+                    logger.warn("--------------------------userId="+issueParam.getUserId());
+                    if(issueParam.getUserId()!=null &&!"".equals(issueParam.getUserId())){
+                        map.put("userId",issueParam.getUserId());
+                    }
+                    List<MemberResult> memberList = memberService.listMember(map);
+                    if (memberList != null && memberList.size() > 0) {
+                        result.setMemberList(memberList);
+                    }
+                }
+                if (result.getType().equals("draw")) {
                     Map<String,String> map =new HashMap<>();
                     map.put("issueId",result.getRecId());
                     logger.warn("--------------------------userId="+issueParam.getUserId());
