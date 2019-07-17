@@ -541,7 +541,8 @@ public class MemberService extends MemberBaseService {
 
     public String getQrCode(String vipCode) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/member/vip");
+//        miniQrcodeParam.setPage("pages/member/vip");
+        miniQrcodeParam.setPage("pages/class/class/join");
         Map<String, String> params = new HashMap<>();
         params.put("vipCode", vipCode);
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
