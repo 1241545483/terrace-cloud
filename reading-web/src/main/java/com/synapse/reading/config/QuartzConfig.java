@@ -3,6 +3,8 @@ package com.synapse.reading.config;
 import com.synapse.reading.service.VipService;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 @EnableScheduling
 @ConditionalOnProperty(name = "task.switch", havingValue = "true")
 public class QuartzConfig {
+
+    private Logger logger = LoggerFactory.getLogger(QuartzConfig.class);
 
     // 配置定时任务
     @Bean(name = "vipDetail")
@@ -48,6 +52,7 @@ public class QuartzConfig {
         bean.setStartupDelay(1);
         // 注册触发器
         bean.setTriggers(vipTrigger);
+        logger.info("schedule start!");
         return bean;
     }
 }
