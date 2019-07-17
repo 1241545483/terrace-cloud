@@ -817,8 +817,8 @@ public class MemberController extends BaseController {
     @RequestMapping(value = "/v1/member/vip", method = RequestMethod.GET)
     public ResponseEntity createVipCode() {
         try {
-            String vipCodeUrl = memberService.createVipCode();
-            return ResponseEntity.ok(vipCodeUrl);
+            Map<String,String> map = memberService.createVipCode();
+            return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("createVipCode  Error!", e);
             return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));

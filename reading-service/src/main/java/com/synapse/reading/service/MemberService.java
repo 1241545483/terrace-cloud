@@ -396,7 +396,8 @@ public class MemberService extends MemberBaseService {
 
 
     //生成单个随机码和二维码
-    public String createVipCode() {
+    public Map<String,String> createVipCode() {
+        Map<String,String> map =new HashMap<>();
         try {
             String now = String.valueOf(System.currentTimeMillis());
             String vipCode = ShareCodeUtil.toSerialCode(now);
@@ -405,8 +406,9 @@ public class MemberService extends MemberBaseService {
             logger.info("--------------------------vipCode"+vipCode);
             logger.info("--------------------------vipCodeUrl"+vipCodeUrl);
             logger.info("--------------------------redisTemplatevipCode"+redisTemplate.opsForValue().get(vipCode));
-            return vipCodeUrl;
-//            return vipCode;
+            map.put("vipCodeUrl",vipCodeUrl);
+            map.put("vipCode",vipCode);
+            return map;
         } catch (Exception e) {
             e.printStackTrace();
         }
