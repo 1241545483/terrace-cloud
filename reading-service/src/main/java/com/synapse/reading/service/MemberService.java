@@ -479,7 +479,7 @@ public class MemberService extends MemberBaseService {
                     List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(user.getRecId());
                     if (tradeOrderList != null && tradeOrderList.size() > 0) {
                         //获取时间加一年
-                       if(vipPast(tradeOrderList.get(0).getEndTime())){
+                       if(!vipPast(tradeOrderList.get(0).getEndTime())){
                            String endTime = addYear(tradeOrderList.get(0).getEndTime());
                            vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, user,vipCode);
                        }else {
