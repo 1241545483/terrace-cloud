@@ -859,7 +859,7 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/member/vip/order", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/member/vip/order", method = RequestMethod.POST)
     public ResponseEntity createOrderByVipCode(String vipCode) {
         try {
 
