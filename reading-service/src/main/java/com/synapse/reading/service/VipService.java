@@ -34,7 +34,10 @@ public class VipService {
             for (String userId : userIds) {
                 List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(userId);
                 if (vipPast(tradeOrderList.get(0).getEndTime())) {
-                    userRoleService.deleteVipByUserId(userId);
+                    String id = userRoleService.vipByUserId(userId);
+                    if (id != null && !"".equals(id)) {
+                        userRoleService.deleteVipByUserId(userId);
+                    }
                 }
             }
         }
