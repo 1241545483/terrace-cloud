@@ -84,7 +84,7 @@
     <select id="selectCountByUserId" resultType="int" parameterType="map" >
 
         SELECT
-            SUM(if(a.is_answer=1,1,0))+ SUM(if(b.is_answer=1,1,0))+SUM(if(c.is_answer=1,1,0)+SUM(if(d.is_answer=1,1,0)))  num
+            SUM(if(a.is_answer=1,1,0))+ SUM(if(b.is_answer=1,1,0))+SUM(if(c.is_answer=1,1,0))+SUM(if(d.is_answer=1,1,0))  num
         FROM
             (SELECT a.content issue ,a.difficulty,b.content item ,b.is_answer,c.rec_id,c.create_id,c.answer
              from issue a
