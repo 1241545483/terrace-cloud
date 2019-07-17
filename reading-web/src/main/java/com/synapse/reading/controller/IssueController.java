@@ -145,7 +145,7 @@ public class IssueController extends BaseController {
     }
 
 
-    @ApiOperation(value = "根据书籍主键查询所有Issue详情")
+    @ApiOperation(value = "根据任务主键查询所有Issue详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = IssueResult.class, message = "Issue对象列表包含选项"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
@@ -175,7 +175,7 @@ public class IssueController extends BaseController {
     }
 
 
-    @ApiOperation(value = "根据书籍主键查询所有Issue详情（查询统计详情）")
+    @ApiOperation(value = "根据任务主键查询所有Issue详情（查询统计详情）")
     @ApiResponses({
             @ApiResponse(code = 200, response = IssueResult.class, message = "返回包含统计详情"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")

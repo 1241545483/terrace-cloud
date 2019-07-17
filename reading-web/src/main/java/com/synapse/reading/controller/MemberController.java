@@ -139,12 +139,12 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/class/{classId}", method = RequestMethod.GET)
-    public ResponseEntity getClassMember(@PathVariable("classId") String classId,PageInfo pageInfo) {
+    public ResponseEntity getClassMember(@PathVariable("classId") String classId, PageInfo pageInfo) {
         try {
 
             int totalNum = memberService.countClassMember(classId);
             preparePageInfo(pageInfo, totalNum);
-            List<MemberResult> members = memberService.listByClassId(classId,pageInfo);
+            List<MemberResult> members = memberService.listByClassId(classId, pageInfo);
             Map<String, Object> map = new HashMap();
             map.put("members", members);
             map.put("totalNum", totalNum);
@@ -367,7 +367,7 @@ public class MemberController extends BaseController {
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-            String userId = memberService.joinSchool(orgCode,user);
+            String userId = memberService.joinSchool(orgCode, user);
             return ResponseEntity.ok(userId);
         } catch (BusinessException e) {
             logger.error("update Member Error!", e);
@@ -671,10 +671,10 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/teacher/bySchool", method = RequestMethod.GET)
-    public ResponseEntity listTeacherBySchool(String startTime,String endTime) {
+    public ResponseEntity listTeacherBySchool(String startTime, String endTime) {
         try {
             User user = UserContext.getUser();
-            List<MemberResult> results = memberService.listTeacherBySchool(user, endTime,endTime);
+            List<MemberResult> results = memberService.listTeacherBySchool(user, endTime, endTime);
 //            List<MemberResult> results = models.stream().map(it -> new MemberResult(it)).collect(Collectors.toList());
             Map<String, Object> map = new HashMap();
             map.put("teacherList", results);
@@ -808,5 +808,72 @@ public class MemberController extends BaseController {
     }
 
 
+    @ApiOperation(value = "生成用户VIP随机码和二维码，单个")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MemberResult.class, message = "用户VIP随机码和二维码"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/vip", method = RequestMethod.GET)
+    public ResponseEntity createVipCode() {
+        try {
+            String vipCodeUrl = memberService.createVipCode();
+            return ResponseEntity.ok(vipCodeUrl);
+        } catch (BusinessException e) {
+            logger.error("createVipCode  Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("createVipCode  Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+
+    @ApiOperation(value = "生成用户VIP随机码和二维码，支持打包下载")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MemberResult.class, message = "用户VIP随机码和二维码"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/vip/{num}", method = RequestMethod.GET)
+    public ResponseEntity createVipCodeAll(int num) {
+        try {
+            List<String> vipCodeUrlList = memberService.createVipCodeAll(num);
+            Map<String, Object> map = new HashMap();
+            map.put("vipCodeUrlList", vipCodeUrlList);
+            return ResponseEntity.ok(map);
+        } catch (BusinessException e) {
+            logger.error("createVipCode  Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("createVipCode  Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    @ApiOperation(value = "用户携带VIP随机码，进行订单创建")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = MemberResult.class, message = "订单"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/member/vip/order", method = RequestMethod.GET)
+    public ResponseEntity createOrderByVipCode(String vipCode) {
+        try {
+
+            User currentUser = UserContext.getUser();
+            String num = memberService.createOrderByVipCode(vipCode, currentUser);
+            return ResponseEntity.ok(num);
+        } catch (BusinessException e) {
+            logger.error("createVipCode  Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("createVipCode  Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
 
 }
