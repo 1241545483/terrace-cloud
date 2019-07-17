@@ -457,6 +457,7 @@ public class MemberService extends MemberBaseService {
 
     public String createOrderByVipCode(String vipCode, User user) {
         try {
+            logger.info("----------------------------vipCode==="+vipCode);
             if (vipCode != null && !"".equals(vipCode)) {
                 String vipCodeValue = redisTemplate.opsForValue().get(vipCode);
                 if (vipCodeValue != null && "1".equals(vipCodeValue)) {
