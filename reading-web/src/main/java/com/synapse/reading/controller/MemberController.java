@@ -836,7 +836,7 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
-    @RequestMapping(value = "/v1/member/vip/{num}", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/member/vip/num", method = RequestMethod.GET)
     public ResponseEntity createVipCodeAll(String num) {
         try {
             List<String> vipCodeUrlList = memberService.createVipCodeAll(num);
