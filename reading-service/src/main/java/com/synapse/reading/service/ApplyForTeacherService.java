@@ -2,13 +2,11 @@ package com.synapse.reading.service;
 
 import com.synapse.common.constants.PageInfo;
 import com.synapse.reading.model.ApplyForTeacher;
-import com.synapse.reading.model.model.UserRole;
+import com.synapse.reading.model.auth.UserRole;
 import com.synapse.reading.respository.ApplyForTeacherRespository;
-import com.synapse.reading.dto.param.ApplyForTeacherParam;
 import com.synapse.reading.dto.result.ApplyForTeacherResult;
 import com.synapse.common.utils.DateUtils;
-import com.synapse.reading.respository.respository.UserRoleRespository;
-import com.synapse.reading.service.service.UserRoleService;
+import com.synapse.reading.service.auth.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +15,6 @@ import com.synapse.reading.remote.IdService;
 
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 
 /**

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.synapse.reading.respository.auth.UserRoleRespository">
+
+
+    <select id="listUserRoleUrlsByModel" parameterType="java.lang.String" resultType="map">
+        SELECT
+        c.method,
+        c.resource_url AS url
+        FROM user_role a
+        JOIN role_model_mapping b ON a.role_id = b.role_id
+        JOIN model_operate c ON b.model_id = c.model_id AND c.status = 1
+        JOIN model m ON m.rec_id = b.model_id AND m.status = 1
+        WHERE a.user_id = #{userId,jdbcType=VARCHAR} AND
+        m.OPERATE_DESC = #{operateDesc,jdbcType=VARCHAR}
+        AND a.cal_dttm IS NULL
+
+    </select>
+
+
+    <select id="listUserBizRoles" parameterType="java.lang.String"
+            resultType="java.lang.String">
+        SELECT
+        role_id
+        FROM user_role
+        WHERE user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteVipByUserId" parameterType="java.lang.String" >
+        delete from `user_role`
+        where
+        `user_id` = #{userId} AND  role_id='vip'
+    </delete>
+
+
+
+
+
+
+</mapper>

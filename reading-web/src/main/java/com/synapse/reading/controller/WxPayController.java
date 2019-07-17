@@ -5,23 +5,15 @@ import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.common.trans.BizTrans;
 import com.synapse.common.trans.Result;
-import com.synapse.common.utils.DateUtils;
-import com.synapse.pay.dto.PayItemInfo;
-import com.synapse.pay.dto.PayTransInfo;
 import com.synapse.reading.constants.CommonConstants;
-import com.synapse.reading.dto.param.AudioParam;
 import com.synapse.reading.dto.param.TradeOrderDetailParam;
-import com.synapse.reading.exception.common.ValidException;
-import com.synapse.reading.model.Audio;
 import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.Pay;
-import com.synapse.reading.model.TradeOrderDetail;
-import com.synapse.reading.model.model.Bind;
+import com.synapse.reading.model.auth.Bind;
 import com.synapse.reading.remote.PayService;
 import com.synapse.reading.service.LessonService;
 import com.synapse.reading.service.WxPayService;
-import com.synapse.reading.service.service.BindService;
-import com.synapse.reading.web.valid.group.Update;
+import com.synapse.reading.service.auth.BindService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -31,12 +23,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 

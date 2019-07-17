@@ -13,14 +13,14 @@ import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.dto.param.RegistParam;
 import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.model.*;
-import com.synapse.reading.model.model.UserRole;
+import com.synapse.reading.model.auth.UserRole;
 import com.synapse.reading.remote.GatwayService;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.remote.UserService;
 import com.synapse.reading.respository.AudioRespository;
 import com.synapse.reading.respository.MemberRespository;
-import com.synapse.reading.service.service.UserRoleService;
+import com.synapse.reading.service.auth.UserRoleService;
 import com.synapse.reading.util.ShareCodeUtil;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -41,7 +41,6 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
