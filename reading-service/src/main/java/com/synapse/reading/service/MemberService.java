@@ -463,6 +463,20 @@ public class MemberService extends MemberBaseService {
             if (vipCode != null && !"".equals(vipCode)) {
                 String vipCodeValue = redisTemplate.opsForValue().get(vipCode);
                 if (vipCodeValue != null && "1".equals(vipCodeValue)) {
+                    List<String> roleIds = userRoleService.listUserBizRoles(user.getRecId());
+                    if (roleIds != null && roleIds.size() > 0) {
+                        Map<String, String> map = new HashMap<String, String>();
+                        for (String roleId : roleIds) {
+                            map.put(roleId, roleId);
+                        }
+                        if (map.get("vip") == null || "".equals(map.get("vip"))) {
+                            userRoleCreate(user);
+                        }else {
+                            return "您已是Vip";
+                        }
+                    }else {
+                        userRoleCreate(user);
+                    }
                     List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(user.getRecId());
                     if (tradeOrderList != null && tradeOrderList.size() > 0) {
                         //获取时间加一年
@@ -474,18 +488,18 @@ public class MemberService extends MemberBaseService {
                         vipTradeOrder(now, endTime, user,vipCode);
                     }
                     //查询当前用户角色，看是否有vip权限，若没有则新增
-                    List<String> roleIds = userRoleService.listUserBizRoles(user.getRecId());
-                    if (roleIds != null && roleIds.size() > 0) {
-                        Map<String, String> map = new HashMap<String, String>();
-                        for (String roleId : roleIds) {
-                            map.put(roleId, roleId);
-                        }
-                        if (map.get("vip") == null || "".equals(map.get("vip"))) {
-                            userRoleCreate(user);
-                        }
-                    }else {
-                        userRoleCreate(user);
-                    }
+//                    List<String> roleIds = userRoleService.listUserBizRoles(user.getRecId());
+//                    if (roleIds != null && roleIds.size() > 0) {
+//                        Map<String, String> map = new HashMap<String, String>();
+//                        for (String roleId : roleIds) {
+//                            map.put(roleId, roleId);
+//                        }
+//                        if (map.get("vip") == null || "".equals(map.get("vip"))) {
+//                            userRoleCreate(user);
+//                        }
+//                    }else {
+//                        userRoleCreate(user);
+//                    }
                     redisTemplate.delete(vipCode);
                     return "1";
                 } else {
