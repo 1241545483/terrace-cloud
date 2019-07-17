@@ -479,8 +479,14 @@ public class MemberService extends MemberBaseService {
                     List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(user.getRecId());
                     if (tradeOrderList != null && tradeOrderList.size() > 0) {
                         //获取时间加一年
-                        String endTime = addYear(tradeOrderList.get(0).getEndTime());
-                        vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, user,vipCode);
+                       if(vipPast(tradeOrderList.get(0).getEndTime())){
+                           String endTime = addYear(tradeOrderList.get(0).getEndTime());
+                           vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, user,vipCode);
+                       }else {
+                           String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                           String endTime = addYear(now);
+                           vipTradeOrder(now, endTime, user,vipCode);
+                       }
                     } else {
                         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                         String endTime = addYear(now);
@@ -512,6 +518,24 @@ public class MemberService extends MemberBaseService {
             return "系统时间异常";
         }
     }
+
+    //比较用户会员是否过期
+    public Boolean vipPast(String endTime) {
+        try {
+            DateFormat sdf = new SimpleDateFormat(DateUtils.FORMAT_DATE_TIME);
+            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+            Date startTime = sdf.parse(now);
+            Date lastTime = sdf.parse(endTime);
+            if (lastTime.getTime() < startTime.getTime()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
 
     //创建用户角色
     public void userRoleCreate(User user) {
