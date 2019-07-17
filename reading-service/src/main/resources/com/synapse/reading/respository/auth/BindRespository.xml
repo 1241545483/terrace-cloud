@@ -3,20 +3,20 @@
 <mapper namespace="com.synapse.reading.respository.auth.BindRespository">
 
 
-    <select id="selectByOpenId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
+    <select id="selectByOpenId"  parameterType="map" resultMap="com.synapse.reading.mapper.auth.BindMapper.BaseResultMap">
         SELECT  * from bind where  open_id= #{openId}
     </select>
 
-    <select id="selectByUserIdAndOpenId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
+    <select id="selectByUserIdAndOpenId"  parameterType="map" resultMap="com.synapse.reading.mapper.auth.BindMapper.BaseResultMap">
         SELECT  * from bind where  open_id= #{openId} and  user_id= #{userId}
     </select>
 
 
-    <select id="selectByUnionId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
+    <select id="selectByUnionId"  parameterType="map" resultMap="com.synapse.reading.mapper.auth.BindMapper.BaseResultMap">
         SELECT  * from bind where  union_id= #{unionId}
     </select>
 
-    <select id="selectByUserId"  parameterType="map" resultMap="com.synapse.reading.mapper.mapper.BindMapper.BaseResultMap">
+    <select id="selectByUserId"  parameterType="map" resultMap="com.synapse.reading.mapper.auth.BindMapper.BaseResultMap">
         SELECT  * from bind where  user_id= #{userId}
     </select>
 

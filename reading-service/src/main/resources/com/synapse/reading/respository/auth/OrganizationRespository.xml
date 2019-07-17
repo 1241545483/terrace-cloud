@@ -3,7 +3,7 @@
 <mapper namespace="com.synapse.reading.respository.auth.OrganizationRespository">
 
 
-    <select id="searchOrgs" resultMap="com.synapse.reading.mapper.mapper.OrganizationMapper.BaseResultMap">
+    <select id="searchOrgs" resultMap="com.synapse.reading.mapper.auth.OrganizationMapper.BaseResultMap">
         select  * from organization
         <where>
             <if test="status != null" >
