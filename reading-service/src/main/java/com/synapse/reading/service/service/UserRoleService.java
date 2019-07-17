@@ -91,6 +91,9 @@ public class UserRoleService extends UserRoleBaseService {
       return   userRoleRespository.deleteVipByUserId(recId);
     }
 
+    public String vipByUserId(String recId){
+        return   userRoleRespository.vipByUserId(recId);
+    }
 	public List<UserRole> list(UserRole userRoleParam, PageInfo pageInfo) {
         Map<String,Object> params = prepareParams(userRoleParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());

@@ -28,14 +28,18 @@ public class Vip {
     @Autowired
     private UserRoleService userRoleService;
     private Logger logger = LoggerFactory.getLogger(Vip.class);
+
     public void task() {
         List<String> userIds = tradeOrderRespository.findVipUser();
         if (userIds != null && userIds.size() > 0) {
             for (String userId : userIds) {
                 List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(userId);
-               if(vipPast(tradeOrderList.get(0).getEndTime())){
-                  userRoleService.deleteVipByUserId(userId);
-               }
+                if (vipPast(tradeOrderList.get(0).getEndTime())) {
+                    String id = userRoleService.vipByUserId(userId);
+                    if (id != null && !"".equals(id)) {
+                        userRoleService.deleteVipByUserId(userId);
+                    }
+                }
             }
         }
 
