@@ -1,29 +1,47 @@
 package com.synapse.reading.service;
 
+import com.google.gson.Gson;
 import com.synapse.common.constants.PageInfo;
 import com.synapse.common.sso.model.User;
 import com.synapse.common.trans.BizTrans;
 import com.synapse.common.trans.BizTransUtils;
+import com.synapse.common.trans.Result;
+import com.synapse.common.utils.DateUtils;
 import com.synapse.reading.constants.MemberConstants;
+import com.synapse.reading.constants.TradeOrderConstants;
+import com.synapse.reading.dto.param.MiniQrcodeParam;
 import com.synapse.reading.dto.param.RegistParam;
 import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.model.*;
+import com.synapse.reading.model.model.UserRole;
 import com.synapse.reading.remote.GatwayService;
+import com.synapse.reading.remote.IdService;
+import com.synapse.reading.remote.ShortLinkApiService;
 import com.synapse.reading.remote.UserService;
+import com.synapse.reading.respository.AudioRespository;
 import com.synapse.reading.respository.MemberRespository;
-import com.synapse.reading.dto.param.MemberParam;
-import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.service.service.UserRoleService;
+import com.synapse.reading.util.ShareCodeUtil;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.synapse.reading.remote.IdService;
 import org.springframework.util.CollectionUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -40,30 +58,39 @@ public class MemberService extends MemberBaseService {
 
     private Logger logger = LoggerFactory.getLogger(MemberService.class);
 
+    @Value("${vipCodeDownload}")
+    private String vipCodeDownload;
     @Autowired
     private IdService idService;
-
     @Autowired
     private MemberRespository memberRespository;
-
     @Autowired
     private MySigninService mySigninService;
-
     @Autowired
     private UserService userService;
     @Autowired
     private GatwayService gatwayService;
-
+    @Autowired
+    private MiniQrcodeService miniQrcodeService;
+    @Autowired
+    private AudioRespository audioRespository;
+    @Autowired
+    private ShortLinkApiService shortLinkApiService;
+    @Autowired
+    private Gson gson;
     @Autowired
     private BaseSystemParameterService baseSystemParameterService;
-
     @Autowired
     private TradeOrderService tradeOrderService;
-
     @Autowired
     private TradeOrderDetailService tradeOrderDetailService;
     @Autowired
     private OrgCodeService orgCodeService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private UserRoleService userRoleService;
+
 
     public Member find(String recId) {
         if (recId == null) {
@@ -106,18 +133,18 @@ public class MemberService extends MemberBaseService {
 
     public String joinSchool(String orgCode, User user) {
         OrgCode model = orgCodeService.find(orgCode);
-        if(model != null &&! "".equals(model)){
+        if (model != null && !"".equals(model)) {
             Member member1 = memberRespository.selectByUserId(model.getCreateId());
             Member member2 = memberRespository.selectByUserId(user.getRecId());
-            if (member2 != null &&! "".equals(member2)) {
+            if (member2 != null && !"".equals(member2)) {
                 member2.setOrganization(member1.getOrganization());
                 update(member2);
-            }else {
+            } else {
                 member2.setUserId(user.getRecId());
                 member2.setOrganization(member1.getOrganization());
                 create(member2);
             }
-            return  member2.getUserId();
+            return member2.getUserId();
         }
         return "";
     }
@@ -192,12 +219,12 @@ public class MemberService extends MemberBaseService {
         return memberRespository.list(params);
     }
 
-    public List<MemberResult> listByShchool(Member memberParam,String startTime,String endTime) {
+    public List<MemberResult> listByShchool(Member memberParam, String startTime, String endTime) {
         Map<String, Object> params = prepareParams(memberParam);
-        if(startTime!=null&&!"".equals(startTime)){
+        if (startTime != null && !"".equals(startTime)) {
             params.put("startTime", startTime);
         }
-        if(endTime!=null&&!"".equals(endTime)){
+        if (endTime != null && !"".equals(endTime)) {
             params.put("endTime", endTime);
         }
         return memberRespository.listByShchool(params);
@@ -211,17 +238,17 @@ public class MemberService extends MemberBaseService {
         return memberRespository.listTeacher(params);
     }
 
-    public List<MemberResult> listTeacherBySchool(User user,String startTime,String endTime) {
+    public List<MemberResult> listTeacherBySchool(User user, String startTime, String endTime) {
         Member member = memberRespository.selectByUserId(user.getRecId());
-        logger.info("----------------------user.getRecId()="+user.getRecId());
-        logger.info("----------------------member.getRecId()="+member.getUserId());
+        logger.info("----------------------user.getRecId()=" + user.getRecId());
+        logger.info("----------------------member.getRecId()=" + member.getUserId());
         List<MemberResult> memberList = new ArrayList<>();
         if (member != null && !"".equals(member)) {
             if (member.getOrganization() != null && !"".equals(member.getOrganization())) {
                 Member member1 = new Member();
                 member1.setOrganization(member.getOrganization());
-                logger.info("----------------------0rg="+member1.getOrganization());
-                memberList = listByShchool(member1, startTime,endTime);
+                logger.info("----------------------0rg=" + member1.getOrganization());
+                memberList = listByShchool(member1, startTime, endTime);
                 return memberList;
             }
         }
@@ -238,13 +265,13 @@ public class MemberService extends MemberBaseService {
         return memberRespository.countTeacher(roleId);
     }
 
-    public Integer countTeacherBySchool(User user,String name) {
+    public Integer countTeacherBySchool(User user, String name) {
         Member member = memberRespository.selectByUserId(user.getRecId());
         if (member != null && !"".equals(member)) {
-            if (member.getOrganization() != null &&! "".equals(member.getOrganization())) {
+            if (member.getOrganization() != null && !"".equals(member.getOrganization())) {
                 Member member1 = new Member();
                 member1.setOrganization(member.getOrganization());
-                if(name!=null&&!"".equals(name)){
+                if (name != null && !"".equals(name)) {
                     member1.setName(name);
                 }
                 Map<String, Object> params = prepareParams(member1);
@@ -366,5 +393,168 @@ public class MemberService extends MemberBaseService {
         }
         return (String) o;
     }
+
+
+    //生成单个随机码和二维码
+    public String createVipCode() {
+        try {
+            String now = String.valueOf(System.currentTimeMillis());
+            String vipCode = ShareCodeUtil.toSerialCode(now);
+            String vipCodeUrl = getQrCode(vipCode);
+            redisTemplate.opsForValue().set(vipCode, "1");
+//            logger.info("--------------------------vipCode"+vipCode);
+//            logger.info("--------------------------vipCodeUrl"+vipCodeUrl);
+//            logger.info("--------------------------redisTemplatevipCode"+redisTemplate.opsForValue().get(vipCode));
+            return vipCodeUrl;
+//            return vipCode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //    public static void main(String[] args) throws IOException {
+//        try {
+//            String now = String.valueOf(System.currentTimeMillis());
+//            String vipCode = ShareCodeUtil.toSerialCode(now);
+//            URL vipCodeUrlRead = new URL("http://img.jssns.cn/SHILU/1/40170672065159539.png");//url 为图片的URL
+//            BufferedImage erBuffer = ImageIO.read(vipCodeUrlRead);
+//            Path tempPng = Files.createFile(Paths.get("D:\\tupian\\" + vipCode + ".png"));
+//            ImageIO.write(erBuffer, "png", tempPng.toFile());
+//            System.out.println(tempPng.toAbsolutePath());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+    //批量生成随机码和二维码，将图片保存到本地文件夹中，并返回二维码地址
+    public List<String> createVipCodeAll(int num) {
+        List<String> vipCodeUrlList = new ArrayList<>();
+        try {
+            if (num > 0) {
+                for (int i = 1; i <= num; i++) {
+                    String now = String.valueOf(System.currentTimeMillis());
+                    String vipCode = ShareCodeUtil.toSerialCode(now);
+                    String vipCodeUrl = getQrCode(vipCode);
+                    redisTemplate.opsForValue().set(vipCode, "1");
+                    URL vipCodeUrlRead = new URL(vipCodeUrl);
+                    BufferedImage erBuffer = ImageIO.read(vipCodeUrlRead);
+                    Path tempPng = Files.createFile(Paths.get(vipCodeDownload + vipCode + ".png"));
+                    ImageIO.write(erBuffer, "png", tempPng.toFile());
+                    vipCodeUrlList.add(vipCodeUrl);
+                }
+                return vipCodeUrlList;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String createOrderByVipCode(String vipCode, User user) {
+        try {
+            if (vipCode != null && !"".equals(vipCode)) {
+                String vipCodeValue = redisTemplate.opsForValue().get(vipCode);
+                if (vipCodeValue != null && "1".equals(vipCodeValue)) {
+                    List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(user.getRecId());
+                    if (tradeOrderList != null && tradeOrderList.size() > 0) {
+                        //获取时间加一年
+                        String endTime = addYear(tradeOrderList.get(0).getEndTime());
+                        vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, user,vipCode);
+                    } else {
+                        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                        String endTime = addYear(now);
+                        vipTradeOrder(now, endTime, user,vipCode);
+                    }
+                    //查询当前用户角色，看是否有vip权限，若没有则新增
+                    List<String> roleIds = userRoleService.listUserBizRoles(user.getRecId());
+                    if (roleIds != null && roleIds.size() > 0) {
+                        Map<String, String> map = new HashMap<String, String>();
+                        for (String roleId : roleIds) {
+                            map.put(roleId, roleId);
+                        }
+                        if (map.get("vip") == null || "".equals(map.get("vip"))) {
+                            userRoleCreate(user);
+                        }
+                    }else {
+                        userRoleCreate(user);
+                    }
+                    redisTemplate.delete(vipCode);
+                    return "1";
+                } else {
+                    return "vip随机码已使用或不存在";
+                }
+            } else {
+                return "vip随机码不存在";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "获取系统时间异常";
+        }
+    }
+
+    //创建用户角色
+    public void userRoleCreate(User user) {
+        UserRole userRole = new UserRole();
+        userRole.setUserId(user.getRecId());
+        userRole.setRoleId("vip");
+        userRole.setCreateId(user.getRecId());
+        userRoleService.create(userRole);
+    }
+
+
+    //生成vip订单
+    public void vipTradeOrder(String startTime, String endTime, User user,String vipCode) {
+        TradeOrder tradeOrder = new TradeOrder();
+        tradeOrder.setName("购买vip");
+        tradeOrder.setBuyId(user.getRecId());
+        tradeOrder.setStatus(TradeOrderConstants.STATUS.OK.num());
+        tradeOrder.setCreateId(user.getRecId());
+        tradeOrder.setStartTime(startTime);
+        tradeOrder.setEndTime(endTime);
+        String tradeOrderId = tradeOrderService.create(tradeOrder);
+        //生成VIP订单详情
+        TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
+        tradeOrderDetail.setTrateOrderId(tradeOrderId);
+        tradeOrderDetail.setCreateId(user.getRecId());
+        tradeOrderDetail.setProdType("vip");
+        tradeOrderDetail.setProdId(vipCode);
+        tradeOrderDetail.setName("购买VIP");
+    tradeOrderDetailService.create(tradeOrderDetail);
+    }
+
+    //增加时间一年
+    public String addYear(String startTime) throws Exception {
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date createTime = sdf.parse(startTime); //String转Date
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(createTime);//设置起时间
+        cal.add(Calendar.YEAR, 1);//增加一年
+        return sdf.format(cal.getTime());
+    }
+
+
+    public String getQrCode(String vipCode) {
+        MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
+        miniQrcodeParam.setPage("pages/class/class/join");
+        Map<String, String> params = new HashMap<>();
+        params.put("vipCode", vipCode);
+        Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));
+        if (result != null && result.getCode() == 200) {
+            String body = (String) result.getBody();
+            String scene = org.apache.commons.lang3.StringUtils.substringAfterLast(body, "/");
+            miniQrcodeParam.setScene(scene);
+        } else {
+            throw new RuntimeException(result.getMsg());
+        }
+        miniQrcodeParam.setWidth("110");
+        try {
+            String generate = miniQrcodeService.generate(miniQrcodeParam);
+            return generate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 
 }
