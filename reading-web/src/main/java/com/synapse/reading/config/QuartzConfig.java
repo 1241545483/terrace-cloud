@@ -14,7 +14,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 @Configuration
 @EnableScheduling
 @ConditionalOnProperty(name = "task.switch", havingValue = "true")
-public class QuartzConfiguration {
+public class QuartzConfig {
 
     // 配置定时任务
     @Bean(name = "vipDetail")
