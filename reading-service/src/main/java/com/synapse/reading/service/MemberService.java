@@ -489,14 +489,14 @@ public class MemberService extends MemberBaseService {
                     redisTemplate.delete(vipCode);
                     return "1";
                 } else {
-                    return "vip随机码已使用或不存在";
+                    return "随机码已使用";
                 }
             } else {
-                return "vip随机码不存在";
+                return "随机码不存在";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "获取系统时间异常";
+            return "系统时间异常";
         }
     }
 
