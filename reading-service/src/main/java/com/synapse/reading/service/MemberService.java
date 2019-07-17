@@ -430,7 +430,7 @@ public class MemberService extends MemberBaseService {
     public List<String> createVipCodeAll(Integer num) {
         List<String> vipCodeUrlList = new ArrayList<>();
         try {
-            if (num > 0) {
+            if (num!=null&!"".equals(num)) {
                 for (int i = 1; i <= num; i++) {
                     String now = String.valueOf(System.currentTimeMillis());
                     String vipCode = ShareCodeUtil.toSerialCode(now);
