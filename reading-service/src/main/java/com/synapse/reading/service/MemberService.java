@@ -427,7 +427,7 @@ public class MemberService extends MemberBaseService {
 //        }
 //    }
     //批量生成随机码和二维码，将图片保存到本地文件夹中，并返回二维码地址
-    public List<String> createVipCodeAll(int num) {
+    public List<String> createVipCodeAll(Integer num) {
         List<String> vipCodeUrlList = new ArrayList<>();
         try {
             if (num > 0) {
