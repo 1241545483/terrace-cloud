@@ -430,7 +430,9 @@ public class MemberService extends MemberBaseService {
     public List<String> createVipCodeAll(String num) {
         List<String> vipCodeUrlList = new ArrayList<>();
         try {
+            logger.info("--------------------------num"+num);
             if (num!=null&!"".equals(num)) {
+                logger.info("--------------------------num"+num);
                 for (int i = 1; i <=Integer.parseInt(num); i++) {
                     String now = String.valueOf(System.currentTimeMillis());
                     String vipCode = ShareCodeUtil.toSerialCode(now);
@@ -441,6 +443,9 @@ public class MemberService extends MemberBaseService {
                     Path tempPng = Files.createFile(Paths.get(vipCodeDownload + vipCode + ".png"));
                     ImageIO.write(erBuffer, "png", tempPng.toFile());
                     vipCodeUrlList.add(vipCodeUrl);
+                    logger.info("--------------------------vipCode"+vipCode);
+                    logger.info("--------------------------vipCodeUrl"+vipCodeUrl);
+                    logger.info("--------------------------redisTemplatevipCode"+redisTemplate.opsForValue().get(vipCode));
                 }
                 return vipCodeUrlList;
             }
