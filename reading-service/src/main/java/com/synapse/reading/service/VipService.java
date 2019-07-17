@@ -29,6 +29,7 @@ public class VipService {
     private Logger logger = LoggerFactory.getLogger(VipService.class);
 
     public void task() {
+        logger.info("start task");
         List<String> userIds = tradeOrderRespository.findVipUser();
         if (userIds != null && userIds.size() > 0) {
             for (String userId : userIds) {
