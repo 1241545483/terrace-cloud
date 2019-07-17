@@ -13,7 +13,7 @@ import java.util.List;
  * @since 2019-05-30
  */
 public interface UserRoleRespository extends UserRoleMapper {
-
+    String vipByUserId(String userId);
     List<String> listUserBizRoles(String userId);
      Integer deleteVipByUserId(String userId);
 }
