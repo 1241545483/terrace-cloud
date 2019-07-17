@@ -427,11 +427,11 @@ public class MemberService extends MemberBaseService {
 //        }
 //    }
     //批量生成随机码和二维码，将图片保存到本地文件夹中，并返回二维码地址
-    public List<String> createVipCodeAll(Integer num) {
+    public List<String> createVipCodeAll(String num) {
         List<String> vipCodeUrlList = new ArrayList<>();
         try {
             if (num!=null&!"".equals(num)) {
-                for (int i = 1; i <= num; i++) {
+                for (int i = 1; i <=Integer.parseInt(num); i++) {
                     String now = String.valueOf(System.currentTimeMillis());
                     String vipCode = ShareCodeUtil.toSerialCode(now);
                     String vipCodeUrl = getQrCode(vipCode);
