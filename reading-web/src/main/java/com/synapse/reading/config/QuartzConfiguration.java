@@ -1,4 +1,4 @@
-package com.synapse.reading.schedule;
+package com.synapse.reading.config;
 
 import com.synapse.reading.service.VipService;
 import org.quartz.JobDetail;
