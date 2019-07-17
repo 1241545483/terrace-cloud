@@ -69,6 +69,8 @@ public class TradeOrderService extends TradeOrderBaseService {
         params.put("userId", user.getRecId());
         params.put("studyId", param.getStudyId());
         params.put("studyType", param.getStudyType());
+        String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+        params.put("now", now);
         Integer num = tradeOrderRespository.getUserBuy(params);
         if (num>0){
             return true;
