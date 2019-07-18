@@ -811,6 +811,9 @@ public class MemberController extends BaseController {
     @RequestMapping(value = "/v1/member/vip", method = RequestMethod.GET)
     public ResponseEntity createVipCode(String days) {
         try {
+            if(days==null||"".equals(days)){
+                days="365";
+            }
             Map<String,String> map = memberService.createVipCode(days);
             return ResponseEntity.ok(map);
         } catch (BusinessException e) {
