@@ -400,18 +400,18 @@ public class MemberService extends MemberBaseService {
 
 
     //生成单个随机码和二维码
-    public Map<String,String> createVipCode() {
-        Map<String,String> map =new HashMap<>();
+    public Map<String, String> createVipCode() {
+        Map<String, String> map = new HashMap<>();
         try {
             String now = String.valueOf(System.currentTimeMillis());
             String vipCode = ShareCodeUtil.toSerialCode(now);
             String vipCodeUrl = getQrCode(vipCode);
             redisTemplate.opsForValue().set(vipCode, "1");
-            logger.info("--------------------------vipCode"+vipCode);
-            logger.info("--------------------------vipCodeUrl"+vipCodeUrl);
-            logger.info("--------------------------redisTemplatevipCode"+redisTemplate.opsForValue().get(vipCode));
-            map.put("vipCodeUrl",vipCodeUrl);
-            map.put("vipCode",vipCode);
+            logger.info("--------------------------vipCode" + vipCode);
+            logger.info("--------------------------vipCodeUrl" + vipCodeUrl);
+            logger.info("--------------------------redisTemplatevipCode" + redisTemplate.opsForValue().get(vipCode));
+            map.put("vipCodeUrl", vipCodeUrl);
+            map.put("vipCode", vipCode);
             return map;
         } catch (Exception e) {
             e.printStackTrace();
@@ -433,30 +433,31 @@ public class MemberService extends MemberBaseService {
 //        }
 //    }
     //批量生成随机码和二维码，将图片保存到本地文件夹中，并返回二维码地址
-    public List<String> createVipCodeAll(String num,HttpServletRequest request, HttpServletResponse res)throws IOException {
+    public List<String> createVipCodeAll(String num, HttpServletRequest request, HttpServletResponse res) throws IOException {
         List<String> vipCodeUrlList = new ArrayList<>();
         List<String> filePaths = new ArrayList<String>();
         try {
-            logger.info("--------------------------num"+num);
-            if (num!=null&!"".equals(num)) {
-                logger.info("--------------------------num"+num);
-                for (int i = 1; i <=Integer.parseInt(num); i++) {
+            logger.info("--------------------------num" + num);
+            if (num != null & !"".equals(num)) {
+                logger.info("--------------------------num" + num);
+                for (int i = 1; i <= Integer.parseInt(num); i++) {
                     String now = String.valueOf(System.currentTimeMillis());
                     String vipCode = ShareCodeUtil.toSerialCode(now);
                     String vipCodeUrl = getQrCode(vipCode);
+//                    String vipCodeUrl = "http://img.jssns.cn/SHILU/1/52623212894693871.png";
                     redisTemplate.opsForValue().set(vipCode, "1");
                     URL vipCodeUrlRead = new URL(vipCodeUrl);
                     BufferedImage erBuffer = ImageIO.read(vipCodeUrlRead);
                     Path tempPng = Files.createFile(Paths.get(vipCodeDownload + vipCode + ".png"));
                     ImageIO.write(erBuffer, "png", tempPng.toFile());
                     vipCodeUrlList.add(vipCodeUrl);
-                    logger.info("--------------------------vipCode"+vipCode);
-                    logger.info("--------------------------vipCodeUrl"+vipCodeUrl);
-                    logger.info("--------------------------redisTemplatevipCode"+redisTemplate.opsForValue().get(vipCode));
+                    logger.info("--------------------------vipCode" + vipCode);
+                    logger.info("--------------------------vipCodeUrl" + vipCodeUrl);
+                    logger.info("--------------------------redisTemplatevipCode" + redisTemplate.opsForValue().get(vipCode));
                     //创建需要下载的文件路径的集合
                     filePaths.add(vipCodeDownload + vipCode + ".png");
                 }
-                downloadFiles(request,  res,  filePaths);
+                downloadFiles(request, res, filePaths);
                 return vipCodeUrlList;
             }
         } catch (Exception e) {
@@ -467,24 +468,24 @@ public class MemberService extends MemberBaseService {
 
     //java文件下载方法
     public String downloadFiles(HttpServletRequest request, HttpServletResponse res, List<String> filePaths) throws IOException {
-    //将附件中多个文件进行压缩，批量打包下载文件
+        //将附件中多个文件进行压缩，批量打包下载文件
         //创建压缩文件需要的空的zip包
-        String zipBasePath=request.getSession().getServletContext().getRealPath("/upload/zip");
+        String zipBasePath = request.getSession().getServletContext().getRealPath("/home/ubuntu/tmp/");
         String zipName = "temp.zip";
-        String zipFilePath = zipBasePath+ File.separator+zipName;
+        String zipFilePath = zipBasePath + File.separator + zipName;
         res.setContentType("text/html; charset=UTF-8"); //设置编码字符
         res.setContentType("application/octet-stream"); //设置内容类型为下载类型
         OutputStream out = res.getOutputStream();
         //压缩文件
         File zip = new File(zipFilePath);
-        if (!zip.exists()){
+        if (!zip.exists()) {
             zip.createNewFile();
         }
         //创建zip文件输出流
         ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zip));
-        zipFile(zipBasePath,zipName, zipFilePath,filePaths,zos);
+        zipFile(zipBasePath, zipName, zipFilePath, filePaths, zos);
         zos.close();
-        res.setHeader("Content-disposition", "attachment;filename="+zipName);//设置下载的压缩文件名称
+        res.setHeader("Content-disposition", "attachment;filename=" + zipName);//设置下载的压缩文件名称
 
         //将打包后的文件写到客户端，输出的方法同上，使用缓冲流输出
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(zipFilePath));
@@ -497,20 +498,22 @@ public class MemberService extends MemberBaseService {
 
         return null;
     }
+
     /**
      * 压缩文件
+     *
      * @param zipBasePath 临时压缩文件基础路径
-     * @param zipName 临时压缩文件名称
+     * @param zipName     临时压缩文件名称
      * @param zipFilePath 临时压缩文件完整路径
-     * @param filePaths 需要压缩的文件路径集合
+     * @param filePaths   需要压缩的文件路径集合
      * @throws IOException
      */
-    private String zipFile(String zipBasePath, String zipName, String zipFilePath, List<String> filePaths,ZipOutputStream zos) throws IOException {
+    private String zipFile(String zipBasePath, String zipName, String zipFilePath, List<String> filePaths, ZipOutputStream zos) throws IOException {
 
         //循环读取文件路径集合，获取每一个文件的路径
-        for(String filePath : filePaths){
+        for (String filePath : filePaths) {
             File inputFile = new File(filePath);  //根据文件路径创建文件
-            if(inputFile.exists()) { //判断文件是否存在
+            if (inputFile.exists()) { //判断文件是否存在
                 if (inputFile.isFile()) {  //判断是否属于文件，还是文件夹
                     //创建输入流读取文件
                     BufferedInputStream bis = new BufferedInputStream(new FileInputStream(inputFile));
@@ -532,10 +535,10 @@ public class MemberService extends MemberBaseService {
                     try {
                         File[] files = inputFile.listFiles();
                         List<String> filePathsTem = new ArrayList<String>();
-                        for (File fileTem:files) {
+                        for (File fileTem : files) {
                             filePathsTem.add(fileTem.toString());
                         }
-                        return zipFile(zipBasePath, zipName, zipFilePath, filePathsTem,zos);
+                        return zipFile(zipBasePath, zipName, zipFilePath, filePathsTem, zos);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -548,7 +551,7 @@ public class MemberService extends MemberBaseService {
 
     public String createOrderByVipCode(String vipCode, User user) {
         try {
-            logger.info("----------------------------vipCode==="+vipCode);
+            logger.info("----------------------------vipCode===" + vipCode);
             if (vipCode != null && !"".equals(vipCode)) {
                 String vipCodeValue = redisTemplate.opsForValue().get(vipCode);
                 if (vipCodeValue != null && "1".equals(vipCodeValue)) {
@@ -560,27 +563,27 @@ public class MemberService extends MemberBaseService {
                         }
                         if (map.get("vip") == null || "".equals(map.get("vip"))) {
                             userRoleCreate(user);
-                        }else {
+                        } else {
                             return "您已是Vip";
                         }
-                    }else {
+                    } else {
                         userRoleCreate(user);
                     }
                     List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(user.getRecId());
                     if (tradeOrderList != null && tradeOrderList.size() > 0) {
                         //获取时间加一年
-                       if(!vipPast(tradeOrderList.get(0).getEndTime())){
-                           String endTime = addYear(tradeOrderList.get(0).getEndTime());
-                           vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, user,vipCode);
-                       }else {
-                           String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-                           String endTime = addYear(now);
-                           vipTradeOrder(now, endTime, user,vipCode);
-                       }
+                        if (!vipPast(tradeOrderList.get(0).getEndTime())) {
+                            String endTime = addYear(tradeOrderList.get(0).getEndTime());
+                            vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, user, vipCode);
+                        } else {
+                            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                            String endTime = addYear(now);
+                            vipTradeOrder(now, endTime, user, vipCode);
+                        }
                     } else {
                         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                         String endTime = addYear(now);
-                        vipTradeOrder(now, endTime, user,vipCode);
+                        vipTradeOrder(now, endTime, user, vipCode);
                     }
                     //查询当前用户角色，看是否有vip权限，若没有则新增
 //                    List<String> roleIds = userRoleService.listUserBizRoles(user.getRecId());
@@ -638,7 +641,7 @@ public class MemberService extends MemberBaseService {
 
 
     //生成vip订单
-    public void vipTradeOrder(String startTime, String endTime, User user,String vipCode) {
+    public void vipTradeOrder(String startTime, String endTime, User user, String vipCode) {
         TradeOrder tradeOrder = new TradeOrder();
         tradeOrder.setName("购买vip");
         tradeOrder.setBuyId(user.getRecId());
@@ -654,7 +657,7 @@ public class MemberService extends MemberBaseService {
         tradeOrderDetail.setProdType("vip");
         tradeOrderDetail.setProdId(vipCode);
         tradeOrderDetail.setName("购买VIP");
-    tradeOrderDetailService.create(tradeOrderDetail);
+        tradeOrderDetailService.create(tradeOrderDetail);
     }
 
     //增加时间一年
