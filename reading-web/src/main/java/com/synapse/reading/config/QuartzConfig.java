@@ -5,6 +5,7 @@ import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 @ConditionalOnProperty(name = "task.switch", havingValue = "true")
 public class QuartzConfig {
 
+    @Value("${cron}")
+    private String cron;
     private Logger logger = LoggerFactory.getLogger(QuartzConfig.class);
 
     // 配置定时任务
@@ -39,7 +42,7 @@ public class QuartzConfig {
         CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
         trigger.setJobDetail(vipDetail);
         // cron表达式
-       trigger.setCronExpression("30 10 1 * * ?");
+       trigger.setCronExpression(cron);
 //        trigger.setCronExpression("0 */1 * * * ?");
         return trigger;
     }
