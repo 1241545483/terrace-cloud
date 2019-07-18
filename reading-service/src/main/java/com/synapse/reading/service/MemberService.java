@@ -33,7 +33,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,6 +44,8 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 /**
@@ -428,8 +433,9 @@ public class MemberService extends MemberBaseService {
 //        }
 //    }
     //批量生成随机码和二维码，将图片保存到本地文件夹中，并返回二维码地址
-    public List<String> createVipCodeAll(String num) {
+    public List<String> createVipCodeAll(String num,HttpServletRequest request, HttpServletResponse res)throws IOException {
         List<String> vipCodeUrlList = new ArrayList<>();
+        List<String> filePaths = new ArrayList<String>();
         try {
             logger.info("--------------------------num"+num);
             if (num!=null&!"".equals(num)) {
@@ -447,7 +453,10 @@ public class MemberService extends MemberBaseService {
                     logger.info("--------------------------vipCode"+vipCode);
                     logger.info("--------------------------vipCodeUrl"+vipCodeUrl);
                     logger.info("--------------------------redisTemplatevipCode"+redisTemplate.opsForValue().get(vipCode));
+                    //创建需要下载的文件路径的集合
+                    filePaths.add(vipCodeDownload + vipCode + ".png");
                 }
+                downloadFiles(request,  res,  filePaths);
                 return vipCodeUrlList;
             }
         } catch (Exception e) {
@@ -455,6 +464,87 @@ public class MemberService extends MemberBaseService {
         }
         return null;
     }
+
+    //java文件下载方法
+    public String downloadFiles(HttpServletRequest request, HttpServletResponse res, List<String> filePaths) throws IOException {
+    //将附件中多个文件进行压缩，批量打包下载文件
+        //创建压缩文件需要的空的zip包
+        String zipBasePath=request.getSession().getServletContext().getRealPath("/upload/zip");
+        String zipName = "temp.zip";
+        String zipFilePath = zipBasePath+ File.separator+zipName;
+        res.setContentType("text/html; charset=UTF-8"); //设置编码字符
+        res.setContentType("application/octet-stream"); //设置内容类型为下载类型
+        OutputStream out = res.getOutputStream();
+        //压缩文件
+        File zip = new File(zipFilePath);
+        if (!zip.exists()){
+            zip.createNewFile();
+        }
+        //创建zip文件输出流
+        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zip));
+        zipFile(zipBasePath,zipName, zipFilePath,filePaths,zos);
+        zos.close();
+        res.setHeader("Content-disposition", "attachment;filename="+zipName);//设置下载的压缩文件名称
+
+        //将打包后的文件写到客户端，输出的方法同上，使用缓冲流输出
+        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(zipFilePath));
+        byte[] buff = new byte[bis.available()];
+        bis.read(buff);
+        bis.close();
+        out.write(buff);//输出数据文件
+        out.flush();//释放缓存
+        out.close();//关闭输出流
+
+        return null;
+    }
+    /**
+     * 压缩文件
+     * @param zipBasePath 临时压缩文件基础路径
+     * @param zipName 临时压缩文件名称
+     * @param zipFilePath 临时压缩文件完整路径
+     * @param filePaths 需要压缩的文件路径集合
+     * @throws IOException
+     */
+    private String zipFile(String zipBasePath, String zipName, String zipFilePath, List<String> filePaths,ZipOutputStream zos) throws IOException {
+
+        //循环读取文件路径集合，获取每一个文件的路径
+        for(String filePath : filePaths){
+            File inputFile = new File(filePath);  //根据文件路径创建文件
+            if(inputFile.exists()) { //判断文件是否存在
+                if (inputFile.isFile()) {  //判断是否属于文件，还是文件夹
+                    //创建输入流读取文件
+                    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(inputFile));
+
+                    //将文件写入zip内，即将文件进行打包
+                    zos.putNextEntry(new ZipEntry(inputFile.getName()));
+
+                    //写入文件的方法，同上
+                    int size = 0;
+                    byte[] buffer = new byte[1024];  //设置读取数据缓存大小
+                    while ((size = bis.read(buffer)) > 0) {
+                        zos.write(buffer, 0, size);
+                    }
+                    //关闭输入输出流
+                    zos.closeEntry();
+                    bis.close();
+
+                } else {  //如果是文件夹，则使用穷举的方法获取文件，写入zip
+                    try {
+                        File[] files = inputFile.listFiles();
+                        List<String> filePathsTem = new ArrayList<String>();
+                        for (File fileTem:files) {
+                            filePathsTem.add(fileTem.toString());
+                        }
+                        return zipFile(zipBasePath, zipName, zipFilePath, filePathsTem,zos);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 
     public String createOrderByVipCode(String vipCode, User user) {
         try {
@@ -580,7 +670,8 @@ public class MemberService extends MemberBaseService {
 
     public String getQrCode(String vipCode) {
         MiniQrcodeParam miniQrcodeParam = new MiniQrcodeParam();
-        miniQrcodeParam.setPage("pages/member/vip");
+//        miniQrcodeParam.setPage("pages/member/vip");
+        miniQrcodeParam.setPage("pages/class/class/join");
         Map<String, String> params = new HashMap<>();
         params.put("vipCode", vipCode);
         Result result = shortLinkApiService.getCodeByUrl(gson.toJson(params));

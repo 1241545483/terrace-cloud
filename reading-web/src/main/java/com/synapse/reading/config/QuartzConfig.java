@@ -39,8 +39,8 @@ public class QuartzConfig {
         CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
         trigger.setJobDetail(vipDetail);
         // cron表达式
-//       trigger.setCronExpression("30 10 1 * * ?");
-        trigger.setCronExpression("0 */1 * * * ?");
+       trigger.setCronExpression("30 10 1 * * ?");
+//        trigger.setCronExpression("0 */1 * * * ?");
         return trigger;
     }
 

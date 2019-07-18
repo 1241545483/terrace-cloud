@@ -39,6 +39,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -829,9 +831,9 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/vip/num", method = RequestMethod.GET)
-    public ResponseEntity createVipCodeAll(String num) {
+    public ResponseEntity createVipCodeAll(String num, HttpServletRequest request, HttpServletResponse res) {
         try {
-            List<String> vipCodeUrlList = memberService.createVipCodeAll(num);
+            List<String> vipCodeUrlList = memberService.createVipCodeAll(num,request,res);
             Map<String, Object> map = new HashMap();
             map.put("vipCodeUrlList", vipCodeUrlList);
             return ResponseEntity.ok(map);
