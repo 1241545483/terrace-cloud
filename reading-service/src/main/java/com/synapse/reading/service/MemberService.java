@@ -471,7 +471,7 @@ public class MemberService extends MemberBaseService {
     public String downloadFiles(HttpServletRequest request, HttpServletResponse res, List<String> filePaths) throws IOException {
         //将附件中多个文件进行压缩，批量打包下载文件
         //创建压缩文件需要的空的zip包  /home/ubuntu/tmp    D:\\tupian\\
-        String zipBasePath ="/home/ubuntu/tmp/";
+        String zipBasePath ="/home/ubuntu/tmp";
         String zipName = "temp.zip";
         String zipFilePath = zipBasePath + File.separator + zipName;
         res.setContentType("text/html; charset=UTF-8"); //设置编码字符
