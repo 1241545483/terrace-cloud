@@ -400,13 +400,13 @@ public class MemberService extends MemberBaseService {
 
 
     //生成单个随机码和二维码
-    public Map<String, String> createVipCode() {
+    public Map<String, String> createVipCode(String days) {
         Map<String, String> map = new HashMap<>();
         try {
             String now = String.valueOf(System.currentTimeMillis());
             String vipCode = ShareCodeUtil.toSerialCode(now);
             String vipCodeUrl = getQrCode(vipCode);
-            redisTemplate.opsForValue().set(vipCode, "1");
+            redisTemplate.opsForValue().set(vipCode, days);
             logger.info("--------------------------vipCode" + vipCode);
             logger.info("--------------------------vipCodeUrl" + vipCodeUrl);
             logger.info("--------------------------redisTemplatevipCode" + redisTemplate.opsForValue().get(vipCode));
@@ -433,7 +433,7 @@ public class MemberService extends MemberBaseService {
 //        }
 //    }
     //批量生成随机码和二维码，将图片保存到本地文件夹中，并返回二维码地址
-    public String createVipCodeAll(String num, HttpServletRequest request, HttpServletResponse res) throws IOException {
+    public String createVipCodeAll(String num,String days, HttpServletRequest request, HttpServletResponse res) throws IOException {
         List<String> vipCodeUrlList = new ArrayList<>();
         List<String> filePaths = new ArrayList<String>();
         try {
@@ -445,7 +445,7 @@ public class MemberService extends MemberBaseService {
                     String vipCode = ShareCodeUtil.toSerialCode(now);
                     String vipCodeUrl = getQrCode(vipCode);
 //                    String vipCodeUrl = "http://img.jssns.cn/SHILU/1/52623212894693871.png";
-                    redisTemplate.opsForValue().set(vipCode, "1");
+                    redisTemplate.opsForValue().set(vipCode, days);
                     URL vipCodeUrlRead = new URL(vipCodeUrl);
                     BufferedImage erBuffer = ImageIO.read(vipCodeUrlRead);
                     Path tempPng = Files.createFile(Paths.get(vipCodeDownload + vipCode + ".png"));
@@ -554,8 +554,8 @@ public class MemberService extends MemberBaseService {
         try {
             logger.info("----------------------------vipCode===" + vipCode);
             if (vipCode != null && !"".equals(vipCode)) {
-                String vipCodeValue = redisTemplate.opsForValue().get(vipCode);
-                if (vipCodeValue != null && "1".equals(vipCodeValue)) {
+                String days = redisTemplate.opsForValue().get(vipCode);
+                if (days != null && !"".equals(days)) {
                     List<String> roleIds = userRoleService.listUserBizRoles(user.getRecId());
                     if (roleIds != null && roleIds.size() > 0) {
                         Map<String, String> map = new HashMap<String, String>();
@@ -574,16 +574,16 @@ public class MemberService extends MemberBaseService {
                     if (tradeOrderList != null && tradeOrderList.size() > 0) {
                         //获取时间加一年
                         if (!vipPast(tradeOrderList.get(0).getEndTime())) {
-                            String endTime = addYear(tradeOrderList.get(0).getEndTime());
+                            String endTime = addYear(tradeOrderList.get(0).getEndTime(),days);
                             vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, user, vipCode);
                         } else {
                             String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-                            String endTime = addYear(now);
+                            String endTime = addYear(now,days);
                             vipTradeOrder(now, endTime, user, vipCode);
                         }
                     } else {
                         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
-                        String endTime = addYear(now);
+                        String endTime = addYear(now,days);
                         vipTradeOrder(now, endTime, user, vipCode);
                     }
                     //查询当前用户角色，看是否有vip权限，若没有则新增
@@ -661,13 +661,13 @@ public class MemberService extends MemberBaseService {
         tradeOrderDetailService.create(tradeOrderDetail);
     }
 
-    //增加时间一年
-    public String addYear(String startTime) throws Exception {
+    //增加时间
+    public String addYear(String startTime,String days) throws Exception {
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date createTime = sdf.parse(startTime); //String转Date
         Calendar cal = Calendar.getInstance();
         cal.setTime(createTime);//设置起时间
-        cal.add(Calendar.YEAR, 1);//增加一年
+        cal.add(Calendar.DATE, Integer.parseInt(days));//增加天数
         return sdf.format(cal.getTime());
     }
 

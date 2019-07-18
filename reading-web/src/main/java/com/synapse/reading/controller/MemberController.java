@@ -809,9 +809,9 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/vip", method = RequestMethod.GET)
-    public ResponseEntity createVipCode() {
+    public ResponseEntity createVipCode(String days) {
         try {
-            Map<String,String> map = memberService.createVipCode();
+            Map<String,String> map = memberService.createVipCode(days);
             return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("createVipCode  Error!", e);
@@ -831,9 +831,9 @@ public class MemberController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/member/vip/num", method = RequestMethod.GET)
-    public ResponseEntity createVipCodeAll(String num, HttpServletRequest request, HttpServletResponse res) {
+    public ResponseEntity createVipCodeAll(String num,String days, HttpServletRequest request, HttpServletResponse res) {
         try {
-            String vipCodeUrlZip = memberService.createVipCodeAll(num,request,res);
+            String vipCodeUrlZip = memberService.createVipCodeAll(num,days,request,res);
             Map<String, Object> map = new HashMap();
             map.put("vipCodeUrlZip", vipCodeUrlZip);
             return ResponseEntity.ok(map);
