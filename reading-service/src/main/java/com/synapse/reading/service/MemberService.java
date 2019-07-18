@@ -488,7 +488,7 @@ public class MemberService extends MemberBaseService {
         ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zip));
         zipFile(zipBasePath, zipName, zipFilePath, filePaths, zos);
         zos.close();
-        res.setHeader("Content-disposition", "attachment;filename=" + zipName);//设置下载的压缩文件名称
+            res.setHeader("Content-disposition", "attachment;filename=" + zipName);//设置下载的压缩文件名称
 
         //将打包后的文件写到客户端，输出的方法同上，使用缓冲流输出
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(zipFilePath));
@@ -497,8 +497,6 @@ public class MemberService extends MemberBaseService {
         bis.close();
         out.write(buff);//输出数据文件
         out.flush();//释放缓存
-        out.close();//关闭输出流
-
         return null;
     }
 
