@@ -833,9 +833,9 @@ public class MemberController extends BaseController {
     @RequestMapping(value = "/v1/member/vip/num", method = RequestMethod.GET)
     public ResponseEntity createVipCodeAll(String num, HttpServletRequest request, HttpServletResponse res) {
         try {
-            List<String> vipCodeUrlList = memberService.createVipCodeAll(num,request,res);
+            String vipCodeUrlZip = memberService.createVipCodeAll(num,request,res);
             Map<String, Object> map = new HashMap();
-            map.put("vipCodeUrlList", vipCodeUrlList);
+            map.put("vipCodeUrlZip", vipCodeUrlZip);
             return ResponseEntity.ok(map);
         } catch (BusinessException e) {
             logger.error("createVipCode  Error!", e);

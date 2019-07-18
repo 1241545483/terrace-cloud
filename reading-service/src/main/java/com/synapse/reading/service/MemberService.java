@@ -433,7 +433,7 @@ public class MemberService extends MemberBaseService {
 //        }
 //    }
     //批量生成随机码和二维码，将图片保存到本地文件夹中，并返回二维码地址
-    public List<String> createVipCodeAll(String num, HttpServletRequest request, HttpServletResponse res) throws IOException {
+    public String createVipCodeAll(String num, HttpServletRequest request, HttpServletResponse res) throws IOException {
         List<String> vipCodeUrlList = new ArrayList<>();
         List<String> filePaths = new ArrayList<String>();
         try {
@@ -458,8 +458,7 @@ public class MemberService extends MemberBaseService {
                     logger.info("--------------------------vipCodeDownloadvipCode " +vipCodeDownload + vipCode + ".png");
                     filePaths.add(vipCodeDownload + vipCode + ".png");
                 }
-                downloadFiles(request, res, filePaths);
-                return vipCodeUrlList;
+                return downloadFiles(request, res, filePaths);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -471,6 +470,7 @@ public class MemberService extends MemberBaseService {
     public String downloadFiles(HttpServletRequest request, HttpServletResponse res, List<String> filePaths) throws IOException {
         //将附件中多个文件进行压缩，批量打包下载文件
         //创建压缩文件需要的空的zip包  /home/ubuntu/tmp    D:\\tupian\\
+//        String zipBasePath = request.getSession().getServletContext().getRealPath(" /home/ubuntu/tmp/");
         String zipBasePath ="/home/ubuntu/tmp";
         String zipName = "temp.zip";
         String zipFilePath = zipBasePath + File.separator + zipName;
