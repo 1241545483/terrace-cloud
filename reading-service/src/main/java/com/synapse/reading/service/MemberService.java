@@ -455,6 +455,7 @@ public class MemberService extends MemberBaseService {
                     logger.info("--------------------------vipCodeUrl" + vipCodeUrl);
                     logger.info("--------------------------redisTemplatevipCode" + redisTemplate.opsForValue().get(vipCode));
                     //创建需要下载的文件路径的集合
+                    logger.info("--------------------------vipCodeDownloadvipCode " +vipCodeDownload + vipCode + ".png");
                     filePaths.add(vipCodeDownload + vipCode + ".png");
                 }
                 downloadFiles(request, res, filePaths);
@@ -470,7 +471,7 @@ public class MemberService extends MemberBaseService {
     public String downloadFiles(HttpServletRequest request, HttpServletResponse res, List<String> filePaths) throws IOException {
         //将附件中多个文件进行压缩，批量打包下载文件
         //创建压缩文件需要的空的zip包  /home/ubuntu/tmp    D:\\tupian\\
-        String zipBasePath = request.getSession().getServletContext().getRealPath("/home/ubuntu/tmp/");
+        String zipBasePath = request.getSession().getServletContext().getRealPath(" /home/ubuntu/tmp/");
         String zipName = "temp.zip";
         String zipFilePath = zipBasePath + File.separator + zipName;
         res.setContentType("text/html; charset=UTF-8"); //设置编码字符
@@ -478,6 +479,8 @@ public class MemberService extends MemberBaseService {
         OutputStream out = res.getOutputStream();
         //压缩文件
         File zip = new File(zipFilePath);
+        logger.info("--------------------------zipBasePath" + zipBasePath);
+        logger.info("--------------------------zipFilePath" + zipFilePath);
         if (!zip.exists()) {
             zip.createNewFile();
         }
