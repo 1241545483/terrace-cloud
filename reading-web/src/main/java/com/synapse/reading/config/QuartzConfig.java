@@ -28,7 +28,7 @@ public class QuartzConfig {
     public MethodInvokingJobDetailFactoryBean vipDetail(VipService vip) {
         MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
         // 是否并发执行
-        jobDetail.setConcurrent(true);
+        jobDetail.setConcurrent(false);
         // 为需要执行的实体类对应的对象
         jobDetail.setTargetObject(vip);
         // 需要执行的方法
