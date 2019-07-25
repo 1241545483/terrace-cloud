@@ -44,7 +44,7 @@ public class QuartzConfig {
         trigger.setJobDetail(vipDetail);
         // cron表达式
 //       trigger.setCronExpression(cron);
-        trigger.setCronExpression("*/5 * * * * ?");
+        trigger.setCronExpression("* * */5 * * ?");
         return trigger;
     }
 
