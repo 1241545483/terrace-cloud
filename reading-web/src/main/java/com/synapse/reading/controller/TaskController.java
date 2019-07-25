@@ -15,7 +15,7 @@ import com.synapse.reading.web.valid.group.Search;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import com.synapse.common.exception.BusinessException;
 import com.synapse.reading.exception.common.ValidException;
 import org.springframework.validation.BindingResult;
@@ -23,15 +23,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.synapse.reading.constants.CommonConstants;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import com.synapse.reading.controller.BaseController;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +47,16 @@ public class TaskController extends BaseController{
 
     @Autowired
     private TaskService taskService;
+
+    @GetMapping("/view/longWait")
+    public ResponseEntity test(){
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok("true");
+    }
 
 	@ApiOperation(value = "查询Task列表(分页)")
     @ApiResponses({
