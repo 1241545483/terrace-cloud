@@ -179,8 +179,6 @@ public class RecommendController extends BaseController{
         try {
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-            File word12 = new File("/home/ubuntu/tmp/word11.docx");
-            File word = File.createTempFile("test", ".docx",new File("/home/ubuntu/tmp/"));
             List<Book> book = recommendService.selectByRecommendType(recommendType,menu);
             return ResponseEntity.ok(book);
         } catch (BusinessException e) {
