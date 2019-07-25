@@ -1,6 +1,7 @@
 package com.synapse.reading.config;
 
 import com.synapse.reading.controller.VipController;
+import com.synapse.reading.service.VipService;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class QuartzConfig {
 
     // 配置定时任务
     @Bean(name = "vipDetail")
-    public MethodInvokingJobDetailFactoryBean vipDetail(VipController vip) {
+    public MethodInvokingJobDetailFactoryBean vipDetail(VipService vip) {
         MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
         // 是否并发执行
         jobDetail.setConcurrent(false);
