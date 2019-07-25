@@ -33,16 +33,18 @@ public class VipService {
         List<String> userIds = tradeOrderRespository.findVipUser();
         if (userIds != null && userIds.size() > 0) {
             for (String userId : userIds) {
+                logger.info("vip task-----------------------userId="+userId);
                 List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(userId);
                 if (vipPast(tradeOrderList.get(0).getEndTime())) {
                     String id = userRoleService.vipByUserId(userId);
+                    logger.info("vip task-----------------------id="+id);
                     if (id != null && !"".equals(id)) {
                         userRoleService.deleteVipByUserId(userId);
                     }
                 }
             }
         }
-
+        logger.info("end task");
     }
 
     //比较用户会员是否过期
