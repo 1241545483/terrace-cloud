@@ -861,7 +861,7 @@ public class MemberController extends BaseController {
         try {
 
             User currentUser = UserContext.getUser();
-            String num = memberService.createOrderByVipCode(vipCode, currentUser);
+            String num = memberService.createOrderByVipCode(vipCode, currentUser.getRecId());
             return ResponseEntity.ok(num);
         } catch (BusinessException e) {
             logger.error("createVipCode  Error!", e);

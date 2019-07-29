@@ -147,6 +147,9 @@ public class RegistController extends BaseController {
                     userRole.setAppKey(appId);
                     userRole.setCreateId(userId);
                     userRoleService.create(userRole);
+                    //添加新用户进来直接添加7天Vip会员
+                    Map<String, String> vipCodeMap = memberService.createVipCode(7+"");
+                    memberService.createOrderByVipCode(vipCodeMap.get("vipCode"),userId);
                 }
                 Map<String, Object> memberMap = new HashMap<>();
                 User user = new User(userId, userName, "");

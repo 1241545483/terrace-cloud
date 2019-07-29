@@ -389,6 +389,7 @@ public class MemberService extends MemberBaseService {
         ;
         logger.info("---------------------bizTrans" + bizTrans);
         Object o = BizTransUtils.parseBizTrans(bizTrans);
+
         if (!(o instanceof String)) {
             return "";
         }
@@ -550,41 +551,41 @@ public class MemberService extends MemberBaseService {
     }
 
 
-    public String createOrderByVipCode(String vipCode, User user) {
+    public String createOrderByVipCode(String vipCode, String userId) {
         try {
             logger.info("----------------------------vipCode===" + vipCode);
             if (vipCode != null && !"".equals(vipCode)) {
                 String days = redisTemplate.opsForValue().get(vipCode);
                 if (days != null && !"".equals(days)) {
-                    List<String> roleIds = userRoleService.listUserBizRoles(user.getRecId());
+                    List<String> roleIds = userRoleService.listUserBizRoles(userId);
                     if (roleIds != null && roleIds.size() > 0) {
                         Map<String, String> map = new HashMap<String, String>();
                         for (String roleId : roleIds) {
                             map.put(roleId, roleId);
                         }
                         if (map.get("vip") == null || "".equals(map.get("vip"))) {
-                            userRoleCreate(user);
+                            userRoleCreate(userId);
                         } else {
                             return "您已是Vip";
                         }
                     } else {
-                        userRoleCreate(user);
+                        userRoleCreate(userId);
                     }
-                    List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(user.getRecId());
+                    List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(userId);
                     if (tradeOrderList != null && tradeOrderList.size() > 0) {
                         //获取时间加一年
                         if (!vipPast(tradeOrderList.get(0).getEndTime())) {
                             String endTime = addYear(tradeOrderList.get(0).getEndTime(),days);
-                            vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, user, vipCode);
+                            vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, userId, vipCode);
                         } else {
                             String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                             String endTime = addYear(now,days);
-                            vipTradeOrder(now, endTime, user, vipCode);
+                            vipTradeOrder(now, endTime, userId, vipCode);
                         }
                     } else {
                         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
                         String endTime = addYear(now,days);
-                        vipTradeOrder(now, endTime, user, vipCode);
+                        vipTradeOrder(now, endTime, userId, vipCode);
                     }
                     //查询当前用户角色，看是否有vip权限，若没有则新增
 //                    List<String> roleIds = userRoleService.listUserBizRoles(user.getRecId());
@@ -632,29 +633,29 @@ public class MemberService extends MemberBaseService {
 
 
     //创建用户角色
-    public void userRoleCreate(User user) {
+    public void userRoleCreate(String userId) {
         UserRole userRole = new UserRole();
-        userRole.setUserId(user.getRecId());
+        userRole.setUserId(userId);
         userRole.setRoleId("vip");
-        userRole.setCreateId(user.getRecId());
+        userRole.setCreateId(userId);
         userRoleService.create(userRole);
     }
 
 
     //生成vip订单
-    public void vipTradeOrder(String startTime, String endTime, User user, String vipCode) {
+    public void vipTradeOrder(String startTime, String endTime, String userId, String vipCode) {
         TradeOrder tradeOrder = new TradeOrder();
         tradeOrder.setName("购买vip");
-        tradeOrder.setBuyId(user.getRecId());
+        tradeOrder.setBuyId(userId);
         tradeOrder.setStatus(TradeOrderConstants.STATUS.OK.num());
-        tradeOrder.setCreateId(user.getRecId());
+        tradeOrder.setCreateId(userId);
         tradeOrder.setStartTime(startTime);
         tradeOrder.setEndTime(endTime);
         String tradeOrderId = tradeOrderService.create(tradeOrder);
         //生成VIP订单详情
         TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
         tradeOrderDetail.setTrateOrderId(tradeOrderId);
-        tradeOrderDetail.setCreateId(user.getRecId());
+        tradeOrderDetail.setCreateId(userId);
         tradeOrderDetail.setProdType("vip");
         tradeOrderDetail.setProdId(vipCode);
         tradeOrderDetail.setName("购买VIP");
