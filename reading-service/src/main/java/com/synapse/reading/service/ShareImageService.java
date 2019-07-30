@@ -240,7 +240,7 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
                 Book book = bookService.find(id);
                 ClassPathResource classPath = new ClassPathResource("/imgs/bookModelUrl.png");
                 logger.info("----------------getClassLoader"+classPath.getClassLoader());
-                logger.info("--------------path"+classPath.getFile().getAbsolutePath());
+                logger.info("--------------path:::"+classPath.exists());
                 BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
                 ClassPathResource classPathDropUrl = new ClassPathResource("/imgs/bookBackdropUrl.png");
                 BufferedImage backdropUrl = ImageIO.read(classPathDropUrl.getInputStream());
