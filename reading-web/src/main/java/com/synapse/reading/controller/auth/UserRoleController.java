@@ -14,6 +14,7 @@ import com.synapse.reading.web.valid.group.Create;
 import com.synapse.reading.web.valid.group.Search;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.synapse.common.exception.BusinessException;
@@ -110,6 +111,27 @@ public class UserRoleController extends BaseController {
         .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+
+    @ApiOperation(value = "test")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = UserRoleResult.class, message = "UserRole对象"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/use/test",method = RequestMethod.GET)
+    public ResponseEntity test(){
+        try {
+            ClassPathResource classPath = new ClassPathResource("imgs/audioModelUrl.png");git
+            return ResponseEntity.ok(classPath.getFile().getAbsolutePath());
+        } catch (BusinessException e) {
+            logger.error("get UserRole Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("get UserRole Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
 
 
     @ApiOperation(value = "获取用户角色")
