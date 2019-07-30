@@ -120,7 +120,7 @@ public class UserRoleController extends BaseController {
     @RequestMapping(value = "/v1/use/test",method = RequestMethod.GET)
     public ResponseEntity test(){
         try {
-            ClassPathResource classPath = new ClassPathResource("imgs/audioModelUrl.png");git
+            ClassPathResource classPath = new ClassPathResource("imgs/audioModelUrl.png");
             return ResponseEntity.ok(classPath.getFile().getAbsolutePath());
         } catch (BusinessException e) {
             logger.error("get UserRole Error!", e);
