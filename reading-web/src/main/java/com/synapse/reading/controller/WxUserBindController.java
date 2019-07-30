@@ -46,8 +46,6 @@ public class WxUserBindController {
     @Autowired
     private  UserService userService;
     @Autowired
-    private BindService bindService;
-    @Autowired
     private ShortLinkApiService shortLinkApiService;
 
 
