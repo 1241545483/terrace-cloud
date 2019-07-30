@@ -32,7 +32,8 @@ public class VipService {
         logger.info("start task");
 
         userRoleService.delete("1123");
-        new RuntimeException();
+        logger.info("end task");
+        throw new RuntimeException();
 //        List<String> userIds = tradeOrderRespository.findVipUser();
 //        if (userIds != null && userIds.size() > 0) {
 //            for (String userId : userIds) {
@@ -51,7 +52,7 @@ public class VipService {
 
 
 
-        logger.info("end task");
+
     }
 
     //比较用户会员是否过期

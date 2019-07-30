@@ -26,7 +26,7 @@ public class QuartzConfig {
 
     // 配置定时任务
     @Bean(name = "vipDetail")
-    public MethodInvokingJobDetailFactoryBean vipDetail(VipService vip) {
+    public MethodInvokingJobDetailFactoryBean vipDetail(VipController vip) {
         MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
         // 是否并发执行
         jobDetail.setConcurrent(true);
