@@ -238,17 +238,17 @@ public class ShareImageService extends ShareImageBaseService implements Applicat
             }
             if ("book".equals(shareType)) {
                 Book book = bookService.find(id);
-                ClassPathResource classPath = new ClassPathResource("/imgs/bookModelUrl.png");
+                ClassPathResource classPath = new ClassPathResource("imgs/bookModelUrl.png");
                 logger.info("--------------path"+classPath.getFile().getAbsolutePath());
                 BufferedImage modelUrl = ImageIO.read(classPath.getInputStream());
-                ClassPathResource classPathDropUrl = new ClassPathResource("/imgs/bookBackdropUrl.png");
+                ClassPathResource classPathDropUrl = new ClassPathResource("imgs/bookBackdropUrl.png");
                 BufferedImage backdropUrl = ImageIO.read(classPathDropUrl.getInputStream());
                 BufferedImage url = null;
                 if (!"".equals(book.getCover()) && book.getCover() != null) {
                     URL audioModelCover = new URL(book.getCover());
                     url = ImageIO.read(audioModelCover);
                 } else {
-                    ClassPathResource urlClassPath = new ClassPathResource("/imgs/bookModelCover.png");
+                    ClassPathResource urlClassPath = new ClassPathResource("imgs/bookModelCover.png");
                     url = ImageIO.read(urlClassPath.getInputStream());
                 }
                 String qrcodeUrl = book.getQrCode();
