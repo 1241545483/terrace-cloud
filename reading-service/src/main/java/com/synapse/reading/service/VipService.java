@@ -30,20 +30,27 @@ public class VipService {
 
     public void task() {
         logger.info("start task");
-        List<String> userIds = tradeOrderRespository.findVipUser();
-        if (userIds != null && userIds.size() > 0) {
-            for (String userId : userIds) {
-                logger.info("vip task-----------------------userId="+userId);
-                List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(userId);
-                if (vipPast(tradeOrderList.get(0).getEndTime())) {
-                    String id = userRoleService.vipByUserId(userId);
-                    logger.info("vip task-----------------------id="+id);
-                    if (id != null && !"".equals(id)) {
-                        userRoleService.deleteVipByUserId(userId);
-                    }
-                }
-            }
-        }
+
+        userRoleService.delete("1123");
+        new RuntimeException();
+//        List<String> userIds = tradeOrderRespository.findVipUser();
+//        if (userIds != null && userIds.size() > 0) {
+//            for (String userId : userIds) {
+//                logger.info("vip task-----------------------userId="+userId);
+//                List<TradeOrder> tradeOrderList = tradeOrderService.findVipByBuyId(userId);
+//                if (vipPast(tradeOrderList.get(0).getEndTime())) {
+//                    String id = userRoleService.vipByUserId(userId);
+//                    logger.info("vip task-----------------------id="+id);
+//                    if (id != null && !"".equals(id)) {
+//                        userRoleService.deleteVipByUserId(userId);
+//                    }
+//                }
+//            }
+//        }
+
+
+
+
         logger.info("end task");
     }
 
