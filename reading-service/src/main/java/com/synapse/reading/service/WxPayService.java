@@ -13,6 +13,8 @@ import com.synapse.reading.respository.TradeOrderDetailRespository;
 import com.synapse.reading.respository.TradeOrderRespository;
 import com.synapse.reading.service.auth.UserRoleService;
 import com.synapse.reading.util.AESDecodeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,8 @@ import java.util.*;
 @Service
 @Transactional
 public class WxPayService {
+
+    private Logger logger = LoggerFactory.getLogger(WxPayService.class);
 
     @Autowired
     private IdService idService;
@@ -129,6 +133,7 @@ public class WxPayService {
         tradeOrder.setFinishTime(now);
         tradeOrder.setStatus(TradeOrderConstants.STATUS.OK.num());
         List<TradeOrderDetail> tradeOrderDetailList = tradeOrderDetailRespository.findByTradeOrder(tradeOrder.getRecId());
+        logger.info("======================-----=getProdType"+tradeOrderDetailList.get(0).getProdType());
         if ("vip".equals(tradeOrderDetailList.get(0).getProdType())) {
             userRoleCreate(tradeOrder.getBuyId());
         }
