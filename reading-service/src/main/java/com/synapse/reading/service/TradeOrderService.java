@@ -362,6 +362,11 @@ public class TradeOrderService extends TradeOrderBaseService {
         return tradeOrderDetailRespository.countListUserBuyLesson(user.getRecId(), type);
     }
 
+    public Integer countListUserBuyVip(User user, String type) {
+
+        return tradeOrderDetailRespository.countListUserBuyVip(user.getRecId(), type);
+    }
+
     public Integer countListUserBuyBook(User user, String type) {
 
         return tradeOrderDetailRespository.countListUserBuyBook(user.getRecId(), type);

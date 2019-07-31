@@ -217,7 +217,7 @@ public class TradeOrderController extends BaseController {
             if (type.equals(TradeOrderConstants.ORDERTYPE.VIP.value())) {
                 preparePageInfo(pageInfo, totalNum);
                 List<TradeOrderDetailResult> results = tradeOrderService.listUserBuyVip(user, type, pageInfo);
-                totalNum = tradeOrderService.countListUserBuyLesson(user, type);
+                totalNum = tradeOrderService.countListUserBuyVip(user, type);
                 Map<String, Object> map = new HashMap();
                 map.put("orderList", results);
                 map.put("totalNum", totalNum);

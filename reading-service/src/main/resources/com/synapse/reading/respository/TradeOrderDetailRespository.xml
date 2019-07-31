@@ -94,6 +94,25 @@
         </if>
     </select>
 
+
+
+
+    <select id="countListUserBuyVip" parameterType="map" resultType="int">
+        select
+        count(1)
+        from `trade_order_detail` a
+        where
+        a.`trate_order_id` IN (
+        select
+        b.rec_id
+        from `trade_order` b
+        where
+        b.`buy_id` = #{userId} AND b.status=1
+        )
+        AND a.`prod_type` = #{type}
+    </select>
+
+
     <select id="countListUserBuyLesson" parameterType="map" resultType="int">
         select
            count(1)
