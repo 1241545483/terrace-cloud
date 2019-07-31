@@ -11,6 +11,7 @@ import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.Pay;
 import com.synapse.reading.model.auth.Bind;
 import com.synapse.reading.remote.PayService;
+import com.synapse.reading.service.BaseSystemParameterService;
 import com.synapse.reading.service.LessonService;
 import com.synapse.reading.service.WxPayService;
 import com.synapse.reading.service.auth.BindService;
@@ -42,6 +43,8 @@ public class WxPayController {
     private BindService bindService;
     @Autowired
     private LessonService lessonService;
+    @Autowired
+    private BaseSystemParameterService baseSystemParameterService;
 
     @Value("${mini.app.appid}")
     private String appId;
@@ -66,6 +69,9 @@ public class WxPayController {
                     if (tradeOrderDetailParam.getProdType().equals("lesson")) {
                         Lesson lesson = lessonService.find(tradeOrderDetailParam.getProdId());
                         totalFee += Integer.parseInt(lesson.getPresentPrice());
+                    }
+                    if (tradeOrderDetailParam.getProdType().equals("vip")) {
+                        totalFee += Integer.parseInt(baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue").toString());
                     }
                     if (tradeOrderDetailParam.getProdType().equals("book")) {
                     //TODO   书籍暂时没有支付，待完成  20190624

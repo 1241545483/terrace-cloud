@@ -7,16 +7,19 @@ import com.synapse.reading.dto.param.TradeOrderDetailParam;
 import com.synapse.reading.dto.param.TradeOrderParam;
 import com.synapse.reading.model.TradeOrder;
 import com.synapse.reading.model.TradeOrderDetail;
+import com.synapse.reading.model.auth.UserRole;
 import com.synapse.reading.remote.IdService;
 import com.synapse.reading.respository.TradeOrderDetailRespository;
 import com.synapse.reading.respository.TradeOrderRespository;
+import com.synapse.reading.service.auth.UserRoleService;
 import com.synapse.reading.util.AESDecodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
-import java.util.Random;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -41,6 +44,9 @@ public class WxPayService {
     private TradeOrderDetailRespository tradeOrderDetailRespository;
     @Autowired
     private TradeOrderDetailService tradeOrderDetailService;
+    @Autowired
+    private UserRoleService userRoleService;
+
 
     //生成商户订单号
     public String getRandomOrderId() {
@@ -74,6 +80,29 @@ public class WxPayService {
         param.setRecId(idService.gen("ID"));
         param.setCreateTime(now);
         param.setUpdateTime(now);
+        if ("vip".equals(param.getTradeOrderDetailParamArrayList().get(0).getProdType())) {
+            String days = "365";
+            List<TradeOrder> tradeOrderList = tradeOrderRespository.findVipByBuyId(param.getBuyId());
+            try {
+                if (tradeOrderList != null && tradeOrderList.size() > 0) {
+                    //获取时间加一年
+                    if (!vipPast(tradeOrderList.get(0).getEndTime())) {
+                        String endTime = addYear(tradeOrderList.get(0).getEndTime(), days);
+                        param.setStartTime(tradeOrderList.get(0).getEndTime());
+                        param.setEndTime(endTime);
+                    } else {
+                        param.setStartTime(now);
+                        param.setEndTime(addYear(now, days));
+                    }
+                } else {
+                    param.setStartTime(now);
+                    param.setEndTime(addYear(now, days));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "系统时间异常";
+            }
+        }
         param.setStatus(TradeOrderConstants.STATUS.UNPAID.num());
         tradeOrderRespository.insert(param.getModel());
         if (param.getTradeOrderDetailParamArrayList() != null && !"".equals(param.getTradeOrderDetailParamArrayList())) {
@@ -99,7 +128,49 @@ public class WxPayService {
         tradeOrder.setUpdateTime(now);
         tradeOrder.setFinishTime(now);
         tradeOrder.setStatus(TradeOrderConstants.STATUS.OK.num());
+        List<TradeOrderDetail> tradeOrderDetailList = tradeOrderDetailRespository.findByTradeOrder(tradeOrder.getRecId());
+        if ("vip".equals(tradeOrderDetailList.get(0).getProdType())) {
+            userRoleCreate(tradeOrder.getBuyId());
+        }
         return tradeOrderRespository.updateByPrimaryKeySelective(tradeOrder);
     }
+
+    //比较用户会员是否过期
+    public Boolean vipPast(String endTime) {
+        try {
+            DateFormat sdf = new SimpleDateFormat(DateUtils.FORMAT_DATE_TIME);
+            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+            Date startTime = sdf.parse(now);
+            Date lastTime = sdf.parse(endTime);
+            if (lastTime.getTime() < startTime.getTime()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+
+    //创建用户角色
+    public void userRoleCreate(String userId) {
+        UserRole userRole = new UserRole();
+        userRole.setUserId(userId);
+        userRole.setRoleId("vip");
+        userRole.setCreateId(userId);
+        userRoleService.create(userRole);
+    }
+
+    //增加时间
+    public String addYear(String startTime, String days) throws Exception {
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date createTime = sdf.parse(startTime); //String转Date
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(createTime);//设置起时间
+        cal.add(Calendar.DATE, Integer.parseInt(days));//增加天数
+        return sdf.format(cal.getTime());
+    }
+
 
 }
