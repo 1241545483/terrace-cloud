@@ -25,6 +25,8 @@ public interface TradeOrderDetailRespository extends TradeOrderDetailMapper {
 
     List<TradeOrderDetailResult> listradeOrderProdIdLesson(Map<String, Object> params);
 
+    List<TradeOrderDetailResult> listradeOrderProdIdVip(Map<String, Object> params);
+
     List<TradeOrderDetailResult> listradeOrderProdIdBook(Map<String, Object> params);
 
     Integer countListUserBuyLesson(@Param("userId") String userId, @Param("type") String type);
@@ -33,4 +35,5 @@ public interface TradeOrderDetailRespository extends TradeOrderDetailMapper {
 
     TradeOrderDetailResult findUserOrderBook(String tradeOrderId);
     TradeOrderDetailResult findUserOrderLesson(String tradeOrderId);
+    TradeOrderDetailResult findUserOrderVip(String tradeOrderId);
 }

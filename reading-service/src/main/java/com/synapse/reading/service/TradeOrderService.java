@@ -92,6 +92,9 @@ public class TradeOrderService extends TradeOrderBaseService {
             if (tradeOrderDetail.get(0).getProdType().equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
                 return tradeOrderDetailRespository.findUserOrderBook(recId);
             }
+            if (tradeOrderDetail.get(0).getProdType().equals(TradeOrderConstants.ORDERTYPE.VIP.value())) {
+                return tradeOrderDetailRespository.findUserOrderVip(recId);
+            }
         }
 
         return null;
@@ -332,6 +335,16 @@ public class TradeOrderService extends TradeOrderBaseService {
             }
         }
         return results;
+    }
+
+    public List<TradeOrderDetailResult> listUserBuyVip(User user, String type, PageInfo pageInfo) {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        params.put("type", type);
+        params.put("userId", user.getRecId());
+        return tradeOrderDetailRespository.listradeOrderProdIdVip(params);
     }
 
     public List<TradeOrderDetailResult> listUserBuyLesson(User user, String type, PageInfo pageInfo) {

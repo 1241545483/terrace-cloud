@@ -214,6 +214,15 @@ public class TradeOrderController extends BaseController {
                 map.put("totalNum", totalNum);
                 return ResponseEntity.ok(map);
             }
+            if (type.equals(TradeOrderConstants.ORDERTYPE.VIP.value())) {
+                preparePageInfo(pageInfo, totalNum);
+                List<TradeOrderDetailResult> results = tradeOrderService.listUserBuyVip(user, type, pageInfo);
+                totalNum = tradeOrderService.countListUserBuyLesson(user, type);
+                Map<String, Object> map = new HashMap();
+                map.put("orderList", results);
+                map.put("totalNum", totalNum);
+                return ResponseEntity.ok(map);
+            }
             if (type.equals(TradeOrderConstants.ORDERTYPE.BOOK.value())) {
                 preparePageInfo(pageInfo, totalNum);
                 List<TradeOrderDetailResult> results = tradeOrderService.listUserBuyBook(user, type, pageInfo);

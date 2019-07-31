@@ -32,6 +32,27 @@
         `prod_type` = #{prodType}
     </select>
 
+    <select id="listradeOrderProdIdVip" parameterType="map" resultMap="simpleRow">
+        select
+        a. `rec_id`,a.`trate_order_id`,a.`original_price`,a.`present_price`,a.`name`,a.`prod_type`,a.`prod_id`,a.`intro`,a.`preferential_way`,a.`status`,a.`create_id`,a.`create_time`,a.`update_id`,a.`update_time`
+        ,a.`name` resource_name ,'' resource_cover ,t.price  orderPrice
+        from `trade_order_detail` a
+        JOIN  trade_order t on a.trate_order_id= t.rec_id
+        where
+        a.`trate_order_id` IN (
+        select
+        b.rec_id
+        from `trade_order` b
+        where
+        b.`buy_id` = #{userId} AND b.status=1
+        )
+        AND a.`prod_type` = #{type}
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
+
+
     <select id="listradeOrderProdIdLesson" parameterType="map" resultMap="simpleRow">
         select
         a. `rec_id`,a.`trate_order_id`,a.`original_price`,a.`present_price`,a.`name`,a.`prod_type`,a.`prod_id`,a.`intro`,a.`preferential_way`,a.`status`,a.`create_id`,a.`create_time`,a.`update_id`,a.`update_time`
@@ -124,6 +145,15 @@
         JOIN  trade_order t on a.trate_order_id= t.rec_id
         where
         a.`trate_order_id` = #{tradeOrderId}
+    </select>
+
+    <select id="findUserOrderVip" parameterType="java.lang.String" resultMap="simpleRow">
+        select
+        a.*,l.name resource_name ,l.banner  resource_cover ,t.price  orderPrice ,l.intro resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime
+        from `trade_order_detail` a
+        JOIN  trade_order t on a.trate_order_id= t.rec_id
+        where
+        a.`trate_order_id` = #{tradeOrderId} and  a.prod_type='vip'
     </select>
 
 </mapper>

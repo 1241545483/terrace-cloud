@@ -37,7 +37,7 @@ public interface  TradeOrderConstants  {
      * 订单类型
      */
     enum ORDERTYPE {
-        BOOK("book", "1"),  LESSON("lesson", "2");
+            BOOK("book", "1"),  LESSON("lesson", "2"),  VIP("vip", "3");
 
         public final String code;
         public final String num;
