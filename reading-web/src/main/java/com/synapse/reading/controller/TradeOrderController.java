@@ -307,15 +307,15 @@ public class TradeOrderController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/tradeOrder/vip", method = RequestMethod.POST)
-    public ResponseEntity createVip(@RequestBody String price) {
+    public ResponseEntity createVip(@RequestBody  Map<String,String> map) {
         try {
 
             User user = UserContext.getUser();
             //todo 根据角色判断权限
             logger.info("________________________parameterValue"+baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"));
-            logger.info("________________________price"+price);
-           if(price!=null&&price.equals(baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"))){
-                String num = tradeOrderService.createOrderByVipCode( user.getRecId(),price);
+            logger.info("________________________price"+map.get("price"));
+           if(map.get("price")!=null&&map.get("price").equals(baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"))){
+                String num = tradeOrderService.createOrderByVipCode( user.getRecId(),map.get("price"));
                 return ResponseEntity.ok(num);
             }
             return ResponseEntity.ok(0);
