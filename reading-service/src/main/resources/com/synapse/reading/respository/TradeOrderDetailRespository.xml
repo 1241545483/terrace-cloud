@@ -168,7 +168,7 @@
 
     <select id="findUserOrderVip" parameterType="java.lang.String" resultMap="simpleRow">
         select
-        a.*,l.name resource_name ,l.banner  resource_cover ,t.price  orderPrice ,l.intro resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime
+        a.*,a.name resource_name ,''  resource_cover ,t.price  orderPrice ,'' resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime
         from `trade_order_detail` a
         JOIN  trade_order t on a.trate_order_id= t.rec_id
         where
