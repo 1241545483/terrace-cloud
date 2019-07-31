@@ -312,11 +312,12 @@ public class TradeOrderController extends BaseController {
 
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-            if(price!=null&&price.equals(baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"))){
+            logger.info("________________________parameterValue"+baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"));
+            logger.info("________________________price"+price);
+           if(price!=null&&price.equals(baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"))){
                 String num = tradeOrderService.createOrderByVipCode( user.getRecId(),price);
                 return ResponseEntity.ok(num);
             }
-
             return ResponseEntity.ok(0);
         } catch (BusinessException e) {
             logger.error("create TradeOrder Error!", e);
