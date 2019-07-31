@@ -87,7 +87,7 @@ public class WxPayController {
             pay.getTradeOrderParam().setCreateId(user.getRecId());
             pay.getTradeOrderParam().setBuyId(user.getRecId());
             pay.getTradeOrderParam().setPayWay("weixin");
-            pay.getTradeOrderParam().setPrice("1");
+            pay.getTradeOrderParam().setPrice(pay.getPayInfo().getTotalFee());
             String ids = wxPayService.create(pay.getTradeOrderParam());
             pay.getPayInfo().setOrderNo(ids);
             //订单总金额
@@ -109,6 +109,7 @@ public class WxPayController {
             pay.getPayInfo().setDeviceType("JSAPI");
             pay.getPayInfo().setActiveIndate(now);
             BizTrans<Map<String, Object>> bizTrans = payService.prePay(pay.getPayInfo());
+            bizTrans.getBizInfo().put("orderId",ids);
             return ResponseEntity.ok(bizTrans);
         } catch (Exception e) {
             logger.error("prePay pay error!", e);
