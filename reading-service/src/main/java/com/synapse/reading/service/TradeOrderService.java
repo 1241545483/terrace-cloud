@@ -6,12 +6,14 @@ import com.synapse.reading.constants.TradeOrderDetailConstants;
 import com.synapse.reading.dto.param.*;
 import com.synapse.reading.dto.result.TradeOrderDetailResult;
 import com.synapse.reading.model.*;
+import com.synapse.reading.model.auth.UserRole;
 import com.synapse.reading.respository.BookRespository;
 import com.synapse.reading.respository.LessonRespository;
 import com.synapse.reading.respository.TradeOrderDetailRespository;
 import com.synapse.reading.respository.TradeOrderRespository;
 import com.synapse.reading.dto.result.TradeOrderResult;
 import com.synapse.common.utils.DateUtils;
+import com.synapse.reading.service.auth.UserRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.constants.TradeOrderConstants;
 import com.synapse.reading.remote.IdService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -58,6 +59,8 @@ public class TradeOrderService extends TradeOrderBaseService {
     private LessonRespository lessonRespository;
     @Autowired
     private BookRespository bookRespository;
+    @Autowired
+    private UserRoleService userRoleService;
 
     public TradeOrder find(String recId) {
         return tradeOrderRespository.selectByPrimaryKey(recId);
@@ -72,9 +75,9 @@ public class TradeOrderService extends TradeOrderBaseService {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         params.put("now", now);
         Integer num = tradeOrderRespository.getUserBuy(params);
-        if (num>0){
+        if (num > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -97,10 +100,111 @@ public class TradeOrderService extends TradeOrderBaseService {
     public List<TradeOrder> findByBuyId(String BuyId) {
         return tradeOrderRespository.findByBuyId(BuyId);
     }
+
     public List<TradeOrder> findVipByBuyId(String BuyId) {
         return tradeOrderRespository.findVipByBuyId(BuyId);
     }
 
+    public  String createOrderByVipCode(String userId,String price) {
+        try {
+            String days ="365";
+            List<String> roleIds = userRoleService.listUserBizRoles(userId);
+            if (roleIds != null && roleIds.size() > 0) {
+                Map<String, String> map = new HashMap<String, String>();
+                for (String roleId : roleIds) {
+                    map.put(roleId, roleId);
+                }
+                if (map.get("vip") == null || "".equals(map.get("vip"))) {
+                    userRoleCreate(userId);
+                } else {
+                    return "您已是Vip";
+                }
+            } else {
+                userRoleCreate(userId);
+            }
+            List<TradeOrder> tradeOrderList = findVipByBuyId(userId);
+            if (tradeOrderList != null && tradeOrderList.size() > 0) {
+                //获取时间加一年
+                if (!vipPast(tradeOrderList.get(0).getEndTime())) {
+                    String endTime = addYear(tradeOrderList.get(0).getEndTime(), days);
+                    vipTradeOrder(tradeOrderList.get(0).getEndTime(), endTime, userId,price);
+                } else {
+                    String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                    String endTime = addYear(now, days);
+                    vipTradeOrder(now, endTime, userId, price);
+                }
+            } else {
+                String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+                String endTime = addYear(now, days);
+                vipTradeOrder(now, endTime, userId, price);
+            }
+            return "1";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "系统时间异常";
+        }
+    }
+
+    //比较用户会员是否过期
+    public Boolean vipPast(String endTime) {
+        try {
+            DateFormat sdf = new SimpleDateFormat(DateUtils.FORMAT_DATE_TIME);
+            String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
+            Date startTime = sdf.parse(now);
+            Date lastTime = sdf.parse(endTime);
+            if (lastTime.getTime() < startTime.getTime()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+
+    //创建用户角色
+    public void userRoleCreate(String userId) {
+        UserRole userRole = new UserRole();
+        userRole.setUserId(userId);
+        userRole.setRoleId("vip");
+        userRole.setCreateId(userId);
+        userRoleService.create(userRole);
+    }
+
+
+    //生成vip订单
+    public void vipTradeOrder(String startTime, String endTime, String userId, String price) {
+        TradeOrder tradeOrder = new TradeOrder();
+        tradeOrder.setName("购买vip");
+        tradeOrder.setBuyId(userId);
+        tradeOrder.setStatus(TradeOrderConstants.STATUS.UNPAID.num());
+        tradeOrder.setCreateId(userId);
+        tradeOrder.setStartTime(startTime);
+        tradeOrder.setEndTime(endTime);
+        tradeOrder.setPrice(price);
+        tradeOrder.setPayWay("weixin");
+        tradeOrder.setIntro("购买vip");
+        String tradeOrderId = create(tradeOrder);
+        //生成VIP订单详情
+        TradeOrderDetail tradeOrderDetail = new TradeOrderDetail();
+        tradeOrderDetail.setTrateOrderId(tradeOrderId);
+        tradeOrderDetail.setCreateId(userId);
+        tradeOrderDetail.setProdType("vip");
+        tradeOrderDetail.setPresentPrice(price);
+        tradeOrderDetail.setName("购买VIP");
+        tradeOrderDetailService.create(tradeOrderDetail);
+    }
+
+    //增加时间
+    public String addYear(String startTime, String days) throws Exception {
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date createTime = sdf.parse(startTime); //String转Date
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(createTime);//设置起时间
+        cal.add(Calendar.DATE, Integer.parseInt(days));//增加天数
+        return sdf.format(cal.getTime());
+    }
 
 
     public Integer update(TradeOrder param) {
