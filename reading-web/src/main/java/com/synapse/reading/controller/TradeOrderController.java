@@ -307,7 +307,7 @@ public class TradeOrderController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/tradeOrder/vip", method = RequestMethod.POST)
-    public ResponseEntity createVip(String price) {
+    public ResponseEntity createVip(@RequestBody String price) {
         try {
 
             User user = UserContext.getUser();
