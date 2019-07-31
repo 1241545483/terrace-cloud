@@ -116,8 +116,6 @@ public class TradeOrderService extends TradeOrderBaseService {
                 }
                 if (map.get("vip") == null || "".equals(map.get("vip"))) {
                     userRoleCreate(userId);
-                } else {
-                    return "您已是Vip";
                 }
             } else {
                 userRoleCreate(userId);

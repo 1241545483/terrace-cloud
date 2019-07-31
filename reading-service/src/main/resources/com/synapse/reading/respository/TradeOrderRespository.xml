@@ -16,7 +16,7 @@
         from `trade_order` a
         join  trade_order_detail b on b.trate_order_id = a.rec_id and b.prod_type ='vip'
         where
-        a.`buy_id` = #{buyId}
+        a.`buy_id` = #{buyId} AND  a.status =1
         ORDER BY  a.end_time DESC
     </select>
 
