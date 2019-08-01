@@ -308,7 +308,6 @@ public class TradeOrderController extends BaseController {
     }
 
 
-
     @ApiOperation(value = "创建Vip TradeOrder,默认为一年")
     @ApiResponses({
             @ApiResponse(code = 200, response = String.class, message = "主键"),
@@ -316,15 +315,15 @@ public class TradeOrderController extends BaseController {
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
     @RequestMapping(value = "/v1/tradeOrder/vip", method = RequestMethod.POST)
-    public ResponseEntity createVip(@RequestBody  Map<String,String> map) {
+    public ResponseEntity createVip(@RequestBody Map<String, String> map) {
         try {
 
             User user = UserContext.getUser();
             //todo 根据角色判断权限
-            logger.info("________________________parameterValue"+baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"));
-            logger.info("________________________price"+map.get("price"));
-           if(map.get("price")!=null&&map.get("price").equals(baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"))){
-                String num = tradeOrderService.createOrderByVipCode( user.getRecId(),map.get("price"));
+            logger.info("________________________parameterValue" + baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"));
+            logger.info("________________________price" + map.get("price"));
+            if (map.get("price") != null && map.get("price").equals(baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue"))) {
+                String num = tradeOrderService.createOrderByVipCode(user.getRecId(), map.get("price"));
                 return ResponseEntity.ok(num);
             }
             return ResponseEntity.ok(0);

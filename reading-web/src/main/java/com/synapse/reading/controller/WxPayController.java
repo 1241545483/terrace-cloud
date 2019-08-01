@@ -62,10 +62,10 @@ public class WxPayController {
         try {
             Integer totalFee = 0;
             List<TradeOrderDetailParam> tradeOrderDetailParamList = pay.getTradeOrderParam().getTradeOrderDetailParamArrayList();
-            logger.warn("------------counttradeOrderDetailParamList=" +tradeOrderDetailParamList.size());
+            logger.warn("------------counttradeOrderDetailParamList=" + tradeOrderDetailParamList.size());
             if (tradeOrderDetailParamList.size() >= 0) {
                 for (TradeOrderDetailParam tradeOrderDetailParam : tradeOrderDetailParamList) {
-                    logger.warn("------------getProdId=" +tradeOrderDetailParam.getProdId());
+                    logger.warn("------------getProdId=" + tradeOrderDetailParam.getProdId());
                     if (tradeOrderDetailParam.getProdType().equals("lesson")) {
                         Lesson lesson = lessonService.find(tradeOrderDetailParam.getProdId());
                         totalFee += Integer.parseInt(lesson.getPresentPrice());
@@ -74,14 +74,15 @@ public class WxPayController {
                         totalFee += Integer.parseInt(baseSystemParameterService.getMapByType("Vip_Price").get(0).get("parameterValue").toString());
                     }
                     if (tradeOrderDetailParam.getProdType().equals("book")) {
-                    //TODO   书籍暂时没有支付，待完成  20190624
+                        //TODO   书籍暂时没有支付，待完成  20190624
                     }
                 }
             }
-            if (totalFee.toString().equals(pay.getPayInfo().getTotalFee())){
+            if (!totalFee.toString().equals(pay.getPayInfo().getTotalFee())) {
+                logger.error("totalFee is not equals!shoud be [{}] by [{}]", totalFee, pay.getPayInfo().getTotalFee());
                 return ResponseEntity.ok("订单异常");
             }
-            logger.warn("------------totalFee=" +totalFee);
+            logger.warn("------------totalFee=" + totalFee);
             User user = UserContext.getUser();
             Date now = new Date();
             pay.getTradeOrderParam().setCreateId(user.getRecId());
@@ -109,7 +110,7 @@ public class WxPayController {
             pay.getPayInfo().setDeviceType("JSAPI");
             pay.getPayInfo().setActiveIndate(now);
             BizTrans<Map<String, Object>> bizTrans = payService.prePay(pay.getPayInfo());
-            bizTrans.getBizInfo().put("orderId",ids);
+            bizTrans.getBizInfo().put("orderId", ids);
             return ResponseEntity.ok(bizTrans);
         } catch (Exception e) {
             logger.error("prePay pay error!", e);
