@@ -11,6 +11,8 @@
         <id column="resourceIntro" property="resourceIntro"/>
         <id column="orderPayWay" property="orderPayWay"/>
         <id column="finishTime" property="finishTime"/>
+        <id column="start_time" property="startTime"/>
+        <id column="end_time" property="endTime"/>
     </resultMap>
 
 
@@ -35,7 +37,7 @@
     <select id="listradeOrderProdIdVip" parameterType="map" resultMap="simpleRow">
         select
         a. `rec_id`,a.`trate_order_id`,a.`original_price`,a.`present_price`,a.`name`,a.`prod_type`,a.`prod_id`,a.`intro`,a.`preferential_way`,a.`status`,a.`create_id`,a.`create_time`,a.`update_id`,a.`update_time`
-        ,a.`name` resource_name ,'' resource_cover ,t.price  orderPrice
+        ,a.`name` resource_name ,'' resource_cover ,t.price  orderPrice,t.start_time,t.end_time
         from `trade_order_detail` a
         JOIN  trade_order t on a.trate_order_id= t.rec_id
         where
@@ -56,7 +58,7 @@
     <select id="listradeOrderProdIdLesson" parameterType="map" resultMap="simpleRow">
         select
         a. `rec_id`,a.`trate_order_id`,a.`original_price`,a.`present_price`,a.`name`,a.`prod_type`,a.`prod_id`,a.`intro`,a.`preferential_way`,a.`status`,a.`create_id`,a.`create_time`,a.`update_id`,a.`update_time`
-        ,l.name resource_name ,l.banner  resource_cover ,t.price  orderPrice
+        ,l.name resource_name ,l.banner  resource_cover ,t.price  orderPrice,t.start_time,t.end_time
         from `trade_order_detail` a
         join  lesson l  ON  a.prod_id = l.rec_id
         JOIN  trade_order t on a.trate_order_id= t.rec_id
@@ -76,7 +78,7 @@
 
     <select id="listradeOrderProdIdBook" parameterType="map" resultMap="simpleRow">
         select
-        a.*,l.name resource_name ,l.cover  resource_cover ,t.price  orderPrice
+        a.*,l.name resource_name ,l.cover  resource_cover ,t.price  orderPrice,t.start_time,t.end_time,t.start_time,t.end_time
         from `trade_order_detail` a
         join  book l  ON  a.prod_id = l.rec_id
         JOIN  trade_order t on a.trate_order_id= t.rec_id
@@ -148,7 +150,7 @@
 
     <select id="findUserOrderBook" parameterType="java.lang.String" resultMap="simpleRow">
         select
-        a.*,l.name resource_name ,l.cover  resource_cover ,t.price  orderPrice ,l.intro resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime
+        a.*,l.name resource_name ,l.cover  resource_cover ,t.price  orderPrice ,l.intro resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime,t.start_time,t.end_time
         from `trade_order_detail` a
         join  book l  ON  a.prod_id = l.rec_id
         JOIN  trade_order t on a.trate_order_id = t.rec_id
@@ -158,7 +160,7 @@
 
     <select id="findUserOrderLesson" parameterType="java.lang.String" resultMap="simpleRow">
         select
-        a.*,l.name resource_name ,l.banner  resource_cover ,t.price  orderPrice ,l.intro resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime
+        a.*,l.name resource_name ,l.banner  resource_cover ,t.price  orderPrice ,l.intro resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime,t.start_time,t.end_time
         from `trade_order_detail` a
         join  lesson l  ON  a.prod_id = l.rec_id
         JOIN  trade_order t on a.trate_order_id= t.rec_id
@@ -168,7 +170,7 @@
 
     <select id="findUserOrderVip" parameterType="java.lang.String" resultMap="simpleRow">
         select
-        a.*,a.name resource_name ,''  resource_cover ,t.price  orderPrice ,'' resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime
+        a.*,a.name resource_name ,''  resource_cover ,t.price  orderPrice ,'' resourceIntro,t.pay_way  orderPayWay,t.finish_time finishTime,t.start_time,t.end_time
         from `trade_order_detail` a
         JOIN  trade_order t on a.trate_order_id= t.rec_id
         where

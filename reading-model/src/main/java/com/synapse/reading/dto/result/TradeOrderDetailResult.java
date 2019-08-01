@@ -23,6 +23,8 @@ public class TradeOrderDetailResult {
     private String resourceIntro;
     private String orderPayWay;
     private String finishTime;
+    private String startTime;
+    private String endTime;
 
     public String getOrderPrice() {
         return orderPrice;
@@ -217,5 +219,21 @@ public class TradeOrderDetailResult {
         tradeOrderDetail.setUpdateTime(update_time);
     }
 
+    @ApiModelProperty(value = "开始时间")
+    public String getStartTime() {
+        return startTime;
+    }
 
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    @ApiModelProperty(value = "结束时间")
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 }
