@@ -7,6 +7,8 @@ import com.synapse.common.sso.authority.RestGrantedAuthority;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.common.utils.NetUtils;
+import com.synapse.reading.constants.CommonConstants;
+import com.synapse.reading.service.auth.ModelOperateService;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 根据gateway的数据构建User
@@ -35,13 +38,15 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     @Value("${encrypt.salt}")
     private String salt;
 
-
     @Value("${code.appId}")
     private String appId;
     public static final String TOKEN = "ACCESS-TOKEN";
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private ModelOperateService modelOperateService;
 
     private Gson gson = new Gson();
 
@@ -78,12 +83,17 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                         MDC.put("userName", loginUser.getUsername() + "");
 //                        MDC.put("token", loginUser.getParams().get("userName") + "");
                         MDC.put("IP", NetUtils.getLocalHost());
+
+                        // todo 优化性能
+                        List<String> ops = modelOperateService.listUserOperate(loginUser.getRecId());
+
+                        List<GrantedAuthority> grantedAuthorities = ops.stream().map(it -> new SimpleGrantedAuthority(it)).collect(Collectors.toList());
+                        User userDetails = new User(loginUser.getRecId(), loginUser.getUsername(), "", grantedAuthorities);
+
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                loginUser, null, loginUser.getAuthorities());
-                        logger.info("_______________________loginUser.getAuthorities()" + loginUser.getAuthorities());
+                                userDetails, null, userDetails.getAuthorities());
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
                                 req));
-                        logger.info("authenticated user " + loginUser.getUsername() + ", setting security context");
                         SecurityContextHolder.getContext().setAuthentication(authentication);
 //                        }
                     } else {
@@ -104,7 +114,9 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void createAnony(HttpServletRequest req) {
-        User userDetails = new User("-1000", "anonymity", "");
+        ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(CommonConstants.anonymousRole));
+        User userDetails = new User(CommonConstants.anonymousId, CommonConstants.anonymousName, "", grantedAuthorities);
         UserContext.setUser(userDetails);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());

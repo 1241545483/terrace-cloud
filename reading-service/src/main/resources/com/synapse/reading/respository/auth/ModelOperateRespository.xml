@@ -4,14 +4,21 @@
 
 
     <select id="selectCodeByAppId" parameterType="map" resultType="String">
-        SELECT DISTINCT m.code code  from model_operate m
-        JOIN model  b ON m.MODEL_ID =b.REC_ID
-        JOIN role_model_mapping a  ON b.REC_ID = a.MODEL_ID
-        JOIN  user_role u on u.role_id =a.role_id
-        WHERE  m.`STATUS`=1 and a.`STATUS`=1  and b.`STATUS`=1 and m.code  is not NULL  AND u.USER_ID =#{userId}
+        SELECT DISTINCT m.code code from model_operate m
+        JOIN model b ON m.MODEL_ID =b.REC_ID
+        JOIN role_model_mapping a ON b.REC_ID = a.MODEL_ID
+        JOIN user_role u on u.role_id =a.role_id
+        WHERE m.`STATUS`=1 and a.`STATUS`=1 and b.`STATUS`=1 and m.code is not NULL AND u.USER_ID =#{userId}
         <if test="appId != null">
             AND appId=#{appId}
         </if>
+    </select>
+
+    <select id="listUserOperate" resultType="java.lang.String">
+        select distinct c.code from user_role a
+        join on role_model_mapping b on a.role_id = b.role_id and b.status = 1
+        join on model_operate c on b.model_id = c.model_id and c.status = 1
+        where a.user_id = #{userId}
     </select>
 
 

@@ -1,6 +1,9 @@
 package com.synapse.reading.respository.auth;
 
 import com.synapse.reading.mapper.auth.ModelOperateMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,4 +15,11 @@ import com.synapse.reading.mapper.auth.ModelOperateMapper;
  */
 public interface ModelOperateRespository extends ModelOperateMapper {
 
+    /**
+     * 列出用户的操作指令
+     *
+     * @param userId
+     * @return
+     */
+    List<String> listUserOperate(@Param("userId") String userId);
 }

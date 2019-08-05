@@ -2,6 +2,12 @@ package com.synapse.reading.constants;
 
 public class CommonConstants {
 
+    public static final String anonymousId = "-999";
+    public static final String anonymousName = "匿名用户";
+    public static final String anonymousPassword = "reading";
+    public static final String anonymousRole = "ROLE_ANONYMOUS";
+    public static final String anonymousToken = "ANON_TOKEN";
+
     public static final int SERVER_ERROR = 500;
     public static final int BAD_REQUEST = 400;
     public static final int UNAUTHORIZED_ERROR = 401;

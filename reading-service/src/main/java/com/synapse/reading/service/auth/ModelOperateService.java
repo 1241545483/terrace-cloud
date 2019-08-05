@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.synapse.reading.constants.auth.ModelOperateConstants;
 import com.synapse.reading.remote.IdService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,33 +27,33 @@ import java.util.Map;
 @Transactional
 public class ModelOperateService extends ModelOperateBaseService {
 
-	@Autowired
-	private IdService idService;
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private ModelOperateRespository modelOperateRespository;
 
-    public ModelOperate find(String recId){
-	    return modelOperateRespository.selectByPrimaryKey(recId);
+    public ModelOperate find(String recId) {
+        return modelOperateRespository.selectByPrimaryKey(recId);
     }
 
-	public Integer update(ModelOperate param){
+    public Integer update(ModelOperate param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
-		return modelOperateRespository.updateByPrimaryKeySelective(param);
+        return modelOperateRespository.updateByPrimaryKeySelective(param);
     }
 
     public String create(ModelOperate param) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setRecId(idService.gen("ID"));
-		param.setCreateTime(now);
-		param.setUpdateTime(now);
-		param.setStatus(ModelOperateConstants.STATUS.OK.num());
+        param.setCreateTime(now);
+        param.setUpdateTime(now);
+        param.setStatus(ModelOperateConstants.STATUS.OK.num());
         modelOperateRespository.insert(param);
         return param.getRecId();
     }
 
-	public Integer delete(String recId, String updateId) {
+    public Integer delete(String recId, String updateId) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         ModelOperate model = new ModelOperate();
         model.setRecId(recId);
@@ -62,18 +63,26 @@ public class ModelOperateService extends ModelOperateBaseService {
         return modelOperateRespository.updateByPrimaryKeySelective(model);
     }
 
-	public List<ModelOperate> list(ModelOperate modelOperateParam, PageInfo pageInfo) {
-		modelOperateParam.setStatus(ModelOperateConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(modelOperateParam);
+    public List<ModelOperate> list(ModelOperate modelOperateParam, PageInfo pageInfo) {
+        modelOperateParam.setStatus(ModelOperateConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(modelOperateParam);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         return modelOperateRespository.list(params);
-	}
+    }
 
-	public Integer count(ModelOperate modelOperateParam) {
-		modelOperateParam.setStatus(ModelOperateConstants.STATUS.OK.num());
-        Map<String,Object> params = prepareParams(modelOperateParam);
+    public Integer count(ModelOperate modelOperateParam) {
+        modelOperateParam.setStatus(ModelOperateConstants.STATUS.OK.num());
+        Map<String, Object> params = prepareParams(modelOperateParam);
         return modelOperateRespository.count(params);
+    }
+
+    public List<String> listUserOperate(String userId) {
+        List<String> ops = modelOperateRespository.listUserOperate(userId);
+        if (ops == null) {
+            return new ArrayList<>();
+        }
+        return ops;
     }
 
 }
