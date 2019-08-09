@@ -16,8 +16,8 @@
 
     <select id="listUserOperate" resultType="java.lang.String">
         select distinct c.code from user_role a
-        join on role_model_mapping b on a.role_id = b.role_id and b.status = 1
-        join on model_operate c on b.model_id = c.model_id and c.status = 1
+        join role_model_mapping b on a.role_id = b.role_id and b.status = 1
+        join model_operate c on b.model_id = c.model_id and c.status = 1
         where a.user_id = #{userId}
     </select>
 
