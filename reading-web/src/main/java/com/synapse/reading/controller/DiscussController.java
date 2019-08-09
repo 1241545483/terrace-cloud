@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.synapse.common.exception.BusinessException;
 import com.synapse.reading.exception.common.ValidException;
@@ -140,6 +141,7 @@ public class DiscussController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @PreAuthorize("@validService.valid(\"CREATE_DISCUSS\")")
     @RequestMapping(value = "/v1/discuss", method = RequestMethod.POST)
     public ResponseEntity create(@RequestBody @Validated(Create.class) DiscussParam param, BindingResult bindingResult) {
         try {

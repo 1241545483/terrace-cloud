@@ -45,9 +45,6 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    @Autowired
-    private ModelOperateService modelOperateService;
-
     private Gson gson = new Gson();
 
     private Type type = new TypeToken<User>() {
@@ -84,11 +81,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 //                        MDC.put("token", loginUser.getParams().get("userName") + "");
                         MDC.put("IP", NetUtils.getLocalHost());
 
-                        // todo 优化性能
-                        List<String> ops = modelOperateService.listUserOperate(loginUser.getRecId());
-
-                        List<GrantedAuthority> grantedAuthorities = ops.stream().map(it -> new SimpleGrantedAuthority(it)).collect(Collectors.toList());
-                        User userDetails = new User(loginUser.getRecId(), loginUser.getUsername(), "", grantedAuthorities);
+                        User userDetails = new User(loginUser.getRecId(), loginUser.getUsername(), "");
 
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());

@@ -77,12 +77,8 @@ public class ModelOperateService extends ModelOperateBaseService {
         return modelOperateRespository.count(params);
     }
 
-    public List<String> listUserOperate(String userId) {
-        List<String> ops = modelOperateRespository.listUserOperate(userId);
-        if (ops == null) {
-            return new ArrayList<>();
-        }
-        return ops;
+    public int checkUserOperate(String userId, String roleCode) {
+        return modelOperateRespository.checkUserOperate(userId, roleCode);
     }
 
 }

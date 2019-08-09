@@ -21,5 +21,5 @@ public interface ModelOperateRespository extends ModelOperateMapper {
      * @param userId
      * @return
      */
-    List<String> listUserOperate(@Param("userId") String userId);
+    int checkUserOperate(@Param("userId") String userId, @Param("roleCode") String roleCode);
 }
