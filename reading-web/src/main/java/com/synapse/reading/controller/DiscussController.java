@@ -171,6 +171,7 @@ public class DiscussController extends BaseController{
             @ApiResponse(code = 200, response = Integer.class, message = "删除数量"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @PreAuthorize("@validService.valid(\"DELETE_DISCUSS\")")
 	@RequestMapping(value = "/v1/discuss/{recId}",method = RequestMethod.DELETE)
 	public ResponseEntity delete(@PathVariable("recId") String recId){
         try {
