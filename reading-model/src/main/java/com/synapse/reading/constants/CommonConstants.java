@@ -3,7 +3,7 @@ package com.synapse.reading.constants;
 public class CommonConstants {
 
     public static final String anonymousId = "-999";
-    public static final String anonymousName = "匿名用户";
+    public static final String anonymousName = "智性阅读";
     public static final String anonymousPassword = "reading";
     public static final String anonymousRole = "ROLE_ANONYMOUS";
     public static final String anonymousToken = "ANON_TOKEN";

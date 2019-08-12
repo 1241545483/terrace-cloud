@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.synapse.common.exception.BusinessException;
 import com.synapse.reading.exception.common.ValidException;
@@ -244,6 +245,7 @@ public class MyCollectController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @PreAuthorize("@validService.valid(\"ADD_COLLECT\")")
     @RequestMapping(value = "/v1/myCollect/addByCreateId/{recId}", method = RequestMethod.PUT)
     public ResponseEntity addByCreateId(@PathVariable("recId") String recId,@RequestBody MyCollect myCollect){
         try {
@@ -297,6 +299,7 @@ public class MyCollectController extends BaseController{
             @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
             @ApiResponse(code = 500, response = String.class, message = "服务器错误")
     })
+    @PreAuthorize("@validService.valid(\"DELETE_COLLECT\")")
     @RequestMapping(value = "/v1/myCollect/deleteCollectByCreateId/{recId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteCollectByCreateId(@PathVariable("recId") String recId){
         try {
