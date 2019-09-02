@@ -5,14 +5,18 @@ import com.synapse.common.trans.Result;
 import com.synapse.common.sso.context.UserContext;
 import com.synapse.common.sso.model.User;
 import com.synapse.reading.dto.param.OrderNumParam;
+import com.synapse.reading.dto.result.AudioResult;
+import com.synapse.reading.dto.result.BookResult;
 import com.synapse.reading.dto.result.ExpertResult;
 import com.synapse.reading.dto.result.MemberResult;
 import com.synapse.reading.event.EventBus;
 import com.synapse.reading.event.message.ClickLessonEvent;
+import com.synapse.reading.model.Expert;
 import com.synapse.reading.model.Lesson;
 import com.synapse.reading.dto.param.LessonParam;
 import com.synapse.reading.dto.result.LessonResult;
 import com.synapse.reading.model.Member;
+import com.synapse.reading.model.MyCollect;
 import com.synapse.reading.service.LessonService;
 import com.synapse.reading.service.MemberService;
 import com.synapse.reading.web.valid.group.Update;
@@ -21,6 +25,7 @@ import com.synapse.reading.web.valid.group.Search;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.synapse.common.exception.BusinessException;
 import com.synapse.reading.exception.common.ValidException;
@@ -394,13 +399,13 @@ public class LessonController extends BaseController {
     @ApiOperation(value = "查询Lesson详情")
     @ApiResponses({
             @ApiResponse(code = 200, response = LessonResult.class, message = "Lesson对象"),
-            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误"),
     })
     @RequestMapping(value = "/v1/lessonDetail/{recId}", method = RequestMethod.GET)
     public ResponseEntity getLesson(@PathVariable("recId") String recId) {
         try {
             LessonResult lesson = lessonService.getLesson(recId);
-            eventBus.add(new ClickLessonEvent(this, recId));
+            /*eventBus.add(new ClickLessonEvent(this, recId));*/
             return ResponseEntity.ok(lesson);
         } catch (BusinessException e) {
             logger.error("get Lesson Error!", e);
@@ -521,5 +526,68 @@ public class LessonController extends BaseController {
                     .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
         }
     }
+    
+    
+    /**
+     * author zjb
+     * @param recId
+     * @return
+     * date 19/8/28
+     */
+    
+    @ApiOperation(value = "根据主键查询lesson详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Integer.class, message = "更新数量"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/lesson/slectIsCollect/{recId}", method = RequestMethod.GET)
+    public ResponseEntity selectIsCollect(@PathVariable("recId") String recId){
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            LessonResult results = lessonService.selectIsCollect(recId,user);
+            return ResponseEntity.ok(results);
+        } catch (BusinessException e) {
+            logger.error("update Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("update Book Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+    
+    /**
+     * author zjb
+     * @return
+     * date 19/8/29
+     */
+    
+    @ApiOperation(value = "查询为lesson的收藏列表")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = AudioResult.class, message = "收藏的课程列表"),
+            @ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+            @ApiResponse(code = 500, response = String.class, message = "服务器错误")
+    })
+    @RequestMapping(value = "/v1/audio/listMyCollectByLesson",method = RequestMethod.GET)
+    public ResponseEntity listMyCollectByLesson() {
+        try {
+            User user = UserContext.getUser();
+            //todo 根据角色判断权限
+            List<Object> results = lessonService.listMyCollectByLesson(user);
+            return ResponseEntity.ok(results);
+        } catch (BusinessException e) {
+            logger.error("list Audio Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+        } catch (Exception e) {
+            logger.error("list Audio Error!", e);
+            return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+                    .body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+        }
+    }
+
+    
+    
 
 }

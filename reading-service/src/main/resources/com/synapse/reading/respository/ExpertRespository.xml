@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.ExpertRespository">
-
+		
+		
+		 <!-- 通用查询映射结果 -->
+    <resultMap id="simpleRow" type="com.synapse.reading.model.Expert"
+               extends="com.synapse.reading.mapper.ExpertMapper.BaseResultMap">
+    </resultMap>
 
     <select id="countListbyexpert" resultType="int">
         SELECT count(1) from expert m
         where 1=1 and exists (select 1 from lesson l where m.rec_id =l.expert_id)
     </select>
-
+		
+		
+		<select id="listMyCollectByExpert" parameterType="map" resultMap="simpleRow">
+		 	SELECT
+				e.rec_id,
+				e.user_id,
+				e.`name`,
+				e.intro,
+				e.image,
+				e.title,
+				e.`status`,
+				e.order_num,
+				e.create_id,
+				e.create_time,
+				e.update_id,
+				e.update_time
+			FROM
+				`expert` e
+			LEFT JOIN lesson l ON l.expert_id = e.rec_id
+			WHERE
+				e.rec_id = #{expertId}
+</select>
 </mapper>

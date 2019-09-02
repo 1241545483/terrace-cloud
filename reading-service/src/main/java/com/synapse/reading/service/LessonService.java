@@ -2,6 +2,7 @@ package com.synapse.reading.service;
 
 import com.google.gson.Gson;
 import com.synapse.common.constants.PageInfo;
+import com.synapse.common.sso.model.User;
 import com.synapse.common.trans.Result;
 import com.synapse.reading.constants.VideoConstants;
 import com.synapse.reading.dto.param.*;
@@ -18,6 +19,7 @@ import com.synapse.reading.remote.IdService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -377,5 +379,29 @@ public class LessonService extends LessonBaseService {
     public List<Lesson> listByLessonIds( List<String> lessonIds) {
         return lessonRespository.listByLessonIds(lessonIds);
     }
+    
+    
+    public LessonResult selectIsCollect(String recId, User user) {
+
+        return lessonRespository.selectIsCollect(user.getRecId(), recId);
+    }
+    
+    public List<Object> listMyCollectByLesson( User user) {
+        String userId =user.getRecId();
+        //已收藏课程信息
+         List<LessonResult> listMyCollectByLesson = lessonRespository.listMyCollectByLesson(userId);
+         List<Object> list = new ArrayList<Object>();
+         //已收藏课程的教师与语音信息
+         for (int i = 0; i < listMyCollectByLesson.size(); i++) {
+        	  String expertId = listMyCollectByLesson.get(i).getExpertId();
+        	  List<Expert> listMyCollectByExpert = expertRespository.listMyCollectByExpert(expertId);
+        	  listMyCollectByLesson.get(i).setExpert(listMyCollectByExpert);
+        	  list.add(listMyCollectByLesson.get(i));
+		}
+         
+         return list;
+    }
+    
+ 
 
 }
