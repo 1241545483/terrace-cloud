@@ -386,20 +386,18 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.selectIsCollect(user.getRecId(), recId);
     }
     
-    public List<Object> listMyCollectByLesson( User user) {
+	public List<LessonResult> listMyCollectByLesson( User user) {
         String userId =user.getRecId();
         //已收藏课程信息
          List<LessonResult> listMyCollectByLesson = lessonRespository.listMyCollectByLesson(userId);
-         List<Object> list = new ArrayList<Object>();
          //已收藏课程的教师与语音信息
          for (int i = 0; i < listMyCollectByLesson.size(); i++) {
         	  String expertId = listMyCollectByLesson.get(i).getExpertId();
         	  List<Expert> listMyCollectByExpert = expertRespository.listMyCollectByExpert(expertId);
         	  listMyCollectByLesson.get(i).setExpert(listMyCollectByExpert);
-        	  list.add(listMyCollectByLesson.get(i));
 		}
          
-         return list;
+         return listMyCollectByLesson;
     }
     
  
