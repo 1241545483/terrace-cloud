@@ -1,0 +1,187 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+GET http://{{host}}/reading/v1/currentUser
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+### 创建课程
+POST http://{{host}}/reading/v1/lesson
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "banner": "http://img.jssns.cn/SHILU/1/8fa1073153e7b6ccbf3ccc392cccde66.jpg",
+  "expertId": "4",
+  "image": "http://img.jssns.cn/SHILU/1/8fa1073153e7b6ccbf3ccc392cccde66.jpg",
+  "intro": "",
+  "name": "十分关键",
+  "orderNum": 0,
+  "originalPrice": "0",
+  "presentPrice": "0",
+  "publishStatus": "1",
+  "simpleIntro": "南师大语文教育专家与特级教师、名师共同打造。",
+  "tag": "部编版教材,小学语文,教学设计"
+}
+
+### 创建“一”的变调
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID616713638731841536",
+  "cover": "http://img.jssns.cn/SHILU/1/b5179ed6d0d4cb9c16a46ec2e0000bea.jpg",
+  "name": "《秋天》“一”的变调",
+  "url": "http://video.likesoft.com.cn/d746d048e69c44e7937819adcfe9adb6/b976473770934517b3b5b05992695444-9310643e7e07d3fecb12793f6217c2c1-ld.m3u8"
+}
+
+### 创建轻声字
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID616713638731841536",
+  "cover": "http://img.jssns.cn/SHILU/1/94ebed0f5e709f022a17d93c6cfeae99.jpg",
+  "name": "《秋天》轻声字",
+  "url": "http://video.likesoft.com.cn/f657bba61d5342d281dcb10cff219676/fe84b7ad4fda43628d823210f1e68d79-21fde23d41f7df062db12431e1c46a09-ld.m3u8"
+}
+
+### 创建标点符号的作用
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID616713638731841536",
+  "cover": "http://img.jssns.cn/SHILU/1/6959fd79870b864d55fde0654420a85c.jpg",
+  "name": "《秋天》标点符号的作用",
+  "url": "http://video.likesoft.com.cn/84db1b7a2b894dcb9e2f7bcb903581bb/59f211ffeb8048a9b25b445bb80e15a6-9b943ac75794efd3e284aebf64fee81a-ld.m3u8"
+}
+
+### 创建百变的“着”字
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID616713638731841536",
+  "cover": "http://img.jssns.cn/SHILU/1/2f3b8fb8267bd62ab59f60c5798d1a34.jpg",
+  "name": "《雪地里的小画家》百变的“着”字",
+  "url": "http://video.likesoft.com.cn/6cee86dd2cea4d9cb5b9df4c197d3e8b/1aa87148bff14d818a566045455318e0-0b43261419cd1396b06fe12508ca8b27-ld.m3u8"
+}
+
+### 创建“竹”有很多面
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID616713638731841536",
+  "cover": "http://img.jssns.cn/SHILU/1/af672ef7f9d639771ad03e4af212bcfa.jpg",
+  "name": "《雪地里的小画家》“竹”有很多面",
+  "url": "http://video.likesoft.com.cn/6130a6259d304fca88aa67289e2dde46/61e5fb62c69341da808e6f776f036049-474483be36a92ed55da2bd4aa9a826bf-ld.m3u8"
+}
+
+### 创建“冬眠”知识知多少
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID616713638731841536",
+  "cover": "http://img.jssns.cn/SHILU/1/89eafbab529a78f39fc455f3ca5deb63.jpg",
+  "name": "《雪地里的小画家》“冬眠”知识知多少",
+  "url": "http://video.likesoft.com.cn/a187ff02c7ae40949f64b9714d551e77/eb2d7088be744f32b0cc608f043a2500-1bec20fbebb005026947dcac12b343a3-ld.m3u8"
+}
+
+
+### 创建课堂习惯—听
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID591665463851745280",
+  "cover": "http://img.jssns.cn/SHILU/1/b6ce32fff270d6b14f28e958c50ba768.jpg",
+  "name": "课堂习惯—听",
+  "url": "http://video.likesoft.com.cn/367bf338e7974f42aff4bb8d99ae0005/d6425a7f06514d42a865d17e937ba70d-63c70918a8d2a80f00df177165086b6e-ld.m3u8"
+}
+
+### 创建课堂习惯—读
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID591665463851745280",
+  "cover": "http://img.jssns.cn/SHILU/1/b4d6ca7c007b1689f1ab946f24cbab8b.jpg",
+  "name": "课堂习惯—读",
+  "url": "http://video.likesoft.com.cn/bbc80fa9780b431dbfaccba1de19c844/cda7cfbf98c44093945d5cabd2fc35be-302d60337210c006c0fd95b0d3851b2e-ld.m3u8"
+}
+
+### 创建课堂习惯—握笔姿势
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID591665463851745280",
+  "cover": "http://img.jssns.cn/SHILU/1/9aca32218942cd21cb66468f1de95c49.jpg",
+  "name": "课堂习惯—握笔姿势",
+  "url": "http://video.likesoft.com.cn/0e9e3cd212c340659c396e81dec0d132/d9e318d98069482ab55dcc238b149b35-86a60851d287dabd7cda1558961516cf-ld.m3u8"
+}
+
+### 创建生活自理—如厕
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID591665463851745280",
+  "cover": "http://img.jssns.cn/SHILU/1/65e994c796eb858947c8235d4b810d8f.jpg",
+  "name": "生活自理—如厕",
+  "url": "http://video.likesoft.com.cn/cc081ae2bb6341de9b0f5b2629854d18/25fbe8ea254e4c14853f4bb717b73110-d20827f5243169d63ce16fc07027a362-ld.m3u8"
+}
+
+### 创建安全问题—楼梯打闹
+POST http://{{host}}/reading/v1/video
+Content-Type: application/json
+Accept: application/json
+ACCESS-TOKEN: 9B87ADD00179C42557DD869F61D7E03A
+
+{
+  "belongTo": "lesson",
+  "belongToId": "ID591665463851745280",
+  "cover": "http://img.jssns.cn/SHILU/1/14165e96c1bfc74aa90a759b7728a307.jpg",
+  "name": "安全问题—楼梯打闹",
+  "url": "http://video.likesoft.com.cn/97f5fdcda9de497580c659776bc642c8/8f44f950d8b24c7e85e75e598dc2ab90-e0bd69b18b4f861370d6e6da2f279fce-ld.m3u8"
+}
+
+###
