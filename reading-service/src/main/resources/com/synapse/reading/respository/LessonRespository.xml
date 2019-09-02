@@ -3,6 +3,13 @@
 <mapper namespace="com.synapse.reading.respository.LessonRespository">
 
 
+	 <!-- 通用查询映射结果 -->
+    <resultMap id="simpleRow" type="com.synapse.reading.dto.result.LessonResult"
+               extends="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
+        <id column="is_collect" property="isCollect"/>
+    </resultMap>
+			
+
     <select id="listLessonByMyself" parameterType="map"
             resultMap="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
 
@@ -138,5 +145,52 @@
             limit ${startIndex}, ${pageSize}
         </if>
     </select>
+
+
+	
+
+ <select id="selectIsCollect" parameterType="map" resultMap="simpleRow">
+			   SELECT
+				l.rec_id,
+				l. NAME,
+				l.simple_intro,
+				l.intro,
+				l.audio_intro,
+				l.video_intro,
+				l.image,
+				l.qr_code,
+				l.banner,
+				l.discount,
+				l.tag,
+				IF( b.rec_id IS NULL,'false','true') is_collect
+				FROM `lesson` l
+				LEFT JOIN my_collect b ON l.rec_id = b.collect_id
+				AND b.collect_id = #{recId}
+				AND b.collect_type = 'lesson'
+				AND b.create_id = #{userId}
+				WHERE l.rec_id = #{recId}
+    </select>
+
+<select id="listMyCollectByLesson" parameterType="map" resultMap="simpleRow">
+		 SELECT
+				l.rec_id,
+				l. NAME,
+				l.simple_intro,
+				l.intro,
+				l.audio_intro,
+				l.video_intro,
+				l.image,
+				l.qr_code,
+				l.banner,
+				l.discount,
+				l.expert_id,
+				l.tag,
+				IF( b.rec_id IS NULL,'false','true') is_collect
+				FROM `lesson` l
+				LEFT JOIN my_collect b ON l.rec_id = b.collect_id
+				WHERE b.collect_type = 'lesson' AND b.create_id = #{userId}
+</select>
+
+
 
 </mapper>

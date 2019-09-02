@@ -1,6 +1,7 @@
 package com.synapse.reading.dto.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.synapse.reading.model.Expert;
 import com.synapse.reading.model.Lesson;
 import com.synapse.reading.model.Section;
 import com.synapse.reading.model.Video;
@@ -26,8 +27,35 @@ public class LessonResult {
     private List<Section> sectionList = new ArrayList<>();// 子列表
 
     private List<Video> videoList = new ArrayList<>();// 子列表
+    
+    private List<Expert> expert = new ArrayList<>(); //语音
+    
+    private String isCollect;
+    
+    
+    
+    
+    
 
-    public List<Section> getSectionList() {
+    public List<Expert> getExpert() {
+		return expert;
+	}
+
+	public void setExpert(List<Expert> expert) {
+		this.expert = expert;
+	}
+
+	public String getIsCollect() {
+		return isCollect;
+	}
+
+	public void setIsCollect(String isCollect) {
+		 if (isCollect != null) {
+	            this.isCollect = isCollect;
+	        }
+	}
+
+	public List<Section> getSectionList() {
         return sectionList;
     }
 
