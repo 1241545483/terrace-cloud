@@ -2,11 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.synapse.reading.respository.LessonRespository">
 
-
 	 <!-- 通用查询映射结果 -->
     <resultMap id="simpleRow" type="com.synapse.reading.dto.result.LessonResult"
                extends="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
         <id column="is_collect" property="isCollect"/>
+    </resultMap>
+
+    <resultMap id="lessonResultWithVideoNum" type="com.synapse.reading.dto.result.LessonResult"
+               extends="com.synapse.reading.mapper.LessonMapper.BaseResultMap">
+        <id column="video_num" property="videoNum"/>
     </resultMap>
 			
 
@@ -146,10 +150,7 @@
         </if>
     </select>
 
-
-	
-
- <select id="selectIsCollect" parameterType="map" resultMap="simpleRow">
+    <select id="selectIsCollect" parameterType="map" resultMap="simpleRow">
 			   SELECT
 				l.rec_id,
 				l. NAME,
@@ -171,26 +172,39 @@
 				WHERE l.rec_id = #{recId}
     </select>
 
-<select id="listMyCollectByLesson" parameterType="map" resultMap="simpleRow">
-		 SELECT
-				l.rec_id,
-				l. NAME,
-				l.simple_intro,
-				l.intro,
-				l.audio_intro,
-				l.video_intro,
-				l.image,
-				l.qr_code,
-				l.banner,
-				l.discount,
-				l.expert_id,
-				l.tag,
-				IF( b.rec_id IS NULL,'false','true') is_collect
-				FROM `lesson` l
-				LEFT JOIN my_collect b ON l.rec_id = b.collect_id
-				WHERE b.collect_type = 'lesson' AND b.create_id = #{userId}
-</select>
+    <select id="listMyCollectByLesson" parameterType="map" resultMap="simpleRow">
+             SELECT
+                    l.rec_id,
+                    l. NAME,
+                    l.simple_intro,
+                    l.intro,
+                    l.audio_intro,
+                    l.video_intro,
+                    l.image,
+                    l.qr_code,
+                    l.banner,
+                    l.discount,
+                    l.expert_id,
+                    l.tag,
+                    IF( b.rec_id IS NULL,'false','true') is_collect
+                    FROM `lesson` l
+                    LEFT JOIN my_collect b ON l.rec_id = b.collect_id
+                    WHERE b.collect_type = 'lesson' AND b.create_id = #{userId}
+    </select>
 
+    <select id="countListWithVideoNum" resultType="java.lang.Integer">
+        SELECT count(1) FROM lesson where status = 1;
+    </select>
 
-
+    <select id="listWithVidwoNum" resultMap="lessonResultWithVideoNum">
+        SELECT a.*,b.num video_num FROM lesson a
+        left join (select count(1) num,belong_to_id lesson_id
+                    from video where belong_to = 'lesson'
+                    group by belong_to_id) b on a.rec_id = b.lesson_id
+        where a.status = 1
+        order by order_num
+        <if test="startIndex != null">
+            limit ${startIndex}, ${pageSize}
+        </if>
+    </select>
 </mapper>

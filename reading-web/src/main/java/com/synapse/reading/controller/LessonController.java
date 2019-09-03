@@ -169,6 +169,30 @@ public class LessonController extends BaseController {
 					.body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
 		}
 	}
+	@ApiOperation(value = "查询Lesson列表包括所包含的视频数量")
+	@ApiResponses({ @ApiResponse(code = 200, response = LessonResult.class, message = "Lesson列表"),
+			@ApiResponse(code = 1002, response = String.class, message = "字段校验错误"),
+			@ApiResponse(code = 500, response = String.class, message = "服务器错误") })
+	@RequestMapping(value = "/v1/lesson/withVideoNum", method = RequestMethod.GET)
+	public ResponseEntity listWithVideoNum(PageInfo pageInfo) {
+		try {
+			// 验证失败
+			int totalNum = lessonService.countListWithVideoNum();
+			preparePageInfo(pageInfo, totalNum);
+			List<LessonResult> results = lessonService.listWithVidwoNum(pageInfo);
+			Map<String, Object> map = new HashMap();
+			map.put("lessonList", results);
+			map.put("totalNum", totalNum);
+			return ResponseEntity.ok(map);
+		} catch (BusinessException e) {
+			logger.error("list LessonWithVideoNum Error!", e);
+			return ResponseEntity.status(CommonConstants.SERVER_ERROR).body(Result.error(e));
+		} catch (Exception e) {
+			logger.error("list LessonWithVideoNum Error!", e);
+			return ResponseEntity.status(CommonConstants.SERVER_ERROR)
+					.body(Result.error(CommonConstants.SERVER_ERROR, e.getMessage()));
+		}
+	}
 
 	@ApiOperation(value = "根据主键查询Lesson详情")
 	@ApiResponses({ @ApiResponse(code = 200, response = LessonResult.class, message = "Lesson对象"),

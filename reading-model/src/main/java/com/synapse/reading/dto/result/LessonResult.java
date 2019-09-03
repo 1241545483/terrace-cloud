@@ -22,255 +22,265 @@ import java.util.List;
 @ApiModel(value = "LessonResult对象", description = "课程")
 public class LessonResult {
 
-	private Lesson lesson = new Lesson();
+    private Integer videoNum;
 
-	private List<Section> sectionList = new ArrayList<>();// 子列表
+    private Lesson lesson = new Lesson();
 
-	private List<Video> videoList = new ArrayList<>();// 子列表
+    private List<Section> sectionList = new ArrayList<>();// 子列表
 
-	private List<Expert> expert = new ArrayList<>(); // 语音
+    private List<Video> videoList = new ArrayList<>();// 子列表
 
-	private String isCollect;
+    private List<Expert> expert = new ArrayList<>(); // 语音
 
-	public List<Expert> getExpert() {
-		return expert;
-	}
+    private String isCollect;
 
-	public void setExpert(List<Expert> expert) {
-		this.expert = expert;
-	}
+    public List<Expert> getExpert() {
+        return expert;
+    }
 
-	public String getIsCollect() {
-		return isCollect;
-	}
+    public void setExpert(List<Expert> expert) {
+        this.expert = expert;
+    }
 
-	public void setIsCollect(String isCollect) {
-		if (isCollect != null) {
-			this.isCollect = isCollect;
-		}
-	}
+    public String getIsCollect() {
+        return isCollect;
+    }
 
-	public List<Section> getSectionList() {
-		return sectionList;
-	}
+    public void setIsCollect(String isCollect) {
+        if (isCollect != null) {
+            this.isCollect = isCollect;
+        }
+    }
 
-	public void setSectionList(List<Section> sectionList) {
-		this.sectionList = sectionList;
-	}
+    public List<Section> getSectionList() {
+        return sectionList;
+    }
 
-	public List<Video> getVideoList() {
-		return videoList;
-	}
+    public void setSectionList(List<Section> sectionList) {
+        this.sectionList = sectionList;
+    }
 
-	public void setVideoList(List<Video> videoList) {
-		this.videoList = videoList;
-	}
+    public List<Video> getVideoList() {
+        return videoList;
+    }
 
-	public LessonResult() {
-	}
+    public void setVideoList(List<Video> videoList) {
+        this.videoList = videoList;
+    }
 
-	public LessonResult(Lesson lesson) {
-		if (lesson != null) {
-			this.lesson = lesson;
-		}
-	}
+    public LessonResult() {
+    }
 
-	@JsonIgnore
-	public Lesson getModel() {
-		return lesson;
-	}
+    public LessonResult(Lesson lesson) {
+        if (lesson != null) {
+            this.lesson = lesson;
+        }
+    }
 
-	public void setModel(Lesson lesson) {
-		this.lesson = lesson;
-	}
+    @JsonIgnore
+    public Lesson getModel() {
+        return lesson;
+    }
 
-	@ApiModelProperty(value = "主键")
-	public String getRecId() {
-		return lesson.getRecId();
-	}
+    public void setModel(Lesson lesson) {
+        this.lesson = lesson;
+    }
 
-	public void setRecId(String rec_id) {
-		lesson.setRecId(rec_id);
-	}
+    @ApiModelProperty(value = "主键")
+    public String getRecId() {
+        return lesson.getRecId();
+    }
 
-	@ApiModelProperty(value = "课程名称")
-	public String getName() {
-		return lesson.getName();
-	}
+    public void setRecId(String rec_id) {
+        lesson.setRecId(rec_id);
+    }
 
-	public void setName(String name) {
-		lesson.setName(name);
-	}
+    @ApiModelProperty(value = "课程名称")
+    public String getName() {
+        return lesson.getName();
+    }
 
-	@ApiModelProperty(value = "课程描述")
-	public String getIntro() {
-		return lesson.getIntro();
-	}
+    public void setName(String name) {
+        lesson.setName(name);
+    }
 
-	public void setIntro(String intro) {
-		lesson.setIntro(intro);
-	}
+    @ApiModelProperty(value = "课程描述")
+    public String getIntro() {
+        return lesson.getIntro();
+    }
 
-	public String getSimpleIntro() {
-		return lesson.getSimpleIntro();
-	}
+    public void setIntro(String intro) {
+        lesson.setIntro(intro);
+    }
 
-	public String getQrCode() {
-		return lesson.getQrCode();
-	}
+    public String getSimpleIntro() {
+        return lesson.getSimpleIntro();
+    }
 
-	public void setQrCode(String qrCode) {
-		lesson.setQrCode(qrCode);
-	}
+    public String getQrCode() {
+        return lesson.getQrCode();
+    }
 
-	public void setSimpleIntro(String simpleIntro) {
-		lesson.setSimpleIntro(simpleIntro);
-	}
+    public void setQrCode(String qrCode) {
+        lesson.setQrCode(qrCode);
+    }
 
-	public String getAudioIntro() {
-		return lesson.getAudioIntro();
-	}
+    public void setSimpleIntro(String simpleIntro) {
+        lesson.setSimpleIntro(simpleIntro);
+    }
 
-	public void setAudioIntro(String audioIntro) {
-		lesson.setAudioIntro(audioIntro);
-	}
+    public String getAudioIntro() {
+        return lesson.getAudioIntro();
+    }
 
-	public String getVideoIntro() {
-		return lesson.getVideoIntro();
-	}
+    public void setAudioIntro(String audioIntro) {
+        lesson.setAudioIntro(audioIntro);
+    }
 
-	public void setVideoIntro(String videoIntro) {
-		lesson.setVideoIntro(videoIntro);
-	}
+    public String getVideoIntro() {
+        return lesson.getVideoIntro();
+    }
 
-	public String getDiscount() {
-		return lesson.getDiscount();
-	}
+    public void setVideoIntro(String videoIntro) {
+        lesson.setVideoIntro(videoIntro);
+    }
 
-	public void setDiscount(String discount) {
-		lesson.setDiscount(discount);
-	}
+    public String getDiscount() {
+        return lesson.getDiscount();
+    }
 
-	public String getTag() {
-		return lesson.getTag();
-	}
+    public void setDiscount(String discount) {
+        lesson.setDiscount(discount);
+    }
 
-	public void setTag(String tag) {
-		lesson.setTag(tag);
-	}
+    public String getTag() {
+        return lesson.getTag();
+    }
 
-	public String getOriginalPrice() {
-		return lesson.getOriginalPrice();
-	}
+    public void setTag(String tag) {
+        lesson.setTag(tag);
+    }
 
-	public void setOriginalPrice(String originalPrice) {
-		lesson.setOriginalPrice(originalPrice);
-	}
+    public String getOriginalPrice() {
+        return lesson.getOriginalPrice();
+    }
 
-	public String getPresentPrice() {
-		return lesson.getPresentPrice();
-	}
+    public void setOriginalPrice(String originalPrice) {
+        lesson.setOriginalPrice(originalPrice);
+    }
 
-	public void setPresentPrice(String presentPrice) {
-		lesson.setPresentPrice(presentPrice);
-	}
+    public String getPresentPrice() {
+        return lesson.getPresentPrice();
+    }
 
-	public String getExpertId() {
-		return lesson.getExpertId();
-	}
+    public void setPresentPrice(String presentPrice) {
+        lesson.setPresentPrice(presentPrice);
+    }
 
-	public void setExpertId(String expertId) {
-		lesson.setExpertId(expertId);
-	}
+    public String getExpertId() {
+        return lesson.getExpertId();
+    }
 
-	@ApiModelProperty(value = "图片URL")
-	public String getImage() {
-		return lesson.getImage();
-	}
+    public void setExpertId(String expertId) {
+        lesson.setExpertId(expertId);
+    }
 
-	public void setImage(String image) {
-		lesson.setImage(image);
-	}
+    @ApiModelProperty(value = "图片URL")
+    public String getImage() {
+        return lesson.getImage();
+    }
 
-	@ApiModelProperty(value = "banner")
-	public String getBanner() {
-		return lesson.getBanner();
-	}
+    public void setImage(String image) {
+        lesson.setImage(image);
+    }
 
-	public void setBanner(String banner) {
-		lesson.setBanner(banner);
-	}
+    @ApiModelProperty(value = "banner")
+    public String getBanner() {
+        return lesson.getBanner();
+    }
 
-	@ApiModelProperty(value = "发布状态(0 未发布，1已发布)")
-	public String getPublishStatus() {
-		return lesson.getPublishStatus();
-	}
+    public void setBanner(String banner) {
+        lesson.setBanner(banner);
+    }
 
-	public void setPublishStatus(String publish_status) {
-		lesson.setPublishStatus(publish_status);
-	}
+    @ApiModelProperty(value = "发布状态(0 未发布，1已发布)")
+    public String getPublishStatus() {
+        return lesson.getPublishStatus();
+    }
 
-	@ApiModelProperty(value = "状态(0 删除，1正常)")
-	public String getStatus() {
-		return lesson.getStatus();
-	}
+    public void setPublishStatus(String publish_status) {
+        lesson.setPublishStatus(publish_status);
+    }
 
-	public void setStatus(String status) {
-		lesson.setStatus(status);
-	}
+    @ApiModelProperty(value = "状态(0 删除，1正常)")
+    public String getStatus() {
+        return lesson.getStatus();
+    }
 
-	@ApiModelProperty(value = "排序")
-	public Integer getOrderNum() {
-		return lesson.getOrderNum();
-	}
+    public void setStatus(String status) {
+        lesson.setStatus(status);
+    }
 
-	public void setOrderNum(Integer order_num) {
-		lesson.setOrderNum(order_num);
-	}
+    @ApiModelProperty(value = "排序")
+    public Integer getOrderNum() {
+        return lesson.getOrderNum();
+    }
 
-	@ApiModelProperty(value = "访问数量")
-	public Long getVisitNum() {
-		return lesson.getVisitNum();
-	}
+    public void setOrderNum(Integer order_num) {
+        lesson.setOrderNum(order_num);
+    }
 
-	public void setVisitNum(Long visit_num) {
-		lesson.setVisitNum(visit_num);
-	}
+    @ApiModelProperty(value = "访问数量")
+    public Long getVisitNum() {
+        return lesson.getVisitNum();
+    }
 
-	@ApiModelProperty(value = "创建人")
-	public String getCreateId() {
-		return lesson.getCreateId();
-	}
+    public void setVisitNum(Long visit_num) {
+        lesson.setVisitNum(visit_num);
+    }
 
-	public void setCreateId(String create_id) {
-		lesson.setCreateId(create_id);
-	}
+    @ApiModelProperty(value = "创建人")
+    public String getCreateId() {
+        return lesson.getCreateId();
+    }
 
-	@ApiModelProperty(value = "创建时间")
-	public String getCreateTime() {
-		return lesson.getCreateTime();
-	}
+    public void setCreateId(String create_id) {
+        lesson.setCreateId(create_id);
+    }
 
-	public void setCreateTime(String create_time) {
-		lesson.setCreateTime(create_time);
-	}
+    @ApiModelProperty(value = "创建时间")
+    public String getCreateTime() {
+        return lesson.getCreateTime();
+    }
 
-	@ApiModelProperty(value = "更新人")
-	public String getUpdateId() {
-		return lesson.getUpdateId();
-	}
+    public void setCreateTime(String create_time) {
+        lesson.setCreateTime(create_time);
+    }
 
-	public void setUpdateId(String update_id) {
-		lesson.setUpdateId(update_id);
-	}
+    @ApiModelProperty(value = "更新人")
+    public String getUpdateId() {
+        return lesson.getUpdateId();
+    }
 
-	@ApiModelProperty(value = "更新时间")
-	public String getUpdateTime() {
-		return lesson.getUpdateTime();
-	}
+    public void setUpdateId(String update_id) {
+        lesson.setUpdateId(update_id);
+    }
 
-	public void setUpdateTime(String update_time) {
-		lesson.setUpdateTime(update_time);
-	}
+    @ApiModelProperty(value = "更新时间")
+    public String getUpdateTime() {
+        return lesson.getUpdateTime();
+    }
 
+    public void setUpdateTime(String update_time) {
+        lesson.setUpdateTime(update_time);
+    }
+
+    @ApiModelProperty(value = "视频数量")
+    public Integer getVideoNum() {
+        return videoNum;
+    }
+
+    public void setVideoNum(Integer videoNum) {
+        this.videoNum = videoNum;
+    }
 }

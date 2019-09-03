@@ -38,5 +38,8 @@ public interface LessonRespository extends LessonMapper {
     LessonResult selectIsCollect(@Param("userId") String userId,@Param("recId") String recId);
     List<Lesson> listradeOrderProdId(Map<String, Object> params);
     List<LessonResult> listMyCollectByLesson(@Param("userId") String userId);
-   
+
+    int countListWithVideoNum();
+
+    List<LessonResult> listWithVidwoNum(Map<String, Object> params);
 }
