@@ -35,7 +35,7 @@ import java.util.stream.Stream;
  */
 @Service
 @Transactional
-public class LessonService extends LessonBaseService {
+public class LessonService extends BaseService {
 
     @Autowired
     private IdService idService;
@@ -90,9 +90,9 @@ public class LessonService extends LessonBaseService {
     }
 
     public Integer updatByorderNum(List<OrderNumParam> lists) {
-        int num =0;
-        for (OrderNumParam  param:lists) {
-            Lesson lesson =new Lesson() ;
+        int num = 0;
+        for (OrderNumParam param : lists) {
+            Lesson lesson = new Lesson();
             lesson.setRecId(param.getRecId());
             lesson.setOrderNum(Integer.parseInt(param.getOrderNum()));
             lessonRespository.updateByPrimaryKeySelective(lesson);
@@ -182,10 +182,10 @@ public class LessonService extends LessonBaseService {
 
 
     /*
-   * 1.保存和保存并发布时，前台需要传递是否发布字段(发布为1，不发布为0)
-   * 2.创建课程时，视频是已经创建完成，此处只是之间添加进来，若有章节，则需要新建（章节中的视频也是添加进来）
-   * 创建课程，若需要章节，则创建，视频是添加进章节或课程
-   */
+     * 1.保存和保存并发布时，前台需要传递是否发布字段(发布为1，不发布为0)
+     * 2.创建课程时，视频是已经创建完成，此处只是之间添加进来，若有章节，则需要新建（章节中的视频也是添加进来）
+     * 创建课程，若需要章节，则创建，视频是添加进章节或课程
+     */
     public String updateLesson(Lesson param, List<SectionParam> sectionList, List<VideoParam> videoList) {
         String now = DateUtils.getNowStr(DateUtils.FORMAT_DATE_TIME);
         param.setUpdateTime(now);
@@ -304,7 +304,7 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.list(params);
     }
 
-    public List<Lesson> listbyexpertAll(String  expertId, PageInfo pageInfo) {
+    public List<Lesson> listbyexpertAll(String expertId, PageInfo pageInfo) {
         Map<String, Object> params = new HashMap<>();
         params.put("expertId", expertId);
         params.put("startIndex", pageInfo.getCurrentStartIndex());
@@ -312,21 +312,21 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.listbyexpertAll(params);
     }
 
-    public Integer countListbyexpertAll(String  expertId) {
+    public Integer countListbyexpertAll(String expertId) {
 
         return lessonRespository.countListbyexpertAll(expertId);
     }
 
 
-    public List<ExpertResult> listbyexpert( PageInfo pageInfo) {
+    public List<ExpertResult> listbyexpert(PageInfo pageInfo) {
         Map<String, Object> params = new HashMap<>();
         params.put("startIndex", pageInfo.getCurrentStartIndex());
         params.put("pageSize", pageInfo.getPerPageNum());
         List<Expert> expertList = expertRespository.list(params);
         List<ExpertResult> results = expertList.stream().map(it -> new ExpertResult(it)).collect(Collectors.toList());
-        if (results != null && results.size() > 0 ){
-            for (ExpertResult expertResult:results) {
-                List<Lesson> lessons =   lessonRespository.listbyexpertLessons(expertResult.getRecId());
+        if (results != null && results.size() > 0) {
+            for (ExpertResult expertResult : results) {
+                List<Lesson> lessons = lessonRespository.listbyexpertLessons(expertResult.getRecId());
                 expertResult.setLessonList(lessons);
             }
         }
@@ -376,30 +376,39 @@ public class LessonService extends LessonBaseService {
         return lessonRespository.countListLessonByOrg(params);
     }
 
-    public List<Lesson> listByLessonIds( List<String> lessonIds) {
+    public List<Lesson> listByLessonIds(List<String> lessonIds) {
         return lessonRespository.listByLessonIds(lessonIds);
     }
-    
-    
+
+
     public LessonResult selectIsCollect(String recId, User user) {
 
         return lessonRespository.selectIsCollect(user.getRecId(), recId);
     }
-    
-	public List<LessonResult> listMyCollectByLesson( User user) {
-        String userId =user.getRecId();
-        //已收藏课程信息
-         List<LessonResult> listMyCollectByLesson = lessonRespository.listMyCollectByLesson(userId);
-         //已收藏课程的教师与语音信息
-         for (int i = 0; i < listMyCollectByLesson.size(); i++) {
-        	  String expertId = listMyCollectByLesson.get(i).getExpertId();
-        	  List<Expert> listMyCollectByExpert = expertRespository.listMyCollectByExpert(expertId);
-        	  listMyCollectByLesson.get(i).setExpert(listMyCollectByExpert);
-		}
-         
-         return listMyCollectByLesson;
-    }
-    
- 
 
+    public List<LessonResult> listMyCollectByLesson(User user) {
+        String userId = user.getRecId();
+        //已收藏课程信息
+        List<LessonResult> listMyCollectByLesson = lessonRespository.listMyCollectByLesson(userId);
+        //已收藏课程的教师与语音信息
+        for (int i = 0; i < listMyCollectByLesson.size(); i++) {
+            String expertId = listMyCollectByLesson.get(i).getExpertId();
+            List<Expert> listMyCollectByExpert = expertRespository.listMyCollectByExpert(expertId);
+            listMyCollectByLesson.get(i).setExpert(listMyCollectByExpert);
+        }
+
+        return listMyCollectByLesson;
+    }
+
+
+    public int countListWithVideoNum() {
+        return lessonRespository.countListWithVideoNum();
+    }
+
+    public List<LessonResult> listWithVidwoNum(PageInfo pageInfo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("startIndex", pageInfo.getCurrentStartIndex());
+        params.put("pageSize", pageInfo.getPerPageNum());
+        return lessonRespository.listWithVidwoNum(params);
+    }
 }
